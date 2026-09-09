@@ -211,11 +211,18 @@
       margin-top: 3px;
     }
 
+    /* Nav Container with Links & Language Switcher */
+    .nav-container {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+
     /* Nav Links Right */
     .nav-menu {
       display: flex;
       align-items: center;
-      gap: 36px;
+      gap: 32px;
       list-style: none;
     }
 
@@ -1200,18 +1207,22 @@
             </div>
             <div class="brand-text-block">
               <span class="brand-company-title">PT. ANUGERAH TAMA SEJATI</span>
-              <span class="brand-company-tag">ELECTRICAL SUPPLIER</span>
+              <span class="brand-company-tag" data-i18n="hero.brand_tag">ELECTRICAL SUPPLIER</span>
             </div>
           </a>
 
-          <!-- Desktop Navigation Items (Properly Spaced, Zero Overlap) -->
-          <nav>
+          <!-- Desktop Navigation Items (Properly Spaced with Language Switcher) -->
+          <nav class="nav-container">
             <ul class="nav-menu">
-              <li class="nav-item active"><a href="#home">HOME</a></li>
-              <li class="nav-item"><a href="#about">ABOUT US</a></li>
-              <li class="nav-item"><a href="#contact">CONTACT US</a></li>
-              <li class="nav-item"><a href="#article">ARTICLE</a></li>
+              <li class="nav-item active"><a href="{{ route('home') }}" data-i18n="nav.home">HOME</a></li>
+              <li class="nav-item"><a href="{{ route('about.index') }}" data-i18n="nav.about">ABOUT US</a></li>
+              <li class="nav-item"><a href="{{ route('products.index') }}" data-i18n="nav.products">PRODUCTS</a></li>
+              <li class="nav-item"><a href="{{ route('articles.index') }}" data-i18n="nav.article">ARTICLE</a></li>
+              <li class="nav-item"><a href="{{ route('contact.index') }}" data-i18n="nav.contact">CONTACT US</a></li>
             </ul>
+
+            <!-- Global Multilingual Language Switcher (EN Primary / ID Secondary) -->
+            @include('components.language-switcher')
           </nav>
         </header>
 
@@ -1221,19 +1232,18 @@
           <!-- Left Text Column -->
           <div class="hero-left-column">
             <h1 class="hero-headline">
-              Discover Your<br>
-              <span class="text-gradient-accent">Best Electrical</span> Supplier
+              <span data-i18n="hero.headline_pre">Discover Your</span><br>
+              <span class="text-gradient-accent" data-i18n="hero.headline_highlight">Best Electrical</span> <span data-i18n="hero.headline_post">Supplier</span>
             </h1>
 
-            <p class="hero-subheadline">
-              Your trusted one-stop supplier<br>
-              for all electrical and wiring components.
+            <p class="hero-subheadline" data-i18n="hero.subheadline">
+              Your trusted one-stop supplier for all electrical and wiring components.
             </p>
 
             <!-- Action Buttons: Product List & Contact Us -->
             <div class="hero-cta-group">
               <button type="button" class="btn-cta-white" id="btnProductList" onclick="openProductModal()">
-                <span>Product List</span>
+                <span data-i18n="hero.btn_product_list">Product List</span>
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                   <line x1="5" y1="12" x2="19" y2="12"></line>
                   <polyline points="12 5 19 12 12 19"></polyline>
@@ -1244,7 +1254,7 @@
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
                 </svg>
-                <span>Contact Us</span>
+                <span data-i18n="hero.btn_contact_us">Contact Us</span>
               </button>
             </div>
           </div>
@@ -1334,32 +1344,35 @@
       <section class="features-grid">
         <div class="feature-card">
           <div class="feature-icon-wrap">🛡️</div>
-          <h3 class="feature-title">100% Genuine Products</h3>
-          <p class="feature-desc">All components come with direct manufacturer warranty and authentic certificates of origin.</p>
+          <h3 class="feature-title" data-i18n="features.genuine_title">100% Genuine Products</h3>
+          <p class="feature-desc" data-i18n="features.genuine_desc">All components come with direct manufacturer warranty and authentic certificates of origin.</p>
         </div>
 
         <div class="feature-card">
           <div class="feature-icon-wrap" style="background: #EFF6FF; color: #2563EB;">⚡</div>
-          <h3 class="feature-title">Surabaya Ready Stock</h3>
-          <p class="feature-desc">Our main warehouse maintains thousands of breaker, switchgear, and inverter SKUs ready for fast dispatch.</p>
+          <h3 class="feature-title" data-i18n="features.stock_title">Surabaya Ready Stock</h3>
+          <p class="feature-desc" data-i18n="features.stock_desc">Our main warehouse maintains thousands of breaker, switchgear, and inverter SKUs ready for fast dispatch.</p>
         </div>
 
         <div class="feature-card">
           <div class="feature-icon-wrap" style="background: #ECFDF5; color: #059669;">🚚</div>
-          <h3 class="feature-title">Nationwide Logistics</h3>
-          <p class="feature-desc">Dependable, insured freight logistics delivering safely to industrial project sites across Indonesia.</p>
+          <h3 class="feature-title" data-i18n="features.logistics_title">Nationwide Logistics</h3>
+          <p class="feature-desc" data-i18n="features.logistics_desc">Dependable, insured freight logistics delivering safely to industrial project sites across Indonesia.</p>
         </div>
 
         <div class="feature-card">
           <div class="feature-icon-wrap" style="background: #FDF4FF; color: #C026D3;">💬</div>
-          <h3 class="feature-title">Free Engineering Consultation</h3>
-          <p class="feature-desc">Our certified engineers are ready to assist with power calculations, sizing, and panel design.</p>
+          <h3 class="feature-title" data-i18n="features.support_title">Engineering Specialists</h3>
+          <p class="feature-desc" data-i18n="features.support_desc">Consult your Bill of Quantities (BoQ), switchboard sizing, or automation needs directly with certified engineers.</p>
         </div>
       </section>
 
     </div>
 
   </div>
+
+  <!-- ================= ENDLESS 3D CAROUSEL: OUR PROJECTS (FRAMER-INSPIRED) ================= -->
+  @include('components.our-projects-carousel')
 
   <!-- Industrial Skyline Footer with 3 Interactive Google Maps Embeds (Full Width - Outside Container) -->
   @include('components.footer')

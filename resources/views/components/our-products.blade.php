@@ -87,10 +87,10 @@
     min-height: 520px;
     box-sizing: border-box;
     border-radius: 48px;
-    overflow: hidden;
+    overflow: visible;
   }
 
-  /* SVG Background Layer (Exact SVG dari Figma) */
+  /* SVG Background Layer (Soft Clean White Shelf) */
   .figma-shelf-svg {
     position: absolute;
     top: 0;
@@ -99,6 +99,7 @@
     height: 100%;
     z-index: 1;
     pointer-events: none;
+    filter: drop-shadow(0 20px 40px rgba(15, 23, 42, 0.06)) drop-shadow(0 2px 8px rgba(15, 23, 42, 0.04));
   }
 
   /* Area Kartu Slider: Diberi jarak proporsional di dalam canvas shelf tanpa bocor di sudut */
@@ -131,9 +132,10 @@
     box-sizing: border-box;
   }
 
-  /* Kartu Produk (Dark Slate Gray persis seperti di Foto 2) */
+  /* Kartu Produk (Dark Slate Gray dengan elevasi halus) */
   .figma-product-card {
     background: #4E545F;
+    border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 22px;
     width: 100%;
     height: 100%;
@@ -142,8 +144,8 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.28s ease;
-    box-shadow: none !important;
+    transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.28s ease, box-shadow 0.28s ease;
+    box-shadow: 0 6px 18px rgba(15, 23, 42, 0.07);
     cursor: pointer;
     text-decoration: none;
     color: #FFFFFF;
@@ -152,7 +154,7 @@
 
   .figma-product-card:hover {
     transform: translateY(-8px);
-    box-shadow: none !important;
+    box-shadow: 0 14px 28px rgba(15, 23, 42, 0.12);
     background: #444A54;
   }
 
@@ -228,10 +230,10 @@
     left: 20.4%;
     top: 50%;
     transform: translate(-50%, -50%);
-    font-size: 20px;
-    font-weight: 400;
-    letter-spacing: 0.12em;
-    color: #1E293B;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    color: #475569;
     text-transform: uppercase;
     white-space: nowrap;
     user-select: none;
@@ -243,10 +245,10 @@
     left: 79.6%;
     top: 50%;
     transform: translate(-50%, -50%);
-    font-size: 20px;
-    font-weight: 400;
-    letter-spacing: 0.12em;
-    color: #1E293B;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    color: #475569;
     text-transform: uppercase;
     white-space: nowrap;
     user-select: none;
@@ -275,7 +277,7 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    box-shadow: none;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05);
     transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
@@ -283,8 +285,8 @@
     background: #0F172A;
     color: #FFFFFF;
     border-color: #0F172A;
-    transform: scale(1.08);
-    box-shadow: none;
+    transform: scale(1.06);
+    box-shadow: 0 6px 18px rgba(15, 23, 42, 0.12);
   }
 
   .figma-product-nav-btn:active {
@@ -293,8 +295,8 @@
 
   .figma-product-nav-btn.swiper-button-disabled {
     opacity: 0.4;
-    background: #E2E8F0;
-    border-color: #CBD5E1;
+    background: #F1F5F9;
+    border-color: #E2E8F0;
     color: #94A3B8;
     cursor: not-allowed;
     pointer-events: none;
@@ -356,16 +358,16 @@
     <div class="figma-products-header-grid">
       <div class="figma-products-header-left">
         <div class="figma-products-pill-label">
-          <span class="figma-products-pill-text">Our Product</span>
+          <span class="figma-products-pill-text" data-i18n="products.pill">Our Product</span>
           <span class="figma-products-red-bar" aria-hidden="true"></span>
         </div>
-        <h2 class="figma-products-headline">
+        <h2 class="figma-products-headline" data-i18n="products.headline">
           The right products<br>for every project.
         </h2>
       </div>
 
       <div class="figma-products-header-right">
-        <p class="figma-products-subtitle">
+        <p class="figma-products-subtitle" data-i18n="products.subtitle">
           Explore electrical essentials for power distribution, motor control, and industrial automation.
         </p>
       </div>
@@ -374,9 +376,21 @@
     <!-- Shelf Stage Canvas -->
     <div class="figma-shelf-stage">
       
-      <!-- Exact SVG Background from user with the curved bottom notch -->
+      <!-- Soft Clean White Shelf SVG with crisp border & subtle gradient -->
       <svg class="figma-shelf-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1312 622" preserveAspectRatio="none" fill="none">
-        <path d="M64 0H1248C1283.35 0 1312 28.6538 1312 64V558C1312 593.346 1283.35 622 1248 622H841.2C812.286 622 786.738 603.18 778.167 575.565L773.541 560.66C767.697 541.832 750.278 529 730.563 529H581.437C561.722 529 544.303 541.832 538.459 560.66L533.833 575.565C525.262 603.18 499.714 622 470.8 622H64C28.6538 622 0 593.346 0 558V64C0 28.6538 28.6538 0 64 0Z" fill="#D9D9D9"/>
+        <defs>
+          <linearGradient id="shelfBgGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#FFFFFF" />
+            <stop offset="100%" stop-color="#F8FAFC" />
+          </linearGradient>
+        </defs>
+        <path 
+          d="M64 0H1248C1283.35 0 1312 28.6538 1312 64V558C1312 593.346 1283.35 622 1248 622H841.2C812.286 622 786.738 603.18 778.167 575.565L773.541 560.66C767.697 541.832 750.278 529 730.563 529H581.437C561.722 529 544.303 541.832 538.459 560.66L533.833 575.565C525.262 603.18 499.714 622 470.8 622H64C28.6538 622 0 593.346 0 558V64C0 28.6538 28.6538 0 64 0Z" 
+          fill="url(#shelfBgGrad)" 
+          stroke="#E2E8F0" 
+          stroke-width="1.5"
+          vector-effect="non-scaling-stroke"
+        />
       </svg>
 
       <!-- Content Layer: Swiper Kartu Produk duduk pas di atas notch tanpa jeda kosong -->
@@ -483,7 +497,7 @@
 
       <!-- Bottom Shelf Bar: Tepat bersarang di lekukan notch SVG (Persis Foto 2) -->
       <div class="figma-shelf-bottom-bar">
-        <span class="shelf-label-left">OUR BEST SELLER PRODUCT</span>
+        <span class="shelf-label-left" data-i18n="products.shelf_label">OUR BEST SELLER PRODUCT</span>
 
         <!-- Center Notch with Round Buttons nestled in the notch curve -->
         <div class="shelf-buttons-center">
@@ -499,7 +513,7 @@
           </button>
         </div>
 
-        <span class="shelf-label-right">OUR BEST SELLER PRODUCT</span>
+        <span class="shelf-label-right" data-i18n="products.shelf_label">OUR BEST SELLER PRODUCT</span>
       </div>
 
     </div>

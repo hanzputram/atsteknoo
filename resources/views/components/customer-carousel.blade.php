@@ -44,18 +44,18 @@
       <!-- Left Column: Title & Counter -->
       <div class="trusted-title-wrap">
         <div class="trusted-line-one">
-          <span class="trusted-label-over">Trusted By Over</span>
+          <span class="trusted-label-over" data-i18n="trusted.over">Trusted By Over</span>
           <div class="trusted-red-rule" aria-hidden="true"></div>
         </div>
         <div class="trusted-line-two">
           <span class="trusted-counter-red"><span class="counter-val" data-target="1000">1,000</span>+</span>
-          <span class="trusted-company-text">Companies</span>
+          <span class="trusted-company-text" data-i18n="trusted.companies">Companies</span>
         </div>
       </div>
 
       <!-- Right Column: Subtitle Text -->
       <div class="trusted-subtitle-wrap">
-        <p class="trusted-subtitle">Support electrical needs across industries.</p>
+        <p class="trusted-subtitle" data-i18n="trusted.subtitle">Support electrical needs across industries.</p>
       </div>
     </div>
 
@@ -185,7 +185,8 @@
   }
 
   .trusted-logo-card {
-    background: #D8DCE3;
+    background: linear-gradient(145deg, #FFFFFF 0%, #F8FAFC 100%);
+    border: 1.5px solid #E2E8F0;
     border-radius: 22px;
     height: 140px;
     display: flex;
@@ -194,13 +195,32 @@
     padding: 20px 24px;
     box-sizing: border-box;
     transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    box-shadow: none !important;
+    box-shadow: 0 4px 16px -2px rgba(15, 23, 42, 0.05), 0 2px 6px -1px rgba(15, 23, 42, 0.03);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .trusted-logo-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, rgba(225, 29, 72, 0.4), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
   }
 
   .trusted-logo-card:hover {
-    transform: translateY(-4px);
-    background: #E2E6ED;
-    box-shadow: none !important;
+    transform: translateY(-6px);
+    background: #FFFFFF;
+    border-color: rgba(225, 29, 72, 0.35);
+    box-shadow: 0 16px 32px -4px rgba(15, 23, 42, 0.08), 0 4px 14px rgba(225, 29, 72, 0.08);
+  }
+
+  .trusted-logo-card:hover::before {
+    opacity: 1;
   }
 
   .trusted-logo-img {
