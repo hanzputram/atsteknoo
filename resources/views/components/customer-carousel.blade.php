@@ -11,35 +11,35 @@
             'name'     => 'Indofood Sukses Makmur',
             'tag'      => 'FMCG',
             'logo'     => asset('images/customers/indofood.png'),
-            'subtitle' => 'Lini Otomasi & Inverter Schneider',
+            'subtitle' => 'Schneider Automation & Inverter Line',
         ],
         [
             'id'       => 2,
             'name'     => 'Dua Kelinci',
             'tag'      => 'Confectionery',
             'logo'     => asset('images/customers/dua-kelinci.png'),
-            'subtitle' => 'Proteksi Motor & Kontrol TeSys',
+            'subtitle' => 'Motor Protection & TeSys Control',
         ],
         [
             'id'       => 3,
             'name'     => 'Pakuwon Group',
             'tag'      => 'Property',
             'logo'     => asset('images/customers/pakuwon.png'),
-            'subtitle' => 'Mega Superblock & Switchgear Distribusi',
+            'subtitle' => 'Mega Superblock & Distribution Switchgear',
         ],
         [
             'id'       => 4,
             'name'     => 'Bumi Menara Internusa',
             'tag'      => 'Cold Storage',
             'logo'     => asset('images/customers/bmi.png'),
-            'subtitle' => 'Power Quality & Breaker Tahan Korosi',
+            'subtitle' => 'Power Quality & Corrosion-Resistant Breakers',
         ],
         [
             'id'       => 5,
             'name'     => 'Charoen Pokphand',
             'tag'      => 'Agro-Industry',
             'logo'     => asset('images/customers/pokphand.png'),
-            'subtitle' => 'Panel Kontrol & Distribusi Pabrik Pakan',
+            'subtitle' => 'Feedmill Control & Distribution Panels',
         ],
     ];
 
@@ -162,7 +162,7 @@
     <!-- Minimalist Centered Header with Counter Effect (Persis Mockup) -->
     <div style="text-align: center; margin-bottom: 8px;">
       <h2 style="font-size: clamp(1.75rem, 3.5vw, 2.5rem); font-weight: 800; color: #0F172A; letter-spacing: -0.025em; margin: 0; line-height: 1.2;">
-        Trusted By Over <span class="customer-counter-number" data-target="{{ $count }}" style="color: #0F172A; font-weight: 800; font-variant-numeric: tabular-nums;">0</span>+ Company
+        Trusted By Over <span class="customer-counter-number" data-target="{{ $count }}" style="color: #0F172A; font-weight: 800; font-variant-numeric: tabular-nums;">0</span>+ Companies
       </h2>
     </div>
 

@@ -164,7 +164,7 @@
     left: 20.4%;
     top: 50%;
     transform: translate(-50%, -50%);
-    font-size: 11.5px;
+    font-size: 20px;
     font-weight: 800;
     letter-spacing: 0.12em;
     color: #1E293B;
@@ -179,7 +179,7 @@
     left: 79.6%;
     top: 50%;
     transform: translate(-50%, -50%);
-    font-size: 11.5px;
+    font-size: 20px;
     font-weight: 800;
     letter-spacing: 0.12em;
     color: #1E293B;
@@ -314,11 +314,11 @@
                 <div>
                   <span class="figma-product-badge">Schneider Electric</span>
                   <div class="figma-product-name">MasterPact MTZ / NT / NW</div>
-                  <div class="figma-product-desc">Air Circuit Breakers (ACB) 630A s/d 6300A, proteksi jaringan listrik utama tegangan rendah.</div>
+                  <div class="figma-product-desc">Air Circuit Breakers (ACB) 630A up to 6300A, low-voltage primary electrical distribution protection.</div>
                 </div>
                 <div class="figma-product-footer">
-                  <span>Ready Stock Surabaya</span>
-                  <span class="figma-product-cta">Minta Penawaran &rarr;</span>
+                  <span>Surabaya Ready Stock</span>
+                  <span class="figma-product-cta">Request Quotation &rarr;</span>
                 </div>
               </div>
             </div>
@@ -329,11 +329,11 @@
                 <div>
                   <span class="figma-product-badge">Schneider Electric</span>
                   <div class="figma-product-name">ComPact NSX &amp; CVS</div>
-                  <div class="figma-product-desc">Molded Case Circuit Breakers (MCCB) 16A s/d 1600A, handal untuk panel distribusi pabrik.</div>
+                  <div class="figma-product-desc">Molded Case Circuit Breakers (MCCB) 16A up to 1600A, reliable for industrial distribution switchboards.</div>
                 </div>
                 <div class="figma-product-footer">
-                  <span>Ready Stock Surabaya</span>
-                  <span class="figma-product-cta">Minta Penawaran &rarr;</span>
+                  <span>Surabaya Ready Stock</span>
+                  <span class="figma-product-cta">Request Quotation &rarr;</span>
                 </div>
               </div>
             </div>
@@ -344,11 +344,11 @@
                 <div>
                   <span class="figma-product-badge">Schneider Electric</span>
                   <div class="figma-product-name">Altivar ATV630 / ATV320</div>
-                  <div class="figma-product-desc">Variable Speed Drives (VFD/Inverter) untuk kendali motor industri presisi &amp; hemat energi.</div>
+                  <div class="figma-product-desc">Variable Speed Drives (VFD/Inverter) for precision industrial motor speed control &amp; energy savings.</div>
                 </div>
                 <div class="figma-product-footer">
-                  <span>Ready Stock Surabaya</span>
-                  <span class="figma-product-cta">Minta Penawaran &rarr;</span>
+                  <span>Surabaya Ready Stock</span>
+                  <span class="figma-product-cta">Request Quotation &rarr;</span>
                 </div>
               </div>
             </div>
@@ -359,11 +359,11 @@
                 <div>
                   <span class="figma-product-badge">Schneider Electric</span>
                   <div class="figma-product-name">TeSys D &amp; F Series</div>
-                  <div class="figma-product-desc">Magnetic Contactors &amp; Overload Relays untuk starting motor 9A s/d 1000A kualitas premium.</div>
+                  <div class="figma-product-desc">Magnetic Contactors &amp; Overload Relays for motor starting from 9A up to 1000A premium grade.</div>
                 </div>
                 <div class="figma-product-footer">
-                  <span>Ready Stock Surabaya</span>
-                  <span class="figma-product-cta">Minta Penawaran &rarr;</span>
+                  <span>Surabaya Ready Stock</span>
+                  <span class="figma-product-cta">Request Quotation &rarr;</span>
                 </div>
               </div>
             </div>
@@ -374,11 +374,11 @@
                 <div>
                   <span class="figma-product-badge" style="background: rgba(225,29,72,0.25); color: #FFE4E6;">Legrand Indonesia</span>
                   <div class="figma-product-name">Plexo™ IP66 &amp; Enclosures XL³</div>
-                  <div class="figma-product-desc">Panel box industrial IP66 weatherproof, modular distribution, dan switch industri resmi Legrand.</div>
+                  <div class="figma-product-desc">Weatherproof IP66 industrial enclosure boxes, modular distribution, and industrial switches.</div>
                 </div>
                 <div class="figma-product-footer">
-                  <span>Ready Stock Surabaya</span>
-                  <span class="figma-product-cta">Minta Penawaran &rarr;</span>
+                  <span>Surabaya Ready Stock</span>
+                  <span class="figma-product-cta">Request Quotation &rarr;</span>
                 </div>
               </div>
             </div>
@@ -389,11 +389,11 @@
                 <div>
                   <span class="figma-product-badge" style="background: rgba(37,99,235,0.25); color: #DBEAFE;">GAE Group</span>
                   <div class="figma-product-name">Power Quality &amp; Metering</div>
-                  <div class="figma-product-desc">Digital Energy Meters, Capacitor Banks, Surge Protection, dan Current Transformer (CT).</div>
+                  <div class="figma-product-desc">Digital Energy Meters, Power Factor Capacitor Banks, Surge Protection, and Current Transformers (CT).</div>
                 </div>
                 <div class="figma-product-footer">
-                  <span>Ready Stock Surabaya</span>
-                  <span class="figma-product-cta">Minta Penawaran &rarr;</span>
+                  <span>Surabaya Ready Stock</span>
+                  <span class="figma-product-cta">Request Quotation &rarr;</span>
                 </div>
               </div>
             </div>
@@ -409,12 +409,12 @@
 
         <!-- Center Notch with Round Buttons nestled in the notch curve -->
         <div class="shelf-buttons-center">
-          <button type="button" class="figma-product-nav-btn product-prev" aria-label="Produk Sebelumnya">
+          <button type="button" class="figma-product-nav-btn product-prev" aria-label="Previous Product">
             <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/>
             </svg>
           </button>
-          <button type="button" class="figma-product-nav-btn product-next" aria-label="Produk Berikutnya">
+          <button type="button" class="figma-product-nav-btn product-next" aria-label="Next Product">
             <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/>
             </svg>

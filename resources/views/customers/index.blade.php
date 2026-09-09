@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Daftar Customer &amp; Klien Terkenal - PT. Anugerah Tama Sejati</title>
-  <meta name="description" content="Klien dan customer industri terkemuka yang mempercayakan kebutuhan suplai kelistrikan dan otomasi kepada PT. Anugerah Tama Sejati.">
+  <title>Customer Portfolio &amp; Valued Clients - PT. Anugerah Tama Sejati</title>
+  <meta name="description" content="Leading industrial clients and valued enterprises who trust PT. Anugerah Tama Sejati for premium electrical components and industrial automation solutions.">
 
   <!-- Google Fonts: Outfit & Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -68,7 +68,7 @@
       </div>
 
       <a href="/" class="text-xs font-semibold px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 transition">
-        &larr; Kembali ke Beranda
+        &larr; Back to Home
       </a>
     </div>
   </header>

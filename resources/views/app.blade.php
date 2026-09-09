@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PT. Anugerah Tama Sejati - Best Electrical Supplier</title>
   <meta name="description"
-    content="PT. Anugerah Tama Sejati - Your trusted one-stop supplier for all electrical and wiring components. Distributor Resmi Schneider Electric Surabaya.">
+    content="PT. Anugerah Tama Sejati - Your trusted one-stop supplier for all electrical and wiring components. Authorized Schneider Electric Distributor Surabaya.">
 
   <!-- Google Fonts: Outfit & Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -33,6 +33,10 @@
       --shadow-float: 0 16px 36px rgba(0, 0, 0, 0.1);
 
       --transition-base: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    html {
+      scroll-behavior: smooth;
     }
 
     * {
@@ -1277,12 +1281,12 @@
 
             <div class="card-carousel-container">
               <!-- Swiper Main Stage (Klik kartu langsung untuk looping) -->
-              <div class="swiper mySwiper" id="heroSwiper" title="Klik foto untuk melihat sertifikat berikutnya">
+              <div class="swiper mySwiper" id="heroSwiper" title="Click card to view next certificate">
                 <div class="swiper-wrapper">
                   @foreach($photos as $index => $photo)
                     <div class="swiper-slide {{ $photo->is_horizontal ? 'is-horizontal' : 'is-vertical' }}" data-index="{{ $index }}">
                       <div class="card-inner-frame">
-                        <img src="{{ asset('storage/' . $photo->path) }}" onerror="this.src='{{ asset('certificates/' . basename($photo->path)) }}'" alt="Sertifikat Resmi PT. ATS" loading="lazy">
+                        <img src="{{ asset('storage/' . $photo->path) }}" onerror="this.src='{{ asset('certificates/' . basename($photo->path)) }}'" alt="Official Certificate of PT. ATS" loading="lazy">
                       </div>
                     </div>
                   @endforeach
@@ -1296,7 +1300,7 @@
       </div>
 
       <!-- Dynamic Walking Brand Logos in Hero Notch (Marquee Ticker) -->
-      <div class="hero-notch-marquee-wrapper" id="notchMarquee" title="Brand &amp; Authorized Partner PT. Anugerah Tama Sejati">
+      <div class="hero-notch-marquee-wrapper" id="notchMarquee" title="Authorized Brands &amp; Official Partners - PT. Anugerah Tama Sejati">
         <div class="marquee-track">
           <!-- Set 1 (All 14 Official Brand Logos) -->
           <div class="marquee-logo-card"><img src="logos/1.png" alt="Schneider Electric Authorized Dealer" loading="lazy"></div>
@@ -1339,53 +1343,75 @@
       <!-- ================= LIFTED CAROUSEL: CUSTOMER & KLIEN TERKENAL ================= -->
       @include('components.customer-carousel')
 
+      <!-- ================= INTERACTIVE SHOWCASE DECK (ABOUT US & ENGINEERING EXCELLENCE) ================= -->
+      @include('components.interactive-showcase')
+
       <!-- ================= OUR PRODUCT SECTION (SESUAI MOCKUP FIGMA) ================= -->
       @include('components.our-products')
 
       <!-- 4-Column Feature Highlights -->
       <section class="features-grid">
         <div class="feature-card">
-          <div class="feature-icon-wrap">🛡️</div>
-          <h3 class="feature-title">100% Produk Original</h3>
-          <p class="feature-desc">Seluruh komponen memiliki garansi resmi pabrikan langsung dengan jaminan keaslian
-            sertifikat.</p>
+          <div class="feature-icon-wrap" style="background: rgba(37, 99, 235, 0.08); color: #2563EB;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              <path d="M9 12l2 2 4-4"/>
+            </svg>
+          </div>
+          <h3 class="feature-title">100% Genuine Products</h3>
+          <p class="feature-desc">All components come with direct manufacturer warranty and authentic certificates of origin.</p>
         </div>
 
         <div class="feature-card">
-          <div class="feature-icon-wrap" style="background: #EFF6FF; color: #2563EB;">⚡</div>
-          <h3 class="feature-title">Ready Stock Surabaya</h3>
-          <p class="feature-desc">Gudang utama memiliki stok ribuan SKU breaker, switchgear, dan inverter siap kirim
-            cepat.</p>
+          <div class="feature-icon-wrap" style="background: rgba(14, 165, 233, 0.08); color: #0284C7;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+            </svg>
+          </div>
+          <h3 class="feature-title">Surabaya Ready Stock</h3>
+          <p class="feature-desc">Our main warehouse maintains thousands of breaker, switchgear, and inverter SKUs ready for fast dispatch.</p>
         </div>
 
         <div class="feature-card">
-          <div class="feature-icon-wrap" style="background: #ECFDF5; color: #059669;">🚚</div>
-          <h3 class="feature-title">Pengiriman Seluruh Nusantara</h3>
-          <p class="feature-desc">Layanan ekspedisi logistik aman dan terasuransi ke proyek industri di seluruh
-            Indonesia.</p>
+          <div class="feature-icon-wrap" style="background: rgba(16, 185, 129, 0.08); color: #059669;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="1" y="3" width="15" height="13"/>
+              <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/>
+              <circle cx="5.5" cy="18.5" r="2.5"/>
+              <circle cx="18.5" cy="18.5" r="2.5"/>
+            </svg>
+          </div>
+          <h3 class="feature-title">Nationwide Logistics</h3>
+          <p class="feature-desc">Dependable, insured freight logistics delivering safely to industrial project sites across Indonesia.</p>
         </div>
 
         <div class="feature-card">
-          <div class="feature-icon-wrap" style="background: #FDF4FF; color: #C026D3;">💬</div>
-          <h3 class="feature-title">Konsultasi Engineer Gratis</h3>
-          <p class="feature-desc">Tim ahli teknis siap membantu kalkulasi kapasitas daya, ampere, dan spesifikasi panel
-            Anda.</p>
+          <div class="feature-icon-wrap" style="background: rgba(79, 70, 229, 0.08); color: #4F46E5;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+              <circle cx="9" cy="10" r="1"/>
+              <circle cx="12" cy="10" r="1"/>
+              <circle cx="15" cy="10" r="1"/>
+            </svg>
+          </div>
+          <h3 class="feature-title">Free Engineering Consultation</h3>
+          <p class="feature-desc">Our certified engineers are ready to assist with power calculations, sizing, and panel design.</p>
         </div>
       </section>
-
-      <!-- Industrial Skyline Footer with 3 Interactive Google Maps Embeds -->
-      @include('components.footer')
 
     </div>
 
   </div>
 
+  <!-- Industrial Skyline Footer with 3 Interactive Google Maps Embeds (Full Width - Outside Container) -->
+  @include('components.footer')
+
   <!-- Lightbox Modal for Zooming Certificates -->
   <div class="cert-lightbox-modal" id="certLightbox" onclick="closeLightbox()">
     <div class="lightbox-content-box" onclick="event.stopPropagation()">
-      <button type="button" class="lightbox-close-btn" onclick="closeLightbox()" aria-label="Tutup">&times;</button>
-      <img src="" alt="Pratinjau Sertifikat" class="lightbox-img" id="lightboxImg">
-      <div class="lightbox-caption" id="lightboxCaption">Sertifikat Resmi</div>
+      <button type="button" class="lightbox-close-btn" onclick="closeLightbox()" aria-label="Close">&times;</button>
+      <img src="" alt="Certificate Preview" class="lightbox-img" id="lightboxImg">
+      <div class="lightbox-caption" id="lightboxCaption">Official Certificate</div>
     </div>
   </div>
 
@@ -1394,70 +1420,70 @@
     <div class="modal-box" onclick="event.stopPropagation()">
       <div class="modal-header">
         <div class="modal-title-wrap">
-          <h3>⚡ Katalog Produk Unggulan</h3>
-          <p>Komponen listrik &amp; otomasi industri resmi dari PT. Anugerah Tama Sejati</p>
+          <h3>⚡ Featured Product Catalog</h3>
+          <p>Official industrial electrical &amp; automation components from PT. Anugerah Tama Sejati</p>
         </div>
-        <button type="button" class="modal-close-btn" onclick="closeProductModal()" aria-label="Tutup">&times;</button>
+        <button type="button" class="modal-close-btn" onclick="closeProductModal()" aria-label="Close">&times;</button>
       </div>
       <div class="modal-body">
         <div class="product-catalog-grid">
           <div class="catalog-item-card">
             <span class="catalog-brand-badge">Schneider Electric</span>
             <div class="catalog-item-title">MasterPact MTZ / NT / NW</div>
-            <div class="catalog-item-desc">Air Circuit Breakers (ACB) 630A s/d 6300A, proteksi jaringan listrik utama tegangan rendah.</div>
+            <div class="catalog-item-desc">Air Circuit Breakers (ACB) 630A up to 6300A, low-voltage primary electrical distribution protection.</div>
             <div class="catalog-action-row">
               <span style="font-size: 11px; color: #059669; font-weight: 600;">Ready Stock</span>
-              <a href="https://wa.me/6281234567890?text=Halo%20PT%20ATS,%20saya%20minta%20penawaran%20MasterPact%20ACB" target="_blank" class="catalog-quote-btn">Minta Penawaran &rarr;</a>
+              <a href="https://wa.me/6281234567890?text=Hello%20PT%20ATS,%20I%20would%20like%20to%20request%20a%20quotation%20for%20MasterPact%20ACB" target="_blank" class="catalog-quote-btn">Request Quotation &rarr;</a>
             </div>
           </div>
 
           <div class="catalog-item-card">
             <span class="catalog-brand-badge">Schneider Electric</span>
             <div class="catalog-item-title">ComPact NSX &amp; CVS Series</div>
-            <div class="catalog-item-desc">Molded Case Circuit Breakers (MCCB) 16A s/d 1600A, handal untuk panel distribusi pabrik.</div>
+            <div class="catalog-item-desc">Molded Case Circuit Breakers (MCCB) 16A up to 1600A, reliable for industrial distribution switchboards.</div>
             <div class="catalog-action-row">
               <span style="font-size: 11px; color: #059669; font-weight: 600;">Ready Stock</span>
-              <a href="https://wa.me/6281234567890?text=Halo%20PT%20ATS,%20saya%20minta%20penawaran%20ComPact%20MCCB" target="_blank" class="catalog-quote-btn">Minta Penawaran &rarr;</a>
+              <a href="https://wa.me/6281234567890?text=Hello%20PT%20ATS,%20I%20would%20like%20to%20request%20a%20quotation%20for%20ComPact%20MCCB" target="_blank" class="catalog-quote-btn">Request Quotation &rarr;</a>
             </div>
           </div>
 
           <div class="catalog-item-card">
             <span class="catalog-brand-badge">Schneider Electric</span>
             <div class="catalog-item-title">Altivar Process &amp; Machine</div>
-            <div class="catalog-item-desc">Variable Speed Drives (VFD/Inverter) ATV320, ATV630, ATV930 untuk kendali motor industri presisi.</div>
+            <div class="catalog-item-desc">Variable Speed Drives (VFD/Inverter) ATV320, ATV630, ATV930 for precision industrial motor control.</div>
             <div class="catalog-action-row">
               <span style="font-size: 11px; color: #059669; font-weight: 600;">Ready Stock</span>
-              <a href="https://wa.me/6281234567890?text=Halo%20PT%20ATS,%20saya%20minta%20penawaran%20Altivar%20Inverter" target="_blank" class="catalog-quote-btn">Minta Penawaran &rarr;</a>
+              <a href="https://wa.me/6281234567890?text=Hello%20PT%20ATS,%20I%20would%20like%20to%20request%20a%20quotation%20for%20Altivar%20Inverter" target="_blank" class="catalog-quote-btn">Request Quotation &rarr;</a>
             </div>
           </div>
 
           <div class="catalog-item-card">
             <span class="catalog-brand-badge">Schneider Electric</span>
             <div class="catalog-item-title">TeSys D &amp; F Series</div>
-            <div class="catalog-item-desc">Magnetic Contactors &amp; Overload Relays untuk starting motor 9A s/d 1000A kualitas premium.</div>
+            <div class="catalog-item-desc">Magnetic Contactors &amp; Overload Relays for motor starting from 9A up to 1000A premium grade.</div>
             <div class="catalog-action-row">
               <span style="font-size: 11px; color: #059669; font-weight: 600;">Ready Stock</span>
-              <a href="https://wa.me/6281234567890?text=Halo%20PT%20ATS,%20saya%20minta%20penawaran%20TeSys%20Kontaktor" target="_blank" class="catalog-quote-btn">Minta Penawaran &rarr;</a>
+              <a href="https://wa.me/6281234567890?text=Hello%20PT%20ATS,%20I%20would%20like%20to%20request%20a%20quotation%20for%20TeSys%20Contactors" target="_blank" class="catalog-quote-btn">Request Quotation &rarr;</a>
             </div>
           </div>
 
           <div class="catalog-item-card">
             <span class="catalog-brand-badge" style="color: #DC2626; background: #FEE2E2;">Legrand Indonesia</span>
             <div class="catalog-item-title">Plexo™ &amp; Enclosures XL³</div>
-            <div class="catalog-item-desc">Panel box industrial IP66 weatherproof, modular distribution, dan switch industri resmi Legrand.</div>
+            <div class="catalog-item-desc">Weatherproof IP66 industrial enclosure boxes, modular distribution, and industrial switches.</div>
             <div class="catalog-action-row">
               <span style="font-size: 11px; color: #059669; font-weight: 600;">Ready Stock</span>
-              <a href="https://wa.me/6281234567890?text=Halo%20PT%20ATS,%20saya%20minta%20penawaran%20Produk%20Legrand" target="_blank" class="catalog-quote-btn">Minta Penawaran &rarr;</a>
+              <a href="https://wa.me/6281234567890?text=Hello%20PT%20ATS,%20I%20would%20like%20to%20request%20a%20quotation%20for%20Legrand%20Products" target="_blank" class="catalog-quote-btn">Request Quotation &rarr;</a>
             </div>
           </div>
 
           <div class="catalog-item-card">
             <span class="catalog-brand-badge" style="color: #2563EB; background: #EFF6FF;">GAE Group</span>
             <div class="catalog-item-title">Power Quality &amp; Metering</div>
-            <div class="catalog-item-desc">Digital Energy Meters, Capacitor Banks, Surge Protection, dan Current Transformer (CT).</div>
+            <div class="catalog-item-desc">Digital Energy Meters, Capacitor Banks, Surge Protection Devices, and Current Transformers (CT).</div>
             <div class="catalog-action-row">
               <span style="font-size: 11px; color: #059669; font-weight: 600;">Ready Stock</span>
-              <a href="https://wa.me/6281234567890?text=Halo%20PT%20ATS,%20saya%20minta%20penawaran%20Produk%20GAE" target="_blank" class="catalog-quote-btn">Minta Penawaran &rarr;</a>
+              <a href="https://wa.me/6281234567890?text=Hello%20PT%20ATS,%20I%20would%20like%20to%20request%20a%20quotation%20for%20GAE%20Products" target="_blank" class="catalog-quote-btn">Request Quotation &rarr;</a>
             </div>
           </div>
         </div>
@@ -1470,34 +1496,34 @@
     <div class="modal-box" onclick="event.stopPropagation()">
       <div class="modal-header">
         <div class="modal-title-wrap">
-          <h3>📞 Hubungi Tim Sales &amp; Engineer</h3>
-          <p>PT. Anugerah Tama Sejati &bull; Siap melayani konsultasi teknis &amp; penawaran harga</p>
+          <h3>📞 Contact Sales &amp; Engineering Team</h3>
+          <p>PT. Anugerah Tama Sejati &bull; Ready to assist with technical inquiries &amp; project quotations</p>
         </div>
-        <button type="button" class="modal-close-btn" onclick="closeContactModal()" aria-label="Tutup">&times;</button>
+        <button type="button" class="modal-close-btn" onclick="closeContactModal()" aria-label="Close">&times;</button>
       </div>
       <div class="modal-body">
         <div class="contact-channels-list">
-          <a href="https://wa.me/6281234567890?text=Halo%20PT%20Anugerah%20Tama%20Sejati,%20saya%20ingin%20konsultasi%20komponen%20dan%20penawaran%20harga" target="_blank" class="contact-channel-card">
+          <a href="https://wa.me/6281234567890?text=Hello%20PT%20Anugerah%20Tama%20Sejati,%20I%20would%20like%20to%20inquire%20about%20components%20and%20price%20quotation" target="_blank" class="contact-channel-card">
             <div class="channel-icon-wrap" style="background: #ECFDF5; color: #059669;">💬</div>
             <div class="channel-info">
               <h4>WhatsApp Official Sales</h4>
-              <p>Respon cepat untuk pemesanan, cek stok gudang, dan permintaan surat penawaran (08:30 - 17:00 WIB)</p>
+              <p>Prompt response for orders, warehouse stock verification, and formal quotation requests (08:30 - 17:00 WIB)</p>
             </div>
           </a>
 
           <a href="tel:03159178887" class="contact-channel-card">
             <div class="channel-icon-wrap" style="background: #EFF6FF; color: #2563EB;">📞</div>
             <div class="channel-info">
-              <h4>Telepon Kantor Surabaya: (031) 59178887</h4>
-              <p>Hubungi hotline resmi untuk koordinasi teknis pengadaan proyek &amp; faktur pajak</p>
+              <h4>Surabaya Office Hotline: (031) 59178887</h4>
+              <p>Call our hotline for technical coordination, project procurement &amp; tax invoicing</p>
             </div>
           </a>
 
           <div class="contact-channel-card" style="cursor: default;">
             <div class="channel-icon-wrap" style="background: #FEF3C7; color: #D97706;">📍</div>
             <div class="channel-info">
-              <h4>Kantor &amp; Gudang Utama</h4>
-              <p>Jl. Kenjeran No. 485, Gading, Kec. Tambaksari, Surabaya, Jawa Timur 60134</p>
+              <h4>Head Office &amp; Main Warehouse</h4>
+              <p>Jl. Kenjeran No. 485, Gading, Tambaksari, Surabaya, East Java 60134, Indonesia</p>
             </div>
           </div>
 
@@ -1505,7 +1531,7 @@
             <div class="channel-icon-wrap" style="background: #FDF4FF; color: #C026D3;">✉️</div>
             <div class="channel-info">
               <h4>Email: sales@anugerahtamasejati.com</h4>
-              <p>Kirimkan file BoQ (Bill of Quantity) atau single line diagram untuk estimasi komponen</p>
+              <p>Submit your BoQ (Bill of Quantity) or single-line diagram for component estimations</p>
             </div>
           </a>
         </div>
