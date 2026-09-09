@@ -35,10 +35,6 @@
       --transition-base: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    html {
-      scroll-behavior: smooth;
-    }
-
     * {
       box-sizing: border-box;
       margin: 0;
@@ -48,13 +44,8 @@
     /* Page Root: Top-Anchored, Natural Website Canvas (Stable at any zoom level) */
     body {
       font-family: var(--font-outfit);
-      background-color: var(--color-bg-page);
-      background-image:
-        radial-gradient(circle at 50% 0%, rgba(255, 120, 120, 0.12) 0%, rgba(248, 250, 252, 0.85) 65%, #F8FAFC 100%),
-        radial-gradient(circle at 85% 30%, rgba(254, 205, 211, 0.18) 0%, transparent 50%),
-        radial-gradient(circle at 15% 40%, rgba(255, 180, 180, 0.12) 0%, transparent 45%);
-      background-repeat: no-repeat;
-      background-size: 100% 1200px, 100% 100%, 100% 100%;
+      background-color: #FFFFFF;
+      background-image: none;
       color: var(--color-dark);
       min-height: 100vh;
       display: flex;
@@ -1217,7 +1208,6 @@
           <nav>
             <ul class="nav-menu">
               <li class="nav-item active"><a href="#home">HOME</a></li>
-              <li class="nav-item"><a href="#clients">CUSTOMERS</a></li>
               <li class="nav-item"><a href="#about">ABOUT US</a></li>
               <li class="nav-item"><a href="#contact">CONTACT US</a></li>
               <li class="nav-item"><a href="#article">ARTICLE</a></li>
@@ -1230,15 +1220,6 @@
 
           <!-- Left Text Column -->
           <div class="hero-left-column">
-            <div class="hero-eyebrow">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polygon
-                  points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2">
-                </polygon>
-              </svg>
-              <span>Authorized Schneider Electric Dealer</span>
-            </div>
-
             <h1 class="hero-headline">
               Discover Your<br>
               <span class="text-gradient-accent">Best Electrical</span> Supplier
@@ -1343,8 +1324,8 @@
       <!-- ================= LIFTED CAROUSEL: CUSTOMER & KLIEN TERKENAL ================= -->
       @include('components.customer-carousel')
 
-      <!-- ================= INTERACTIVE SHOWCASE DECK (ABOUT US & ENGINEERING EXCELLENCE) ================= -->
-      @include('components.interactive-showcase')
+      <!-- ================= CURVED WALKING TEXT (FRAMER-INSPIRED RIBBON) ================= -->
+      @include('components.curved-walking-text')
 
       <!-- ================= OUR PRODUCT SECTION (SESUAI MOCKUP FIGMA) ================= -->
       @include('components.our-products')
@@ -1352,48 +1333,25 @@
       <!-- 4-Column Feature Highlights -->
       <section class="features-grid">
         <div class="feature-card">
-          <div class="feature-icon-wrap" style="background: rgba(37, 99, 235, 0.08); color: #2563EB;">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-              <path d="M9 12l2 2 4-4"/>
-            </svg>
-          </div>
+          <div class="feature-icon-wrap">🛡️</div>
           <h3 class="feature-title">100% Genuine Products</h3>
           <p class="feature-desc">All components come with direct manufacturer warranty and authentic certificates of origin.</p>
         </div>
 
         <div class="feature-card">
-          <div class="feature-icon-wrap" style="background: rgba(14, 165, 233, 0.08); color: #0284C7;">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
-            </svg>
-          </div>
+          <div class="feature-icon-wrap" style="background: #EFF6FF; color: #2563EB;">⚡</div>
           <h3 class="feature-title">Surabaya Ready Stock</h3>
           <p class="feature-desc">Our main warehouse maintains thousands of breaker, switchgear, and inverter SKUs ready for fast dispatch.</p>
         </div>
 
         <div class="feature-card">
-          <div class="feature-icon-wrap" style="background: rgba(16, 185, 129, 0.08); color: #059669;">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="1" y="3" width="15" height="13"/>
-              <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/>
-              <circle cx="5.5" cy="18.5" r="2.5"/>
-              <circle cx="18.5" cy="18.5" r="2.5"/>
-            </svg>
-          </div>
+          <div class="feature-icon-wrap" style="background: #ECFDF5; color: #059669;">🚚</div>
           <h3 class="feature-title">Nationwide Logistics</h3>
           <p class="feature-desc">Dependable, insured freight logistics delivering safely to industrial project sites across Indonesia.</p>
         </div>
 
         <div class="feature-card">
-          <div class="feature-icon-wrap" style="background: rgba(79, 70, 229, 0.08); color: #4F46E5;">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-              <circle cx="9" cy="10" r="1"/>
-              <circle cx="12" cy="10" r="1"/>
-              <circle cx="15" cy="10" r="1"/>
-            </svg>
-          </div>
+          <div class="feature-icon-wrap" style="background: #FDF4FF; color: #C026D3;">💬</div>
           <h3 class="feature-title">Free Engineering Consultation</h3>
           <p class="feature-desc">Our certified engineers are ready to assist with power calculations, sizing, and panel design.</p>
         </div>

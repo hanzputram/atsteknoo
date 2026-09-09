@@ -16,17 +16,67 @@
     padding: 34px 30px 34px 30px;
     box-sizing: border-box;
     position: relative;
-    box-shadow: 0 12px 36px rgba(15, 23, 42, 0.08);
+    box-shadow: none;
   }
 
-  /* Heading "Our Product" */
-  .figma-products-title {
-    font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+  /* Header Grid (Two Columns persis Foto 1 & 2) */
+  .figma-products-header-grid {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+    padding: 0 4px;
+  }
+
+  .figma-products-header-left {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .figma-products-pill-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .figma-products-pill-text {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #0F172A;
+    letter-spacing: -0.01em;
+  }
+
+  .figma-products-red-bar {
+    display: inline-block;
+    width: 46px;
+    height: 6px;
+    background: #E11D48;
+    border-radius: 9999px;
+  }
+
+  .figma-products-headline {
+    font-size: clamp(1.8rem, 3.2vw, 2.6rem);
     font-weight: 800;
-    color: #000000;
-    letter-spacing: -0.025em;
-    margin: 0 0 20px 6px;
-    line-height: 1.15;
+    color: #0F172A;
+    letter-spacing: -0.03em;
+    line-height: 1.18;
+    margin: 0;
+  }
+
+  .figma-products-header-right {
+    max-width: 440px;
+    padding-bottom: 4px;
+  }
+
+  .figma-products-subtitle {
+    font-size: clamp(0.95rem, 1.2vw, 1.1rem);
+    color: #334155;
+    font-weight: 500;
+    line-height: 1.45;
+    margin: 0;
   }
 
   /* Shelf Canvas Container: Rasio proporsi identik 1312x622 dari SVG */
@@ -36,6 +86,7 @@
     aspect-ratio: 1312 / 622;
     min-height: 520px;
     box-sizing: border-box;
+    border-radius: 48px;
     overflow: hidden;
   }
 
@@ -50,45 +101,58 @@
     pointer-events: none;
   }
 
-  /* Area Kartu Slider: Diberi jarak nyaman (breathing room) di atas notch SVG */
+  /* Area Kartu Slider: Diberi jarak proporsional di dalam canvas shelf tanpa bocor di sudut */
   .figma-shelf-cards-layer {
     position: absolute;
-    top: 28px;
-    left: 24px;
-    right: 24px;
-    bottom: 23%; /* Jarak lega dan proporsional di atas lekukan notch SVG */
+    top: 24px;
+    left: 44px;
+    right: 44px;
+    bottom: 23%; /* Jarak aman dan proporsional di atas lekukan notch SVG */
     z-index: 2;
     display: flex;
     align-items: stretch;
+    overflow: hidden; /* Mencegah kartu tembus keluar sudut kiri & kanan shelf */
   }
 
   .product-swiper-container {
     width: 100%;
     height: 100% !important;
+    padding-top: 18px !important; /* Ruang angkat hover tanpa pernah menyentuh batas overflow */
+    padding-bottom: 18px !important; /* Ruang bayangan kartu tanpa terpotong */
+    box-sizing: border-box;
+    overflow: visible !important;
+  }
+
+  .product-swiper-container .swiper-slide {
+    height: auto !important;
+    display: flex;
+    align-items: stretch;
+    padding: 0 4px;
+    box-sizing: border-box;
   }
 
   /* Kartu Produk (Dark Slate Gray persis seperti di Foto 2) */
   .figma-product-card {
     background: #4E545F;
     border-radius: 22px;
+    width: 100%;
     height: 100%;
-    padding: 24px 20px;
+    padding: 22px 20px 18px 20px;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.14);
+    transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.28s ease;
+    box-shadow: none !important;
     cursor: pointer;
     text-decoration: none;
     color: #FFFFFF;
     position: relative;
-    overflow: hidden;
   }
 
   .figma-product-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25);
+    transform: translateY(-8px);
+    box-shadow: none !important;
     background: #444A54;
   }
 
@@ -165,7 +229,7 @@
     top: 50%;
     transform: translate(-50%, -50%);
     font-size: 20px;
-    font-weight: 800;
+    font-weight: 400;
     letter-spacing: 0.12em;
     color: #1E293B;
     text-transform: uppercase;
@@ -180,7 +244,7 @@
     top: 50%;
     transform: translate(-50%, -50%);
     font-size: 20px;
-    font-weight: 800;
+    font-weight: 400;
     letter-spacing: 0.12em;
     color: #1E293B;
     text-transform: uppercase;
@@ -201,8 +265,8 @@
   }
 
   .figma-product-nav-btn {
-    width: 48px;
-    height: 48px;
+    width: 95px;
+    height: 65px;
     border-radius: 9999px;
     background: #FFFFFF;
     border: 1.5px solid #E2E8F0;
@@ -211,7 +275,7 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.12);
+    box-shadow: none;
     transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
@@ -220,7 +284,7 @@
     color: #FFFFFF;
     border-color: #0F172A;
     transform: scale(1.08);
-    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.22);
+    box-shadow: none;
   }
 
   .figma-product-nav-btn:active {
@@ -288,10 +352,24 @@
   
   <!-- Outer Slate Gray Frame (#8E94A0) -->
     
-    <!-- Title: "Our Product" -->
-    <h2 class="figma-products-title">
-      Our Product
-    </h2>
+    <!-- Figma Header Row: Two columns -->
+    <div class="figma-products-header-grid">
+      <div class="figma-products-header-left">
+        <div class="figma-products-pill-label">
+          <span class="figma-products-pill-text">Our Product</span>
+          <span class="figma-products-red-bar" aria-hidden="true"></span>
+        </div>
+        <h2 class="figma-products-headline">
+          The right products<br>for every project.
+        </h2>
+      </div>
+
+      <div class="figma-products-header-right">
+        <p class="figma-products-subtitle">
+          Explore electrical essentials for power distribution, motor control, and industrial automation.
+        </p>
+      </div>
+    </div>
 
     <!-- Shelf Stage Canvas -->
     <div class="figma-shelf-stage">

@@ -777,7 +777,7 @@
           </h3>
           <ul class="ats-ft-links-list">
             <li class="ats-ft-link-item">
-              <a href="{{ route('customers.index') }}">
+              <a href="#trusted-by">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
                 Client &amp; Customer Portfolio
               </a>

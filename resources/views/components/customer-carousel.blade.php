@@ -1,302 +1,295 @@
 @props([
     'customers' => null,
-    'count' => 1000,
 ])
 
 @php
-    // Fallback data customer
-    $baseCustomers = $customers ?? [
+    $clientLogos = [
         [
-            'id'       => 1,
-            'name'     => 'Indofood Sukses Makmur',
-            'tag'      => 'FMCG',
-            'logo'     => asset('images/customers/indofood.png'),
-            'subtitle' => 'Schneider Automation & Inverter Line',
+            'name' => 'Bumi Menara Internusa',
+            'logo' => asset('images/customers/bmi.png'),
+            'alt'  => 'BMI Bumi Menara Internusa',
         ],
         [
-            'id'       => 2,
-            'name'     => 'Dua Kelinci',
-            'tag'      => 'Confectionery',
-            'logo'     => asset('images/customers/dua-kelinci.png'),
-            'subtitle' => 'Motor Protection & TeSys Control',
+            'name' => 'Charoen Pokphand',
+            'logo' => asset('images/customers/pokphand.png'),
+            'alt'  => 'Pokphand',
         ],
         [
-            'id'       => 3,
-            'name'     => 'Pakuwon Group',
-            'tag'      => 'Property',
-            'logo'     => asset('images/customers/pakuwon.png'),
-            'subtitle' => 'Mega Superblock & Distribution Switchgear',
+            'name' => 'Indofood Sukses Makmur',
+            'logo' => asset('images/customers/indofood.png'),
+            'alt'  => 'Indofood',
         ],
         [
-            'id'       => 4,
-            'name'     => 'Bumi Menara Internusa',
-            'tag'      => 'Cold Storage',
-            'logo'     => asset('images/customers/bmi.png'),
-            'subtitle' => 'Power Quality & Corrosion-Resistant Breakers',
+            'name' => 'Pakuwon Group',
+            'logo' => asset('images/customers/pakuwon.png'),
+            'alt'  => 'Pakuwon Group',
         ],
         [
-            'id'       => 5,
-            'name'     => 'Charoen Pokphand',
-            'tag'      => 'Agro-Industry',
-            'logo'     => asset('images/customers/pokphand.png'),
-            'subtitle' => 'Feedmill Control & Distribution Panels',
+            'name' => 'Dua Kelinci',
+            'logo' => asset('images/customers/dua-kelinci.png'),
+            'alt'  => 'Dua Kelinci',
         ],
     ];
-
-    // Duplikasi data agar Swiper loop berjalan mulus di dalam 5 slot
-    $displayCustomers = array_merge($baseCustomers, $baseCustomers, $baseCustomers);
 @endphp
 
-<!-- Swiper CSS via CDN -->
-@once
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-@endonce
-
-<style>
-  /* ========================================================
-     CUSTOMER CAROUSEL: STRICT 5-CARD VIEWPORT (NO OVERFLOW ON ZOOM OUT)
-     ======================================================== */
-  .figma-customer-section {
-    position: relative;
-    width: 100%;
-    max-width: 1200px; /* Terkunci rapi sesuai lebar grid desktop */
-    margin: 0 auto;
-    padding: 16px 0 10px 0;
-    box-sizing: border-box;
-    overflow: hidden !important; /* HIDE SEMUA KARTU DI LUAR FRAME SAAT ZOOM OUT */
-  }
-
-  /* Swiper viewport: overflow hidden memotong semua slide samping saat zoom out */
-  .figma-customer-swiper {
-    width: 100%;
-    padding-top: 36px !important;
-    padding-bottom: 24px !important;
-    overflow: hidden !important; /* HIDE SLIDE EKSTRA */
-    box-sizing: border-box;
-  }
-
-  /* Slide Samping (Kartu 1, 2, 4, 5): Posisi dasar */
-  .figma-customer-swiper .swiper-slide {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-end;
-    transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
-                opacity 0.4s ease;
-    opacity: 0.8;
-    will-change: transform, opacity;
-  }
-
-  /* Kartu Kotak Abu-abu Bersih (Persis seperti di wireframe) */
-  .figma-customer-card {
-    position: relative;
-    width: 100%;
-    height: 180px;
-    border-radius: 20px;
-    background: #D8DCE3;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 18px;
-    box-sizing: border-box;
-    transition: all 0.45s cubic-bezier(0.22, 1, 0.36, 1);
-    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
-  }
-
-  /* Kartu Tengah (Active Slide): TERANGKAT KE ATAS & TINGGI */
-  .figma-customer-swiper .swiper-slide-active {
-    opacity: 1 !important;
-    z-index: 10;
-  }
-
-  .figma-customer-swiper .swiper-slide-active .figma-customer-card {
-    height: 225px !important;
-    transform: translateY(-22px) !important;
-    background: #E2E6ED !important;
-    box-shadow: 0 16px 36px -8px rgba(15, 23, 42, 0.12) !important;
-  }
-
-  /* Logo Perusahaan */
-  .figma-card-logo {
-    max-height: 68px;
-    max-width: 80%;
-    object-fit: contain;
-    filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.04));
-    transition: transform 0.3s ease;
-  }
-
-  .figma-customer-swiper .swiper-slide-active .figma-card-logo {
-    max-height: 82px;
-    transform: scale(1.04);
-  }
-
-  /* Label Nama Customer di Bawah Kartu: HANYA MUNCUL DI KARTU TENGAH SEPERTI DI FIGMA */
-  .figma-customer-caption {
-    font-size: 13px;
-    font-weight: 800;
-    color: #0F172A;
-    text-align: center;
-    margin-top: 8px;
-    letter-spacing: -0.01em;
-    height: 20px;
-    line-height: 20px;
-    transition: opacity 0.35s ease, transform 0.35s ease;
-  }
-
-  .figma-customer-swiper .swiper-slide-active .figma-customer-caption {
-    opacity: 1;
-    transform: translateY(-16px);
-  }
-
-  .figma-customer-swiper .swiper-slide:not(.swiper-slide-active) .figma-customer-caption {
-    opacity: 0;
-    transform: translateY(0);
-    pointer-events: none;
-  }
-</style>
-
-<!-- SECTION WRAPPER -->
-<section class="figma-customer-section" id="clients">
-  <div style="width: 100%; margin: 0 auto; box-sizing: border-box; overflow: hidden;">
-
-    <!-- Minimalist Centered Header with Counter Effect (Persis Mockup) -->
-    <div style="text-align: center; margin-bottom: 8px;">
-      <h2 style="font-size: clamp(1.75rem, 3.5vw, 2.5rem); font-weight: 800; color: #0F172A; letter-spacing: -0.025em; margin: 0; line-height: 1.2;">
-        Trusted By Over <span class="customer-counter-number" data-target="{{ $count }}" style="color: #0F172A; font-weight: 800; font-variant-numeric: tabular-nums;">0</span>+ Companies
-      </h2>
-    </div>
-
-    <!-- SWIPER CAROUSEL: TEPAT 5 KARTU, TERKUNCI OVERFLOW HIDDEN -->
-    <div style="position: relative; width: 100%; overflow: hidden;">
-      <div class="swiper figma-customer-swiper customerSwiper">
-        <div class="swiper-wrapper">
-          
-          @foreach($displayCustomers as $customer)
-            <div class="swiper-slide">
-              
-              <!-- Rounded Card Visual -->
-              <div class="figma-customer-card">
-                <img 
-                  src="{{ $customer['logo'] }}" 
-                  alt="Logo {{ $customer['name'] }}" 
-                  loading="lazy"
-                  class="figma-card-logo"
-                />
-              </div>
-
-              <!-- Label Nama Klien (Hanya muncul di kartu tengah seperti 'Pakuwon Group' di mockup) -->
-              <div class="figma-customer-caption">
-                {{ $customer['name'] }}
-              </div>
-
-            </div>
-          @endforeach
-
+<!-- ========================================================
+     FIGMA DESIGN: TRUSTED BY OVER 1,000+ COMPANY
+     100% Pixel-Accurate to Figma Screenshot 1
+     ======================================================== -->
+<section class="trusted-by-section" id="trusted-by">
+  <div class="trusted-by-container">
+    
+    <!-- Top Header Row -->
+    <div class="trusted-header-grid">
+      <!-- Left Column: Title & Counter -->
+      <div class="trusted-title-wrap">
+        <div class="trusted-line-one">
+          <span class="trusted-label-over">Trusted By Over</span>
+          <div class="trusted-red-rule" aria-hidden="true"></div>
+        </div>
+        <div class="trusted-line-two">
+          <span class="trusted-counter-red"><span class="counter-val" data-target="1000">1,000</span>+</span>
+          <span class="trusted-company-text">Companies</span>
         </div>
       </div>
+
+      <!-- Right Column: Subtitle Text -->
+      <div class="trusted-subtitle-wrap">
+        <p class="trusted-subtitle">Support electrical needs across industries.</p>
+      </div>
+    </div>
+
+    <!-- 5 Customer Logo Cards Grid -->
+    <div class="trusted-cards-grid">
+      @foreach($clientLogos as $client)
+        <div class="trusted-logo-card" title="{{ $client['name'] }}">
+          <img 
+            src="{{ $client['logo'] }}" 
+            alt="{{ $client['alt'] }}" 
+            loading="lazy"
+            class="trusted-logo-img"
+          />
+        </div>
+      @endforeach
     </div>
 
   </div>
 </section>
 
-<!-- Swiper JS via CDN -->
-@once
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-@endonce
+<style>
+  /* ========================================================
+     TRUSTED BY OVER 1,000+ COMPANY STYLES (FIGMA MATCH)
+     ======================================================== */
+  .trusted-by-section {
+    width: 100%;
+    max-width: 1200px;
+    margin: 30px auto 10px auto;
+    padding: 0 16px;
+    box-sizing: border-box;
+  }
 
-<!-- JAVASCRIPT: SWIPER 5-SLIDES & COUNTER ANIMATION -->
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    // 1. Inisialisasi Counter Effect untuk "1000+"
-    const counterEl = document.querySelector('.customer-counter-number');
-    if (counterEl) {
-      let counterStarted = false;
-      const target = parseInt(counterEl.getAttribute('data-target') || '1000', 10);
-      const duration = 1600;
+  .trusted-by-container {
+    width: 100%;
+  }
 
-      const animateCount = () => {
-        const startTime = performance.now();
-        const step = (now) => {
-          const elapsed = now - startTime;
-          const progress = Math.min(elapsed / duration, 1);
-          const easeOut = 1 - Math.pow(1 - progress, 4);
-          const current = Math.floor(easeOut * target);
-          
-          counterEl.textContent = current;
+  /* Header Row */
+  .trusted-header-grid {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
 
-          if (progress < 1) {
-            requestAnimationFrame(step);
-          } else {
-            counterEl.textContent = target;
-          }
-        };
-        requestAnimationFrame(step);
-      };
+  .trusted-title-wrap {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 320px;
+  }
 
-      if ('IntersectionObserver' in window) {
-        const observer = new IntersectionObserver((entries) => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting && !counterStarted) {
-              counterStarted = true;
-              animateCount();
-            }
-          });
-        }, { threshold: 0.2 });
+  .trusted-line-one {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+  }
 
-        const targetSection = document.getElementById('clients');
-        if (targetSection) observer.observe(targetSection);
-      } else {
-        animateCount();
-      }
+  .trusted-label-over {
+    font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: clamp(1.4rem, 2.2vw, 2rem);
+    font-weight: 800;
+    color: #0F172A;
+    letter-spacing: -0.02em;
+    white-space: nowrap;
+    line-height: 1.1;
+  }
+
+  .trusted-red-rule {
+    flex: 1;
+    max-width: 420px;
+    height: 2.5px;
+    background: #E11D48;
+    border-radius: 9999px;
+  }
+
+  .trusted-line-two {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin-top: 4px;
+    padding-left: clamp(24px, 4vw, 55px);
+  }
+
+  .trusted-counter-red {
+    font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: clamp(1.6rem, 2.5vw, 2.3rem);
+    font-weight: 900;
+    color: #E11D48;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+
+  .trusted-company-text {
+    font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: clamp(1.4rem, 2.2vw, 2rem);
+    font-weight: 800;
+    color: #0F172A;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+
+  .trusted-subtitle-wrap {
+    display: flex;
+    align-items: flex-end;
+    padding-bottom: 4px;
+  }
+
+  .trusted-subtitle {
+    font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-size: clamp(0.95rem, 1.2vw, 1.125rem);
+    color: #334155;
+    font-weight: 500;
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  /* 5 Logo Cards Grid (Persis di Mockup) */
+  .trusted-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .trusted-logo-card {
+    background: #D8DCE3;
+    border-radius: 22px;
+    height: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 24px;
+    box-sizing: border-box;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: none !important;
+  }
+
+  .trusted-logo-card:hover {
+    transform: translateY(-4px);
+    background: #E2E6ED;
+    box-shadow: none !important;
+  }
+
+  .trusted-logo-img {
+    max-height: 64px;
+    max-width: 85%;
+    object-fit: contain;
+    filter: none !important;
+    transition: transform 0.3s ease;
+  }
+
+  .trusted-logo-card:hover .trusted-logo-img {
+    transform: scale(1.05);
+  }
+
+  /* Responsive Breakpoints */
+  @media (max-width: 992px) {
+    .trusted-cards-grid {
+      grid-template-columns: repeat(3, 1fr);
     }
+    .trusted-red-rule {
+      max-width: 260px;
+    }
+  }
 
-    // 2. Inisialisasi Swiper Centered 5-Slides (Menampilkan 5 kartu di Desktop, kartu ke-3 selalu di tengah)
-    const customerSwiper = new Swiper('.customerSwiper', {
-      centeredSlides: true,
-      loop: true,
-      initialSlide: 2, // Pakuwon Group tepat di tengah mula-mula
-      speed: 600,
-      grabCursor: true,
-      slideToClickedSlide: true,
-      spaceBetween: 16,
+  @media (max-width: 640px) {
+    .trusted-cards-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+    .trusted-logo-card {
+      height: 110px;
+      border-radius: 16px;
+      padding: 14px;
+    }
+    .trusted-logo-img {
+      max-height: 48px;
+    }
+    .trusted-header-grid {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .trusted-line-two {
+      padding-left: 0;
+    }
+    .trusted-red-rule {
+      display: none;
+    }
+  }
+</style>
 
-      // Mobile: 1 - 2 kartu
-      slidesPerView: 1.4,
+<script>
+  // Subtle counter animation if target is present
+  document.addEventListener('DOMContentLoaded', () => {
+    const counter = document.querySelector('.trusted-counter-red .counter-val');
+    if (!counter) return;
 
-      autoplay: {
-        delay: 3500,
-        disableOnInteraction: false,
-        pauseOnMouseEnter: true,
-      },
+    let hasRun = false;
+    const target = 1000;
+    const duration = 1400;
 
-      breakpoints: {
-        480: {
-          slidesPerView: 2.1,
-          spaceBetween: 16,
-        },
-        640: {
-          slidesPerView: 3.1,
-          spaceBetween: 18,
-        },
-        768: {
-          slidesPerView: 3.8,
-          spaceBetween: 20,
-        },
-        1024: {
-          slidesPerView: 5, // Tepat 5 kartu di Desktop persis seperti mockup Figma
-          spaceBetween: 18,
-        },
-        1280: {
-          slidesPerView: 5, // Tetap 5 kartu di Desktop layar lebar (tidak akan meluber saat zoom-out)
-          spaceBetween: 20,
+    const runCounter = () => {
+      const start = performance.now();
+      const step = (now) => {
+        const elapsed = now - start;
+        const progress = Math.min(elapsed / duration, 1);
+        const ease = 1 - Math.pow(1 - progress, 4);
+        const val = Math.floor(ease * target);
+        counter.textContent = val.toLocaleString();
+        if (progress < 1) {
+          requestAnimationFrame(step);
+        } else {
+          counter.textContent = "1,000";
         }
-      },
+      };
+      requestAnimationFrame(step);
+    };
 
-      on: {
-        init: function () {
-          this.update();
-        },
-      }
-    });
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting && !hasRun) {
+          hasRun = true;
+          runCounter();
+        }
+      }, { threshold: 0.3 });
+      const sec = document.getElementById('trusted-by');
+      if (sec) observer.observe(sec);
+    } else {
+      runCounter();
+    }
   });
 </script>

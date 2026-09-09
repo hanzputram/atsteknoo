@@ -98,7 +98,7 @@
     background: linear-gradient(135deg, #FFFFFF 20%, #93C5FD 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-  }
+  } 
 
   .ats-showcase-desc {
     font-size: 0.92rem;
