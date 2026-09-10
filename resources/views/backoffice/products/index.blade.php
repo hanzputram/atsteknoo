@@ -89,16 +89,16 @@
               </div>
             </td>
             <td>
-              <span style="font-family: monospace; font-weight: 700; color: #0F172A; background: #F1F5F9; padding: 3px 6px; border-radius: 4px;">{{ $p->sku }}</span>
+              <span style="font-family: monospace; font-weight: 700; color: #0F172A; background: #F1F5F9; padding: 4px 8px; border-radius: 4px; white-space: nowrap; font-size: 12px; display: inline-block;">{{ $p->sku }}</span>
             </td>
             <td>
-              <div style="font-weight: 700; color: #0F172A;">
+              <div style="font-weight: 700; color: #0F172A; line-height: 1.35;">
                 <a href="{{ route('backoffice.products.edit', $p->id) }}" style="color: inherit; text-decoration: none;">
                   {{ $p->name }}
                 </a>
               </div>
               @if($p->short_description)
-                <div style="font-size: 12px; color: #64748B; margin-top: 2px;">{{ Str::limit($p->short_description, 60) }}</div>
+                <div style="font-size: 12px; color: #64748B; margin-top: 4px; line-height: 1.4;">{{ Str::limit($p->short_description, 70) }}</div>
               @endif
             </td>
             <td>

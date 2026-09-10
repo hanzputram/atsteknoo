@@ -1,91 +1,120 @@
 @extends('backoffice.layouts.app')
 
 @section('title', 'Detail Pesan Masuk')
-@section('header', 'Detail Pesan Masuk')
+@section('breadcrumb', 'Detail Pesan Masuk')
 
 @section('content')
-<div class="max-w-3xl mx-auto space-y-6">
-    <div class="flex items-center justify-between">
-        <a href="{{ route('backoffice.inquiries.index') }}" class="inline-flex items-center gap-2 text-sm text-slate-500 hover:text-slate-800 transition">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
-            Kembali ke Daftar Pesan
+<div class="page-header">
+  <div style="display: flex; align-items: center; gap: 14px;">
+    <a href="{{ route('backoffice.inquiries.index') }}" class="btn btn-secondary btn-sm">
+      &larr; Kembali
+    </a>
+    <div>
+      <h1 class="page-title">{{ $inquiry->subject ?: '(Tanpa Subjek)' }}</h1>
+      <p class="page-subtitle">Diterima pada {{ $inquiry->created_at->format('d F Y, H:i:s') }} ({{ $inquiry->created_at->diffForHumans() }})</p>
+    </div>
+  </div>
+
+  <!-- Form Ubah Status -->
+  <form action="{{ route('backoffice.inquiries.status', $inquiry->id) }}" method="POST" style="display: flex; align-items: center; gap: 8px;">
+    @csrf
+    <label style="font-size: 13px; font-weight: 600; color: var(--color-text-muted);">Status:</label>
+    <select name="status" onchange="this.form.submit()" style="padding: 6px 12px; font-size: 13px; border-radius: 8px; border: 1px solid var(--color-border); font-weight: 600; background: #FFF;">
+      <option value="unread" {{ $inquiry->status === 'unread' ? 'selected' : '' }}>Baru / Belum Dibaca</option>
+      <option value="read" {{ $inquiry->status === 'read' ? 'selected' : '' }}>Sudah Dibaca</option>
+      <option value="handled" {{ $inquiry->status === 'handled' ? 'selected' : '' }}>Selesai Ditangani</option>
+      <option value="spam" {{ $inquiry->status === 'spam' ? 'selected' : '' }}>Tandai Spam</option>
+    </select>
+  </form>
+</div>
+
+<div class="panel-card" style="max-width: 900px;">
+  <div class="panel-body" style="display: flex; flex-direction: column; gap: 24px;">
+    <!-- Info Status & Pengirim -->
+    <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 18px; border-bottom: 1px solid var(--color-border);">
+      <div>
+        <span style="font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; color: #64748B; font-weight: 700;">Status Pesan</span>
+        <div style="margin-top: 4px;">
+          @if($inquiry->status === 'unread')
+            <span class="badge badge-danger" style="font-size: 12px; padding: 4px 10px;">Baru / Belum Ditangani</span>
+          @elseif($inquiry->status === 'read')
+            <span class="badge badge-info" style="font-size: 12px; padding: 4px 10px;">Sudah Dibaca</span>
+          @elseif($inquiry->status === 'handled')
+            <span class="badge badge-success" style="font-size: 12px; padding: 4px 10px;">Selesai Ditangani</span>
+          @else
+            <span class="badge badge-neutral" style="font-size: 12px; padding: 4px 10px;">Spam</span>
+          @endif
+        </div>
+      </div>
+      <div>
+        <span style="font-size: 12px; color: #64748B;">ID Pesan: #INQ-{{ str_pad($inquiry->id, 5, '0', STR_PAD_LEFT) }}</span>
+      </div>
+    </div>
+
+    <!-- Sender Details Box -->
+    <div style="background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 12px; padding: 18px; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px;">
+      <div>
+        <div style="font-size: 11px; text-transform: uppercase; font-weight: 700; color: #64748B; margin-bottom: 4px;">Identitas Pengirim</div>
+        <div style="font-size: 15px; font-weight: 700; color: #0F172A;">{{ $inquiry->name }}</div>
+        @if($inquiry->company)
+          <div style="font-size: 13px; color: #475569; margin-top: 2px;">{{ $inquiry->company }}</div>
+        @endif
+      </div>
+
+      <div>
+        <div style="font-size: 11px; text-transform: uppercase; font-weight: 700; color: #64748B; margin-bottom: 4px;">Kontak Email</div>
+        <a href="mailto:{{ $inquiry->email }}" style="font-size: 13.5px; color: #E11D48; font-weight: 600; text-decoration: none;">
+          {{ $inquiry->email }}
         </a>
+      </div>
 
-        <!-- Form Ubah Status -->
-        <form action="{{ route('backoffice.inquiries.status', $inquiry->id) }}" method="POST" class="flex items-center gap-2">
-            @csrf
-            <select name="status" onchange="this.form.submit()" class="text-xs font-semibold px-3 py-1.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 bg-white">
-                <option value="unread" {{ $inquiry->status === 'unread' ? 'selected' : '' }}>Baru / Belum Dibaca</option>
-                <option value="read" {{ $inquiry->status === 'read' ? 'selected' : '' }}>Sudah Dibaca</option>
-                <option value="handled" {{ $inquiry->status === 'handled' ? 'selected' : '' }}>Selesai Ditangani</option>
-                <option value="spam" {{ $inquiry->status === 'spam' ? 'selected' : '' }}>Tandai Spam</option>
-            </select>
+      <div>
+        <div style="font-size: 11px; text-transform: uppercase; font-weight: 700; color: #64748B; margin-bottom: 4px;">Nomor Telepon / WA</div>
+        @if($inquiry->phone)
+          <div style="font-size: 13.5px; font-weight: 600; font-family: monospace; color: #0F172A;">
+            {{ $inquiry->phone }}
+          </div>
+          <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $inquiry->phone) }}" target="_blank" style="display: inline-block; font-size: 12px; font-weight: 700; color: #059669; text-decoration: underline; margin-top: 2px;">
+            Hubungi via WhatsApp &rarr;
+          </a>
+        @else
+          <span style="font-size: 13px; color: #94A3B8; font-style: italic;">Tidak dicantumkan</span>
+        @endif
+      </div>
+    </div>
+
+    <!-- Message Content -->
+    <div>
+      <div style="font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700; color: #475569; margin-bottom: 8px;">
+        Isi Pesan / Kebutuhan Proyek
+      </div>
+      <div style="background: #FFFFFF; border: 1px solid var(--color-border); border-radius: 12px; padding: 20px; font-size: 14px; line-height: 1.7; color: #1E293B; white-space: pre-wrap;">{{ $inquiry->message }}</div>
+    </div>
+
+    <!-- Actions -->
+    <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; padding-top: 18px; border-top: 1px solid var(--color-border);">
+      <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+        <a href="mailto:{{ $inquiry->email }}?subject=Re: {{ urlencode($inquiry->subject) }}" class="btn btn-primary btn-sm">
+          <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+          Balas via Email
+        </a>
+        @if($inquiry->phone)
+          <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $inquiry->phone) }}?text={{ urlencode('Halo Bapak/Ibu ' . $inquiry->name . ', terima kasih telah menghubungi PT. Anugerah Tama Sejati.') }}" target="_blank" class="btn btn-secondary btn-sm" style="color: #059669; font-weight: 700;">
+            Kirim WhatsApp
+          </a>
+        @endif
+      </div>
+
+      @if(auth()->user()->isAdmin())
+        <form action="{{ route('backoffice.inquiries.destroy', $inquiry->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus pesan ini?')" style="display: inline;">
+          @csrf
+          @method('DELETE')
+          <button type="submit" class="btn btn-danger btn-sm">
+            Hapus Pesan
+          </button>
         </form>
+      @endif
     </div>
-
-    <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-6 sm:p-8 space-y-6">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-6 border-b border-slate-100 gap-4">
-            <div>
-                <h2 class="text-xl font-bold text-slate-900">{{ $inquiry->subject ?: '(Tanpa Subjek)' }}</h2>
-                <div class="text-xs text-slate-400 mt-1">Diterima pada {{ $inquiry->created_at->format('d F Y, pukul H:i:s') }}</div>
-            </div>
-            <div>
-                @if($inquiry->status === 'handled')
-                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">Selesai Ditangani</span>
-                @else
-                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-200">Status: {{ ucfirst($inquiry->status) }}</span>
-                @endif
-            </div>
-        </div>
-
-        <!-- Info Pengirim -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-slate-50/70 p-4 rounded-xl border border-slate-100 text-sm">
-            <div>
-                <span class="text-xs text-slate-400 block mb-0.5">Nama Pengirim</span>
-                <span class="font-semibold text-slate-800">{{ $inquiry->name }}</span>
-                @if($inquiry->company)
-                    <span class="text-xs text-slate-500 block">Perusahaan: {{ $inquiry->company }}</span>
-                @endif
-            </div>
-            <div>
-                <span class="text-xs text-slate-400 block mb-0.5">Kontak Pengirim</span>
-                <a href="mailto:{{ $inquiry->email }}" class="text-blue-600 hover:underline block">{{ $inquiry->email }}</a>
-                @if($inquiry->phone)
-                    <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $inquiry->phone) }}" target="_blank" class="text-emerald-600 hover:underline font-mono text-xs block mt-0.5">WhatsApp / Telp: {{ $inquiry->phone }}</a>
-                @endif
-            </div>
-        </div>
-
-        <!-- Isi Pesan -->
-        <div>
-            <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Isi Pesan / Kebutuhan Teknis</h3>
-            <div class="p-5 rounded-xl bg-white border border-slate-200 text-slate-800 whitespace-pre-line leading-relaxed text-sm">
-                {{ $inquiry->message }}
-            </div>
-        </div>
-
-        <!-- Tindakan Balas -->
-        <div class="pt-4 border-t border-slate-100 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <a href="mailto:{{ $inquiry->email }}?subject=Re: {{ urlencode($inquiry->subject) }}" class="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs rounded-xl shadow-sm transition">
-                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-                    Balas via Email
-                </a>
-                @if($inquiry->phone)
-                <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $inquiry->phone) }}?text={{ urlencode('Halo Bapak/Ibu ' . $inquiry->name . ', terima kasih telah menghubungi PT. Anugerah Tama Sejati.') }}" target="_blank" class="inline-flex items-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs rounded-xl shadow-sm transition">
-                    Hubungi via WhatsApp
-                </a>
-                @endif
-            </div>
-
-            @if(auth()->user()->isAdmin())
-            <form action="{{ route('backoffice.inquiries.destroy', $inquiry->id) }}" method="POST" onsubmit="return confirm('Hapus pesan ini?')">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="text-xs text-red-500 hover:text-red-700 font-medium">Hapus Pesan</button>
-            </form>
-            @endif
-        </div>
-    </div>
+  </div>
 </div>
 @endsection

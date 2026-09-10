@@ -8,6 +8,85 @@
   <meta name="description"
     content="PT. Anugerah Tama Sejati - Your trusted one-stop supplier for all electrical and wiring components. Authorized Schneider Electric Distributor Surabaya.">
 
+  <!-- GEO Meta Tags (Location & AI Crawlability) -->
+  <meta name="geo.region" content="ID-JI">
+  <meta name="geo.placename" content="Surabaya, East Java, Indonesia">
+  <meta name="geo.position" content="-7.250445;112.768845">
+  <meta name="ICBM" content="-7.250445, 112.768845">
+  <meta name="geo.country" content="ID">
+
+  <!-- Open Graph & Canonical SEO -->
+  <link rel="canonical" href="{{ url('/') }}">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="PT. Anugerah Tama Sejati - Best Electrical Supplier & Panel Maker Surabaya">
+  <meta property="og:description" content="Authorized Industrial Electrical Distributor & Switchboard Panel Maker in Surabaya, Indonesia. Schneider Electric, Legrand, GAE, Socomec.">
+  <meta property="og:url" content="{{ url('/') }}">
+  <meta property="og:site_name" content="PT. Anugerah Tama Sejati">
+  <meta property="og:locale" content="en_US">
+
+  <!-- Schema.org JSON-LD: LocalBusiness & ElectricalSupplyStore for Google & AI -->
+  <script type="application/ld+json">
+  {
+    "{{ '@context' }}": "https://schema.org",
+    "@type": ["LocalBusiness", "ElectricalSupplyStore", "WholesaleStore"],
+    "name": "PT. Anugerah Tama Sejati",
+    "alternateName": "PT ATS - Best Electrical Supplier & Panel Maker",
+    "description": "Authorized industrial electrical distributor and switchboard panel maker in Surabaya, East Java, Indonesia. Distributing Schneider Electric, Legrand, GAE Group, Socomec, Autonics, and Himel.",
+    "url": "{{ url('/') }}",
+    "telephone": "+62-31-59178887",
+    "email": "sales@atstekno.com",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Ruko Galaxi Bumi Permai J-1 No. 23",
+      "addressLocality": "Surabaya",
+      "addressRegion": "Jawa Timur",
+      "postalCode": "60134",
+      "addressCountry": "ID"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": -7.250445,
+      "longitude": 112.768845
+    },
+    "hasMap": "https://maps.google.com/?q=-7.250445,112.768845",
+    "areaServed": [
+      { "@type": "Country", "name": "Indonesia" },
+      { "@type": "State", "name": "Jawa Timur" },
+      { "@type": "City", "name": "Surabaya" },
+      { "@type": "City", "name": "Gresik" },
+      { "@type": "City", "name": "Sidoarjo" },
+      { "@type": "City", "name": "Pasuruan" }
+    ],
+    "brand": [
+      { "@type": "Brand", "name": "Schneider Electric" },
+      { "@type": "Brand", "name": "Legrand" },
+      { "@type": "Brand", "name": "GAE Group" },
+      { "@type": "Brand", "name": "Socomec" },
+      { "@type": "Brand", "name": "Autonics" },
+      { "@type": "Brand", "name": "Himel" }
+    ],
+    "sameAs": [
+      "https://www.instagram.com/ats_tekno/",
+      "https://www.tiktok.com/@ats_tekno",
+      "https://linkedin.com/company/anugerah-tama-sejati"
+    ],
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+        "opens": "08:00",
+        "closes": "17:00"
+      },
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Saturday"],
+        "opens": "08:00",
+        "closes": "16:00"
+      }
+    ]
+  }
+  </script>
+
   <!-- Google Fonts: Outfit & Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -27,7 +106,7 @@
       --color-gray: #475569;
       --color-light-gray: #94A3B8;
       --color-primary: #E11D48;
-      --color-bg-page: #F8FAFC;
+      --color-bg-page: #FFFFFF;
 
       --shadow-card: 0 20px 40px -15px rgba(225, 29, 72, 0.12), 0 10px 25px -5px rgba(0, 0, 0, 0.05);
       --shadow-float: 0 16px 36px rgba(0, 0, 0, 0.1);
@@ -166,20 +245,14 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background: rgba(255, 255, 255, 0.12);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border-radius: 12px;
-      padding: 4px;
-      border: 1px solid rgba(255, 255, 255, 0.22);
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+      background: transparent;
+      border: none;
+      box-shadow: none;
       transition: var(--transition-base);
     }
 
     .brand-logo-wrap:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-      border-color: rgba(255, 255, 255, 0.35);
+      transform: scale(1.05);
     }
 
     .brand-logo-img {
@@ -577,7 +650,7 @@
     .hero-notch-marquee-wrapper {
       position: absolute;
       bottom: 8px;
-      left: 45%;
+      left: 47%;
       right: 20px;
       height: 64px;
       z-index: 10;
@@ -1020,7 +1093,7 @@
       font-size: 12px;
     }
 
-    /* 4-Column Feature Cards Grid */
+    /* 4-Column Feature Cards Grid - Upgraded State of the Art */
     .features-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -1031,44 +1104,383 @@
     .feature-card {
       background: #FFFFFF;
       border: 1px solid #E2E8F0;
-      border-radius: 20px;
-      padding: 24px;
+      border-radius: 22px;
+      padding: 26px 22px;
       display: flex;
       flex-direction: column;
-      gap: 10px;
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.02);
-      transition: var(--transition-base);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 18px rgba(15, 23, 42, 0.03), 0 1px 3px rgba(15, 23, 42, 0.02);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3.5px;
+      opacity: 0.85;
+      transition: opacity 0.3s ease, height 0.3s ease;
+    }
+
+    .feature-card-rose::before { background: linear-gradient(90deg, #E11D48, #FDA4AF); }
+    .feature-card-blue::before { background: linear-gradient(90deg, #2563EB, #93C5FD); }
+    .feature-card-emerald::before { background: linear-gradient(90deg, #059669, #6EE7B7); }
+    .feature-card-violet::before { background: linear-gradient(90deg, #7C3AED, #C4B5FD); }
+
     .feature-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.06);
+      transform: translateY(-6px);
+      box-shadow: 0 18px 36px -4px rgba(15, 23, 42, 0.08), 0 8px 16px -4px rgba(15, 23, 42, 0.03);
       border-color: #CBD5E1;
     }
 
-    .feature-icon-wrap {
-      width: 44px;
-      height: 44px;
-      border-radius: 12px;
-      background: #FFF1F2;
-      color: #E11D48;
+    .feature-card:hover::before {
+      height: 5px;
+      opacity: 1;
+    }
+
+    .feature-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .feature-icon-box {
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 20px;
-      margin-bottom: 4px;
+      flex-shrink: 0;
+      transition: transform 0.3s ease;
     }
 
-    .feature-title {
-      font-size: 16px;
+    .feature-card:hover .feature-icon-box {
+      transform: scale(1.08) rotate(3deg);
+    }
+
+    .icon-rose {
+      background: linear-gradient(135deg, #FFF1F2 0%, #FFE4E6 100%);
+      color: #E11D48;
+      border: 1px solid #FECDD3;
+      box-shadow: 0 4px 12px rgba(225, 29, 72, 0.12);
+    }
+
+    .icon-blue {
+      background: linear-gradient(135deg, #EFF6FF 0%, #DBEAFE 100%);
+      color: #2563EB;
+      border: 1px solid #BFDBFE;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.12);
+    }
+
+    .icon-emerald {
+      background: linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%);
+      color: #059669;
+      border: 1px solid #A7F3D0;
+      box-shadow: 0 4px 12px rgba(5, 150, 105, 0.12);
+    }
+
+    .icon-violet {
+      background: linear-gradient(135deg, #F5F3FF 0%, #EDE9FE 100%);
+      color: #7C3AED;
+      border: 1px solid #DDD6FE;
+      box-shadow: 0 4px 12px rgba(124, 58, 237, 0.12);
+    }
+
+    .feature-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 10.5px;
       font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      padding: 4px 9px;
+      border-radius: 9999px;
+    }
+
+    .tag-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .tag-rose { background: #FFF1F2; color: #BE123C; border: 1px solid #FFE4E6; }
+    .tag-rose .tag-dot { background: #E11D48; }
+
+    .tag-blue { background: #EFF6FF; color: #1D4ED8; border: 1px solid #DBEAFE; }
+    .tag-blue .tag-dot { background: #2563EB; }
+
+    .tag-emerald { background: #ECFDF5; color: #047857; border: 1px solid #D1FAE5; }
+    .tag-emerald .tag-dot { background: #059669; }
+
+    .tag-violet { background: #F5F3FF; color: #6D28D9; border: 1px solid #EDE9FE; }
+    .tag-violet .tag-dot { background: #7C3AED; }
+
+    .feature-title {
+      font-size: 16.5px;
+      font-weight: 800;
       color: #0F172A;
+      margin-bottom: 8px;
+      line-height: 1.3;
     }
 
     .feature-desc {
       font-size: 13px;
       color: #64748B;
-      line-height: 1.5;
+      line-height: 1.55;
+      margin-bottom: 16px;
+      flex-grow: 1;
+    }
+
+    .feature-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 12px;
+      border-top: 1px dashed #E2E8F0;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: #64748B;
+      margin-top: auto;
+    }
+
+    .feature-arrow {
+      color: #94A3B8;
+      transition: transform 0.2s ease, color 0.2s ease;
+    }
+
+    .feature-card:hover .feature-arrow {
+      transform: translateX(4px);
+      color: #0F172A;
+    }
+
+    /* Mobile / Tablet Glassy Circular Hamburger & Right Drawer */
+    .mobile-nav-action-group {
+      display: none;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .mobile-hamburger-btn {
+      width: 44px;
+      height: 44px;
+      min-width: 44px;
+      min-height: 44px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .mobile-hamburger-btn:hover {
+      background: rgba(255, 255, 255, 0.22);
+      transform: scale(1.06);
+      border-color: rgba(255, 255, 255, 0.35);
+    }
+
+    .mobile-hamburger-btn:active {
+      transform: scale(0.94);
+    }
+
+    .mobile-drawer-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 15, 29, 0.65);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 9998;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .mobile-drawer-backdrop.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .mobile-nav-drawer {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 320px;
+      max-width: 86vw;
+      height: 100vh;
+      background: #0F172A;
+      color: #FFFFFF;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      box-shadow: -10px 0 35px rgba(0, 0, 0, 0.5);
+      border-left: 1px solid rgba(255, 255, 255, 0.1);
+      transform: translateX(100%);
+      transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+      overflow-y: auto;
+    }
+
+    .mobile-nav-drawer.open {
+      transform: translateX(0);
+    }
+
+    .drawer-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 22px 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .drawer-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .drawer-close-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .drawer-close-btn:hover {
+      background: #E11D48;
+      border-color: #E11D48;
+      transform: rotate(90deg);
+    }
+
+    .drawer-nav {
+      padding: 18px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      flex: 1;
+    }
+
+    .drawer-link {
+      padding: 13px 16px;
+      border-radius: 12px;
+      color: #E2E8F0;
+      font-size: 14.5px;
+      font-weight: 600;
+      text-decoration: none;
+      letter-spacing: 0.03em;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all 0.2s ease;
+    }
+
+    .drawer-link:hover {
+      background: rgba(255, 255, 255, 0.08);
+      color: #FFFFFF;
+      transform: translateX(4px);
+    }
+
+    .drawer-link.active {
+      background: rgba(225, 29, 72, 0.18);
+      color: #FDA4AF;
+      border-left: 3px solid #E11D48;
+      font-weight: 700;
+    }
+
+    .drawer-arrow {
+      font-size: 14px;
+      color: #64748B;
+      transition: transform 0.2s ease, color 0.2s ease;
+    }
+
+    .drawer-link:hover .drawer-arrow {
+      color: #FFFFFF;
+      transform: translateX(4px);
+    }
+
+    .drawer-footer {
+      padding: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      background: #0B1120;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .drawer-action-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .drawer-btn-primary {
+      padding: 12px;
+      border-radius: 10px;
+      background: #E11D48;
+      color: #FFFFFF;
+      font-weight: 700;
+      font-size: 13.5px;
+      border: none;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s ease;
+    }
+
+    .drawer-btn-primary:hover {
+      background: #BE123C;
+    }
+
+    .drawer-btn-whatsapp {
+      padding: 11px;
+      border-radius: 10px;
+      background: #059669;
+      color: #FFFFFF;
+      font-weight: 700;
+      font-size: 13px;
+      text-decoration: none;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: background 0.2s ease;
+    }
+
+    .drawer-btn-whatsapp:hover {
+      background: #047857;
+    }
+
+    .drawer-contact-info {
+      font-size: 11.5px;
+      color: #94A3B8;
+      line-height: 1.6;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
     }
 
     /* Website Footer Strip */
@@ -1085,7 +1497,7 @@
     }
 
     /* ========================================================
-       RESPONSIVE ADAPTATIONS
+       RESPONSIVE ADAPTATIONS (PRESERVES DESKTOP BASELINE)
        ======================================================== */
     @media (max-width: 1200px) {
       .features-grid {
@@ -1095,20 +1507,52 @@
 
     @media (max-width: 1120px) {
       .hero-inner-wrapper {
-        padding: 36px 40px 48px 40px;
+        padding: 36px 40px 84px 40px;
       }
 
       .hero-main-grid {
         grid-template-columns: 1fr;
-        gap: 40px;
+        gap: 36px;
       }
 
       .hero-showcase-column {
-        justify-content: flex-start;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
       }
 
-      .cert-carousel-card {
-        max-width: 100%;
+      .card-carousel-container {
+        align-items: center;
+        width: 100%;
+      }
+
+      .hero-notch-marquee-wrapper {
+        left: 16px;
+        right: 16px;
+        bottom: 8px;
+        height: 60px;
+      }
+    }
+
+    @media (max-width: 1024px) {
+      .desktop-nav-only {
+        display: none !important;
+      }
+
+      .mobile-nav-action-group {
+        display: flex !important;
+      }
+
+      .hero-navbar {
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        width: 100% !important;
+      }
+
+      .features-grid {
+        grid-template-columns: repeat(2, 1fr);
       }
     }
 
@@ -1118,30 +1562,64 @@
       }
 
       .hero-inner-wrapper {
-        padding: 28px 24px 36px 24px;
-      }
-
-      .hero-navbar {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 20px;
-      }
-
-      .nav-menu {
-        flex-wrap: wrap;
-        gap: 18px;
+        padding: 24px 20px 76px 20px;
       }
 
       .hero-headline {
-        font-size: 2.35rem;
-      }
-
-      .features-grid {
-        grid-template-columns: 1fr;
+        font-size: clamp(1.85rem, 5vw, 2.35rem);
       }
 
       .carousel-stage {
         height: 240px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .hero-inner-wrapper {
+        padding: 24px 18px 74px 18px;
+      }
+
+      .hero-notch-marquee-wrapper {
+        left: 10px;
+        right: 10px;
+        bottom: 6px;
+        height: 52px;
+      }
+
+      .marquee-logo-card {
+        height: 38px;
+        padding: 4px 10px;
+      }
+
+      .marquee-logo-card img {
+        height: 22px;
+        max-width: 85px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-cta-group {
+        flex-direction: column;
+        width: 100%;
+        gap: 12px;
+      }
+
+      .btn-cta-white,
+      .btn-cta-dark {
+        width: 100%;
+        justify-content: center;
+        min-height: 48px;
+      }
+
+      .hero-headline {
+        font-size: 1.85rem;
+        line-height: 1.15;
       }
     }
   </style>
@@ -1156,17 +1634,17 @@
     <main class="hero-container" id="heroCardContainer">
 
       <!-- Native Unstretched Photo Background Layer (Clipped to Exact Notch Shape via objectBoundingBox) -->
-      <div class="hero-photo-layer">
+      <div class="hero-photo-layer" id="heroPhotoLayer">
         <img src="{{ asset('images/hero-bg.png') }}" class="hero-photo-img" alt="Electrical Engineer Control Panel">
         <div class="hero-photo-overlay"></div>
       </div>
 
       <!-- Responsive SVG Background (Same Notch & Curve Geometry as Framer) -->
-      <svg class="hero-svg-bg" viewBox="0 0 1135 648" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <svg class="hero-svg-bg" id="heroSvgBg" viewBox="0 0 1135 648" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <!-- Normalized ClipPath for zero-stretch HTML photo clipping -->
           <clipPath id="heroNormClip" clipPathUnits="objectBoundingBox">
-            <path d="M 0.08540 0.99949 C 0.08540 0.99949 0.32582 1.00064 0.34511 0.99949 C 0.36440 0.99834 0.37994 0.96806 0.37994 0.96806 L 0.43616 0.88162 C 0.43616 0.88162 0.44645 0.86731 0.46999 0.86669 C 0.49353 0.86608 0.82834 0.86669 0.91776 0.86669 C 1.00719 0.86669 0.99985 0.71554 0.99985 0.71554 L 0.99985 0.12965 C 0.99985 0.12965 0.99902 0.00000 0.91776 0.00000 C 0.83650 0.00000 0.14743 0.00000 0.07545 0.00000 C 0.00348 0.00000 0.00182 0.12965 0.00182 0.12965 C 0.00182 0.12965 -0.00227 0.72406 0.00182 0.86669 C 0.00592 1.00933 0.08540 0.99949 0.08540 0.99949 Z" />
+            <path id="heroClipPath" d="M 0.08540 0.99949 C 0.08540 0.99949 0.32582 1.00064 0.34511 0.99949 C 0.36440 0.99834 0.37994 0.96806 0.37994 0.96806 L 0.43616 0.88162 C 0.43616 0.88162 0.44645 0.86731 0.46999 0.86669 C 0.49353 0.86608 0.82834 0.86669 0.91776 0.86669 C 1.00719 0.86669 0.99985 0.71554 0.99985 0.71554 L 0.99985 0.12965 C 0.99985 0.12965 0.99902 0.00000 0.91776 0.00000 C 0.83650 0.00000 0.14743 0.00000 0.07545 0.00000 C 0.00348 0.00000 0.00182 0.12965 0.00182 0.12965 C 0.00182 0.12965 -0.00227 0.72406 0.00182 0.86669 C 0.00592 1.00933 0.08540 0.99949 0.08540 0.99949 Z" />
           </clipPath>
 
           <linearGradient id="atsBorderGrad" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -1176,7 +1654,7 @@
         </defs>
 
         <!-- Border Outline along the curved profile -->
-        <path d="M 96.934 647.668 
+        <path id="heroBorderPath" d="M 96.934 647.668 
                  C 96.934 647.668 369.806 648.415 391.702 647.668 
                  C 413.599 646.922 431.231 627.301 431.231 627.301 
                  L 495.041 571.292 
@@ -1212,11 +1690,11 @@
           </a>
 
           <!-- Desktop Navigation Items (Properly Spaced with Language Switcher) -->
-          <nav class="nav-container">
+          <nav class="nav-container desktop-nav-only">
             <ul class="nav-menu">
               <li class="nav-item active"><a href="{{ route('home') }}" data-i18n="nav.home">HOME</a></li>
               <li class="nav-item"><a href="{{ route('about.index') }}" data-i18n="nav.about">ABOUT US</a></li>
-              <li class="nav-item"><a href="{{ route('products.index') }}" data-i18n="nav.products">PRODUCTS</a></li>
+              <li class="nav-item"><a href="{{ route('price-list.index') }}" data-i18n="nav.price_list">PRICE LIST</a></li>
               <li class="nav-item"><a href="{{ route('articles.index') }}" data-i18n="nav.article">ARTICLE</a></li>
               <li class="nav-item"><a href="{{ route('contact.index') }}" data-i18n="nav.contact">CONTACT US</a></li>
             </ul>
@@ -1224,6 +1702,18 @@
             <!-- Global Multilingual Language Switcher (EN Primary / ID Secondary) -->
             @include('components.language-switcher')
           </nav>
+
+          <!-- Mobile / Tablet Right Action Group: Language Switcher + Glassy Round Hamburger -->
+          <div class="mobile-nav-action-group">
+            @include('components.language-switcher')
+            <button type="button" class="mobile-hamburger-btn" id="btnMobileNavOpen" onclick="openMobileNav()" aria-label="Open Navigation Menu">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+              </svg>
+            </button>
+          </div>
         </header>
 
         <!-- ================= HERO MAIN CONTENT ================= -->
@@ -1242,20 +1732,20 @@
 
             <!-- Action Buttons: Product List & Contact Us -->
             <div class="hero-cta-group">
-              <button type="button" class="btn-cta-white" id="btnProductList" onclick="openProductModal()">
+              <a href="{{ url('/products') }}" class="btn-cta-white" id="btnProductList">
                 <span data-i18n="hero.btn_product_list">Product List</span>
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                   <line x1="5" y1="12" x2="19" y2="12"></line>
                   <polyline points="12 5 19 12 12 19"></polyline>
                 </svg>
-              </button>
+              </a>
 
-              <button type="button" class="btn-cta-dark" id="btnContactUs" onclick="openContactModal()">
+              <a href="{{ url('/contact-us') }}" class="btn-cta-dark" id="btnContactUs">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
                 </svg>
                 <span data-i18n="hero.btn_contact_us">Contact Us</span>
-              </button>
+              </a>
             </div>
           </div>
 
@@ -1340,30 +1830,92 @@
       <!-- ================= OUR PRODUCT SECTION (SESUAI MOCKUP FIGMA) ================= -->
       @include('components.our-products')
 
-      <!-- 4-Column Feature Highlights -->
+      <!-- 4-Column Feature Highlights (Upgraded State of the Art) -->
       <section class="features-grid">
-        <div class="feature-card">
-          <div class="feature-icon-wrap">🛡️</div>
+        <div class="feature-card feature-card-rose">
+          <div class="feature-card-header">
+            <div class="feature-icon-box icon-rose">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                <path d="m9 12 2 2 4-4"></path>
+              </svg>
+            </div>
+            <span class="feature-tag tag-rose">
+              <span class="tag-dot"></span>
+              Authentic Direct
+            </span>
+          </div>
           <h3 class="feature-title" data-i18n="features.genuine_title">100% Genuine Products</h3>
           <p class="feature-desc" data-i18n="features.genuine_desc">All components come with direct manufacturer warranty and authentic certificates of origin.</p>
+          <div class="feature-card-footer">
+            <span>Warranty &amp; COO Verified</span>
+            <span class="feature-arrow">&rarr;</span>
+          </div>
         </div>
 
-        <div class="feature-card">
-          <div class="feature-icon-wrap" style="background: #EFF6FF; color: #2563EB;">⚡</div>
+        <div class="feature-card feature-card-blue">
+          <div class="feature-card-header">
+            <div class="feature-icon-box icon-blue">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                <path d="M12 11v4"></path>
+              </svg>
+            </div>
+            <span class="feature-tag tag-blue">
+              <span class="tag-dot"></span>
+              Ready to Dispatch
+            </span>
+          </div>
           <h3 class="feature-title" data-i18n="features.stock_title">Surabaya Ready Stock</h3>
           <p class="feature-desc" data-i18n="features.stock_desc">Our main warehouse maintains thousands of breaker, switchgear, and inverter SKUs ready for fast dispatch.</p>
+          <div class="feature-card-footer">
+            <span>Thousands of Active SKUs</span>
+            <span class="feature-arrow">&rarr;</span>
+          </div>
         </div>
 
-        <div class="feature-card">
-          <div class="feature-icon-wrap" style="background: #ECFDF5; color: #059669;">🚚</div>
+        <div class="feature-card feature-card-emerald">
+          <div class="feature-card-header">
+            <div class="feature-icon-box icon-emerald">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="1" y="3" width="15" height="13"></rect>
+                <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+                <circle cx="5.5" cy="18.5" r="2.5"></circle>
+                <circle cx="18.5" cy="18.5" r="2.5"></circle>
+              </svg>
+            </div>
+            <span class="feature-tag tag-emerald">
+              <span class="tag-dot"></span>
+              Sabang - Merauke
+            </span>
+          </div>
           <h3 class="feature-title" data-i18n="features.logistics_title">Nationwide Logistics</h3>
           <p class="feature-desc" data-i18n="features.logistics_desc">Dependable, insured freight logistics delivering safely to industrial project sites across Indonesia.</p>
+          <div class="feature-card-footer">
+            <span>Insured Site Delivery</span>
+            <span class="feature-arrow">&rarr;</span>
+          </div>
         </div>
 
-        <div class="feature-card">
-          <div class="feature-icon-wrap" style="background: #FDF4FF; color: #C026D3;">💬</div>
+        <div class="feature-card feature-card-violet">
+          <div class="feature-card-header">
+            <div class="feature-icon-box icon-violet">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+              </svg>
+            </div>
+            <span class="feature-tag tag-violet">
+              <span class="tag-dot"></span>
+              Certified Panel
+            </span>
+          </div>
           <h3 class="feature-title" data-i18n="features.support_title">Engineering Specialists</h3>
           <p class="feature-desc" data-i18n="features.support_desc">Consult your Bill of Quantities (BoQ), switchboard sizing, or automation needs directly with certified engineers.</p>
+          <div class="feature-card-footer">
+            <span>BoQ &amp; Sizing Consultation</span>
+            <span class="feature-arrow">&rarr;</span>
+          </div>
         </div>
       </section>
 
@@ -1373,6 +1925,9 @@
 
   <!-- ================= ENDLESS 3D CAROUSEL: OUR PROJECTS (FRAMER-INSPIRED) ================= -->
   @include('components.our-projects-carousel')
+
+  <!-- ================= TECHNICAL ARTICLES & INSIGHTS (GEO & AI OPTIMIZED) ================= -->
+  @include('components.home-articles')
 
   <!-- Industrial Skyline Footer with 3 Interactive Google Maps Embeds (Full Width - Outside Container) -->
   @include('components.footer')
@@ -1467,7 +2022,12 @@
     <div class="modal-box" onclick="event.stopPropagation()">
       <div class="modal-header">
         <div class="modal-title-wrap">
-          <h3>📞 Contact Sales &amp; Engineering Team</h3>
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E11D48" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+            </svg>
+            <h3 style="margin: 0;">Contact Sales &amp; Engineering Team</h3>
+          </div>
           <p>PT. Anugerah Tama Sejati &bull; Ready to assist with technical inquiries &amp; project quotations</p>
         </div>
         <button type="button" class="modal-close-btn" onclick="closeContactModal()" aria-label="Close">&times;</button>
@@ -1475,7 +2035,11 @@
       <div class="modal-body">
         <div class="contact-channels-list">
           <a href="https://wa.me/6281234567890?text=Hello%20PT%20Anugerah%20Tama%20Sejati,%20I%20would%20like%20to%20inquire%20about%20components%20and%20price%20quotation" target="_blank" class="contact-channel-card">
-            <div class="channel-icon-wrap" style="background: #ECFDF5; color: #059669;">💬</div>
+            <div class="channel-icon-wrap" style="background: #ECFDF5; color: #059669;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/>
+              </svg>
+            </div>
             <div class="channel-info">
               <h4>WhatsApp Official Sales</h4>
               <p>Prompt response for orders, warehouse stock verification, and formal quotation requests (08:30 - 17:00 WIB)</p>
@@ -1483,7 +2047,11 @@
           </a>
 
           <a href="tel:03159178887" class="contact-channel-card">
-            <div class="channel-icon-wrap" style="background: #EFF6FF; color: #2563EB;">📞</div>
+            <div class="channel-icon-wrap" style="background: #EFF6FF; color: #2563EB;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+              </svg>
+            </div>
             <div class="channel-info">
               <h4>Surabaya Office Hotline: (031) 59178887</h4>
               <p>Call our hotline for technical coordination, project procurement &amp; tax invoicing</p>
@@ -1491,15 +2059,25 @@
           </a>
 
           <div class="contact-channel-card" style="cursor: default;">
-            <div class="channel-icon-wrap" style="background: #FEF3C7; color: #D97706;">📍</div>
+            <div class="channel-icon-wrap" style="background: #FEF3C7; color: #D97706;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" />
+                <circle cx="12" cy="10" r="3" />
+              </svg>
+            </div>
             <div class="channel-info">
               <h4>Head Office &amp; Main Warehouse</h4>
-              <p>Jl. Kenjeran No. 485, Gading, Tambaksari, Surabaya, East Java 60134, Indonesia</p>
+              <p>Ruko Galaxi Bumi Permai J-1 No. 23, Surabaya, East Java, Indonesia</p>
             </div>
           </div>
 
           <a href="mailto:sales@anugerahtamasejati.com" class="contact-channel-card">
-            <div class="channel-icon-wrap" style="background: #FDF4FF; color: #C026D3;">✉️</div>
+            <div class="channel-icon-wrap" style="background: #FDF4FF; color: #C026D3;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <rect width="20" height="16" x="2" y="4" rx="2" />
+                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+              </svg>
+            </div>
             <div class="channel-info">
               <h4>Email: sales@anugerahtamasejati.com</h4>
               <p>Submit your BoQ (Bill of Quantity) or single-line diagram for component estimations</p>
@@ -1509,6 +2087,72 @@
       </div>
     </div>
   </div>
+
+  <!-- Backdrop for Mobile Right Drawer -->
+  <div class="mobile-drawer-backdrop" id="mobileNavBackdrop" onclick="closeMobileNav()"></div>
+
+  <!-- Off-Canvas Mobile Navigation Drawer (Slides in from the RIGHT) -->
+  <aside class="mobile-nav-drawer" id="mobileNavDrawer" aria-label="Mobile Navigation">
+    <div class="drawer-header">
+      <div class="drawer-brand">
+        <div class="brand-logo-wrap" style="width: 38px; height: 38px;">
+          <img class="brand-logo-img"
+            src="{{ asset('images/ats-logo.png') }}"
+            alt="PT. Anugerah Tama Sejati Logo">
+        </div>
+        <div>
+          <div style="font-size: 14px; font-weight: 800; color: #FFFFFF; font-family: 'Outfit', sans-serif;">PT. ANUGERAH TAMA SEJATI</div>
+          <div style="font-size: 9.5px; color: #94A3B8; letter-spacing: 0.08em; text-transform: uppercase;">ELECTRICAL SUPPLIER</div>
+        </div>
+      </div>
+      <button type="button" class="drawer-close-btn" onclick="closeMobileNav()" aria-label="Close Navigation Menu">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+
+    <nav class="drawer-nav">
+      <a href="{{ route('home') }}" class="drawer-link active" onclick="closeMobileNav()">
+        <span data-i18n="nav.home">HOME</span>
+        <span class="drawer-arrow">&rarr;</span>
+      </a>
+      <a href="{{ route('about.index') }}" class="drawer-link" onclick="closeMobileNav()">
+        <span data-i18n="nav.about">ABOUT US</span>
+        <span class="drawer-arrow">&rarr;</span>
+      </a>
+      <a href="{{ route('price-list.index') }}" class="drawer-link" onclick="closeMobileNav()">
+        <span data-i18n="nav.price_list">PRICE LIST</span>
+        <span class="drawer-arrow">&rarr;</span>
+      </a>
+      <a href="{{ route('articles.index') }}" class="drawer-link" onclick="closeMobileNav()">
+        <span data-i18n="nav.article">ARTICLE</span>
+        <span class="drawer-arrow">&rarr;</span>
+      </a>
+      <a href="{{ route('contact.index') }}" class="drawer-link" onclick="closeMobileNav()">
+        <span data-i18n="nav.contact">CONTACT US</span>
+        <span class="drawer-arrow">&rarr;</span>
+      </a>
+    </nav>
+
+    <div class="drawer-footer">
+      <div class="drawer-action-buttons">
+        <a href="{{ url('/contact-us') }}" class="drawer-btn-primary" onclick="closeMobileNav();">
+          <span data-i18n="hero.btn_contact_us">Contact Us</span>
+        </a>
+        <a href="https://wa.me/6281234567890?text=Halo%20PT.%20Anugerah%20Tama%20Sejati,%20saya%20ingin%20konsultasi%20komponen%20listrik" target="_blank" class="drawer-btn-whatsapp">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
+          <span>Chat WhatsApp</span>
+        </a>
+      </div>
+      <div class="drawer-contact-info">
+        <div><strong>PT. Anugerah Tama Sejati</strong></div>
+        <div>Surabaya, Jawa Timur, Indonesia</div>
+        <div>Senin - Jumat: 08:00 - 17:00 | Sabtu: 08:00 - 16:00 WIB</div>
+      </div>
+    </div>
+  </aside>
 
   <!-- Swiper JS CDN -->
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
@@ -1550,7 +2194,7 @@
         }
       }
 
-      // Fungsi looping mundur (0 -> 2 -> 1 -> 0)
+      // Fungsi looping mundur (2 -> 1 -> 0 -> 2)
       function prevSlide() {
         if (swiper.isBeginning) {
           swiper.slideTo(swiper.slides.length - 1);
@@ -1559,40 +2203,49 @@
         }
       }
 
-      // 1. Ketika kartu diklik: otomatis loop ke giliran kartu berikutnya dan reset timer autoplay
-      swiper.on('click', () => {
-        nextSlide();
-        if (swiper.autoplay) {
-          swiper.autoplay.start();
-        }
-      });
+      // 1. Klik kartu Swiper langsung untuk slide berikutnya
+      const swiperContainer = document.getElementById('heroSwiper');
+      if (swiperContainer) {
+        swiperContainer.addEventListener('click', (e) => {
+          // Abaikan jika drag/swipe yang disengaja
+          if (swiper.animating) return;
+          nextSlide();
+        });
+      }
 
-      // 2. Deteksi gesture swipe drag: jika geser di ujung batas, loop tanpa mentok
-      swiper.on('touchEnd', () => {
-        const diff = swiper.touches.diff;
-        // diff < -35 artinya drag ke kiri (maju)
-        if (diff < -35 && swiper.isEnd) {
-          swiper.slideTo(0);
-        }
-        // diff > 35 artinya drag ke kanan (mundur)
-        else if (diff > 35 && swiper.isBeginning) {
-          swiper.slideTo(swiper.slides.length - 1);
-        }
-        if (swiper.autoplay) {
-          swiper.autoplay.start();
-        }
-      });
-
-      // Keyboard navigation (Esc untuk modal, panah kiri/kanan untuk navigasi kartu)
+      // 2. Keyboard Navigation: Arrow Left / Right & Escape
       document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
+          closeLightbox();
           closeProductModal();
           closeContactModal();
+          closeMobileNav();
         }
         if (e.key === 'ArrowRight') nextSlide();
         if (e.key === 'ArrowLeft') prevSlide();
       });
     });
+
+    // Mobile Drawer Navigation handlers (Slide in from the RIGHT)
+    function openMobileNav() {
+      const drawer = document.getElementById('mobileNavDrawer');
+      const backdrop = document.getElementById('mobileNavBackdrop');
+      if (drawer && backdrop) {
+        drawer.classList.add('open');
+        backdrop.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+    }
+
+    function closeMobileNav() {
+      const drawer = document.getElementById('mobileNavDrawer');
+      const backdrop = document.getElementById('mobileNavBackdrop');
+      if (drawer && backdrop) {
+        drawer.classList.remove('open');
+        backdrop.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    }
 
     // Modal handlers for Product List & Contact Us
     function openProductModal() {
@@ -1610,7 +2263,65 @@
     function closeContactModal() {
       document.getElementById('contactModal').classList.remove('show');
     }
+
+    // Dynamic 1:1 Responsive Hero Notch & ClipPath Geometry
+    (function() {
+      const cardEl = document.getElementById('heroCardContainer');
+      const svgEl = document.getElementById('heroSvgBg');
+      const clipEl = document.getElementById('heroNormClip');
+      const clipPathEl = document.getElementById('heroClipPath');
+      const borderPathEl = document.getElementById('heroBorderPath');
+
+      const originalDesktopNormPath = "M 0.08540 0.99949 C 0.08540 0.99949 0.32582 1.00064 0.34511 0.99949 C 0.36440 0.99834 0.37994 0.96806 0.37994 0.96806 L 0.43616 0.88162 C 0.43616 0.88162 0.44645 0.86731 0.46999 0.86669 C 0.49353 0.86608 0.82834 0.86669 0.91776 0.86669 C 1.00719 0.86669 0.99985 0.71554 0.99985 0.71554 L 0.99985 0.12965 C 0.99985 0.12965 0.99902 0.00000 0.91776 0.00000 C 0.83650 0.00000 0.14743 0.00000 0.07545 0.00000 C 0.00348 0.00000 0.00182 0.12965 0.00182 0.12965 C 0.00182 0.12965 -0.00227 0.72406 0.00182 0.86669 C 0.00592 1.00933 0.08540 0.99949 0.08540 0.99949 Z";
+      const originalDesktopBorderPath = "M 96.934 647.668 C 96.934 647.668 369.806 648.415 391.702 647.668 C 413.599 646.922 431.231 627.301 431.231 627.301 L 495.041 571.292 C 495.041 571.292 506.724 562.019 533.44 561.618 C 560.155 561.217 940.166 561.618 1041.661 561.618 C 1143.156 561.618 1134.835 463.672 1134.835 463.672 L 1134.835 84.014 C 1134.835 84.014 1133.892 0 1041.661 0 C 949.43 0 167.329 0 85.64 0 C 3.951 0 2.066 84.014 2.066 84.014 C 2.066 84.014 -2.582 469.193 2.066 561.618 C 6.714 654.043 96.934 647.668 96.934 647.668 Z";
+
+      function updateHeroGeometry() {
+        if (!cardEl || !svgEl || !clipEl || !clipPathEl || !borderPathEl) return;
+        const w = cardEl.clientWidth;
+        const h = cardEl.clientHeight;
+        if (w <= 0 || h <= 0) return;
+
+        // Desktop >= 1120px: Keep exact baseline artwork
+        if (w >= 1120) {
+          svgEl.setAttribute('viewBox', '0 0 1135 648');
+          clipEl.setAttribute('clipPathUnits', 'objectBoundingBox');
+          clipPathEl.setAttribute('d', originalDesktopNormPath);
+          borderPathEl.setAttribute('d', originalDesktopBorderPath);
+          return;
+        }
+
+        // Tablet & Mobile (< 1120px): Responsive 1:1 userSpaceOnUse geometry
+        svgEl.setAttribute('viewBox', `0 0 ${w} ${h}`);
+        clipEl.setAttribute('clipPathUnits', 'userSpaceOnUse');
+
+        const cornerR = w >= 768 ? 32 : 24;
+        const notchH = w >= 768 ? 70 : 62;
+        const notchTopY = h - notchH;
+
+        const pathD = `M ${cornerR} 0 ` +
+          `H ${w - cornerR} ` +
+          `C ${w - cornerR * 0.45} 0 ${w} ${cornerR * 0.45} ${w} ${cornerR} ` +
+          `V ${notchTopY - cornerR} ` +
+          `C ${w} ${notchTopY - cornerR * 0.45} ${w - cornerR * 0.45} ${notchTopY} ${w - cornerR} ${notchTopY} ` +
+          `H ${cornerR} ` +
+          `C ${cornerR * 0.45} ${notchTopY}, 0 ${notchTopY - cornerR * 0.45}, 0 ${notchTopY - cornerR} ` +
+          `V ${cornerR} ` +
+          `C 0 ${cornerR * 0.45}, ${cornerR * 0.45} 0, ${cornerR} 0 Z`;
+
+        clipPathEl.setAttribute('d', pathD);
+        borderPathEl.setAttribute('d', pathD);
+      }
+
+      updateHeroGeometry();
+      window.addEventListener('resize', updateHeroGeometry);
+    })();
   </script>
+
+  <!-- Floating Sidebar Button: Buy at Listrikonline (All Pages) -->
+  @include('components.floating-listrikonline-btn')
+
+  <!-- Floating Live Chat & Windows Desktop Notification -->
+  @include('components.floating-live-chat')
 
 </body>
 

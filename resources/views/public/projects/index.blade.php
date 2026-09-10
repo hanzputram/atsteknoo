@@ -1,32 +1,41 @@
 @extends('layouts.app')
 
-@section('title', 'Portofolio Proyek & Rekayasa Panel - PT. Anugerah Tama Sejati')
-@section('meta_description', 'Portofolio pekerjaan perakitan panel LVMDP, distribusi kelistrikan pabrik, dan instalasi otomasi industri oleh PT. Anugerah Tama Sejati.')
+@section('title', 'Engineering Projects Portfolio - PT. Anugerah Tama Sejati')
+@section('meta_description', 'Portfolio of low-voltage switchboard manufacturing, plant electrical distribution, and industrial automation installations by PT. Anugerah Tama Sejati.')
 
 @section('content')
 <div class="bg-slate-50 py-10 sm:py-14 border-b border-slate-200/80">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <nav class="flex items-center gap-2 text-xs text-slate-500 mb-4" aria-label="Breadcrumb">
-            <a href="{{ route('home') }}" class="hover:text-rose-600 transition">Beranda</a>
+            <a href="{{ route('home') }}" class="hover:text-rose-600 transition">
+                <span class="ats-lang-en">Home</span><span class="ats-lang-id">Beranda</span>
+            </a>
             <span>&rsaquo;</span>
-            <span class="text-slate-800 font-semibold">Portofolio Proyek</span>
+            <span class="text-slate-800 font-semibold">
+                <span class="ats-lang-en">Engineering Portfolio</span><span class="ats-lang-id">Portofolio Rekayasa</span>
+            </span>
         </nav>
 
         <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
                 <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold tracking-wider uppercase bg-rose-50 text-rose-600 border border-rose-200 mb-3">
-                    Engineering Portfolio
+                    <span class="ats-lang-en">Engineering Portfolio</span>
+                    <span class="ats-lang-id">Portofolio Rekayasa</span>
                 </span>
-                <h1 class="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">Portofolio Proyek &amp; Perakitan</h1>
+                <h1 class="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
+                    <span class="ats-lang-en">Projects &amp; Panel Manufacturing</span>
+                    <span class="ats-lang-id">Proyek &amp; Fabrikasi Panel Listrik</span>
+                </h1>
                 <p class="text-sm sm:text-base text-slate-600 mt-2 max-w-2xl">
-                    Rekam jejak instalasi switchboard, sistem proteksi genset-PLN, dan solusi kelistrikan industri di seluruh Indonesia.
+                    <span class="ats-lang-en">Proven track record in low-voltage switchboard assembly, generator-grid synchronization, and industrial electrical solutions nationwide.</span>
+                    <span class="ats-lang-id">Rekam jejak terpercaya dalam perakitan panel distribusi tegangan rendah, sinkronisasi genset, dan solusi kelistrikan industri di seluruh Indonesia.</span>
                 </p>
             </div>
 
             <!-- Categories Filter -->
             <div class="flex flex-wrap items-center gap-2">
                 <a href="{{ route('projects.index') }}" class="px-3 py-1.5 rounded-xl text-xs font-semibold {{ !request('category') ? 'bg-rose-600 text-white' : 'bg-white border border-slate-200 text-slate-700 hover:bg-slate-50' }} transition">
-                    Semua Kategori
+                    <span class="ats-lang-en">All Categories</span><span class="ats-lang-id">Semua Kategori</span>
                 </a>
                 @foreach($categories as $cat)
                 <a href="{{ route('projects.index', ['category' => $cat->slug]) }}" class="px-3 py-1.5 rounded-xl text-xs font-semibold {{ request('category') === $cat->slug ? 'bg-rose-600 text-white' : 'bg-white border border-slate-200 text-slate-700 hover:bg-slate-50' }} transition">
@@ -70,7 +79,7 @@
                         @endif
                         @if($p->completion_year)
                             <span>&bull;</span>
-                            <span>Tahun {{ $p->completion_year }}</span>
+                            <span><span class="ats-lang-en">Year</span><span class="ats-lang-id">Tahun</span> {{ $p->completion_year }}</span>
                         @endif
                     </div>
 
@@ -84,16 +93,21 @@
                 </div>
 
                 <div class="pt-4 border-t border-slate-100 flex items-center justify-between">
-                    <span class="text-xs font-semibold text-slate-400">Lingkup Rekayasa</span>
+                    <span class="text-xs font-semibold text-slate-400">
+                        <span class="ats-lang-en">Engineering Scope</span>
+                        <span class="ats-lang-id">Lingkup Rekayasa</span>
+                    </span>
                     <a href="{{ route('projects.show', $p->slug) }}" class="inline-flex items-center gap-1 text-xs font-bold text-rose-600 hover:text-rose-700 transition">
-                        Lihat Proyek &rarr;
+                        <span class="ats-lang-en">View Project &rarr;</span>
+                        <span class="ats-lang-id">Lihat Proyek &rarr;</span>
                     </a>
                 </div>
             </div>
         </div>
         @empty
         <div class="col-span-full py-16 text-center text-slate-400">
-            Belum ada proyek aktif yang ditampilkan.
+            <span class="ats-lang-en">No active projects found.</span>
+            <span class="ats-lang-id">Belum ada portofolio proyek yang ditemukan.</span>
         </div>
         @endforelse
     </div>

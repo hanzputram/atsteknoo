@@ -1,88 +1,92 @@
 @extends('backoffice.layouts.app')
 
 @section('title', 'Pesan Masuk (Inquiries)')
-@section('header', 'Pesan Masuk')
+@section('breadcrumb', 'Pesan Masuk')
 
 @section('content')
-<div class="space-y-6">
-    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <div>
-            <h2 class="text-xl font-bold text-slate-900">Kotak Masuk Pesan Pelanggan</h2>
-            <p class="text-sm text-slate-500">Pesan dan permintaan konsultasi teknis yang masuk via form kontak website</p>
-        </div>
+<div class="page-header">
+  <div>
+    <h1 class="page-title">Kotak Masuk Pesan Pelanggan</h1>
+    <p class="page-subtitle">Pesan dan permintaan konsultasi teknis yang masuk via form kontak website.</p>
+  </div>
 
-        <div class="flex items-center gap-2">
-            <a href="{{ route('backoffice.inquiries.index') }}" class="px-3 py-1.5 rounded-lg text-xs font-semibold {{ !request('status') ? 'bg-blue-600 text-white' : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50' }}">Semua</a>
-            <a href="{{ route('backoffice.inquiries.index', ['status' => 'unread']) }}" class="px-3 py-1.5 rounded-lg text-xs font-semibold {{ request('status') === 'unread' ? 'bg-blue-600 text-white' : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50' }}">Belum Dibaca</a>
-            <a href="{{ route('backoffice.inquiries.index', ['status' => 'handled']) }}" class="px-3 py-1.5 rounded-lg text-xs font-semibold {{ request('status') === 'handled' ? 'bg-blue-600 text-white' : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50' }}">Ditangani</a>
-        </div>
+  <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+    <a href="{{ route('backoffice.inquiries.index') }}" class="btn {{ !request('status') ? 'btn-primary' : 'btn-secondary' }} btn-sm">Semua</a>
+    <a href="{{ route('backoffice.inquiries.index', ['status' => 'unread']) }}" class="btn {{ request('status') === 'unread' ? 'btn-primary' : 'btn-secondary' }} btn-sm">Belum Dibaca</a>
+    <a href="{{ route('backoffice.inquiries.index', ['status' => 'handled']) }}" class="btn {{ request('status') === 'handled' ? 'btn-primary' : 'btn-secondary' }} btn-sm">Ditangani</a>
+  </div>
+</div>
+
+<div class="panel-card">
+  <div class="table-responsive">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Pengirim</th>
+          <th>Kontak</th>
+          <th>Subjek</th>
+          <th style="width: 120px;">Status</th>
+          <th style="width: 160px;">Waktu Masuk</th>
+          <th style="text-align: right; width: 140px;">Aksi</th>
+        </tr>
+      </thead>
+      <tbody>
+        @forelse($inquiries as $inq)
+          <tr style="{{ $inq->status === 'unread' ? 'background-color: #FEF2F2; font-weight: 600;' : '' }}">
+            <td>
+              <div style="font-weight: 700; color: #0F172A;">{{ $inq->name }}</div>
+              @if($inq->company)
+                <div style="font-size: 11.5px; color: #64748B; font-weight: normal;">{{ $inq->company }}</div>
+              @endif
+            </td>
+            <td>
+              <div style="font-size: 12.5px; color: #334155;">{{ $inq->email }}</div>
+              @if($inq->phone)
+                <div style="font-size: 11.5px; color: #64748B; font-family: monospace;">{{ $inq->phone }}</div>
+              @endif
+            </td>
+            <td>
+              <div style="max-width: 280px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: #0F172A;">
+                {{ $inq->subject ?: '(Tanpa Subjek)' }}
+              </div>
+            </td>
+            <td>
+              @if($inq->status === 'unread')
+                <span class="badge badge-danger">Baru</span>
+              @elseif($inq->status === 'read')
+                <span class="badge badge-info">Dibaca</span>
+              @elseif($inq->status === 'handled')
+                <span class="badge badge-success">Ditangani</span>
+              @else
+                <span class="badge badge-neutral">Spam</span>
+              @endif
+            </td>
+            <td>
+              <span style="font-size: 12px; color: #64748B; font-weight: normal;">
+                {{ $inq->created_at->format('d M Y, H:i') }}
+              </span>
+            </td>
+            <td style="text-align: right;">
+              <div style="display: inline-flex; gap: 6px;">
+                <a href="{{ route('backoffice.inquiries.show', $inq->id) }}" class="btn {{ $inq->status === 'unread' ? 'btn-primary' : 'btn-secondary' }} btn-sm">
+                  Detail Pesan
+                </a>
+              </div>
+            </td>
+          </tr>
+        @empty
+          <tr>
+            <td colspan="6" style="text-align: center; padding: 36px; color: #94A3B8;">Tidak ada pesan masuk.</td>
+          </tr>
+        @endforelse
+      </tbody>
+    </table>
+  </div>
+
+  @if($inquiries->hasPages())
+    <div style="padding: 16px 20px; border-top: 1px solid var(--color-border);">
+      {{ $inquiries->links() }}
     </div>
-
-    <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
-        <div class="overflow-x-auto">
-            <table class="w-full text-left border-collapse text-sm">
-                <thead>
-                    <tr class="bg-slate-50/80 border-b border-slate-200/80 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                        <th class="py-3.5 px-6">Pengirim</th>
-                        <th class="py-3.5 px-6">Kontak</th>
-                        <th class="py-3.5 px-6">Subjek</th>
-                        <th class="py-3.5 px-6">Status</th>
-                        <th class="py-3.5 px-6">Waktu Masuk</th>
-                        <th class="py-3.5 px-6 text-right">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-slate-100">
-                    @forelse($inquiries as $inq)
-                    <tr class="hover:bg-slate-50/60 transition {{ $inq->status === 'unread' ? 'bg-blue-50/30 font-semibold' : '' }}">
-                        <td class="py-4 px-6">
-                            <div class="text-slate-900">{{ $inq->name }}</div>
-                            @if($inq->company)
-                                <div class="text-xs text-slate-500 font-normal">{{ $inq->company }}</div>
-                            @endif
-                        </td>
-                        <td class="py-4 px-6 text-xs text-slate-600">
-                            <div>{{ $inq->email }}</div>
-                            @if($inq->phone)
-                                <div class="text-slate-400 font-mono">{{ $inq->phone }}</div>
-                            @endif
-                        </td>
-                        <td class="py-4 px-6 text-slate-800 font-medium">
-                            <span class="truncate block max-w-xs">{{ $inq->subject ?: '(Tanpa Subjek)' }}</span>
-                        </td>
-                        <td class="py-4 px-6">
-                            @if($inq->status === 'unread')
-                                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-amber-50 text-amber-700 border border-amber-200">Baru</span>
-                            @elseif($inq->status === 'read')
-                                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700 border border-blue-200">Dibaca</span>
-                            @elseif($inq->status === 'handled')
-                                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">Ditangani</span>
-                            @else
-                                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-rose-50 text-rose-700 border border-rose-200">Spam</span>
-                            @endif
-                        </td>
-                        <td class="py-4 px-6 text-xs text-slate-500 font-normal">
-                            {{ $inq->created_at->format('d M Y, H:i') }}
-                        </td>
-                        <td class="py-4 px-6 text-right">
-                            <a href="{{ route('backoffice.inquiries.show', $inq->id) }}" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-blue-50 text-blue-600 hover:bg-blue-100 rounded-lg text-xs font-semibold transition">
-                                Detail Pesan
-                            </a>
-                        </td>
-                    </tr>
-                    @empty
-                    <tr>
-                        <td colspan="6" class="py-12 text-center text-slate-400">Tidak ada pesan masuk.</td>
-                    </tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
-
-        @if($inquiries->hasPages())
-        <div class="p-4 border-t border-slate-100">
-            {{ $inquiries->links() }}
-        </div>
-        @endif
-    </div>
+  @endif
 </div>
 @endsection

@@ -224,34 +224,38 @@
     pointer-events: none;
   }
 
-  /* Label Kiri: Terpusat di sayap kiri notch (X = 20.4%) */
+  /* Label Kiri: Terpusat di sayap kiri notch */
   .shelf-label-left {
     position: absolute;
-    left: 20.4%;
+    left: 20%;
     top: 50%;
     transform: translate(-50%, -50%);
-    font-size: 18px;
-    font-weight: 600;
-    letter-spacing: 0.14em;
+    font-size: clamp(11px, 1.1vw, 15px);
+    font-weight: 700;
+    letter-spacing: clamp(0.05em, 0.08vw, 0.12em);
     color: #475569;
     text-transform: uppercase;
     white-space: nowrap;
     user-select: none;
+    max-width: 30%;
+    text-align: center;
   }
 
-  /* Label Kanan: Terpusat di sayap kanan notch (X = 79.6%) */
+  /* Label Kanan: Terpusat di sayap kanan notch */
   .shelf-label-right {
     position: absolute;
-    left: 79.6%;
+    left: 80%;
     top: 50%;
     transform: translate(-50%, -50%);
-    font-size: 18px;
-    font-weight: 600;
-    letter-spacing: 0.14em;
+    font-size: clamp(11px, 1.1vw, 15px);
+    font-weight: 700;
+    letter-spacing: clamp(0.05em, 0.08vw, 0.12em);
     color: #475569;
     text-transform: uppercase;
     white-space: nowrap;
     user-select: none;
+    max-width: 30%;
+    text-align: center;
   }
 
   /* Tombol Tengah: Tepat di titik tengah plat notch (X = 50%, Y = 50% dari bar) */
@@ -261,15 +265,27 @@
     top: 48%;
     transform: translate(-50%, -50%);
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 12px;
+    justify-content: center;
+    gap: 6px;
     pointer-events: auto;
   }
 
+  .shelf-buttons-pair {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+  }
+
   .figma-product-nav-btn {
-    width: 95px;
-    height: 65px;
-    border-radius: 9999px;
+    width: 50px;
+    height: 50px;
+    min-width: 50px;
+    min-height: 50px;
+    border-radius: 50%;
     background: #FFFFFF;
     border: 1.5px solid #E2E8F0;
     color: #0F172A;
@@ -277,7 +293,7 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05);
+    box-shadow: 0 4px 14px rgba(15, 23, 42, 0.08);
     transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
@@ -285,8 +301,8 @@
     background: #0F172A;
     color: #FFFFFF;
     border-color: #0F172A;
-    transform: scale(1.06);
-    box-shadow: 0 6px 18px rgba(15, 23, 42, 0.12);
+    transform: scale(1.08);
+    box-shadow: 0 6px 18px rgba(15, 23, 42, 0.14);
   }
 
   .figma-product-nav-btn:active {
@@ -294,13 +310,32 @@
   }
 
   .figma-product-nav-btn.swiper-button-disabled {
-    opacity: 0.4;
-    background: #F1F5F9;
+    opacity: 0.35;
+    background: #F8FAFC;
     border-color: #E2E8F0;
     color: #94A3B8;
     cursor: not-allowed;
     pointer-events: none;
     box-shadow: none;
+  }
+
+  .shelf-label-mobile {
+    display: none;
+  }
+
+  @media (max-width: 1024px) {
+    .figma-shelf-bottom-bar {
+      height: 84px;
+    }
+    .shelf-buttons-center {
+      top: 58%;
+    }
+    .figma-product-nav-btn {
+      width: 46px;
+      height: 46px;
+      min-width: 46px;
+      min-height: 46px;
+    }
   }
 
   @media (max-width: 860px) {
@@ -310,41 +345,92 @@
     }
     .figma-shelf-stage {
       aspect-ratio: auto;
-      height: 520px;
+      height: 500px;
     }
     .figma-shelf-cards-layer {
-      bottom: 120px;
+      bottom: 96px;
       top: 18px;
       left: 14px;
       right: 14px;
     }
     .figma-shelf-bottom-bar {
-      height: 85px;
+      height: 84px;
+    }
+    .shelf-buttons-center {
+      top: 58%;
     }
     .shelf-label-left {
-      left: 18%;
-      font-size: 9px;
-      letter-spacing: 0.08em;
+      left: 20%;
+      top: 50%;
+      font-size: 11px;
+      letter-spacing: 0.06em;
     }
     .shelf-label-right {
-      left: 82%;
-      font-size: 9px;
-      letter-spacing: 0.08em;
+      left: 80%;
+      top: 50%;
+      font-size: 11px;
+      letter-spacing: 0.06em;
     }
     .figma-product-nav-btn {
-      width: 42px;
-      height: 42px;
+      width: 46px;
+      height: 46px;
+      min-width: 46px;
+      min-height: 46px;
     }
   }
 
-  @media (max-width: 580px) {
+  @media (max-width: 640px) {
+    .figma-shelf-stage {
+      height: 500px;
+    }
+    .figma-shelf-cards-layer {
+      bottom: 106px;
+      top: 14px;
+      left: 12px;
+      right: 12px;
+    }
+    .figma-shelf-bottom-bar {
+      height: 98px;
+    }
     .shelf-label-left,
     .shelf-label-right {
-      display: none; /* Sembunyikan label di HP kecil agar tidak bertubrukan */
+      display: none;
     }
+    .shelf-buttons-center {
+      flex-direction: column;
+      gap: 8px;
+      top: 48%;
+    }
+    .shelf-label-mobile {
+      display: block;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      color: #334155;
+      text-transform: uppercase;
+      text-align: center;
+      user-select: none;
+      white-space: nowrap;
+    }
+    .shelf-buttons-pair {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+    }
+    /* Mobile nav button: larger, prominent, easy to tap (per user request) */
     .figma-product-nav-btn {
-      width: 38px;
-      height: 38px;
+      width: 56px;
+      height: 56px;
+      min-width: 56px;
+      min-height: 56px;
+      border-radius: 50%;
+      box-shadow: 0 6px 16px rgba(15, 23, 42, 0.12);
+    }
+    .figma-product-nav-btn svg {
+      width: 24px;
+      height: 24px;
     }
   }
 </style>
@@ -377,7 +463,7 @@
     <div class="figma-shelf-stage">
       
       <!-- Soft Clean White Shelf SVG with crisp border & subtle gradient -->
-      <svg class="figma-shelf-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1312 622" preserveAspectRatio="none" fill="none">
+      <svg class="figma-shelf-svg" id="figmaShelfSvg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1312 622" preserveAspectRatio="none" fill="none">
         <defs>
           <linearGradient id="shelfBgGrad" x1="0%" y1="0%" x2="0%" y2="100%">
             <stop offset="0%" stop-color="#FFFFFF" />
@@ -385,6 +471,7 @@
           </linearGradient>
         </defs>
         <path 
+          id="shelfBgPath"
           d="M64 0H1248C1283.35 0 1312 28.6538 1312 64V558C1312 593.346 1283.35 622 1248 622H841.2C812.286 622 786.738 603.18 778.167 575.565L773.541 560.66C767.697 541.832 750.278 529 730.563 529H581.437C561.722 529 544.303 541.832 538.459 560.66L533.833 575.565C525.262 603.18 499.714 622 470.8 622H64C28.6538 622 0 593.346 0 558V64C0 28.6538 28.6538 0 64 0Z" 
           fill="url(#shelfBgGrad)" 
           stroke="#E2E8F0" 
@@ -501,16 +588,19 @@
 
         <!-- Center Notch with Round Buttons nestled in the notch curve -->
         <div class="shelf-buttons-center">
-          <button type="button" class="figma-product-nav-btn product-prev" aria-label="Previous Product">
-            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/>
-            </svg>
-          </button>
-          <button type="button" class="figma-product-nav-btn product-next" aria-label="Next Product">
-            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/>
-            </svg>
-          </button>
+          <span class="shelf-label-mobile" data-i18n="products.shelf_label">OUR BEST SELLER PRODUCT</span>
+          <div class="shelf-buttons-pair">
+            <button type="button" class="figma-product-nav-btn product-prev" aria-label="Previous Product">
+              <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/>
+              </svg>
+            </button>
+            <button type="button" class="figma-product-nav-btn product-next" aria-label="Next Product">
+              <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/>
+              </svg>
+            </button>
+          </div>
         </div>
 
         <span class="shelf-label-right" data-i18n="products.shelf_label">OUR BEST SELLER PRODUCT</span>
@@ -522,37 +612,103 @@
 
 </section>
 
-<!-- INSIALISASI SWIPER OUR PRODUCT -->
+<!-- INISIALISASI SWIPER & RESPONSIVE SHELF GEOMETRY -->
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    new Swiper('.ourProductSwiper', {
-      slidesPerView: 1.2,
-      spaceBetween: 16,
-      speed: 500,
-      grabCursor: true,
-      loop: false,
-      navigation: {
-        nextEl: '.product-next',
-        prevEl: '.product-prev',
-      },
-      breakpoints: {
-        520: {
-          slidesPerView: 1.8,
-          spaceBetween: 16,
-        },
-        768: {
-          slidesPerView: 2.4,
-          spaceBetween: 18,
-        },
-        1024: {
-          slidesPerView: 3.2,
-          spaceBetween: 20,
-        },
-        1280: {
-          slidesPerView: 3.6,
-          spaceBetween: 22,
+  (function() {
+    function initShelf() {
+      const stageEl = document.querySelector('.figma-shelf-stage');
+      const svgEl = document.getElementById('figmaShelfSvg');
+      const pathEl = document.getElementById('shelfBgPath');
+
+      const desktopPath = "M64 0H1248C1283.35 0 1312 28.6538 1312 64V558C1312 593.346 1283.35 622 1248 622H841.2C812.286 622 786.738 603.18 778.167 575.565L773.541 560.66C767.697 541.832 750.278 529 730.563 529H581.437C561.722 529 544.303 541.832 538.459 560.66L533.833 575.565C525.262 603.18 499.714 622 470.8 622H64C28.6538 622 0 593.346 0 558V64C0 28.6538 28.6538 0 64 0Z";
+
+      function updateShelfGeometry() {
+        if (!stageEl || !svgEl || !pathEl) return;
+        const w = stageEl.clientWidth;
+        const h = stageEl.clientHeight;
+        if (w <= 0 || h <= 0) return;
+
+        // Desktop >= 1024px: Maintain exact baseline artwork
+        if (w >= 1024) {
+          svgEl.setAttribute('viewBox', '0 0 1312 622');
+          pathEl.setAttribute('d', desktopPath);
+          return;
         }
+
+        // Tablet & Mobile: 1:1 responsive geometry preserving notch & corner ratios
+        svgEl.setAttribute('viewBox', `0 0 ${w} ${h}`);
+        const cornerR = w >= 640 ? 36 : 28;
+        const notchDepth = w >= 640 ? 82 : 84;
+        const notchPlateauW = w >= 640 ? 175 : 210;
+        const chamferW = w >= 640 ? 46 : 36;
+
+        const centerX = w / 2;
+        const notchTopY = h - notchDepth;
+
+        const pLeft = centerX - notchPlateauW / 2;
+        const pRight = centerX + notchPlateauW / 2;
+        const bLeft = Math.max(cornerR + 10, pLeft - chamferW);
+        const bRight = Math.min(w - cornerR - 10, pRight + chamferW);
+
+        const d = `M ${cornerR} 0 ` +
+          `H ${w - cornerR} ` +
+          `C ${w - cornerR * 0.45} 0 ${w} ${cornerR * 0.45} ${w} ${cornerR} ` +
+          `V ${h - cornerR} ` +
+          `C ${w} ${h - cornerR * 0.45} ${w - cornerR * 0.45} ${h} ${w - cornerR} ${h} ` +
+          `H ${bRight} ` +
+          `C ${bRight - chamferW * 0.4} ${h} ${pRight + chamferW * 0.4} ${notchTopY} ${pRight} ${notchTopY} ` +
+          `H ${pLeft} ` +
+          `C ${pLeft - chamferW * 0.4} ${notchTopY} ${bLeft + chamferW * 0.4} ${h} ${bLeft} ${h} ` +
+          `H ${cornerR} ` +
+          `C ${cornerR * 0.45} ${h} 0 ${h - cornerR * 0.45} 0 ${h - cornerR} ` +
+          `V ${cornerR} ` +
+          `C 0 ${cornerR * 0.45} ${cornerR * 0.45} 0 ${cornerR} 0 Z`;
+
+        pathEl.setAttribute('d', d);
       }
-    });
-  });
+
+      updateShelfGeometry();
+      window.addEventListener('resize', updateShelfGeometry);
+
+      new Swiper('.ourProductSwiper', {
+        slidesPerView: 1.15,
+        spaceBetween: 14,
+        speed: 500,
+        grabCursor: true,
+        loop: false,
+        navigation: {
+          nextEl: '.product-next',
+          prevEl: '.product-prev',
+        },
+        breakpoints: {
+          480: {
+            slidesPerView: 1.5,
+            spaceBetween: 16,
+          },
+          640: {
+            slidesPerView: 2.1,
+            spaceBetween: 18,
+          },
+          768: {
+            slidesPerView: 2.4,
+            spaceBetween: 18,
+          },
+          1024: {
+            slidesPerView: 3.2,
+            spaceBetween: 20,
+          },
+          1280: {
+            slidesPerView: 3.6,
+            spaceBetween: 22,
+          }
+        }
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initShelf);
+    } else {
+      initShelf();
+    }
+  })();
 </script>

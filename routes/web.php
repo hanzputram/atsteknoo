@@ -4,9 +4,11 @@ use App\Http\Controllers\Backoffice\ArticleCategoryController;
 use App\Http\Controllers\Backoffice\ArticleController;
 use App\Http\Controllers\Backoffice\BackofficeAuthController;
 use App\Http\Controllers\Backoffice\BrandController;
+use App\Http\Controllers\Backoffice\CertificateController;
 use App\Http\Controllers\Backoffice\ContactInquiryController;
 use App\Http\Controllers\Backoffice\DashboardController;
 use App\Http\Controllers\Backoffice\ImportCenterController;
+use App\Http\Controllers\Backoffice\LiveChatController;
 use App\Http\Controllers\Backoffice\PageController;
 use App\Http\Controllers\Backoffice\ProductCategoryController;
 use App\Http\Controllers\Backoffice\ProductController;
@@ -21,8 +23,10 @@ use App\Http\Controllers\Public\CatalogBrandController;
 use App\Http\Controllers\Public\CatalogCategoryController;
 use App\Http\Controllers\Public\CatalogProductController;
 use App\Http\Controllers\Public\HomeController;
+use App\Http\Controllers\Public\LiveChatApiController;
 use App\Http\Controllers\Public\PortfolioProjectController;
 use App\Http\Controllers\Public\PublicContactController;
+use App\Http\Controllers\Public\SitemapController;
 use App\Http\Controllers\Public\StaticPageController;
 use Illuminate\Support\Facades\Route;
 
@@ -33,14 +37,25 @@ use Illuminate\Support\Facades\Route;
 */
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
+// Dynamic Sitemap & Robots for Google Search Console & AI Crawlers
+Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap.xml');
+Route::get('/robots.txt', [SitemapController::class, 'robots'])->name('robots.txt');
+
 // Products & Categories
 Route::get('/products', [CatalogProductController::class, 'index'])->name('products.index');
 Route::get('/products/{slug}', [CatalogProductController::class, 'show'])->name('products.show');
 Route::get('/product-categories/{slug}', [CatalogCategoryController::class, 'show'])->name('product-categories.show');
 
-// Brands
-Route::get('/brands', [CatalogBrandController::class, 'index'])->name('brands.index');
+// Price List & Brands
+Route::get('/price-list', [CatalogBrandController::class, 'index'])->name('price-list.index');
+Route::get('/pricelist', function () {
+    return redirect()->route('price-list.index');
+});
+Route::get('/brands', function () {
+    return redirect()->route('price-list.index');
+})->name('brands.index');
 Route::get('/brands/{slug}', [CatalogBrandController::class, 'show'])->name('brands.show');
+Route::get('/price-list/{slug}', [CatalogBrandController::class, 'show'])->name('price-list.show');
 
 // Projects (Portfolio)
 Route::get('/projects', [PortfolioProjectController::class, 'index'])->name('projects.index');
@@ -53,7 +68,13 @@ Route::get('/articles/{slug}', [BlogArticleController::class, 'show'])->name('ar
 // Static Pages & Contact
 Route::get('/about-us', [StaticPageController::class, 'about'])->name('about.index');
 Route::get('/contact', [PublicContactController::class, 'index'])->name('contact.index');
+Route::get('/contact-us', [PublicContactController::class, 'index'])->name('contact.us');
 Route::post('/contact', [PublicContactController::class, 'submit'])->name('contact.submit');
+Route::post('/contact-us', [PublicContactController::class, 'submit'])->name('contact.us.submit');
+
+// Real-time Live Chat API (Visitor Widget)
+Route::get('/live-chat/messages', [LiveChatApiController::class, 'getSessionMessages'])->name('live-chat.messages');
+Route::post('/live-chat/send', [LiveChatApiController::class, 'sendMessage'])->name('live-chat.send');
 
 // Protected Media Delivery
 Route::get('/media/{id}/view', [MediaDeliveryController::class, 'view'])->name('media.view');
@@ -84,6 +105,9 @@ Route::prefix('backoffice')->name('backoffice.')->group(function () {
         // Brands
         Route::resource('brands', BrandController::class);
 
+        // Certificates & Accreditations
+        Route::resource('certificates', CertificateController::class);
+
         // Projects
         Route::resource('projects', ProjectController::class);
 
@@ -107,6 +131,14 @@ Route::prefix('backoffice')->name('backoffice.')->group(function () {
         Route::get('inquiries/{id}', [ContactInquiryController::class, 'show'])->name('inquiries.show');
         Route::post('inquiries/{id}/status', [ContactInquiryController::class, 'updateStatus'])->name('inquiries.status');
         Route::delete('inquiries/{id}', [ContactInquiryController::class, 'destroy'])->name('inquiries.destroy');
+
+        // Live Chat Center (Inbox & Real-time Replies)
+        Route::get('live-chats', [LiveChatController::class, 'index'])->name('live-chats.index');
+        Route::get('live-chats/{id}', [LiveChatController::class, 'show'])->name('live-chats.show');
+        Route::post('live-chats/{id}/reply', [LiveChatController::class, 'reply'])->name('live-chats.reply');
+        Route::post('live-chats/{id}/close', [LiveChatController::class, 'close'])->name('live-chats.close');
+        Route::delete('live-chats/{id}', [LiveChatController::class, 'destroy'])->name('live-chats.destroy');
+        Route::get('live-chats/{id}/poll', [LiveChatController::class, 'poll'])->name('live-chats.poll');
 
         // Import Center
         Route::get('import-products', [ImportCenterController::class, 'index'])->name('import.index');

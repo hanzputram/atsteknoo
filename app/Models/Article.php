@@ -94,4 +94,34 @@ class Article extends Model
 
         return $this->author ? $this->author->name : 'PT. ATS Editorial Team';
     }
+
+    public function getThumbnailUrlAttribute(): string
+    {
+        if ($this->thumbnail) {
+            return route('media.view', $this->thumbnail->id);
+        }
+
+        $slugImageMap = [
+            'how-to-select-mccb-vs-acb-for-industrial-panels' => 'images/projects/project-1-substation.jpg',
+            'designing-600kvar-automatic-capacitor-banks-power-factor' => 'images/projects/project-6-smelter-heavy.jpg',
+            'vfd-harmonics-mitigation-industrial-pumping-systems' => 'images/projects/project-2-indofood-mcc.jpg',
+            'mcc-sizing-type-2-coordination-arc-flash-safety' => 'images/projects/project-4-scada-control.jpg',
+            'smart-electrical-switchboards-modbus-iot-energy-gateways' => 'images/projects/project-7-datacenter-busway.jpg',
+            'ats-generator-synchronizing-zero-downtime-tier-3' => 'images/projects/project-3-coldstorage.jpg',
+            'industrial-cable-sizing-derating-voltage-drop-calculations' => 'images/projects/project-8-industrial-park.jpg',
+        ];
+
+        if (isset($slugImageMap[$this->slug]) && file_exists(public_path($slugImageMap[$this->slug]))) {
+            return asset($slugImageMap[$this->slug]);
+        }
+
+        return asset('images/projects/project-1-substation.jpg');
+    }
+
+    public function getReadTimeAttribute(): string
+    {
+        $wordCount = str_word_count(strip_tags($this->content_html ?? ''));
+        $minutes = max(4, ceil($wordCount / 180));
+        return $minutes . ' min read';
+    }
 }

@@ -1,32 +1,42 @@
 @extends('layouts.app')
 
-@section('title', 'Artikel & Berita Teknik Kelistrikan - PT. Anugerah Tama Sejati')
-@section('meta_description', 'Artikel teknis, panduan pemilihan komponen switchboard, standar keselamatan kelistrikan, dan kabar industri oleh tim rekayasa PT. Anugerah Tama Sejati.')
+@section('title', 'Articles & Electrical Engineering Insights - PT. Anugerah Tama Sejati')
+@section('meta_description', 'Technical articles, switchboard component selection guides, electrical safety standards, and industry news by the engineering team at PT. Anugerah Tama Sejati.')
 
 @section('content')
 <div class="bg-slate-50 py-10 sm:py-14 border-b border-slate-200/80">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <nav class="flex items-center gap-2 text-xs text-slate-500 mb-4" aria-label="Breadcrumb">
-            <a href="{{ route('home') }}" class="hover:text-rose-600 transition">Beranda</a>
+            <a href="{{ route('home') }}" class="hover:text-rose-600 transition">
+                <span class="ats-lang-en">Home</span><span class="ats-lang-id">Beranda</span>
+            </a>
             <span>&rsaquo;</span>
-            <span class="text-slate-800 font-semibold">Artikel &amp; Edukasi Teknik</span>
+            <span class="text-slate-800 font-semibold">
+                <span class="ats-lang-en">Articles &amp; Engineering Insights</span>
+                <span class="ats-lang-id">Artikel &amp; Panduan Rekayasa</span>
+            </span>
         </nav>
 
         <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
                 <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold tracking-wider uppercase bg-rose-50 text-rose-600 border border-rose-200 mb-3">
-                    Technical Knowledge Base
+                    <span class="ats-lang-en">Technical Knowledge Base</span>
+                    <span class="ats-lang-id">Pusat Pengetahuan Teknis</span>
                 </span>
-                <h1 class="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">Artikel &amp; Wawasan Industri</h1>
+                <h1 class="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
+                    <span class="ats-lang-en">Articles &amp; Industry Insights</span>
+                    <span class="ats-lang-id">Artikel &amp; Wawasan Industri</span>
+                </h1>
                 <p class="text-sm sm:text-base text-slate-600 mt-2 max-w-2xl">
-                    Panduan teknis, tips pemeliharaan proteksi daya, dan inovasi terkini dalam otomasi industri.
+                    <span class="ats-lang-en">Technical engineering guides, power protection maintenance tips, and latest advancements in industrial automation.</span>
+                    <span class="ats-lang-id">Panduan rekayasa teknis, tips perawatan proteksi kelistrikan, dan perkembangan terkini otomasi industri.</span>
                 </p>
             </div>
 
             <!-- Categories Chips -->
             <div class="flex flex-wrap items-center gap-2">
                 <a href="{{ route('articles.index') }}" class="px-3 py-1.5 rounded-xl text-xs font-semibold {{ !request('category') ? 'bg-rose-600 text-white' : 'bg-white border border-slate-200 text-slate-700 hover:bg-slate-50' }} transition">
-                    Semua
+                    <span class="ats-lang-en">All</span><span class="ats-lang-id">Semua</span>
                 </a>
                 @foreach($categories as $cat)
                 <a href="{{ route('articles.index', ['category' => $cat->slug]) }}" class="px-3 py-1.5 rounded-xl text-xs font-semibold {{ request('category') === $cat->slug ? 'bg-rose-600 text-white' : 'bg-white border border-slate-200 text-slate-700 hover:bg-slate-50' }} transition">
@@ -76,16 +86,21 @@
                 </div>
 
                 <div class="pt-4 border-t border-slate-100 flex items-center justify-between">
-                    <span class="text-xs font-semibold text-slate-400">Waktu Baca ~3 menit</span>
+                    <span class="text-xs font-semibold text-slate-400">
+                        <span class="ats-lang-en">~3 min read</span>
+                        <span class="ats-lang-id">~3 mnt baca</span>
+                    </span>
                     <a href="{{ route('articles.show', $art->slug) }}" class="inline-flex items-center gap-1 text-xs font-bold text-rose-600 hover:text-rose-700 transition">
-                        Baca Artikel &rarr;
+                        <span class="ats-lang-en">Read Article &rarr;</span>
+                        <span class="ats-lang-id">Baca Artikel &rarr;</span>
                     </a>
                 </div>
             </div>
         </div>
         @empty
         <div class="col-span-full py-16 text-center text-slate-400">
-            Belum ada artikel yang dipublikasikan.
+            <span class="ats-lang-en">No published articles found.</span>
+            <span class="ats-lang-id">Belum ada artikel yang dipublikasikan.</span>
         </div>
         @endforelse
     </div>

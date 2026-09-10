@@ -26,116 +26,105 @@
       <div class="p3d-cylinder" id="p3dCylinder">
 
         @php
-          $projectData = [
-            [
-              'title' => 'Pakuwon Mall & Superblock Power Substation',
-              'badge' => 'Commercial High-Rise',
-              'badge_color' => '#E11D48',
-              'location' => 'West Surabaya, Indonesia',
-              'year' => '2024',
-              'image' => asset('images/projects/project-1-substation.jpg'),
-              'specs' => 'Schneider MasterPact MTZ 3200A • GAE Capacitor 600kVAR',
-            ],
-            [
-              'title' => 'Indofood CBP Motor Control Center (MCC)',
-              'badge' => 'Food & Beverage',
-              'badge_color' => '#10B981',
-              'location' => 'Pasuruan, East Java',
-              'year' => '2024',
-              'image' => asset('images/projects/project-2-indofood-mcc.jpg'),
-              'specs' => 'Schneider Altivar ATV930 VFD • TeSys Deca Contactors',
-            ],
-            [
-              'title' => 'PT Bumi Menara Internusa Cold Chain & SCADA',
-              'badge' => 'Cold Storage & SCADA',
-              'badge_color' => '#0284C7',
-              'location' => 'Dampit & Surabaya',
-              'year' => '2023 - 2024',
-              'image' => asset('images/projects/project-3-coldstorage.jpg'),
-              'specs' => 'Socomec ATS 1600A • GAE Digital Power Metering',
-            ],
-            [
-              'title' => 'PT Dua Kelinci Packaging Automation',
-              'badge' => 'Smart Automation',
-              'badge_color' => '#D97706',
-              'location' => 'Pati, Central Java',
-              'year' => '2024',
-              'image' => asset('images/projects/project-4-scada-control.jpg'),
-              'specs' => 'Autonics Sensors • Legrand XL³ Panels • Schneider PLC',
-            ],
-            [
-              'title' => 'Charoen Pokphand MV Switchgear & Feedmill',
-              'badge' => 'Agro-Industrial MV',
-              'badge_color' => '#9333EA',
-              'location' => 'Sidoarjo, East Java',
-              'year' => '2023',
-              'image' => asset('images/projects/project-5-packaging-vfd.jpg'),
-              'specs' => 'Schneider MasterPact 2500A • Supreme XLPE Cables',
-            ],
-            [
-              'title' => 'Freeport Smelter Heavy Industrial Switchgear',
-              'badge' => 'Heavy Mining & Smelter',
-              'badge_color' => '#BE123C',
-              'location' => 'JIIPE SEZ, Gresik',
-              'year' => '2024',
-              'image' => asset('images/projects/project-6-smelter-heavy.jpg'),
-              'specs' => 'Schneider MasterPact NW 4000A • IP66 Enclosures',
-            ],
-            [
-              'title' => 'Surabaya Tier-3 Data Center Power Busway',
-              'badge' => 'Critical Infrastructure',
-              'badge_color' => '#06B6D4',
-              'location' => 'Central Surabaya',
-              'year' => '2024',
-              'image' => asset('images/projects/project-7-datacenter-busway.jpg'),
-              'specs' => 'Dual Redundant Busway Trunking • Legrand Modular PDU',
-            ],
-            [
-              'title' => 'Maspion Industrial Estate 20kV Substation',
-              'badge' => 'Industrial Estate 20kV',
-              'badge_color' => '#6366F1',
-              'location' => 'Manyar, Gresik',
-              'year' => '2023 - 2024',
-              'image' => asset('images/projects/project-8-industrial-park.jpg'),
-              'specs' => 'Ring Main Unit (RMU) • GAE Metering • Jembo Cables',
-            ],
-            [
-              'title' => 'Petrokimia Gresik Industrial Automation',
-              'badge' => 'Chemical & Fertilizer',
-              'badge_color' => '#059669',
-              'location' => 'Gresik, East Java',
-              'year' => '2024',
-              'image' => asset('images/projects/project-1-substation.jpg'),
-              'specs' => 'Schneider TeSys Contactors • Altivar Process Inverters',
-            ],
-            [
-              'title' => 'Mayora Indah Food Processing MCC',
-              'badge' => 'Food Manufacturing',
-              'badge_color' => '#E11D48',
-              'location' => 'Pasuruan, East Java',
-              'year' => '2023 - 2024',
-              'image' => asset('images/projects/project-2-indofood-mcc.jpg'),
-              'specs' => 'Schneider Altivar 630 VFD • GAE Class 1 SPD',
-            ],
-            [
-              'title' => 'Ciputra World Surabaya Power Center',
-              'badge' => 'Commercial Complex',
-              'badge_color' => '#2563EB',
-              'location' => 'Mayjen Sungkono, Surabaya',
-              'year' => '2024',
-              'image' => asset('images/projects/project-3-coldstorage.jpg'),
-              'specs' => 'Schneider MasterPact 4000A • Socomec ATS Units',
-            ],
-            [
-              'title' => 'Teluk Lamong Port Terminal Infrastructure',
-              'badge' => 'Port & Marine Logistics',
-              'badge_color' => '#7C3AED',
-              'location' => 'Surabaya Port Zone',
-              'year' => '2023',
-              'image' => asset('images/projects/project-4-scada-control.jpg'),
-              'specs' => 'Heavy Duty Marine IP66 Panels • Fluke Power Analyzers',
-            ],
-          ];
+          if (isset($projects) && $projects->isNotEmpty()) {
+              $projectData = $projects->map(function($p) {
+                  return [
+                      'id' => $p->id,
+                      'title' => $p->title,
+                      'badge' => $p->badge_name,
+                      'badge_color' => $p->badge_color,
+                      'location' => $p->location,
+                      'year' => $p->completion_year ?? '2024',
+                      'image' => $p->image_url,
+                      'specs' => $p->scope_of_work,
+                      'summary' => $p->summary,
+                      'slug' => $p->slug,
+                  ];
+              })->toArray();
+          } else {
+              $projectData = [
+                [
+                  'title' => 'Pakuwon Mall & Superblock Power Substation',
+                  'badge' => 'Commercial High-Rise',
+                  'badge_color' => '#E11D48',
+                  'location' => 'West Surabaya, Indonesia',
+                  'year' => '2024',
+                  'image' => asset('images/projects/project-1-substation.jpg'),
+                  'specs' => 'Schneider MasterPact MTZ 3200A • GAE Capacitor 600kVAR',
+                  'summary' => 'Complete engineering, fabrication, and supply of Low Voltage Main Distribution Panels (LVMDP) for Surabaya’s largest commercial superblock.',
+                ],
+                [
+                  'title' => 'Indofood CBP Motor Control Center (MCC)',
+                  'badge' => 'Food & Beverage',
+                  'badge_color' => '#10B981',
+                  'location' => 'Pasuruan, East Java',
+                  'year' => '2024',
+                  'image' => asset('images/projects/project-2-indofood-mcc.jpg'),
+                  'specs' => 'Schneider Altivar ATV930 VFD • TeSys Deca Contactors',
+                  'summary' => 'Smart motor control center switchboards equipped with harmonic suppression inverters and thermal predictive monitoring for continuous food processing.',
+                ],
+                [
+                  'title' => 'PT Bumi Menara Internusa Cold Chain & SCADA',
+                  'badge' => 'Cold Storage & SCADA',
+                  'badge_color' => '#0284C7',
+                  'location' => 'Dampit & Surabaya',
+                  'year' => '2023 - 2024',
+                  'image' => asset('images/projects/project-3-coldstorage.jpg'),
+                  'specs' => 'Socomec ATS 1600A • GAE Digital Power Metering',
+                  'summary' => 'Integrated industrial refrigeration power distribution panels with dual-redundant automatic transfer switching and IoT SCADA telemetries.',
+                ],
+                [
+                  'title' => 'Teluk Lamong Port Terminal Infrastructure',
+                  'badge' => 'Port & Marine Logistics',
+                  'badge_color' => '#7C3AED',
+                  'location' => 'Surabaya Port Zone',
+                  'year' => '2023',
+                  'image' => asset('images/projects/project-4-scada-control.jpg'),
+                  'specs' => 'Heavy Duty Marine IP66 Panels • Fluke Power Analyzers',
+                  'summary' => 'Harsh-marine environment low-voltage distribution panels designed to IP66 standards with anti-corrosive stainless steel enclosures.',
+                ],
+                [
+                  'title' => 'PT Dua Kelinci Packaging Automation',
+                  'badge' => 'Smart Automation',
+                  'badge_color' => '#D97706',
+                  'location' => 'Pati & Central Java',
+                  'year' => '2024',
+                  'image' => asset('images/projects/project-5-packaging-vfd.jpg'),
+                  'specs' => 'Autonics Multi-Axis Servo Control • PLC Gateway',
+                  'summary' => 'Precision automation control panels driving high-speed packaging machinery with synchronized multi-axis servo drives.',
+                ],
+                [
+                  'title' => 'Freeport Indonesia Smelter Power Distribution',
+                  'badge' => 'Heavy Industry & Smelter',
+                  'badge_color' => '#DC2626',
+                  'location' => 'Manyar, Gresik',
+                  'year' => '2024',
+                  'image' => asset('images/projects/project-6-smelter-heavy.jpg'),
+                  'specs' => 'Schneider MasterPact NW 4000A • IP66 Enclosures',
+                  'summary' => 'Heavy-duty 4000A copper busbar power centers built for continuous chemical and copper metallurgical smelting operations.',
+                ],
+                [
+                  'title' => 'Surabaya Tier-3 Data Center Power Busway',
+                  'badge' => 'Critical Infrastructure',
+                  'badge_color' => '#06B6D4',
+                  'location' => 'Central Surabaya',
+                  'year' => '2024',
+                  'image' => asset('images/projects/project-7-datacenter-busway.jpg'),
+                  'specs' => 'Dual Redundant Busway Trunking • Legrand Modular PDU',
+                  'summary' => '2N dual-path electrical busway infrastructure and modular power distribution units guaranteeing 99.982% uptime for mission-critical servers.',
+                ],
+                [
+                  'title' => 'Maspion Industrial Estate 20kV Substation',
+                  'badge' => 'Industrial Estate 20kV',
+                  'badge_color' => '#6366F1',
+                  'location' => 'Manyar, Gresik',
+                  'year' => '2023 - 2024',
+                  'image' => asset('images/projects/project-8-industrial-park.jpg'),
+                  'specs' => 'Ring Main Unit (RMU) • GAE Metering • Jembo Cables',
+                  'summary' => 'Medium voltage 20kV step-down substation and low-voltage secondary switchgear servicing multi-tenant heavy manufacturing plants.',
+                ],
+              ];
+          }
         @endphp
 
         @foreach($projectData as $index => $item)
@@ -792,189 +781,20 @@
      JAVASCRIPT LOGIC: 3D CYLINDRICAL MATH & PHYSICS DAMPING
      ======================================================== -->
 <script>
-  // Project Detailed Data Directory (English)
-  const p3dProjectsData = [
-    {
-      title: "Pakuwon Mall & Superblock Power Substation",
-      badge: "Commercial High-Rise",
-      location: "West Surabaya, Indonesia",
-      year: "2024",
-      image: "{{ asset('images/projects/project-1-substation.jpg') }}",
-      desc: "Procurement and turnkey supply of primary 20kV power substation equipment and Low Voltage Main Distribution Panels (LVMDP) for East Java's largest retail and superblock residential center. Engineered for seamless high-load continuity.",
-      boq: [
-        "Schneider MasterPact MTZ 3200A Air Circuit Breakers (ACB)",
-        "Schneider ComPact NSX Molded Case Circuit Breakers (MCCB)",
-        "GAE Automatic Power Factor Correction (PFC) Bank 600 kVAR",
-        "Digital Multi-Function Power Quality & Harmonics Analyzer"
-      ],
-      waText: "Hello PT ATS, I would like to inquire about substation equipment and LVMDP panels similar to the Pakuwon Mall project."
-    },
-    {
-      title: "Indofood CBP Motor Control Center (MCC)",
-      badge: "Food & Beverage",
-      location: "Pasuruan, East Java",
-      year: "2024",
-      image: "{{ asset('images/projects/project-2-indofood-mcc.jpg') }}",
-      desc: "Custom assembly and supply of hygienic stainless-steel Motor Control Center (MCC) panels for high-throughput food processing lines. Features Schneider Altivar variable frequency drives for ultra-precise motor synchronization.",
-      boq: [
-        "Schneider Altivar Process ATV930 Variable Speed Drives",
-        "Schneider TeSys Deca & TeSys F Heavy Duty Contactors",
-        "Schneider TeSys LRD Electronic Thermal Overload Relays",
-        "IP54 Stainless-Steel Enclosures & Emergency Safety Interlocks"
-      ],
-      waText: "Hello PT ATS, I would like a quotation for Motor Control Center (MCC) panels and Altivar VFDs for a food processing facility."
-    },
-    {
-      title: "PT Bumi Menara Internusa Cold Chain & SCADA",
-      badge: "Cold Storage & SCADA",
-      location: "Dampit & Surabaya",
-      year: "2023 - 2024",
-      image: "{{ asset('images/projects/project-3-coldstorage.jpg') }}",
-      desc: "Industrial power automation and backup transfer infrastructure for an export-grade seafood cold storage blast freezer (-25°C). Features sub-1.2 second automatic mains failure transfer and centralized SCADA power telemetry.",
-      boq: [
-        "Socomec Motorized Automatic Transfer Switch (ATS) 1600A",
-        "GAE Digital Energy & Temperature Telemetry Instrumentation",
-        "Schneider PowerLogic Smart Gateway & Industrial Ethernet",
-        "GAE Class 1 Heavy-Duty Surge Protection Devices (SPD)"
-      ],
-      waText: "Hello PT ATS, I would like to discuss automatic transfer switches (ATS) and power monitoring for a cold storage facility."
-    },
-    {
-      title: "PT Dua Kelinci Packaging Automation",
-      badge: "Smart Automation",
-      location: "Pati, Central Java",
-      year: "2024",
-      image: "{{ asset('images/projects/project-4-scada-control.jpg') }}",
-      desc: "Modernization of high-speed sorting and packaging lines with integrated PLC controls, precision photoelectric sensors, and Legrand XL³ modular distribution enclosures for continuous 24/7 industrial production.",
-      boq: [
-        "Legrand XL³ Weatherproof Industrial Modular Enclosures",
-        "Autonics High-Speed Photoelectric & Proximity Sensors",
-        "Schneider Modicon High-Performance PLC Control System",
-        "Industrial Interface Relays & Wiring Management Ducts"
-      ],
-      waText: "Hello PT ATS, I need information regarding Autonics sensors and Legrand panels for packaging automation machinery."
-    },
-    {
-      title: "Charoen Pokphand MV Switchgear & Feedmill",
-      badge: "Agro-Industrial MV",
-      location: "Sidoarjo, East Java",
-      year: "2023",
-      image: "{{ asset('images/projects/project-5-packaging-vfd.jpg') }}",
-      desc: "Medium voltage protection components and primary electrical distribution for animal feed milling operations. Accommodates heavy hammer mill and pelletizer motor starting loads with tailored harmonic mitigation.",
-      boq: [
-        "Schneider MasterPact 2500A 4-Pole Drawout Circuit Breakers",
-        "Supreme XLPE 20kV & Low-Voltage Power Cables",
-        "GAE Detuned Reactors & Harmonic Filtering Capacitors",
-        "Digital Protection Relays & Current Transformers (CT)"
-      ],
-      waText: "Hello PT ATS, I would like to request a quotation for Supreme MV cables and Schneider ACBs for an agro-industrial plant."
-    },
-    {
-      title: "Freeport Smelter Heavy Industrial Switchgear",
-      badge: "Heavy Mining & Smelter",
-      location: "JIIPE SEZ, Gresik",
-      year: "2024",
-      image: "{{ asset('images/projects/project-6-smelter-heavy.jpg') }}",
-      desc: "Engineered electrical protection components built for severe corrosive industrial and marine atmospheres at a world-scale copper smelting facility. Designed to sustain up to 4000 Amperes continuously.",
-      boq: [
-        "Schneider MasterPact NW 4000A Heavy-Duty ACB",
-        "Himel Industrial Molded Case Breakers & Isolators",
-        "VINSA Industrial High-Torque Busbar Bracing & Terminals",
-        "IP66 Heavy Weatherproof Sealed Enclosure Units"
-      ],
-      waText: "Hello PT ATS, we require heavy-duty 4000A circuit breakers and IP66 enclosures for an industrial smelting facility."
-    },
-    {
-      title: "Surabaya Tier-3 Data Center Power Busway",
-      badge: "Critical Infrastructure",
-      location: "Central Surabaya",
-      year: "2024",
-      image: "{{ asset('images/projects/project-7-datacenter-busway.jpg') }}",
-      desc: "Mission-critical dual redundant sandwich busway distribution (A+B feeder) powering enterprise cloud servers with 99.999% uptime reliability and hot-swappable modular expansion capability.",
-      boq: [
-        "High-Density Sandwich Busway Trunking System",
-        "Legrand Modular Power Distribution Units (PDU)",
-        "Fluke Power Quality & Thermal Monitoring Logging",
-        "Schneider TeSys High-Speed Static Transfer Switches"
-      ],
-      waText: "Hello PT ATS, we are interested in busway trunking systems and modular PDUs for a Data Center project."
-    },
-    {
-      title: "Maspion Industrial Estate 20kV Substation",
-      badge: "Industrial Estate 20kV",
-      location: "Manyar, Gresik",
-      year: "2023 - 2024",
-      image: "{{ asset('images/projects/project-8-industrial-park.jpg') }}",
-      desc: "Primary 20kV Ring Main Unit (RMU) distribution network and secondary distribution boards powering multinational manufacturing plants across a 50-hectare industrial zone.",
-      boq: [
-        "Medium Voltage 20kV Ring Main Unit (RMU) Switchgear",
-        "GAE Central Grounding & Lightning Protection Array",
-        "Jembo MV Underground Shielded Power Cables",
-        "GAE Multi-Channel Billing Energy Meters"
-      ],
-      waText: "Hello PT ATS, please provide information regarding 20kV RMU switchgear and grounding systems for an industrial estate."
-    },
-    {
-      title: "Petrokimia Gresik Industrial Automation",
-      badge: "Chemical & Fertilizer",
-      location: "Gresik, East Java",
-      year: "2024",
-      image: "{{ asset('images/projects/project-1-substation.jpg') }}",
-      desc: "Process control automation and motor protection relays for chemical fertilizer production facilities. Ensures continuous chemical processing with fail-safe electrical interlocks.",
-      boq: [
-        "Schneider TeSys Heavy Duty Industrial Contactors",
-        "Schneider Altivar Process Variable Speed Drives",
-        "GAE Class 1 Heavy-Duty Surge Protection Devices",
-        "Corrosion-Resistant Industrial Control Enclosures"
-      ],
-      waText: "Hello PT ATS, I would like to inquire about motor control contactors and VFDs for a chemical processing plant."
-    },
-    {
-      title: "Mayora Indah Food Processing MCC",
-      badge: "Food Manufacturing",
-      location: "Pasuruan, East Java",
-      year: "2023 - 2024",
-      image: "{{ asset('images/projects/project-2-indofood-mcc.jpg') }}",
-      desc: "Turnkey Motor Control Center supply for continuous biscuit and beverage manufacturing plants. Features harmonic filtration and high-torque motor starting panels.",
-      boq: [
-        "Schneider Altivar Process ATV630 Variable Speed Inverters",
-        "Schneider ComPact NSX MCCB Circuit Breakers",
-        "GAE Detuned Reactors & Harmonic Filtering Systems",
-        "IP54 Modular Control Switchboards"
-      ],
-      waText: "Hello PT ATS, we are interested in MCC switchboards and Altivar inverters for Mayora food processing lines."
-    },
-    {
-      title: "Ciputra World Surabaya Power Center",
-      badge: "Commercial Complex",
-      location: "Mayjen Sungkono, Surabaya",
-      year: "2024",
-      image: "{{ asset('images/projects/project-3-coldstorage.jpg') }}",
-      desc: "Low voltage power distribution and automatic transfer systems for flagship shopping mall, hotel, and office towers with automated load shedding.",
-      boq: [
-        "Schneider MasterPact 4000A Air Circuit Breakers",
-        "Socomec Motorized Automatic Transfer Switches",
-        "GAE Digital Power Quality Metering Network",
-        "Supreme Low Voltage Fire-Resistant Cables"
-      ],
-      waText: "Hello PT ATS, please provide a quotation for 4000A ACBs and ATS units for a commercial complex."
-    },
-    {
-      title: "Teluk Lamong Port Terminal Infrastructure",
-      badge: "Port & Marine Logistics",
-      location: "Surabaya Port Zone",
-      year: "2023",
-      image: "{{ asset('images/projects/project-4-scada-control.jpg') }}",
-      desc: "Heavy-duty electrical protection and automated quay crane power feed distribution designed for high-salinity marine environments with continuous port logistics.",
-      boq: [
-        "IP66 Marine Grade Weatherproof Sealed Switchboards",
-        "Fluke Enterprise Power Quality & Thermal Analyzers",
-        "Schneider TeSys Motor Circuit Protectors",
-        "Jembo Shielded Marine & Heavy Duty Cables"
-      ],
-      waText: "Hello PT ATS, I would like information regarding marine IP66 switchboards and cable solutions for port terminals."
-    }
-  ];
+  // Project Detailed Data Directory (Dynamically serialized from Database)
+  const p3dProjectsData = {!! json_encode(array_map(function($item) {
+    $specsList = !empty($item['specs']) ? array_map('trim', explode('•', $item['specs'])) : ['Custom Industrial Switchboard', 'SPLN & IEC 61439 Certified'];
+    return [
+      'title' => $item['title'],
+      'badge' => $item['badge'],
+      'location' => $item['location'],
+      'year' => $item['year'],
+      'image' => $item['image'],
+      'desc' => $item['summary'] ?? ($item['title'] . ' electrical distribution and switchboard engineering project by PT. Anugerah Tama Sejati.'),
+      'boq' => $specsList,
+      'waText' => 'Hello PT ATS, I would like to inquire regarding ' . $item['title'] . ' and request a technical quotation.',
+    ];
+  }, $projectData)) !!};
 
   // Global Modal Opening Function
   window.openProjectModal = function(index) {
@@ -1065,8 +885,9 @@
     let dragStartX = 0;
     let dragStartY = 0;
     let isHovered = false;
-    const autoPlaySpeed = 0.010; // Slightly faster, smooth and graceful drift
+    const autoPlaySpeed = 0.038; // Moderately faster smooth and graceful drift
     const friction = 0.94; // Smooth inertia damping
+    let lastTime = performance.now();
 
     // Update 3D card transforms
     function updateCards() {
@@ -1110,15 +931,20 @@
     }
 
     // Animation loop
-    function animate() {
+    function animate(currentTime) {
+      const now = currentTime || performance.now();
+      const deltaMs = Math.min(now - lastTime, 100);
+      lastTime = now;
+      const timeScale = deltaMs / 16.667; // Normalized to 60fps
+
       if (!isDragging) {
         if (Math.abs(velocity) > 0.004) {
-          currentRotation += velocity;
-          velocity *= friction;
+          currentRotation += velocity * timeScale;
+          velocity *= Math.pow(friction, timeScale);
         } else {
           velocity = 0;
           if (!isHovered) {
-            currentRotation -= autoPlaySpeed;
+            currentRotation -= autoPlaySpeed * timeScale;
           }
         }
       }

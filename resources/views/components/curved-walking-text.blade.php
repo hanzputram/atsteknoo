@@ -56,14 +56,11 @@
 <style>
   /* ========================================================
      CURVED WALKING TEXT STYLES (PURE FULL BLEED & CRISP WHITE)
+     Zero horizontal scrollbar overflow via clientWidth alignment
      ======================================================== */
   .curved-walking-wrapper {
     position: relative;
-    width: 100vw;
-    left: 50%;
-    right: 50%;
-    margin-left: -50vw;
-    margin-right: -50vw;
+    width: 100%;
     margin-top: 10px;
     margin-bottom: 25px;
     padding: 0;
@@ -106,27 +103,27 @@
 
   @media (max-width: 768px) {
     .curved-walking-svg {
-      height: 150px;
+      height: 145px;
     }
     .curved-walking-typography {
-      font-size: 17px;
+      font-size: 16px;
       letter-spacing: 0.13em;
     }
     .wave-ribbon-bg {
-      stroke-width: 54;
+      stroke-width: 50;
     }
   }
 
   @media (max-width: 480px) {
     .curved-walking-svg {
-      height: 130px;
+      height: 120px;
     }
     .curved-walking-typography {
-      font-size: 16px;
-      letter-spacing: 0.11em;
+      font-size: 14px;
+      letter-spacing: 0.10em;
     }
     .wave-ribbon-bg {
-      stroke-width: 50;
+      stroke-width: 44;
     }
   }
 </style>
@@ -134,7 +131,7 @@
 <script>
   /**
    * Framer-Inspired Dynamic Curved Walking Text Ticker Engine
-   * Generates exact 1:1 unclipped and unstretched wave path matching screen width.
+   * Generates exact 1:1 unclipped and unstretched wave path matching client screen width.
    */
   (function() {
     function initCurvedWalkingText() {
@@ -145,17 +142,22 @@
       const wrapperEl = document.getElementById('curvedWalkingSection');
       if (!svgEl || !textPathEl || !pathDefEl || !ribbonBgEl || !wrapperEl) return;
 
-      // 1. Dynamic 1:1 Responsive Geometry (Prevents any stretching and clipping)
+      // 1. Dynamic 1:1 Responsive Geometry & Full-Bleed Alignment (Zero horizontal scrollbar)
       function updateGeometry() {
-        const width = Math.max(window.innerWidth || document.documentElement.clientWidth, 360);
-        const height = width <= 480 ? 130 : (width <= 768 ? 150 : 170);
+        const clientWidth = Math.max(document.documentElement.clientWidth || window.innerWidth, 320);
+        const height = clientWidth <= 480 ? 120 : (clientWidth <= 768 ? 145 : 170);
+
+        // Align full bleed with clientWidth without exceeding scrollbar boundary
+        if (wrapperEl.parentElement) {
+          const parentRect = wrapperEl.parentElement.getBoundingClientRect();
+          wrapperEl.style.width = clientWidth + 'px';
+          wrapperEl.style.marginLeft = (-parentRect.left) + 'px';
+        }
         
-        svgEl.setAttribute('viewBox', `0 0 ${width} ${height}`);
+        svgEl.setAttribute('viewBox', `0 0 ${clientWidth} ${height}`);
         svgEl.style.height = height + 'px';
 
-        // Coordinates strictly buffered:
-        // Trough is at y = height * 0.72 (e.g. 122px in 170px height) -> stroke bottom is 122 + 29 = 151 < 170 (19px safety buffer)
-        // Crest is at y = height * 0.22 (e.g. 37px in 170px height) -> stroke top is 37 - 29 = 8 > 0 (8px safety buffer)
+        // Safe vertical envelope calculations
         const yStart = height * 0.54;
         const yTroughCtrl1 = height * 0.88;
         const yTroughCtrl2 = height * 0.82;
@@ -164,12 +166,12 @@
         const yEnd = height * 0.18;
 
         const pathData = `M -150 ${yStart.toFixed(1)} ` +
-          `C ${(width * 0.22).toFixed(1)} ${yTroughCtrl1.toFixed(1)}, ` +
-          `${(width * 0.46).toFixed(1)} ${yTroughCtrl2.toFixed(1)}, ` +
-          `${(width * 0.68).toFixed(1)} ${yMid.toFixed(1)} ` +
-          `C ${(width * 0.84).toFixed(1)} ${yCrestCtrl.toFixed(1)}, ` +
-          `${(width * 0.94).toFixed(1)} ${(height * 0.22).toFixed(1)}, ` +
-          `${(width + 150).toFixed(1)} ${yEnd.toFixed(1)}`;
+          `C ${(clientWidth * 0.22).toFixed(1)} ${yTroughCtrl1.toFixed(1)}, ` +
+          `${(clientWidth * 0.46).toFixed(1)} ${yTroughCtrl2.toFixed(1)}, ` +
+          `${(clientWidth * 0.68).toFixed(1)} ${yMid.toFixed(1)} ` +
+          `C ${(clientWidth * 0.84).toFixed(1)} ${yCrestCtrl.toFixed(1)}, ` +
+          `${(clientWidth * 0.94).toFixed(1)} ${(height * 0.22).toFixed(1)}, ` +
+          `${(clientWidth + 150).toFixed(1)} ${yEnd.toFixed(1)}`;
 
         pathDefEl.setAttribute('d', pathData);
         ribbonBgEl.setAttribute('d', pathData);

@@ -31,8 +31,10 @@
         @forelse($brands as $brand)
           <tr>
             <td>
-              <div style="width: 50px; height: 36px; border-radius: 6px; border: 1px solid #E2E8F0; background: #FFFFFF; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 2px;">
-                @if($brand->logo)
+              <div style="width: 64px; height: 42px; border-radius: 8px; border: 1px solid #E2E8F0; background: #FFFFFF; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 4px;">
+                @if($brand->logo_url)
+                  <img src="{{ $brand->logo_url }}" alt="{{ $brand->name }}" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+                @elseif($brand->logo)
                   <img src="{{ route('media.view', $brand->logo->id) }}" alt="{{ $brand->name }}" style="max-width: 100%; max-height: 100%; object-fit: contain;">
                 @else
                   <span style="font-size: 11px; font-weight: 700; color: #64748B;">{{ $brand->code }}</span>

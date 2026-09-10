@@ -30,13 +30,13 @@ class HomeController extends Controller
         $projects = Project::published()
             ->with(['category', 'coverImage'])
             ->orderBy('sort_order')
-            ->take(6)
+            ->take(8)
             ->get();
 
         $articles = Article::published()
             ->with(['category', 'thumbnail', 'author'])
             ->latest('published_at')
-            ->take(3)
+            ->take(7)
             ->get();
 
         return view('app', compact('featuredProducts', 'brands', 'projects', 'articles'));

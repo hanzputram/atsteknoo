@@ -19,7 +19,7 @@
     position: relative;
     width: 100%;
     margin-top: 0;
-    background: transparent;
+    background: #FFFFFF;
     color: var(--ats-ft-text-secondary);
     font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
     overflow: hidden;
@@ -32,7 +32,7 @@
     width: 100%;
     line-height: 0;
     overflow: hidden;
-    background: transparent;
+    background: #FFFFFF;
     margin-bottom: -2px; /* Seamless overlap with main dark body */
     pointer-events: none;
   }
@@ -499,6 +499,48 @@
     color: #FFFFFF;
   }
 
+  .ats-ft-social-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 0.76rem;
+    font-weight: 600;
+    color: #94A3B8;
+    text-decoration: none;
+    padding: 5px 11px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .ats-ft-social-link svg {
+    flex-shrink: 0;
+    transition: transform 0.2s ease;
+  }
+
+  .ats-ft-social-link:hover {
+    color: #FFFFFF;
+    background: rgba(255, 255, 255, 0.09);
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-1px);
+  }
+
+  .ats-ft-social-link.ats-social-ig:hover {
+    color: #FB7185;
+    border-color: rgba(251, 113, 133, 0.35);
+  }
+
+  .ats-ft-social-link.ats-social-tiktok:hover {
+    color: #38BDF8;
+    border-color: rgba(56, 189, 248, 0.35);
+  }
+
+  .ats-ft-social-link.ats-social-email:hover {
+    color: #34D399;
+    border-color: rgba(52, 211, 153, 0.35);
+  }
+
   .ats-ft-top-btn {
     background: rgba(255, 255, 255, 0.06);
     border: 1px solid rgba(255, 255, 255, 0.14);
@@ -634,7 +676,7 @@
 
             <div class="ats-ft-contact-item">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-              <span><strong>Hours:</strong> Mon&ndash;Fri 08:30&ndash;17:00 | Sat 08:30&ndash;14:00 WIB</span>
+              <span><strong>Hours:</strong> Mon&ndash;Fri 08:00&ndash;17:00 | Sat 08:00&ndash;16:00 WIB</span>
             </div>
           </div>
         </div>
@@ -643,14 +685,14 @@
         <div class="ats-ft-col">
           <div class="ats-ft-col-header" data-i18n="footer.col2_header">Solutions</div>
           <ul class="ats-ft-nav-list">
-            <li class="ats-ft-nav-item"><a href="{{ route('products.index') }}">Low Voltage Switchboards (LVMDP)</a></li>
-            <li class="ats-ft-nav-item"><a href="{{ route('products.index') }}">Motor Control Center (MCC &amp; VFD)</a></li>
-            <li class="ats-ft-nav-item"><a href="{{ route('products.index') }}">Air Circuit Breakers (ACB) 630A&ndash;6300A</a></li>
-            <li class="ats-ft-nav-item"><a href="{{ route('products.index') }}">Molded Case Circuit Breakers (MCCB)</a></li>
-            <li class="ats-ft-nav-item"><a href="{{ route('products.index') }}">Variable Speed Drives (Altivar ATV)</a></li>
-            <li class="ats-ft-nav-item"><a href="{{ route('products.index') }}">Automatic Transfer Switch (AMF-ATS)</a></li>
-            <li class="ats-ft-nav-item"><a href="{{ route('products.index') }}">Capacitor Banks &amp; Power Quality</a></li>
-            <li class="ats-ft-nav-item"><a href="{{ route('products.index') }}">IP66 Weatherproof Enclosures</a></li>
+            <li class="ats-ft-nav-item"><a href="{{ route('products.index') }}"><span class="ats-lang-en">Low Voltage Switchboards (LVMDP)</span><span class="ats-lang-id">Panel Distribusi Utama (LVMDP)</span></a></li>
+            <li class="ats-ft-nav-item"><a href="{{ route('products.index') }}"><span class="ats-lang-en">Motor Control Center (MCC &amp; VFD)</span><span class="ats-lang-id">Pusat Kontrol Motor (MCC &amp; VFD)</span></a></li>
+            <li class="ats-ft-nav-item"><a href="{{ route('products.index') }}"><span class="ats-lang-en">Air Circuit Breakers (ACB) 630A&ndash;6300A</span><span class="ats-lang-id">Air Circuit Breaker (ACB) 630A&ndash;6300A</span></a></li>
+            <li class="ats-ft-nav-item"><a href="{{ route('products.index') }}"><span class="ats-lang-en">Molded Case Circuit Breakers (MCCB)</span><span class="ats-lang-id">Pemutus Sirkuit Kotak (MCCB)</span></a></li>
+            <li class="ats-ft-nav-item"><a href="{{ route('products.index') }}"><span class="ats-lang-en">Variable Speed Drives (Altivar ATV)</span><span class="ats-lang-id">Inverter Motor (Altivar ATV)</span></a></li>
+            <li class="ats-ft-nav-item"><a href="{{ route('products.index') }}"><span class="ats-lang-en">Automatic Transfer Switch (AMF-ATS)</span><span class="ats-lang-id">Panel Otomatis Genset (AMF-ATS)</span></a></li>
+            <li class="ats-ft-nav-item"><a href="{{ route('products.index') }}"><span class="ats-lang-en">Capacitor Banks &amp; Power Quality</span><span class="ats-lang-id">Kapasitor Bank &amp; Kualitas Daya</span></a></li>
+            <li class="ats-ft-nav-item"><a href="{{ route('products.index') }}"><span class="ats-lang-en">IP66 Weatherproof Enclosures</span><span class="ats-lang-id">Box Panel Tahan Cuaca IP66</span></a></li>
           </ul>
         </div>
 
@@ -658,11 +700,11 @@
         <div class="ats-ft-col">
           <div class="ats-ft-col-header" data-i18n="footer.col3_header">Company</div>
           <ul class="ats-ft-nav-list">
-            <li class="ats-ft-nav-item"><a href="{{ route('about.index') }}">About ATS TEKNO</a></li>
-            <li class="ats-ft-nav-item"><a href="{{ route('projects.index') }}">Flagship Engineering Projects</a></li>
-            <li class="ats-ft-nav-item"><a href="{{ route('brands.index') }}">Authorized Brands &amp; Principals</a></li>
-            <li class="ats-ft-nav-item"><a href="{{ route('articles.index') }}">Technical Articles &amp; Insights</a></li>
-            <li class="ats-ft-nav-item"><a href="{{ route('contact.index') }}">Contact Engineering Team</a></li>
+            <li class="ats-ft-nav-item"><a href="{{ route('about.index') }}"><span class="ats-lang-en">About ATS TEKNO</span><span class="ats-lang-id">Tentang ATS TEKNO</span></a></li>
+            <li class="ats-ft-nav-item"><a href="{{ route('price-list.index') }}"><span class="ats-lang-en">Price List &amp; Brand Catalogs</span><span class="ats-lang-id">Daftar Harga &amp; Katalog Brand</span></a></li>
+            <li class="ats-ft-nav-item"><a href="{{ route('projects.index') }}"><span class="ats-lang-en">Flagship Engineering Projects</span><span class="ats-lang-id">Portofolio Proyek Rekayasa</span></a></li>
+            <li class="ats-ft-nav-item"><a href="{{ route('articles.index') }}"><span class="ats-lang-en">Technical Articles &amp; Insights</span><span class="ats-lang-id">Artikel &amp; Panduan Teknis</span></a></li>
+            <li class="ats-ft-nav-item"><a href="{{ route('contact.index') }}"><span class="ats-lang-en">Contact Engineering Team</span><span class="ats-lang-id">Hubungi Tim Rekayasa</span></a></li>
           </ul>
         </div>
 
@@ -807,15 +849,39 @@
     <!-- 4. Bottom Copyright Strip -->
     <div class="ats-footer-bottom">
       <div>
-        <span class="ats-ft-bottom-brand">&copy; 2019 &ndash; {{ date('Y') }} PT. Anugerah Tama Sejati (ATS TEKNO).</span>
+        <span class="ats-ft-bottom-brand">&copy; 2019 &ndash; {{ date('Y') }} PT. Anugerah Tama Sejati </span>
         <span data-i18n="footer.rights">All rights reserved.</span>
       </div>
 
       <div class="ats-ft-bottom-right">
-        <span>Surabaya &bull; Pandaan &bull; East Java</span>
-        <span>&bull;</span>
-        <a href="mailto:sales@atstekno.com">sales@atstekno.com</a>
-        <span>&bull;</span>
+        <!-- Instagram Link -->
+        <a href="https://www.instagram.com/ats_tekno/" target="_blank" rel="noopener noreferrer" class="ats-ft-social-link ats-social-ig" title="Instagram: @ats_tekno">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+          </svg>
+          <span>@ats_tekno</span>
+        </a>
+
+        <!-- TikTok Link -->
+        <a href="https://www.tiktok.com/@ats_tekno" target="_blank" rel="noopener noreferrer" class="ats-ft-social-link ats-social-tiktok" title="TikTok: @ats_tekno">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M19.589 6.686a4.793 4.793 0 0 1-3.77-4.245V2h-3.445v13.672a2.896 2.896 0 0 1-5.201 1.743l-.068-.102a2.895 2.895 0 0 1 2.373-4.534c.318 0 .628.051.918.147V9.37a6.335 6.335 0 0 0-.918-.066A6.34 6.34 0 0 0 3.1 15.645a6.34 6.34 0 0 0 6.339 6.34 6.34 6.34 0 0 0 6.34-6.34V8.487a8.21 8.21 0 0 0 4.81 1.558V6.6c-.347.058-.688.086-1-.086z"/>
+          </svg>
+          <span>@ats_tekno</span>
+        </a>
+
+        <!-- Email Link -->
+        <a href="mailto:sales@atstekno.com" class="ats-ft-social-link ats-social-email" title="Email: sales@atstekno.com">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+            <polyline points="22,6 12,13 2,6"></polyline>
+          </svg>
+          <span>sales@atstekno.com</span>
+        </a>
+
+        <!-- Back to Top Button -->
         <button type="button" class="ats-ft-top-btn" onclick="window.scrollTo({top: 0, behavior: 'smooth'});" aria-label="Back to top" data-i18n="footer.back_to_top">
           Back to Top &uarr;
         </button>

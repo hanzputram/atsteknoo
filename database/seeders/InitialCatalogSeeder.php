@@ -22,7 +22,16 @@ class InitialCatalogSeeder extends Seeder
     public function run(): void
     {
         $admin = User::first();
-        $adminId = $admin ? $admin->id : 1;
+        if (! $admin) {
+            $admin = User::create([
+                'name' => 'Administrator',
+                'email' => 'admin@atstekno.com',
+                'password' => bcrypt('admin123'),
+                'role' => 'admin',
+                'is_active' => true,
+            ]);
+        }
+        $adminId = $admin->id;
 
         // 1. Site Settings
         $settings = [
@@ -31,7 +40,7 @@ class InitialCatalogSeeder extends Seeder
             'phone' => '(031) 59178887',
             'whatsapp' => '081234567890',
             'email' => 'sales@anugerahtamasejati.com',
-            'address' => 'Jl. Kenjeran No. 485, Gading, Tambaksari, Surabaya, East Java 60134, Indonesia',
+            'address' => 'Ruko Galaxi Bumi Permai J-1 No. 23, Surabaya, East Java, Indonesia',
             'city' => 'Surabaya',
             'postal_code' => '60134',
             'default_meta_title' => 'PT. Anugerah Tama Sejati - Best Electrical Supplier',

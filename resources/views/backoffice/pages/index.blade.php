@@ -1,59 +1,66 @@
 @extends('backoffice.layouts.app')
 
-@section('title', 'Halaman Statis & Perusahaan')
-@section('header', 'Kelola Halaman')
+@section('title', 'Halaman Perusahaan')
+@section('breadcrumb', 'Halaman Perusahaan')
 
 @section('content')
-<div class="space-y-6">
-    <div>
-        <h2 class="text-xl font-bold text-slate-900">Halaman Perusahaan</h2>
-        <p class="text-sm text-slate-500">Kelola konten profil, visi-misi, dan halaman statis resmi perusahaan</p>
-    </div>
+<div class="page-header">
+  <div>
+    <h1 class="page-title">Halaman Profil Perusahaan</h1>
+    <p class="page-subtitle">Kelola konten profil, visi-misi, dan halaman statis resmi PT Anugerah Tama Sejati.</p>
+  </div>
+</div>
 
-    <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
-        <div class="overflow-x-auto">
-            <table class="w-full text-left border-collapse text-sm">
-                <thead>
-                    <tr class="bg-slate-50/80 border-b border-slate-200/80 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                        <th class="py-3.5 px-6">Kunci Halaman</th>
-                        <th class="py-3.5 px-6">Judul Halaman</th>
-                        <th class="py-3.5 px-6">Slug URL</th>
-                        <th class="py-3.5 px-6">Status</th>
-                        <th class="py-3.5 px-6">Terakhir Diperbarui</th>
-                        <th class="py-3.5 px-6 text-right">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-slate-100">
-                    @forelse($pages as $p)
-                    <tr class="hover:bg-slate-50/60 transition">
-                        <td class="py-4 px-6 font-mono text-xs font-semibold text-blue-600">
-                            {{ $p->page_key }}
-                        </td>
-                        <td class="py-4 px-6 font-semibold text-slate-900">{{ $p->title }}</td>
-                        <td class="py-4 px-6 text-slate-500 font-mono text-xs">/{{ $p->slug }}</td>
-                        <td class="py-4 px-6">
-                            @if($p->status === 'published')
-                                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">Published</span>
-                            @else
-                                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-amber-50 text-amber-700 border border-amber-200">Draft</span>
-                            @endif
-                        </td>
-                        <td class="py-4 px-6 text-xs text-slate-500">{{ $p->updated_at->format('d M Y, H:i') }}</td>
-                        <td class="py-4 px-6 text-right">
-                            <a href="{{ route('backoffice.pages.edit', $p->id) }}" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-blue-50 text-blue-600 hover:bg-blue-100 rounded-lg text-xs font-semibold transition">
-                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
-                                Edit Konten
-                            </a>
-                        </td>
-                    </tr>
-                    @empty
-                    <tr>
-                        <td colspan="6" class="py-12 text-center text-slate-400">Belum ada data halaman.</td>
-                    </tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
-    </div>
+<div class="panel-card">
+  <div class="table-responsive">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th style="width: 140px;">Kunci Halaman</th>
+          <th>Judul Halaman</th>
+          <th>Slug URL</th>
+          <th style="width: 120px;">Status</th>
+          <th style="width: 180px;">Terakhir Diperbarui</th>
+          <th style="text-align: right; width: 140px;">Aksi</th>
+        </tr>
+      </thead>
+      <tbody>
+        @forelse($pages as $p)
+          <tr>
+            <td>
+              <span style="font-family: monospace; font-weight: 700; color: #0F172A; background: #F1F5F9; padding: 3px 8px; border-radius: 4px;">{{ $p->page_key }}</span>
+            </td>
+            <td>
+              <div style="font-weight: 700; color: #0F172A;">
+                <a href="{{ route('backoffice.pages.edit', $p->id) }}" style="color: inherit; text-decoration: none;">
+                  {{ $p->title }}
+                </a>
+              </div>
+            </td>
+            <td>
+              <span style="font-family: monospace; font-size: 12px; color: #64748B;">/{{ $p->slug }}</span>
+            </td>
+            <td>
+              <span class="badge {{ $p->status === 'published' ? 'badge-success' : 'badge-warning' }}">
+                {{ ucfirst($p->status) }}
+              </span>
+            </td>
+            <td>
+              <span style="color: #64748B; font-size: 13px;">{{ $p->updated_at->format('d M Y, H:i') }}</span>
+            </td>
+            <td style="text-align: right;">
+              <a href="{{ route('backoffice.pages.edit', $p->id) }}" class="btn btn-secondary btn-sm">
+                Edit Konten
+              </a>
+            </td>
+          </tr>
+        @empty
+          <tr>
+            <td colspan="6" style="text-align: center; padding: 36px; color: #94A3B8;">Belum ada data halaman.</td>
+          </tr>
+        @endforelse
+      </tbody>
+    </table>
+  </div>
 </div>
 @endsection

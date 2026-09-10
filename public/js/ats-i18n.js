@@ -16,6 +16,7 @@
       "nav.about": "ABOUT US",
       "nav.projects": "PROJECTS",
       "nav.products": "PRODUCTS",
+      "nav.price_list": "PRICE LIST",
       "nav.contact": "CONTACT US",
       "nav.article": "ARTICLE",
 
@@ -78,6 +79,62 @@
       "projects.subtitle": "Proven track record in supplying industrial electrical distribution switchboards, certified automation systems, and critical power infrastructure across Indonesia.",
       "projects.drag_hint": "Drag or use arrows to rotate • Click card to view details",
 
+      // Price List Page
+      "pricelist.breadcrumb_home": "Home",
+      "pricelist.breadcrumb_current": "Price List & Catalogs",
+      "pricelist.badge": "OFFICIAL PRICE LIST & PRINCIPAL CATALOGS",
+      "pricelist.title": "Official Price List & Catalogs",
+      "pricelist.subtitle": "Browse and download the latest official price lists directly from principal manufacturers (Schneider Electric, GAE, Fort, Vinsa, DV Electric). Download complete PDF catalogs for project tender estimation, BoQ budgeting, and industrial electrical component procurement.",
+      "pricelist.search_placeholder": "Search catalog, series, or brand...",
+      "pricelist.count_suffix": "Catalogs",
+      "pricelist.filter_all": "All Brands",
+      "pricelist.tax_incl": "Incl. 11% VAT",
+      "pricelist.tax_excl": "Excl. 11% VAT",
+      "pricelist.btn_view": "View PDF",
+      "pricelist.btn_download": "Download",
+      "pricelist.btn_whatsapp": "Inquire Project Discount via WhatsApp",
+      "pricelist.empty_title": "No matching catalogs found",
+      "pricelist.empty_desc": "Try another keyword or select the All Brands option.",
+      "pricelist.empty_reset": "Reset Search",
+      "pricelist.brands_badge": "BRAND DIRECTORY",
+      "pricelist.brands_title": "Explore by Brand Principal",
+      "pricelist.brands_sub": "Select a brand to view technical specifications and official distributor product lines.",
+      "pricelist.products_count": "Products",
+      "pricelist.view_catalog": "View Catalog →",
+      "pricelist.cta_badge": "TENDER & BOQ SUBMISSION",
+      "pricelist.cta_title": "Need Tender Support Letters or Special Project Quotations?",
+      "pricelist.cta_desc": "Submit your Bill of Quantities (BoQ) or material specifications. Our Sales Engineering team is ready to assist with official distributor discounts and manufacturer support letters.",
+      "pricelist.cta_btn_wa": "Consult BoQ on WhatsApp",
+      "pricelist.cta_btn_contact": "Contact Head Office",
+
+      // Live Chat Widget
+      "chat.toast_app": "ATS Tekno Support",
+      "chat.toast_time": "Just now",
+      "chat.toast_title": "Live Engineering Consultation Online",
+      "chat.toast_desc": "Need BoQ quotation, Schneider/Siemens switchboards, or FAT/SAT certification? Consult our engineers now.",
+      "chat.btn_chat": "Chat with Engineer",
+      "chat.btn_later": "Later",
+      "chat.drawer_title": "ATS Engineering Support",
+      "chat.drawer_sub": "PT Anugerah Tama Sejati • Live Online",
+      "chat.welcome_p1": "Hello! 👋 Welcome to <strong>PT Anugerah Tama Sejati</strong>.",
+      "chat.welcome_p2": "How can we assist you with electrical switchboard specifications, Motor Control Centers (MCC), SCADA, or BoQ component quotations for Schneider, Siemens, and Mitsubishi?",
+      "chat.identity_title": "Consultation Identity",
+      "chat.identity_req": "(Required)",
+      "chat.name_placeholder": "Your Name / Company Name *",
+      "chat.contact_placeholder": "WhatsApp Number / Email *",
+      "chat.msg_placeholder": "Type your consultation inquiry here...",
+      "chat.btn_send": "Send",
+
+      // About Us Publications
+      "about.compro_badge": "INDONESIA • OFFICIAL PUBLICATION",
+      "about.compro_title": "OUR COMPANY PROFILE",
+      "about.compro_desc": "PT. Anugerah Tama Sejati is headquartered in Surabaya, East Java, Indonesia. Our company specializes in the procurement of electrical equipment, particularly for industrial sectors. We also provide optimal solutions and premier service for our clients across Manufacturing, Building Infrastructure, OEM, MEP Contractors, and Switchboard Panel Makers. Established on August 1st, 2019, our core concept is fulfilling all electrical equipment and distribution needs across Indonesia.",
+      "about.compro_btn": "Download PDF",
+      "about.panel_badge": "ENGINEERING REFERENCE • 2026 EDITION",
+      "about.panel_title": "ATS PANEL MAKER & PROJECT REFERENCE",
+      "about.panel_desc": "Comprehensive engineering portfolio documenting custom fabrication of Low Voltage Main Distribution Panels (LVMDP), Motor Control Centers (MCC), Power Factor Capacitor Banks, Generator-Grid Synchronizing Switchgear, and certified industrial protection installations across Indonesia. Fully compliant with IEC 61439 and SNI testing standards.",
+      "about.panel_btn": "Download PDF",
+
       // Footer
       "footer.cta_title": "Ready to Power Your Industrial Infrastructure?",
       "footer.cta_desc": "Consult your Bill of Quantities (BoQ), switchboard sizing, or automation needs directly with our certified electrical engineering specialists.",
@@ -112,6 +169,7 @@
       "nav.about": "TENTANG KAMI",
       "nav.projects": "PROYEK",
       "nav.products": "PRODUK",
+      "nav.price_list": "DAFTAR HARGA",
       "nav.contact": "HUBUNGI KAMI",
       "nav.article": "ARTIKEL",
 
@@ -173,6 +231,62 @@
       "projects.title": "Portofolio Proyek Unggulan & Rekayasa Elektrikal",
       "projects.subtitle": "Rekam jejak terbukti dalam menyuplai panel distribusi tegangan rendah, sistem otomasi industri, dan infrastruktur daya krusial di seluruh Indonesia.",
       "projects.drag_hint": "Geser atau gunakan panah untuk memutar • Klik kartu untuk detail",
+
+      // Price List Page
+      "pricelist.breadcrumb_home": "Beranda",
+      "pricelist.breadcrumb_current": "Daftar Harga & Katalog",
+      "pricelist.badge": "DAFTAR HARGA RESMI & KATALOG PRINSIPAL",
+      "pricelist.title": "Pricelist & Katalog Resmi",
+      "pricelist.subtitle": "Jelajahi dan unduh daftar harga resmi terbaru langsung dari pabrikan prinsipal (Schneider Electric, GAE, Fort, Vinsa, DV Electric). Unduh katalog lengkap berformat PDF untuk kebutuhan RAB, tender proyek, dan pengadaan komponen listrik industri.",
+      "pricelist.search_placeholder": "Cari katalog, seri, atau brand...",
+      "pricelist.count_suffix": "Katalog",
+      "pricelist.filter_all": "Semua Brand",
+      "pricelist.tax_incl": "Termasuk PPN 11%",
+      "pricelist.tax_excl": "Belum Termasuk PPN 11%",
+      "pricelist.btn_view": "Lihat PDF",
+      "pricelist.btn_download": "Unduh",
+      "pricelist.btn_whatsapp": "Tanya Diskon Proyek via WhatsApp",
+      "pricelist.empty_title": "Tidak ada katalog yang cocok",
+      "pricelist.empty_desc": "Coba gunakan kata kunci pencarian yang lain atau pilih opsi Semua Brand.",
+      "pricelist.empty_reset": "Reset Pencarian",
+      "pricelist.brands_badge": "DIREKTORI BRAND",
+      "pricelist.brands_title": "Jelajahi Berdasarkan Brand Principal",
+      "pricelist.brands_sub": "Pilih brand untuk melihat rincian spesifikasi teknis dan lini produk distributor resmi.",
+      "pricelist.products_count": "Produk",
+      "pricelist.view_catalog": "Lihat Katalog →",
+      "pricelist.cta_badge": "PENGAJUAN TENDER & BOQ",
+      "pricelist.cta_title": "Butuh Surat Dukungan Tender atau Penawaran Harga Khusus Proyek?",
+      "pricelist.cta_desc": "Kirimkan daftar Bill of Quantities (BoQ) atau spek material proyek Anda. Tim Sales Engineer PT. Anugerah Tama Sejati siap membantu perhitungan diskon resmi distributor serta surat dukungan pabrikan.",
+      "pricelist.cta_btn_wa": "Konsultasi BoQ via WhatsApp",
+      "pricelist.cta_btn_contact": "Hubungi Kantor Pusat",
+
+      // Live Chat Widget
+      "chat.toast_app": "ATS Tekno Support",
+      "chat.toast_time": "Baru saja",
+      "chat.toast_title": "Konsultasi Teknik & Panel Listrik Online",
+      "chat.toast_desc": "Butuh penawaran BoQ, switchboard Schneider/Siemens, atau sertifikasi FAT/SAT? Hubungi engineer kami sekarang.",
+      "chat.btn_chat": "Chat dengan Engineer",
+      "chat.btn_later": "Nanti",
+      "chat.drawer_title": "Dukungan Teknik ATS",
+      "chat.drawer_sub": "PT Anugerah Tama Sejati • Online Langsung",
+      "chat.welcome_p1": "Halo! 👋 Selamat datang di <strong>PT Anugerah Tama Sejati</strong>.",
+      "chat.welcome_p2": "Ada yang bisa kami bantu seputar spesifikasi panel listrik, motor control center (MCC), SCADA, atau penawaran BoQ komponen Schneider, Siemens, dan Mitsubishi?",
+      "chat.identity_title": "Identitas Konsultasi",
+      "chat.identity_req": "(Wajib diisi)",
+      "chat.name_placeholder": "Nama Anda / Nama PT *",
+      "chat.contact_placeholder": "No. WhatsApp / Email *",
+      "chat.msg_placeholder": "Ketik pesan konsultasi Anda di sini...",
+      "chat.btn_send": "Kirim",
+
+      // About Us Publications
+      "about.compro_badge": "INDONESIA • PUBLIKASI RESMI",
+      "about.compro_title": "PROFIL PERUSAHAAN KAMI",
+      "about.compro_desc": "PT. Anugerah Tama Sejati berpusat di Surabaya, Jawa Timur, Indonesia. Perusahaan kami bergerak di bidang pengadaan peralatan listrik khususnya untuk industri. Kami juga memberikan solusi dan pelayanan yang terbaik bagi semua pelanggan kami dalam bidang Industri, Building, OEM, Kontraktor ME, dan Panel Maker. Perusahaan kami didirikan sejak 1 Agustus 2019 dengan satu konsep yaitu memenuhi semua kebutuhan listrik bagi masyarakat Indonesia.",
+      "about.compro_btn": "Unduh PDF",
+      "about.panel_badge": "PORTOFOLIO REKAYASA • EDISI 2026",
+      "about.panel_title": "ATS PANEL MAKER & REFERENSI PROYEK",
+      "about.panel_desc": "Dokumen portofolio fabrikasi Low Voltage Main Distribution Panel (LVMDP), Motor Control Center (MCC), Capacitor Bank, Synchronizing Panel, serta instalasi proteksi elektrikal industri terkemuka. Seluruh perakitan memenuhi standar pengujian ketat IEC 61439 dan SNI untuk menjamin keandalan operasional fasilitas industri Anda.",
+      "about.panel_btn": "Unduh PDF",
 
       // Footer
       "footer.cta_title": "Siap Mengoptimalkan Infrastruktur Elektrikal Industri Anda?",
@@ -285,6 +399,14 @@
         const placeholder = el.getAttribute('data-i18n-placeholder-' + lang);
         if (placeholder && el.getAttribute('placeholder') !== placeholder) {
           el.setAttribute('placeholder', placeholder);
+        }
+      });
+
+      // D. Element title and aria-label attributes
+      document.querySelectorAll('[data-i18n-title-en]').forEach(el => {
+        const title = el.getAttribute('data-i18n-title-' + lang);
+        if (title && el.getAttribute('title') !== title) {
+          el.setAttribute('title', title);
         }
       });
     } finally {

@@ -82,4 +82,49 @@ class Project extends Model
     {
         return $this->status === 'published' && $this->published_at && $this->published_at->lte(now());
     }
+
+    public function getImageUrlAttribute(): string
+    {
+        if ($this->coverImage) {
+            return route('media.view', $this->coverImage->id);
+        }
+
+        $slugImageMap = [
+            'pakuwon-mall-superblock-power-substation' => 'project-1-substation.jpg',
+            'indofood-cbp-motor-control-center-mcc' => 'project-2-indofood-mcc.jpg',
+            'bumi-menara-internusa-cold-chain-scada' => 'project-3-coldstorage.jpg',
+            'teluk-lamong-port-terminal-infrastructure' => 'project-4-scada-control.jpg',
+            'dua-kelinci-packaging-automation' => 'project-5-packaging-vfd.jpg',
+            'freeport-indonesia-smelter-power-distribution' => 'project-6-smelter-heavy.jpg',
+            'surabaya-tier-3-data-center-power-busway' => 'project-7-datacenter-busway.jpg',
+            'maspion-industrial-estate-20kv-substation' => 'project-8-industrial-park.jpg',
+        ];
+
+        if (isset($slugImageMap[$this->slug]) && file_exists(public_path('images/projects/' . $slugImageMap[$this->slug]))) {
+            return asset('images/projects/' . $slugImageMap[$this->slug]);
+        }
+
+        return asset('images/projects/project-1-substation.jpg');
+    }
+
+    public function getBadgeNameAttribute(): string
+    {
+        return $this->category ? $this->category->name : 'Industrial Project';
+    }
+
+    public function getBadgeColorAttribute(): string
+    {
+        $colorMap = [
+            1 => '#E11D48',
+            2 => '#10B981',
+            3 => '#0284C7',
+            4 => '#7C3AED',
+            5 => '#D97706',
+            6 => '#DC2626',
+            7 => '#06B6D4',
+            8 => '#6366F1',
+        ];
+
+        return $colorMap[$this->sort_order % 8 ?: 8] ?? '#E11D48';
+    }
 }

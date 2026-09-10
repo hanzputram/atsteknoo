@@ -8,11 +8,46 @@
   <meta name="description" content="@yield('meta_description', 'PT. Anugerah Tama Sejati - Your trusted one-stop supplier for all industrial electrical and wiring components.')">
   <meta name="robots" content="@yield('robots', 'index, follow')">
 
+  <!-- GEO Meta Tags (Surabaya, East Java & AI Crawlability) -->
+  <meta name="geo.region" content="ID-JI">
+  <meta name="geo.placename" content="Surabaya, East Java, Indonesia">
+  <meta name="geo.position" content="-7.250445;112.768845">
+  <meta name="ICBM" content="-7.250445, 112.768845">
+  <meta name="geo.country" content="ID">
+
   <!-- Open Graph / SEO -->
   <meta property="og:title" content="@yield('title', 'PT. Anugerah Tama Sejati')">
-  <meta property="og:description" content="@yield('meta_description', 'Distributor komponen elektrikal industri terkemuka di Indonesia.')">
+  <meta property="og:description" content="@yield('meta_description', 'Leading industrial electrical and automation distributor in Indonesia.')">
   <meta property="og:type" content="website">
   <meta property="og:url" content="{{ url()->current() }}">
+  <meta property="og:site_name" content="PT. Anugerah Tama Sejati">
+
+  <!-- Schema.org JSON-LD LocalBusiness -->
+  <script type="application/ld+json">
+  {
+    "{{ '@context' }}": "https://schema.org",
+    "@type": ["LocalBusiness", "ElectricalSupplyStore", "WholesaleStore"],
+    "name": "PT. Anugerah Tama Sejati",
+    "alternateName": "PT ATS - Best Electrical Supplier & Panel Maker",
+    "description": "Authorized industrial electrical distributor and switchboard panel maker in Surabaya, East Java, Indonesia.",
+    "url": "{{ url('/') }}",
+    "telephone": "+62-31-59178887",
+    "email": "sales@atstekno.com",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Ruko Galaxi Bumi Permai J-1 No. 23",
+      "addressLocality": "Surabaya",
+      "addressRegion": "Jawa Timur",
+      "postalCode": "60134",
+      "addressCountry": "ID"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": -7.250445,
+      "longitude": 112.768845
+    }
+  }
+  </script>
 
   <!-- Google Fonts: Outfit & Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -52,7 +87,7 @@
       --color-gray: #475569;
       --color-light-gray: #94A3B8;
       --color-primary: #E11D48;
-      --color-bg-page: #F8FAFC;
+      --color-bg-page: #FFFFFF;
 
       --shadow-card: 0 20px 40px -15px rgba(225, 29, 72, 0.12), 0 10px 25px -5px rgba(0, 0, 0, 0.05);
       --transition-base: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
@@ -66,7 +101,7 @@
 
     body {
       font-family: var(--font-outfit);
-      background-color: #F8FAFC;
+      background-color: #FFFFFF;
       color: var(--color-dark);
       min-height: 100vh;
       display: flex;
@@ -115,6 +150,7 @@
     .content-area-wrapper {
       flex: 1 0 auto;
       width: 100%;
+      background-color: #FFFFFF;
     }
   </style>
 
@@ -128,12 +164,12 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-20">
 
-        <!-- Brand Logo & Identification -->
-        <a href="{{ route('home') }}" class="flex items-center gap-3 group text-decoration-none">
-          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-rose-600 to-red-500 p-2 shadow-sm flex items-center justify-center shrink-0 group-hover:scale-105 transition">
-            <svg class="w-6 h-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
-            </svg>
+        <!-- Brand Logo & Identification (No background on logo) -->
+        <a href="{{ route('home') }}" class="flex items-center gap-3.5 group text-decoration-none">
+          <div class="w-12 h-12 flex items-center justify-center shrink-0 group-hover:scale-105 transition">
+            <img class="w-full h-full object-contain"
+                 src="{{ asset('images/ats-logo.png') }}"
+                 alt="PT. Anugerah Tama Sejati Logo">
           </div>
           <div>
             <span class="block font-black tracking-tight text-slate-900 text-base sm:text-lg leading-tight group-hover:text-rose-600 transition">
@@ -150,7 +186,7 @@
           <a href="{{ route('home') }}" class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}" data-i18n="nav.home">HOME</a>
           <a href="{{ route('about.index') }}" class="nav-link {{ request()->routeIs('about.*') ? 'active' : '' }}" data-i18n="nav.about">ABOUT US</a>
           <a href="{{ route('products.index') }}" class="nav-link {{ request()->routeIs('products.*') ? 'active' : '' }}" data-i18n="nav.products">PRODUCTS</a>
-          <a href="{{ route('brands.index') }}" class="nav-link {{ request()->routeIs('brands.*') ? 'active' : '' }}">BRANDS</a>
+          <a href="{{ route('price-list.index') }}" class="nav-link {{ request()->routeIs('price-list.*') || request()->routeIs('brands.*') ? 'active' : '' }}" data-i18n="nav.price_list">PRICE LIST</a>
           <a href="{{ route('projects.index') }}" class="nav-link {{ request()->routeIs('projects.*') ? 'active' : '' }}" data-i18n="nav.projects">PROJECTS</a>
           <a href="{{ route('articles.index') }}" class="nav-link {{ request()->routeIs('articles.*') ? 'active' : '' }}" data-i18n="nav.article">ARTICLE</a>
           <a href="{{ route('contact.index') }}" class="nav-link {{ request()->routeIs('contact.*') ? 'active' : '' }}" data-i18n="nav.contact">CONTACT US</a>
@@ -174,7 +210,7 @@
       <a href="{{ route('home') }}" class="block px-3 py-2 rounded-xl text-sm font-bold {{ request()->routeIs('home') ? 'bg-rose-50 text-rose-600' : 'text-slate-700 hover:bg-slate-50' }}" data-i18n="nav.home">HOME</a>
       <a href="{{ route('about.index') }}" class="block px-3 py-2 rounded-xl text-sm font-bold {{ request()->routeIs('about.*') ? 'bg-rose-50 text-rose-600' : 'text-slate-700 hover:bg-slate-50' }}" data-i18n="nav.about">ABOUT US</a>
       <a href="{{ route('products.index') }}" class="block px-3 py-2 rounded-xl text-sm font-bold {{ request()->routeIs('products.*') ? 'bg-rose-50 text-rose-600' : 'text-slate-700 hover:bg-slate-50' }}" data-i18n="nav.products">PRODUCTS</a>
-      <a href="{{ route('brands.index') }}" class="block px-3 py-2 rounded-xl text-sm font-bold {{ request()->routeIs('brands.*') ? 'bg-rose-50 text-rose-600' : 'text-slate-700 hover:bg-slate-50' }}">BRANDS</a>
+      <a href="{{ route('price-list.index') }}" class="block px-3 py-2 rounded-xl text-sm font-bold {{ request()->routeIs('price-list.*') || request()->routeIs('brands.*') ? 'bg-rose-50 text-rose-600' : 'text-slate-700 hover:bg-slate-50' }}" data-i18n="nav.price_list">PRICE LIST</a>
       <a href="{{ route('projects.index') }}" class="block px-3 py-2 rounded-xl text-sm font-bold {{ request()->routeIs('projects.*') ? 'bg-rose-50 text-rose-600' : 'text-slate-700 hover:bg-slate-50' }}" data-i18n="nav.projects">PROJECTS</a>
       <a href="{{ route('articles.index') }}" class="block px-3 py-2 rounded-xl text-sm font-bold {{ request()->routeIs('articles.*') ? 'bg-rose-50 text-rose-600' : 'text-slate-700 hover:bg-slate-50' }}" data-i18n="nav.article">ARTICLE</a>
       <a href="{{ route('contact.index') }}" class="block px-3 py-2 rounded-xl text-sm font-bold {{ request()->routeIs('contact.*') ? 'bg-rose-50 text-rose-600' : 'text-slate-700 hover:bg-slate-50' }}" data-i18n="nav.contact">CONTACT US</a>
@@ -191,6 +227,12 @@
 
   <!-- ATS Multilingual i18n Logic -->
   <script src="{{ asset('js/ats-i18n.js') }}"></script>
+
+  <!-- Floating Sidebar Button: Buy at Listrikonline (All Pages) -->
+  @include('components.floating-listrikonline-btn')
+
+  <!-- Floating Live Chat & Windows Desktop Notification -->
+  @include('components.floating-live-chat')
 
   @stack('scripts')
 </body>

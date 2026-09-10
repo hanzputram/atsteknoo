@@ -1,26 +1,35 @@
 @extends('layouts.app')
 
-@section('title', 'Katalog Produk Elektrikal Industri - PT. Anugerah Tama Sejati')
-@section('meta_description', 'Jelajahi katalog lengkap komponen elektrikal industri: ACB, MCCB, Inverter, Contactor, dan panel accessories berkualitas dari Schneider, ABB, Socomec.')
+@section('title', 'Industrial Electrical Products Catalog - PT. Anugerah Tama Sejati')
+@section('meta_description', 'Explore our comprehensive catalog of industrial electrical equipment: ACB, MCCB, Inverters, Contactors, and panel accessories from Schneider, Legrand, Socomec, GAE.')
 
 @section('content')
 <div class="bg-slate-50 py-10 sm:py-14 border-b border-slate-200/80">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <!-- Breadcrumb -->
         <nav class="flex items-center gap-2 text-xs text-slate-500 mb-4" aria-label="Breadcrumb">
-            <a href="{{ route('home') }}" class="hover:text-rose-600 transition">Beranda</a>
+            <a href="{{ route('home') }}" class="hover:text-rose-600 transition">
+                <span class="ats-lang-en">Home</span><span class="ats-lang-id">Beranda</span>
+            </a>
             <span>&rsaquo;</span>
-            <span class="text-slate-800 font-semibold">Katalog Produk</span>
+            <span class="text-slate-800 font-semibold">
+                <span class="ats-lang-en">Product Catalog</span><span class="ats-lang-id">Katalog Produk</span>
+            </span>
         </nav>
 
         <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
                 <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold tracking-wider uppercase bg-rose-50 text-rose-600 border border-rose-200 mb-3">
-                    Industrial Catalog
+                    <span class="ats-lang-en">Industrial Catalog</span>
+                    <span class="ats-lang-id">Katalog Industri</span>
                 </span>
-                <h1 class="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">Katalog Komponen Elektrikal</h1>
+                <h1 class="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
+                    <span class="ats-lang-en">Electrical Components Catalog</span>
+                    <span class="ats-lang-id">Katalog Komponen Elektrikal</span>
+                </h1>
                 <p class="text-sm sm:text-base text-slate-600 mt-2 max-w-2xl">
-                    Temukan spesifikasi teknis dan suku cadang switchgear, otomasi, dan distribusi daya berstandar internasional.
+                    <span class="ats-lang-en">Discover technical specifications and genuine switchgear, automation, and power distribution components meeting international standards.</span>
+                    <span class="ats-lang-id">Temukan spesifikasi teknis dan komponen switchgear, otomasi, serta distribusi daya original yang memenuhi standar internasional.</span>
                 </p>
             </div>
 
@@ -30,8 +39,13 @@
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
                 </div>
                 <div>
-                    <span class="text-xs text-slate-400 font-semibold uppercase tracking-wider block">Total Produk Aktif</span>
-                    <span class="text-xl font-bold text-slate-900 block">{{ $products->total() }} Komponen</span>
+                    <span class="text-xs text-slate-400 font-semibold uppercase tracking-wider block">
+                        <span class="ats-lang-en">Total Active Products</span>
+                        <span class="ats-lang-id">Total Produk Aktif</span>
+                    </span>
+                    <span class="text-xl font-bold text-slate-900 block">
+                        {{ $products->total() }} <span class="ats-lang-en">Components</span><span class="ats-lang-id">Komponen</span>
+                    </span>
                 </div>
             </div>
         </div>
@@ -44,18 +58,28 @@
         <form action="{{ route('products.index') }}" method="GET" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <!-- Search Keyword -->
             <div class="lg:col-span-1">
-                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Cari Produk / SKU</label>
+                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+                    <span class="ats-lang-en">Search Product / SKU</span>
+                    <span class="ats-lang-id">Cari Produk / SKU</span>
+                </label>
                 <div class="relative">
-                    <input type="text" name="search" value="{{ request('search') }}" placeholder="Ketik nama atau SKU..." class="w-full pl-9 pr-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-rose-500/20 focus:border-rose-500 text-sm">
+                    <input type="text" name="search" value="{{ request('search') }}"
+                           data-i18n-placeholder-en="Type product name or SKU..."
+                           data-i18n-placeholder-id="Ketik nama produk atau SKU..."
+                           placeholder="Type product name or SKU..."
+                           class="w-full pl-9 pr-4 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-rose-500/20 focus:border-rose-500 text-sm">
                     <svg class="w-4 h-4 text-slate-400 absolute left-3 top-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
                 </div>
             </div>
 
             <!-- Brand Filter -->
             <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Filter Brand</label>
+                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+                    <span class="ats-lang-en">Filter Brand</span>
+                    <span class="ats-lang-id">Pilih Brand</span>
+                </label>
                 <select name="brand" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-rose-500/20 focus:border-rose-500 text-sm bg-white">
-                    <option value="">Semua Brand</option>
+                    <option value="">{{ app()->getLocale() === 'id' ? 'Semua Brand' : 'All Brands' }}</option>
                     @foreach($brands as $b)
                         <option value="{{ $b->slug }}" {{ request('brand') === $b->slug ? 'selected' : '' }}>{{ $b->name }}</option>
                     @endforeach
@@ -64,9 +88,12 @@
 
             <!-- Category Filter -->
             <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Kategori</label>
+                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+                    <span class="ats-lang-en">Category</span>
+                    <span class="ats-lang-id">Kategori</span>
+                </label>
                 <select name="category" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-rose-500/20 focus:border-rose-500 text-sm bg-white">
-                    <option value="">Semua Kategori</option>
+                    <option value="">{{ app()->getLocale() === 'id' ? 'Semua Kategori' : 'All Categories' }}</option>
                     @foreach($categories as $cat)
                         <option value="{{ $cat->slug }}" {{ request('category') === $cat->slug ? 'selected' : '' }}>{{ $cat->name }}</option>
                     @endforeach
@@ -76,11 +103,14 @@
             <!-- Sorting & Submit -->
             <div class="flex items-end gap-2">
                 <div class="flex-1">
-                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Urutan</label>
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+                        <span class="ats-lang-en">Sort Order</span>
+                        <span class="ats-lang-id">Urutan</span>
+                    </label>
                     <select name="sort" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-rose-500/20 focus:border-rose-500 text-sm bg-white">
-                        <option value="newest" {{ request('sort') === 'newest' ? 'selected' : '' }}>Terbaru</option>
-                        <option value="name_asc" {{ request('sort') === 'name_asc' ? 'selected' : '' }}>Nama (A - Z)</option>
-                        <option value="name_desc" {{ request('sort') === 'name_desc' ? 'selected' : '' }}>Nama (Z - A)</option>
+                        <option value="newest" {{ request('sort') === 'newest' ? 'selected' : '' }}>Newest / Terbaru</option>
+                        <option value="name_asc" {{ request('sort') === 'name_asc' ? 'selected' : '' }}>Name (A - Z)</option>
+                        <option value="name_desc" {{ request('sort') === 'name_desc' ? 'selected' : '' }}>Name (Z - A)</option>
                         <option value="sku_asc" {{ request('sort') === 'sku_asc' ? 'selected' : '' }}>SKU (A - Z)</option>
                     </select>
                 </div>
@@ -136,7 +166,7 @@
 
                     <!-- Short Description -->
                     <p class="text-xs text-slate-500 line-clamp-2 leading-relaxed mb-4">
-                        {{ $prod->short_description ?: 'Komponen elektrikal kualitas industri berstandar internasional.' }}
+                        {{ $prod->short_description ?: 'Industrial quality electrical components meeting international standards.' }}
                     </p>
                 </div>
 
@@ -144,10 +174,12 @@
                 <div class="pt-4 border-t border-slate-100 flex items-center justify-between">
                     <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-700">
                         <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-                        Spesifikasi Teknis
+                        <span class="ats-lang-en">Technical Specs</span>
+                        <span class="ats-lang-id">Spesifikasi Teknis</span>
                     </span>
                     <a href="{{ route('products.show', $prod->slug) }}" class="inline-flex items-center gap-1 text-xs font-bold text-rose-600 hover:text-rose-700 group-hover:translate-x-0.5 transition">
-                        Detail &rarr;
+                        <span class="ats-lang-en">View Details &rarr;</span>
+                        <span class="ats-lang-id">Lihat Detail &rarr;</span>
                     </a>
                 </div>
             </div>
@@ -157,9 +189,18 @@
             <div class="w-16 h-16 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center mx-auto mb-4">
                 <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
             </div>
-            <h3 class="text-base font-bold text-slate-800">Tidak ada produk ditemukan</h3>
-            <p class="text-xs text-slate-500 mt-1 max-w-sm mx-auto">Coba gunakan kata kunci pencarian yang berbeda atau reset filter kategori.</p>
-            <a href="{{ route('products.index') }}" class="inline-block mt-4 px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs rounded-xl transition">Reset Pencarian</a>
+            <h3 class="text-base font-bold text-slate-800">
+                <span class="ats-lang-en">No products found</span>
+                <span class="ats-lang-id">Tidak ada produk yang ditemukan</span>
+            </h3>
+            <p class="text-xs text-slate-500 mt-1 max-w-sm mx-auto">
+                <span class="ats-lang-en">Try different search keywords or reset filter options.</span>
+                <span class="ats-lang-id">Coba kata kunci pencarian yang berbeda atau atur ulang opsi filter.</span>
+            </p>
+            <a href="{{ route('products.index') }}" class="inline-block mt-4 px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-xs rounded-xl transition">
+                <span class="ats-lang-en">Reset Search</span>
+                <span class="ats-lang-id">Reset Pencarian</span>
+            </a>
         </div>
         @endforelse
     </div>
