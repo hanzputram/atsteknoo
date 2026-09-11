@@ -101,8 +101,8 @@
           <div class="form-group">
             <label class="form-label" for="status">Status *</label>
             <select name="status" id="status" class="form-control">
+              <option value="published" {{ old('status', 'published') === 'published' ? 'selected' : '' }}>Published (Publikasikan)</option>
               <option value="draft" {{ old('status') === 'draft' ? 'selected' : '' }}>Draft (Konsep)</option>
-              <option value="published" {{ old('status') === 'published' ? 'selected' : '' }}>Published (Publikasikan)</option>
               <option value="archived" {{ old('status') === 'archived' ? 'selected' : '' }}>Archived (Arsip)</option>
             </select>
           </div>

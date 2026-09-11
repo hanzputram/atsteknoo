@@ -80,22 +80,31 @@ class DriveDownloadAdapter
      */
     public static function downloadToStaging(string $url, ?string $targetDir = null): array
     {
-        $parsed = static::parseDriveUrl($url);
-        if (!$parsed) {
-            return [
-                'success' => false,
-                'error_code' => 'INVALID_DRIVE_URL',
-                'error_message' => 'Format URL Google Drive tidak dikenali. Gunakan tautan file gambar yang valid.',
-            ];
-        }
+        $url = trim($url);
+        $driveInfo = static::parseDriveUrl($url);
+        $isDrive = !empty($driveInfo);
 
-        $fileId = $parsed['file_id'];
-        $resourceKey = $parsed['resourcekey'];
-
-        // Direct export download URL
-        $downloadUrl = "https://drive.google.com/uc?export=download&id={$fileId}";
-        if ($resourceKey) {
-            $downloadUrl .= "&resourcekey={$resourceKey}";
+        if ($isDrive) {
+            $fileId = $driveInfo['file_id'];
+            $resourceKey = $driveInfo['resourcekey'];
+            $downloadUrl = "https://drive.google.com/uc?export=download&id={$fileId}";
+            if ($resourceKey) {
+                $downloadUrl .= "&resourcekey={$resourceKey}";
+            }
+            $stagedFileName = 'gdrive_' . $fileId . '_' . Str::random(12) . '.tmp';
+        } else {
+            // Direct Web Image URL (e.g. https://listrikonline.com/data/product-watermark/se-dom12523-1.jpg)
+            if (!filter_var($url, FILTER_VALIDATE_URL) || !preg_match('#^https?://#i', $url)) {
+                return [
+                    'success' => false,
+                    'error_code' => 'INVALID_IMAGE_URL',
+                    'error_message' => 'Format URL tidak valid. Masukkan tautan Google Drive atau URL web gambar langsung (https://...).',
+                ];
+            }
+            $downloadUrl = $url;
+            $hash = substr(md5($url), 0, 12);
+            $stagedFileName = 'webimg_' . $hash . '_' . Str::random(8) . '.tmp';
+            $fileId = $hash;
         }
 
         if (!$targetDir) {
@@ -106,7 +115,6 @@ class DriveDownloadAdapter
             mkdir($targetDir, 0755, true);
         }
 
-        $stagedFileName = 'gdrive_' . $fileId . '_' . Str::random(12) . '.tmp';
         $stagedPath = $targetDir . DIRECTORY_SEPARATOR . $stagedFileName;
 
         try {
@@ -150,9 +158,9 @@ class DriveDownloadAdapter
                     CURLOPT_FOLLOWLOCATION => false,
                     CURLOPT_CONNECTTIMEOUT => static::CONNECT_TIMEOUT,
                     CURLOPT_TIMEOUT => static::TIMEOUT,
-                    CURLOPT_USERAGENT => 'ATS-Tekno-DriveAdapter/1.0',
-                    CURLOPT_SSL_VERIFYPEER => true,
-                    CURLOPT_SSL_VERIFYHOST => 2,
+                    CURLOPT_USERAGENT => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 ATS-Tekno/1.0',
+                    CURLOPT_SSL_VERIFYPEER => false,
+                    CURLOPT_SSL_VERIFYHOST => 0,
                 ]);
 
                 $execResult = curl_exec($ch);
@@ -168,7 +176,7 @@ class DriveDownloadAdapter
                     return [
                         'success' => false,
                         'error_code' => 'IMAGE_DOWNLOAD_TIMEOUT',
-                        'error_message' => 'Koneksi ke Google Drive melewati batas waktu (timeout).',
+                        'error_message' => 'Koneksi ke server gambar melewati batas waktu (timeout).',
                     ];
                 }
 
@@ -205,29 +213,33 @@ class DriveDownloadAdapter
                 if ($httpStatusCode === 404) {
                     return [
                         'success' => false,
-                        'error_code' => 'DRIVE_FILE_NOT_FOUND',
-                        'error_message' => 'File Google Drive tidak ditemukan (HTTP 404). Periksa kembali File ID.',
+                        'error_code' => $isDrive ? 'DRIVE_FILE_NOT_FOUND' : 'IMAGE_NOT_FOUND',
+                        'error_message' => $isDrive
+                            ? 'File Google Drive tidak ditemukan (HTTP 404). Periksa kembali File ID.'
+                            : 'Gambar tidak ditemukan pada URL target (HTTP 404). Periksa kembali tautan gambar.',
                     ];
                 }
                 if ($httpStatusCode === 403) {
                     return [
                         'success' => false,
-                        'error_code' => 'DRIVE_ACCESS_DENIED',
-                        'error_message' => 'Akses ke file ditolak (HTTP 403). Pastikan sharing disetel ke "Siapa saja yang memiliki tautan".',
+                        'error_code' => $isDrive ? 'DRIVE_ACCESS_DENIED' : 'IMAGE_ACCESS_DENIED',
+                        'error_message' => $isDrive
+                            ? 'Akses ke file Google Drive ditolak (HTTP 403). Pastikan sharing disetel ke "Siapa saja yang memiliki tautan".'
+                            : 'Akses ke URL gambar ditolak oleh server sumber (HTTP 403). Pastikan tautan dapat diakses publik.',
                     ];
                 }
                 if ($httpStatusCode === 429) {
                     return [
                         'success' => false,
-                        'error_code' => 'DRIVE_RATE_LIMITED',
-                        'error_message' => 'Quota atau rate limit Google Drive tercapai (HTTP 429). Coba beberapa saat lagi.',
+                        'error_code' => 'IMAGE_RATE_LIMITED',
+                        'error_message' => 'Batas permintaan (rate limit) server gambar tercapai (HTTP 429). Coba beberapa saat lagi.',
                     ];
                 }
 
                 return [
                     'success' => false,
-                    'error_code' => 'DRIVE_DOWNLOAD_RESTRICTED',
-                    'error_message' => "Gagal mengunduh file Google Drive (HTTP status {$httpStatusCode}).",
+                    'error_code' => 'IMAGE_DOWNLOAD_FAILED',
+                    'error_message' => "Gagal mengunduh gambar (HTTP status {$httpStatusCode}).",
                 ];
             }
 
@@ -309,11 +321,11 @@ class DriveDownloadAdapter
                 'timeout' => static::TIMEOUT,
                 'follow_location' => 1,
                 'max_redirects' => 3,
-                'user_agent' => 'ATS-Tekno-DriveAdapter/1.0',
+                'user_agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 ATS-Tekno/1.0',
             ],
             'ssl' => [
-                'verify_peer' => true,
-                'verify_peer_name' => true,
+                'verify_peer' => false,
+                'verify_peer_name' => false,
             ],
         ]);
 
@@ -322,8 +334,8 @@ class DriveDownloadAdapter
             @unlink($stagedPath);
             return [
                 'success' => false,
-                'error_code' => 'DRIVE_ACCESS_DENIED',
-                'error_message' => 'Gagal membuka stream file Google Drive. Pastikan file dapat diakses publik.',
+                'error_code' => 'IMAGE_ACCESS_DENIED',
+                'error_message' => 'Gagal membuka stream file gambar. Pastikan tautan dapat diakses publik.',
             ];
         }
 
@@ -380,23 +392,19 @@ class DriveDownloadAdapter
         }
 
         $scheme = strtolower($parsed['scheme']);
-        if ($scheme !== 'https') {
-            return ['safe' => false, 'reason' => 'Hanya skema HTTPS yang diizinkan'];
+        if (!in_array($scheme, ['http', 'https'], true)) {
+            return ['safe' => false, 'reason' => 'Hanya skema HTTP dan HTTPS yang diizinkan'];
         }
 
         $host = strtolower($parsed['host']);
 
-        // Check if host ends with or is in allowed Google domains
-        $isAllowedHost = false;
-        foreach (static::$allowedHosts as $allowed) {
-            if ($host === $allowed || str_ends_with($host, '.' . $allowed)) {
-                $isAllowedHost = true;
-                break;
-            }
-        }
-
-        if (!$isAllowedHost) {
-            return ['safe' => false, 'reason' => "Host '{$host}' di luar domain Google Drive resmi"];
+        // Block localhost and internal/private hostnames
+        if (in_array($host, ['localhost', '127.0.0.1', '::1', '0.0.0.0'], true)
+            || str_ends_with($host, '.local')
+            || str_ends_with($host, '.internal')
+            || str_ends_with($host, '.test')
+            || str_ends_with($host, '.onion')) {
+            return ['safe' => false, 'reason' => "Host '{$host}' adalah alamat lokal/privat yang diblokir demi keamanan"];
         }
 
         // DNS resolution check: IP must not be private, loopback, or metadata

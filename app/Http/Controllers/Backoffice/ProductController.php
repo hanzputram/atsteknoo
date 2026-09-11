@@ -42,6 +42,10 @@ class ProductController extends Controller
             $query->where('status', $status);
         }
 
+        if ($request->filled('is_featured')) {
+            $query->where('is_featured', (bool) $request->input('is_featured'));
+        }
+
         $sortField = in_array($request->input('sort'), ['name', 'sku', 'updated_at'], true) ? $request->input('sort') : 'updated_at';
         $sortOrder = $request->input('order') === 'asc' ? 'asc' : 'desc';
 

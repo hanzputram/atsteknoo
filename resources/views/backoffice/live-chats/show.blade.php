@@ -99,43 +99,60 @@
 
     <!-- Chat Messages Stream -->
     <div id="adminChatStream" style="flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 14px; background: #F8FAFC;">
-      @forelse($session->messages as $msg)
-        @if($msg->sender === 'admin')
-          <!-- Admin Bubble (Right side) -->
-          <div style="display: flex; justify-content: flex-end; align-items: flex-end; gap: 10px;">
-            <div style="max-width: 80%; display: flex; flex-direction: column; align-items: flex-end;">
-              <span style="font-size: 10.5px; color: #94A3B8; margin-bottom: 3px; font-weight: 600;">
-                {{ $msg->admin ? $msg->admin->name : 'Engineer ATS' }} • {{ $msg->created_at->format('H:i') }}
-              </span>
-              <div style="background-color: #FC0001; color: #FFFFFF; padding: 12px 16px; border-radius: 14px 14px 2px 14px; font-size: 13.5px; line-height: 1.5; white-space: pre-wrap; box-shadow: 0 2px 6px rgba(252, 0, 1, 0.25);">
-                {{ $msg->message }}
+      <div id="adminMessagesList" style="display: flex; flex-direction: column; gap: 14px;">
+        @forelse($session->messages as $msg)
+          @if($msg->sender === 'admin')
+            <!-- Admin Bubble (Right side) -->
+            <div style="display: flex; justify-content: flex-end; align-items: flex-end; gap: 10px;">
+              <div style="max-width: 80%; display: flex; flex-direction: column; align-items: flex-end;">
+                <span style="font-size: 10.5px; color: #94A3B8; margin-bottom: 3px; font-weight: 600;">
+                  {{ $msg->admin ? $msg->admin->name : 'Engineer ATS' }} • {{ $msg->created_at->format('H:i') }}
+                </span>
+                <div style="background-color: #FC0001; color: #FFFFFF; padding: 12px 16px; border-radius: 14px 14px 2px 14px; font-size: 13.5px; line-height: 1.5; white-space: pre-wrap; box-shadow: 0 2px 6px rgba(252, 0, 1, 0.25);">
+                  {{ $msg->message }}
+                </div>
+              </div>
+              <div style="width: 32px; height: 32px; border-radius: 50%; background: #FFFFFF; color: #FC0001; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 10px; border: 1.5px solid #FC0001; box-shadow: 0 1px 4px rgba(252, 0, 1, 0.2); flex-shrink: 0;">
+                ATS
               </div>
             </div>
-            <div style="width: 32px; height: 32px; border-radius: 50%; background: #FFFFFF; color: #FC0001; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 10px; border: 1.5px solid #FC0001; box-shadow: 0 1px 4px rgba(252, 0, 1, 0.2); flex-shrink: 0;">
-              ATS
-            </div>
-          </div>
-        @else
-          <!-- Visitor Bubble (Left side) -->
-          <div style="display: flex; justify-content: flex-start; align-items: flex-end; gap: 10px;">
-            <div style="width: 32px; height: 32px; border-radius: 50%; background: #F1F5F9; color: #0F172A; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 10px; border: 1px solid #CBD5E1; flex-shrink: 0;">
-              {{ strtoupper(substr($session->visitor_name, 0, 2)) }}
-            </div>
-            <div style="max-width: 80%; display: flex; flex-direction: column; align-items: flex-start;">
-              <span style="font-size: 10.5px; color: #94A3B8; margin-bottom: 3px; font-weight: 600;">
-                {{ $session->visitor_name }} • {{ $msg->created_at->format('H:i') }}
-              </span>
-              <div style="background-color: #FFFFFF; color: #0F172A; border: 1px solid var(--color-border); padding: 12px 16px; border-radius: 14px 14px 14px 2px; font-size: 13.5px; line-height: 1.5; white-space: pre-wrap; box-shadow: 0 1px 3px rgba(0,0,0,0.04);">
-                {{ $msg->message }}
+          @else
+            <!-- Visitor Bubble (Left side) -->
+            <div style="display: flex; justify-content: flex-start; align-items: flex-end; gap: 10px;">
+              <div style="width: 32px; height: 32px; border-radius: 50%; background: #F1F5F9; color: #0F172A; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 10px; border: 1px solid #CBD5E1; flex-shrink: 0;">
+                {{ strtoupper(substr($session->visitor_name, 0, 2)) }}
+              </div>
+              <div style="max-width: 80%; display: flex; flex-direction: column; align-items: flex-start;">
+                <span style="font-size: 10.5px; color: #94A3B8; margin-bottom: 3px; font-weight: 600;">
+                  {{ $session->visitor_name }} • {{ $msg->created_at->format('H:i') }}
+                </span>
+                <div style="background-color: #FFFFFF; color: #0F172A; border: 1px solid var(--color-border); padding: 12px 16px; border-radius: 14px 14px 14px 2px; font-size: 13.5px; line-height: 1.5; white-space: pre-wrap; box-shadow: 0 1px 3px rgba(0,0,0,0.04);">
+                  {{ $msg->message }}
+                </div>
               </div>
             </div>
+          @endif
+        @empty
+          <div style="text-align: center; padding: 48px; color: #94A3B8;" id="adminChatEmptyPlaceholder">
+            Belum ada pesan dalam sesi ini.
           </div>
-        @endif
-      @empty
-        <div style="text-align: center; padding: 48px; color: #94A3B8;">
-          Belum ada pesan dalam sesi ini.
+        @endforelse
+      </div>
+
+      <!-- Visitor Typing Indicator in Backoffice Room -->
+      <div id="adminTypingIndicator" style="display: none; align-items: flex-end; gap: 10px; margin-top: 4px;">
+        <div style="width: 32px; height: 32px; border-radius: 50%; background: #F1F5F9; color: #0F172A; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 10px; border: 1px solid #CBD5E1; flex-shrink: 0;">
+          {{ strtoupper(substr($session->visitor_name, 0, 2)) }}
         </div>
-      @endforelse
+        <div style="background-color: #FFFFFF; color: #64748B; border: 1px solid var(--color-border); padding: 9px 14px; border-radius: 14px 14px 14px 2px; font-size: 12px; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.04);">
+          <div class="typing-dots-admin">
+            <span class="typing-dot-admin"></span>
+            <span class="typing-dot-admin"></span>
+            <span class="typing-dot-admin"></span>
+          </div>
+          <span style="font-weight: 600; font-style: italic;" id="adminTypingLabel">{{ $session->visitor_name }} sedang mengetik...</span>
+        </div>
+      </div>
     </div>
 
     <!-- Reply Form -->
@@ -150,26 +167,130 @@
     </div>
   </div>
 </div>
+
+<style>
+.typing-dots-admin {
+  display: inline-flex;
+  align-items: center;
+  gap: 3.5px;
+}
+
+.typing-dot-admin {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #FC0001;
+  display: inline-block;
+  animation: adminTypingBounce 1.4s infinite ease-in-out both;
+}
+
+.typing-dot-admin:nth-child(1) { animation-delay: -0.32s; }
+.typing-dot-admin:nth-child(2) { animation-delay: -0.16s; }
+.typing-dot-admin:nth-child(3) { animation-delay: 0s; }
+
+@keyframes adminTypingBounce {
+  0%, 80%, 100% {
+    transform: scale(0.6);
+    opacity: 0.35;
+  }
+  40% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+</style>
 @endsection
 
 @push('scripts')
 <script>
 (function() {
   const stream = document.getElementById('adminChatStream');
+  const messagesList = document.getElementById('adminMessagesList');
   const input = document.getElementById('replyMessageInput');
   const sendBtn = document.getElementById('adminSendBtn');
+  const adminTypingIndicator = document.getElementById('adminTypingIndicator');
+  const adminTypingLabel = document.getElementById('adminTypingLabel');
+
   const pollUrl = "{{ route('backoffice.live-chats.poll', $session->id) }}";
   const replyUrl = "{{ route('backoffice.live-chats.reply', $session->id) }}";
+  const typingUrl = "{{ route('backoffice.live-chats.typing', $session->id) }}";
 
   function scrollToBottom() {
-    stream.scrollTop = stream.scrollHeight;
+    setTimeout(() => {
+      stream.scrollTop = stream.scrollHeight;
+    }, 40);
   }
   scrollToBottom();
+
+  // Admin typing state tracking
+  let adminTypingTimer = null;
+  let lastAdminTypingSent = 0;
+
+  function sendAdminTyping(isTyping) {
+    fetch(typingUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+      },
+      body: JSON.stringify({ typing: isTyping })
+    }).then(res => res.json()).then(data => {
+      if (data && typeof data.is_typing === 'boolean') {
+        updateVisitorTypingUI(data.is_typing, data.visitor_name);
+      }
+    }).catch(() => {});
+  }
+
+  if (input) {
+    input.addEventListener('input', () => {
+      const hasText = input.value.trim().length > 0;
+      if (!hasText) {
+        clearTimeout(adminTypingTimer);
+        sendAdminTyping(false);
+        return;
+      }
+
+      const now = Date.now();
+      if (now - lastAdminTypingSent > 2000) {
+        lastAdminTypingSent = now;
+        sendAdminTyping(true);
+      }
+
+      clearTimeout(adminTypingTimer);
+      adminTypingTimer = setTimeout(() => {
+        sendAdminTyping(false);
+      }, 4000);
+    });
+
+    input.addEventListener('blur', () => {
+      clearTimeout(adminTypingTimer);
+      sendAdminTyping(false);
+    });
+  }
+
+  function updateVisitorTypingUI(isTyping, visitorName) {
+    if (!adminTypingIndicator) return;
+    if (isTyping) {
+      if (visitorName && adminTypingLabel) {
+        adminTypingLabel.textContent = `${visitorName} sedang mengetik...`;
+      }
+      if (adminTypingIndicator.style.display !== 'flex') {
+        adminTypingIndicator.style.display = 'flex';
+        scrollToBottom();
+      }
+    } else {
+      adminTypingIndicator.style.display = 'none';
+    }
+  }
 
   window.submitAdminReply = async function(e) {
     e.preventDefault();
     const text = input.value.trim();
     if (!text) return;
+
+    clearTimeout(adminTypingTimer);
+    sendAdminTyping(false);
 
     sendBtn.disabled = true;
     sendBtn.innerHTML = '<span>Mengirim...</span>';
@@ -207,6 +328,10 @@
       const res = await fetch(pollUrl);
       if (!res.ok) return;
       const data = await res.json();
+
+      // Update visitor typing indicator
+      updateVisitorTypingUI(!!data.is_typing, data.visitor_name);
+
       if (data.messages && data.messages.length > lastKnownCount) {
         lastKnownCount = data.messages.length;
         renderMessages(data.messages);
@@ -216,7 +341,8 @@
   }
 
   function renderMessages(messages) {
-    stream.innerHTML = messages.map(msg => {
+    if (!messagesList) return;
+    messagesList.innerHTML = messages.map(msg => {
       if (msg.sender === 'admin') {
         return `
           <div style="display: flex; justify-content: flex-end; align-items: flex-end; gap: 10px;">
@@ -259,7 +385,8 @@
     return div.innerHTML;
   }
 
-  setInterval(pollNewMessages, 3500);
+  // Polling every 2 seconds for real-time messaging & typing sync
+  setInterval(pollNewMessages, 2000);
 })();
 </script>
 @endpush

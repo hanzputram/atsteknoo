@@ -85,6 +85,18 @@
 
       <!-- Real-time Dynamic Messages Container -->
       <div id="dynamicMessagesContainer" class="dynamic-stream"></div>
+
+      <!-- Typing Indicator (Visible when ATS Engineer is typing) -->
+      <div id="visitorTypingIndicator" class="chat-typing-row" style="display: none;">
+        <div class="chat-typing-bubble">
+          <div class="typing-dots">
+            <span class="typing-dot"></span>
+            <span class="typing-dot"></span>
+            <span class="typing-dot"></span>
+          </div>
+          <span class="typing-label" id="visitorTypingLabel" data-i18n="chat.typing_indicator">ATS Engineer sedang mengetik...</span>
+        </div>
+      </div>
     </div>
 
     <!-- Bottom Interactive Chat Input Area -->
@@ -724,6 +736,67 @@
   color: #FEE2E2;
 }
 
+/* Typing Indicator Bubble */
+.chat-typing-row {
+  display: flex;
+  align-items: flex-start;
+  margin-top: 2px;
+  animation: typingFadeIn 0.2s ease-out;
+}
+
+.chat-typing-bubble {
+  background-color: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 14px 14px 14px 2px;
+  padding: 8px 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+}
+
+.typing-dots {
+  display: inline-flex;
+  align-items: center;
+  gap: 3.5px;
+}
+
+.typing-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #FC0001;
+  display: inline-block;
+  animation: typingBounce 1.4s infinite ease-in-out both;
+}
+
+.typing-dot:nth-child(1) { animation-delay: -0.32s; }
+.typing-dot:nth-child(2) { animation-delay: -0.16s; }
+.typing-dot:nth-child(3) { animation-delay: 0s; }
+
+@keyframes typingBounce {
+  0%, 80%, 100% {
+    transform: scale(0.6);
+    opacity: 0.35;
+  }
+  40% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.typing-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #64748B;
+  font-style: italic;
+}
+
+@keyframes typingFadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 /* Input Area (Clean White & Grey) */
 .chat-drawer-input-area {
   padding: 10px 14px 12px;
@@ -1125,6 +1198,10 @@
     localStorage.setItem('ats_visitor_contact', contact);
     updateIdentityUI();
 
+    // Stop typing state upon sending
+    clearTimeout(visitorTypingTimer);
+    sendVisitorTyping(false);
+
     sendBtn.disabled = true;
     msgInput.disabled = true;
 
@@ -1168,6 +1245,71 @@
     }
   };
 
+  // Typing state tracking for visitor
+  let visitorTypingTimer = null;
+  let lastVisitorTypingSent = 0;
+
+  function sendVisitorTyping(isTyping) {
+    if (!sessionToken) return;
+    fetch('/live-chat/typing', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+      },
+      body: JSON.stringify({
+        session_token: sessionToken,
+        typing: isTyping
+      })
+    }).then(res => res.json()).then(data => {
+      if (data && typeof data.is_typing === 'boolean') {
+        updateAdminTypingUI(data.is_typing);
+      }
+    }).catch(() => {});
+  }
+
+  if (msgInput) {
+    msgInput.addEventListener('input', () => {
+      const hasText = msgInput.value.trim().length > 0;
+      if (!hasText) {
+        clearTimeout(visitorTypingTimer);
+        sendVisitorTyping(false);
+        return;
+      }
+
+      const now = Date.now();
+      if (now - lastVisitorTypingSent > 2000) {
+        lastVisitorTypingSent = now;
+        sendVisitorTyping(true);
+      }
+
+      clearTimeout(visitorTypingTimer);
+      visitorTypingTimer = setTimeout(() => {
+        sendVisitorTyping(false);
+      }, 4000);
+    });
+
+    msgInput.addEventListener('blur', () => {
+      clearTimeout(visitorTypingTimer);
+      sendVisitorTyping(false);
+    });
+  }
+
+  const visitorTypingIndicator = document.getElementById('visitorTypingIndicator');
+
+  function updateAdminTypingUI(isAdminTyping) {
+    if (!visitorTypingIndicator) return;
+    if (isAdminTyping) {
+      if (visitorTypingIndicator.style.display !== 'flex') {
+        visitorTypingIndicator.style.display = 'flex';
+        scrollToBottom();
+      }
+    } else {
+      visitorTypingIndicator.style.display = 'none';
+    }
+  }
+
   function appendSingleMessage(msg) {
     if (knownMessageIds.has(msg.id)) return;
     knownMessageIds.add(msg.id);
@@ -1186,7 +1328,7 @@
     scrollToBottom();
   }
 
-  // Poll for messages from Backoffice
+  // Poll for messages and typing state from Backoffice
   async function pollLiveMessages() {
     if (!sessionToken) return;
 
@@ -1194,6 +1336,9 @@
       const res = await fetch(`/live-chat/messages?session_token=${encodeURIComponent(sessionToken)}`);
       if (!res.ok) return;
       const data = await res.json();
+
+      // Update admin typing indicator
+      updateAdminTypingUI(!!data.is_typing);
 
       if (data.messages && Array.isArray(data.messages)) {
         let hasNewAdminMessage = false;
@@ -1225,8 +1370,8 @@
     return div.innerHTML;
   }
 
-  // Polling every 3.5 seconds
-  setInterval(pollLiveMessages, 3500);
+  // Polling every 2 seconds for real-time messaging & typing sync
+  setInterval(pollLiveMessages, 2000);
 
   // Initial load if token exists
   if (sessionToken) {

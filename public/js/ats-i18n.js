@@ -75,9 +75,10 @@
       "features.support_desc": "Consult your Bill of Quantities (BoQ), switchboard sizing, or automation needs directly with certified engineers.",
 
       // Projects 3D Carousel
-      "projects.title": "Flagship Projects & Electrical Engineering Portfolio",
+      "projects.title": "Electrical Engineering Project Portfolio",
       "projects.subtitle": "Proven track record in supplying industrial electrical distribution switchboards, certified automation systems, and critical power infrastructure across Indonesia.",
       "projects.drag_hint": "Drag or use arrows to rotate • Click card to view details",
+      "projects.empty_notice": "Portfolio is not yet available.",
 
       // Price List Page
       "pricelist.breadcrumb_home": "Home",
@@ -124,6 +125,7 @@
       "chat.contact_placeholder": "WhatsApp Number / Email *",
       "chat.msg_placeholder": "Type your consultation inquiry here...",
       "chat.btn_send": "Send",
+      "chat.typing_indicator": "ATS Engineer is typing...",
 
       // About Us Publications
       "about.compro_badge": "INDONESIA • OFFICIAL PUBLICATION",
@@ -231,6 +233,7 @@
       "projects.title": "Portofolio Proyek Unggulan & Rekayasa Elektrikal",
       "projects.subtitle": "Rekam jejak terbukti dalam menyuplai panel distribusi tegangan rendah, sistem otomasi industri, dan infrastruktur daya krusial di seluruh Indonesia.",
       "projects.drag_hint": "Geser atau gunakan panah untuk memutar • Klik kartu untuk detail",
+      "projects.empty_notice": "Portofolio belum tersedia.",
 
       // Price List Page
       "pricelist.breadcrumb_home": "Beranda",
@@ -277,6 +280,7 @@
       "chat.contact_placeholder": "No. WhatsApp / Email *",
       "chat.msg_placeholder": "Ketik pesan konsultasi Anda di sini...",
       "chat.btn_send": "Kirim",
+      "chat.typing_indicator": "ATS Engineer sedang mengetik...",
 
       // About Us Publications
       "about.compro_badge": "INDONESIA • PUBLIKASI RESMI",

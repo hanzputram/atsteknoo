@@ -17,11 +17,25 @@ class LiveChatSession extends Model
         'status',
         'ip_address',
         'last_message_at',
+        'visitor_typing_at',
+        'admin_typing_at',
     ];
 
     protected $casts = [
         'last_message_at' => 'datetime',
+        'visitor_typing_at' => 'datetime',
+        'admin_typing_at' => 'datetime',
     ];
+
+    public function isVisitorTyping(): bool
+    {
+        return $this->visitor_typing_at !== null && $this->visitor_typing_at->diffInSeconds(now()) < 5;
+    }
+
+    public function isAdminTyping(): bool
+    {
+        return $this->admin_typing_at !== null && $this->admin_typing_at->diffInSeconds(now()) < 5;
+    }
 
     public function messages(): HasMany
     {

@@ -15,7 +15,30 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        spl_autoload_register(function ($class) {
+            $prefixes = [
+                'PhpOffice\\PhpSpreadsheet\\' => base_path('vendor/phpoffice/phpspreadsheet/src/PhpSpreadsheet/'),
+                'ZipStream\\' => base_path('vendor/maennchen/zipstream-php/src/'),
+                'Matrix\\' => base_path('vendor/markbaker/matrix/classes/src/'),
+                'Complex\\' => base_path('vendor/markbaker/complex/classes/src/'),
+                'Composer\\Pcre\\' => base_path('vendor/composer/pcre/src/'),
+            ];
+
+            foreach ($prefixes as $prefix => $baseDir) {
+                $len = strlen($prefix);
+                if (strncmp($prefix, $class, $len) !== 0) {
+                    continue;
+                }
+
+                $relativeClass = substr($class, $len);
+                $file = $baseDir . str_replace('\\', '/', $relativeClass) . '.php';
+
+                if (file_exists($file)) {
+                    require_once $file;
+                    return true;
+                }
+            }
+        });
     }
 
     /**
@@ -24,6 +47,10 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->configureDefaults();
+
+        if (request()->server('HTTP_X_FORWARDED_PROTO') === 'https' || request()->header('X-Forwarded-Proto') === 'https' || (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on')) {
+            \Illuminate\Support\Facades\URL::forceScheme('https');
+        }
     }
 
     /**

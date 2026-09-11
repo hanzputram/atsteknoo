@@ -56,8 +56,11 @@ class ImportCenterController extends Controller
 
     public function upload(Request $request)
     {
+        @ini_set('memory_limit', '1024M');
+        @set_time_limit(600);
+
         $request->validate([
-            'file' => ['required', 'file', 'mimes:xlsx', 'max:20480'], // max 20 MiB
+            'file' => ['required', 'file', 'mimes:xlsx', 'max:51200'], // max 50 MiB
             'mode' => ['required', 'in:upsert,create_only,update_only'],
         ]);
 
@@ -67,9 +70,10 @@ class ImportCenterController extends Controller
         $checksum = hash_file('sha256', $file->getRealPath());
         $mode = $request->input('mode');
 
-        // Store file in private imports folder
-        $storedPath = $file->storeAs('private/imports', 'import_' . time() . '_' . $checksum . '.xlsx');
-        $fullPath = storage_path('app/' . $storedPath);
+        // Store file in local disk
+        $filename = 'import_' . time() . '_' . $checksum . '.xlsx';
+        $storedPath = $file->storeAs('imports', $filename, 'local');
+        $fullPath = static::resolveStoragePath($storedPath);
 
         // Parse and validate with staging
         $parseResult = ProductExcelService::parseAndValidate($fullPath, $mode, auth()->id());
@@ -86,14 +90,14 @@ class ImportCenterController extends Controller
             'total_rows' => $parseResult['summary']['total_units'] ?? 0,
             'valid_rows' => ($parseResult['summary']['total_units'] ?? 0) - ($parseResult['summary']['error_count'] ?? 0),
             'error_rows' => $parseResult['summary']['error_count'] ?? 0,
-            'plan_data' => json_encode($parseResult['units'] ?? []),
+            'plan_data' => json_encode(array_slice($parseResult['units'] ?? [], 0, 100)),
         ]);
 
         // If errors, save error report
         if (!empty($parseResult['errors'])) {
             $errorReport = ProductExcelService::generateErrorReport($parseResult['errors']);
-            $errorReportRelPath = 'private/reports/error_report_' . $job->id . '.xlsx';
-            $errorReportFullPath = storage_path('app/' . $errorReportRelPath);
+            $errorReportRelPath = 'reports/error_report_' . $job->id . '.xlsx';
+            $errorReportFullPath = Storage::disk('local')->path($errorReportRelPath);
 
             if (!is_dir(dirname($errorReportFullPath))) {
                 mkdir(dirname($errorReportFullPath), 0755, true);
@@ -116,27 +120,33 @@ class ImportCenterController extends Controller
 
     public function preview(int $id)
     {
-        $job = ImportJob::with('user')->findOrFail($id);
-        $units = json_decode($job->plan_data ?? '[]', true);
-        $errors = [];
+        @ini_set('memory_limit', '1024M');
+        @set_time_limit(300);
 
-        // If job has error report, parse or display errors
-        if ($job->error_report_path && file_exists(storage_path('app/' . $job->error_report_path))) {
-            // Error report exists
-        }
+        $job = ImportJob::with('user')->findOrFail($id);
+        $units = json_decode($job->plan_data ?? '[]', true) ?: [];
 
         return view('backoffice.import.preview', compact('job', 'units'));
     }
 
     public function execute(Request $request, int $id)
     {
+        @ini_set('memory_limit', '1024M');
+        @set_time_limit(900);
+
         $job = ImportJob::findOrFail($id);
 
         if ($job->status === 'completed') {
             return redirect()->route('backoffice.import.index')->with('info', 'Job impor ini telah selesai dieksekusi sebelumnya.');
         }
 
-        $units = json_decode($job->plan_data ?? '[]', true);
+        $fullPath = static::resolveStoragePath($job->file_path);
+        if ($fullPath && file_exists($fullPath)) {
+            $parseResult = ProductExcelService::parseAndValidate($fullPath, $job->mode);
+            $units = $parseResult['units'] ?? [];
+        } else {
+            $units = json_decode($job->plan_data ?? '[]', true);
+        }
 
         $created = 0;
         $updated = 0;
@@ -187,11 +197,49 @@ class ImportCenterController extends Controller
     public function downloadErrorReport(int $id)
     {
         $job = ImportJob::findOrFail($id);
+        $fullPath = static::resolveStoragePath($job->error_report_path);
 
-        if (!$job->error_report_path || !file_exists(storage_path('app/' . $job->error_report_path))) {
+        if (!$job->error_report_path || !$fullPath || !file_exists($fullPath)) {
             abort(404, 'Laporan error tidak ditemukan.');
         }
 
-        return response()->download(storage_path('app/' . $job->error_report_path), "Laporan_Error_Impor_{$job->id}.xlsx");
+        return response()->download($fullPath, "Laporan_Error_Impor_{$job->id}.xlsx");
+    }
+
+    /**
+     * Resolve relative storage path across local disk and legacy private directories.
+     */
+    public static function resolveStoragePath(?string $relPath): ?string
+    {
+        if (!$relPath) {
+            return null;
+        }
+
+        // 1. Storage disk 'local' direct path
+        $p1 = Storage::disk('local')->path($relPath);
+        if (file_exists($p1)) {
+            return $p1;
+        }
+
+        // 2. storage_path('app/' . $relPath)
+        $p2 = storage_path('app/' . ltrim($relPath, '/\\'));
+        if (file_exists($p2)) {
+            return $p2;
+        }
+
+        // 3. Strip redundant 'private/' prefix
+        $clean = preg_replace('#^(private[/\\\\])+#', '', $relPath);
+        $p3 = Storage::disk('local')->path($clean);
+        if (file_exists($p3)) {
+            return $p3;
+        }
+
+        // 4. Double private path
+        $p4 = storage_path('app/private/private/' . $clean);
+        if (file_exists($p4)) {
+            return $p4;
+        }
+
+        return $p1;
     }
 }

@@ -71,6 +71,7 @@ class LiveChatController extends Controller
         $session->update([
             'status' => 'active',
             'last_message_at' => now(),
+            'admin_typing_at' => null,
         ]);
 
         AuditLog::log('REPLY_CHAT', 'LiveChatSession', $session->id, ['reply_id' => $message->id]);
@@ -89,6 +90,21 @@ class LiveChatController extends Controller
         }
 
         return back()->with('success', 'Balasan live chat berhasil dikirim.');
+    }
+
+    public function updateTyping(Request $request, int $id): JsonResponse
+    {
+        $session = LiveChatSession::findOrFail($id);
+        $isTyping = filter_var($request->input('typing', true), FILTER_VALIDATE_BOOLEAN);
+
+        $session->update([
+            'admin_typing_at' => $isTyping ? now() : null,
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'is_typing' => $session->isVisitorTyping(),
+        ]);
     }
 
     public function poll(int $id): JsonResponse
@@ -113,6 +129,8 @@ class LiveChatController extends Controller
 
         return response()->json([
             'status' => $session->status,
+            'is_typing' => $session->isVisitorTyping(),
+            'visitor_name' => $session->visitor_name,
             'messages' => $messages,
         ]);
     }

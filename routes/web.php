@@ -75,6 +75,7 @@ Route::post('/contact-us', [PublicContactController::class, 'submit'])->name('co
 // Real-time Live Chat API (Visitor Widget)
 Route::get('/live-chat/messages', [LiveChatApiController::class, 'getSessionMessages'])->name('live-chat.messages');
 Route::post('/live-chat/send', [LiveChatApiController::class, 'sendMessage'])->name('live-chat.send');
+Route::post('/live-chat/typing', [LiveChatApiController::class, 'updateTyping'])->name('live-chat.typing');
 
 // Protected Media Delivery
 Route::get('/media/{id}/view', [MediaDeliveryController::class, 'view'])->name('media.view');
@@ -109,6 +110,9 @@ Route::prefix('backoffice')->name('backoffice.')->group(function () {
         Route::resource('certificates', CertificateController::class);
 
         // Projects
+        Route::get('projects/download-template', [ProjectController::class, 'downloadTemplate'])->name('projects.download-template');
+        Route::post('projects/import-excel', [ProjectController::class, 'importExcel'])->name('projects.import-excel');
+        Route::post('projects/{id}/toggle-status', [ProjectController::class, 'toggleStatus'])->name('projects.toggle-status');
         Route::resource('projects', ProjectController::class);
 
         // Project Categories
@@ -139,6 +143,7 @@ Route::prefix('backoffice')->name('backoffice.')->group(function () {
         Route::post('live-chats/{id}/close', [LiveChatController::class, 'close'])->name('live-chats.close');
         Route::delete('live-chats/{id}', [LiveChatController::class, 'destroy'])->name('live-chats.destroy');
         Route::get('live-chats/{id}/poll', [LiveChatController::class, 'poll'])->name('live-chats.poll');
+        Route::post('live-chats/{id}/typing', [LiveChatController::class, 'updateTyping'])->name('live-chats.typing');
 
         // Import Center
         Route::get('import-products', [ImportCenterController::class, 'index'])->name('import.index');

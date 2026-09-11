@@ -8,6 +8,13 @@
   <meta name="description"
     content="PT. Anugerah Tama Sejati - Your trusted one-stop supplier for all electrical and wiring components. Authorized Schneider Electric Distributor Surabaya.">
 
+  <!-- Official ATS Brand Favicon -->
+  <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
+  <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon-32x32.png') }}">
+  <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicon-16x16.png') }}">
+  <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
+  <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('apple-touch-icon.png') }}">
+
   <!-- GEO Meta Tags (Location & AI Crawlability) -->
   <meta name="geo.region" content="ID-JI">
   <meta name="geo.placename" content="Surabaya, East Java, Indonesia">
@@ -1828,7 +1835,7 @@
       @include('components.curved-walking-text')
 
       <!-- ================= OUR PRODUCT SECTION (SESUAI MOCKUP FIGMA) ================= -->
-      @include('components.our-products')
+      @include('components.our-products', ['bestSellerProducts' => $featuredProducts])
 
       <!-- 4-Column Feature Highlights (Upgraded State of the Art) -->
       <section class="features-grid">
@@ -1953,65 +1960,30 @@
       </div>
       <div class="modal-body">
         <div class="product-catalog-grid">
-          <div class="catalog-item-card">
-            <span class="catalog-brand-badge">Schneider Electric</span>
-            <div class="catalog-item-title">MasterPact MTZ / NT / NW</div>
-            <div class="catalog-item-desc">Air Circuit Breakers (ACB) 630A up to 6300A, low-voltage primary electrical distribution protection.</div>
-            <div class="catalog-action-row">
-              <span style="font-size: 11px; color: #059669; font-weight: 600;">Ready Stock</span>
-              <a href="https://wa.me/6281234567890?text=Hello%20PT%20ATS,%20I%20would%20like%20to%20request%20a%20quotation%20for%20MasterPact%20ACB" target="_blank" class="catalog-quote-btn">Request Quotation &rarr;</a>
+          @forelse($featuredProducts as $item)
+            @php
+              $brandName = $item->brand ? $item->brand->name : 'ATS Tekno';
+              $badgeStyle = '';
+              if (stripos($brandName, 'Legrand') !== false) {
+                $badgeStyle = 'color: #DC2626; background: #FEE2E2;';
+              } elseif (stripos($brandName, 'GAE') !== false) {
+                $badgeStyle = 'color: #2563EB; background: #EFF6FF;';
+              }
+            @endphp
+            <div class="catalog-item-card">
+              <span class="catalog-brand-badge" style="{{ $badgeStyle }}">{{ $brandName }}</span>
+              <div class="catalog-item-title">{{ $item->name }}</div>
+              <div class="catalog-item-desc">{{ $item->short_description ?: Str::limit(strip_tags($item->description_html), 95) }}</div>
+              <div class="catalog-action-row">
+                <span style="font-size: 11px; color: #059669; font-weight: 600;">Surabaya Ready Stock</span>
+                <a href="{{ route('products.show', $item->slug) }}" class="catalog-quote-btn">Lihat Detail &rarr;</a>
+              </div>
             </div>
-          </div>
-
-          <div class="catalog-item-card">
-            <span class="catalog-brand-badge">Schneider Electric</span>
-            <div class="catalog-item-title">ComPact NSX &amp; CVS Series</div>
-            <div class="catalog-item-desc">Molded Case Circuit Breakers (MCCB) 16A up to 1600A, reliable for industrial distribution switchboards.</div>
-            <div class="catalog-action-row">
-              <span style="font-size: 11px; color: #059669; font-weight: 600;">Ready Stock</span>
-              <a href="https://wa.me/6281234567890?text=Hello%20PT%20ATS,%20I%20would%20like%20to%20request%20a%20quotation%20for%20ComPact%20MCCB" target="_blank" class="catalog-quote-btn">Request Quotation &rarr;</a>
+          @empty
+            <div style="grid-column: 1 / -1; padding: 24px; text-align: center; color: #64748B;">
+              Belum ada produk unggulan yang tersedia saat ini.
             </div>
-          </div>
-
-          <div class="catalog-item-card">
-            <span class="catalog-brand-badge">Schneider Electric</span>
-            <div class="catalog-item-title">Altivar Process &amp; Machine</div>
-            <div class="catalog-item-desc">Variable Speed Drives (VFD/Inverter) ATV320, ATV630, ATV930 for precision industrial motor control.</div>
-            <div class="catalog-action-row">
-              <span style="font-size: 11px; color: #059669; font-weight: 600;">Ready Stock</span>
-              <a href="https://wa.me/6281234567890?text=Hello%20PT%20ATS,%20I%20would%20like%20to%20request%20a%20quotation%20for%20Altivar%20Inverter" target="_blank" class="catalog-quote-btn">Request Quotation &rarr;</a>
-            </div>
-          </div>
-
-          <div class="catalog-item-card">
-            <span class="catalog-brand-badge">Schneider Electric</span>
-            <div class="catalog-item-title">TeSys D &amp; F Series</div>
-            <div class="catalog-item-desc">Magnetic Contactors &amp; Overload Relays for motor starting from 9A up to 1000A premium grade.</div>
-            <div class="catalog-action-row">
-              <span style="font-size: 11px; color: #059669; font-weight: 600;">Ready Stock</span>
-              <a href="https://wa.me/6281234567890?text=Hello%20PT%20ATS,%20I%20would%20like%20to%20request%20a%20quotation%20for%20TeSys%20Contactors" target="_blank" class="catalog-quote-btn">Request Quotation &rarr;</a>
-            </div>
-          </div>
-
-          <div class="catalog-item-card">
-            <span class="catalog-brand-badge" style="color: #DC2626; background: #FEE2E2;">Legrand Indonesia</span>
-            <div class="catalog-item-title">Plexo™ &amp; Enclosures XL³</div>
-            <div class="catalog-item-desc">Weatherproof IP66 industrial enclosure boxes, modular distribution, and industrial switches.</div>
-            <div class="catalog-action-row">
-              <span style="font-size: 11px; color: #059669; font-weight: 600;">Ready Stock</span>
-              <a href="https://wa.me/6281234567890?text=Hello%20PT%20ATS,%20I%20would%20like%20to%20request%20a%20quotation%20for%20Legrand%20Products" target="_blank" class="catalog-quote-btn">Request Quotation &rarr;</a>
-            </div>
-          </div>
-
-          <div class="catalog-item-card">
-            <span class="catalog-brand-badge" style="color: #2563EB; background: #EFF6FF;">GAE Group</span>
-            <div class="catalog-item-title">Power Quality &amp; Metering</div>
-            <div class="catalog-item-desc">Digital Energy Meters, Capacitor Banks, Surge Protection Devices, and Current Transformers (CT).</div>
-            <div class="catalog-action-row">
-              <span style="font-size: 11px; color: #059669; font-weight: 600;">Ready Stock</span>
-              <a href="https://wa.me/6281234567890?text=Hello%20PT%20ATS,%20I%20would%20like%20to%20request%20a%20quotation%20for%20GAE%20Products" target="_blank" class="catalog-quote-btn">Request Quotation &rarr;</a>
-            </div>
-          </div>
+          @endforelse
         </div>
       </div>
     </div>

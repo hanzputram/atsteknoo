@@ -8,9 +8,13 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <!-- Breadcrumb -->
         <nav class="flex items-center gap-2 text-xs text-slate-500 mb-4" aria-label="Breadcrumb">
-            <a href="{{ route('home') }}" class="hover:text-rose-600 transition">Beranda</a>
+            <a href="{{ route('home') }}" class="hover:text-rose-600 transition">
+                <span class="ats-lang-en">Home</span><span class="ats-lang-id">Beranda</span>
+            </a>
             <span>&rsaquo;</span>
-            <a href="{{ route('products.index') }}" class="hover:text-rose-600 transition">Katalog Produk</a>
+            <a href="{{ route('products.index') }}" class="hover:text-rose-600 transition">
+                <span class="ats-lang-en">Product Catalog</span><span class="ats-lang-id">Katalog Produk</span>
+            </a>
             <span>&rsaquo;</span>
             <span class="text-slate-800 font-semibold">{{ $category->name }}</span>
         </nav>
@@ -18,7 +22,7 @@
         <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
                 <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold tracking-wider uppercase bg-blue-50 text-blue-700 border border-blue-200 mb-3">
-                    Kategori Produk
+                    <span class="ats-lang-en">Product Category</span><span class="ats-lang-id">Kategori Produk</span>
                 </span>
                 <h1 class="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">{{ $category->name }}</h1>
                 <p class="text-sm sm:text-base text-slate-600 mt-2 max-w-2xl">
@@ -71,16 +75,19 @@
                 </div>
 
                 <div class="pt-4 border-t border-slate-100 flex items-center justify-between">
-                    <span class="text-xs font-semibold text-emerald-700">Tersedia BoQ</span>
+                    <span class="text-xs font-semibold text-emerald-700">
+                        <span class="ats-lang-en">BoQ Ready</span><span class="ats-lang-id">Tersedia BoQ</span>
+                    </span>
                     <a href="{{ route('products.show', $prod->slug) }}" class="inline-flex items-center gap-1 text-xs font-bold text-rose-600 hover:text-rose-700 transition">
-                        Detail &rarr;
+                        <span class="ats-lang-en">Details &rarr;</span><span class="ats-lang-id">Detail &rarr;</span>
                     </a>
                 </div>
             </div>
         </div>
         @empty
         <div class="col-span-full py-16 text-center text-slate-400 text-sm">
-            Belum ada produk aktif dalam kategori ini.
+            <span class="ats-lang-en">No active products found in this category.</span>
+            <span class="ats-lang-id">Belum ada produk aktif dalam kategori ini.</span>
         </div>
         @endforelse
     </div>

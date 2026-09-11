@@ -7,152 +7,97 @@
   <div class="p3d-container">
     <!-- Section Header (English / Indonesian) -->
     <div class="p3d-header">
-      <h2 class="p3d-title" data-i18n="projects.title">Flagship Projects &amp; Electrical Engineering Portfolio</h2>
+      <h2 class="p3d-title" data-i18n="projects.title">Electrical Engineering Project Portfolio</h2>
       <p class="p3d-subtitle" data-i18n="projects.subtitle">
         Proven track record in supplying industrial electrical distribution switchboards, certified automation systems, and critical power infrastructure across Indonesia.
       </p>
     </div>
   </div>
 
-  <!-- 3D Carousel Stage Area -->
-  <div class="p3d-stage-wrapper" id="p3dStage">
-    <!-- Atmospheric Edge Fog Masks (Framer Fog Fade) -->
-    <div class="p3d-fog-edge p3d-fog-left" aria-hidden="true"></div>
-    <div class="p3d-fog-edge p3d-fog-right" aria-hidden="true"></div>
+  @php
+    $projectSource = isset($projects) && $projects->isNotEmpty()
+      ? $projects
+      : \App\Models\Project::published()->with(['category', 'coverImage'])->where('is_featured', true)->orderBy('sort_order')->orderBy('id', 'desc')->take(16)->get();
 
-    <!-- 3D Viewport -->
-    <div class="p3d-viewport" id="p3dViewport">
-      <!-- 3D Cylinder Anchor -->
-      <div class="p3d-cylinder" id="p3dCylinder">
+    if ($projectSource->isEmpty()) {
+      $projectSource = \App\Models\Project::published()->with(['category', 'coverImage'])->orderBy('sort_order')->orderBy('id', 'desc')->take(16)->get();
+    }
 
-        @php
-          if (isset($projects) && $projects->isNotEmpty()) {
-              $projectData = $projects->map(function($p) {
-                  return [
-                      'id' => $p->id,
-                      'title' => $p->title,
-                      'badge' => $p->badge_name,
-                      'badge_color' => $p->badge_color,
-                      'location' => $p->location,
-                      'year' => $p->completion_year ?? '2024',
-                      'image' => $p->image_url,
-                      'specs' => $p->scope_of_work,
-                      'summary' => $p->summary,
-                      'slug' => $p->slug,
-                  ];
-              })->toArray();
-          } else {
-              $projectData = [
-                [
-                  'title' => 'Pakuwon Mall & Superblock Power Substation',
-                  'badge' => 'Commercial High-Rise',
-                  'badge_color' => '#E11D48',
-                  'location' => 'West Surabaya, Indonesia',
-                  'year' => '2024',
-                  'image' => asset('images/projects/project-1-substation.jpg'),
-                  'specs' => 'Schneider MasterPact MTZ 3200A • GAE Capacitor 600kVAR',
-                  'summary' => 'Complete engineering, fabrication, and supply of Low Voltage Main Distribution Panels (LVMDP) for Surabaya’s largest commercial superblock.',
-                ],
-                [
-                  'title' => 'Indofood CBP Motor Control Center (MCC)',
-                  'badge' => 'Food & Beverage',
-                  'badge_color' => '#10B981',
-                  'location' => 'Pasuruan, East Java',
-                  'year' => '2024',
-                  'image' => asset('images/projects/project-2-indofood-mcc.jpg'),
-                  'specs' => 'Schneider Altivar ATV930 VFD • TeSys Deca Contactors',
-                  'summary' => 'Smart motor control center switchboards equipped with harmonic suppression inverters and thermal predictive monitoring for continuous food processing.',
-                ],
-                [
-                  'title' => 'PT Bumi Menara Internusa Cold Chain & SCADA',
-                  'badge' => 'Cold Storage & SCADA',
-                  'badge_color' => '#0284C7',
-                  'location' => 'Dampit & Surabaya',
-                  'year' => '2023 - 2024',
-                  'image' => asset('images/projects/project-3-coldstorage.jpg'),
-                  'specs' => 'Socomec ATS 1600A • GAE Digital Power Metering',
-                  'summary' => 'Integrated industrial refrigeration power distribution panels with dual-redundant automatic transfer switching and IoT SCADA telemetries.',
-                ],
-                [
-                  'title' => 'Teluk Lamong Port Terminal Infrastructure',
-                  'badge' => 'Port & Marine Logistics',
-                  'badge_color' => '#7C3AED',
-                  'location' => 'Surabaya Port Zone',
-                  'year' => '2023',
-                  'image' => asset('images/projects/project-4-scada-control.jpg'),
-                  'specs' => 'Heavy Duty Marine IP66 Panels • Fluke Power Analyzers',
-                  'summary' => 'Harsh-marine environment low-voltage distribution panels designed to IP66 standards with anti-corrosive stainless steel enclosures.',
-                ],
-                [
-                  'title' => 'PT Dua Kelinci Packaging Automation',
-                  'badge' => 'Smart Automation',
-                  'badge_color' => '#D97706',
-                  'location' => 'Pati & Central Java',
-                  'year' => '2024',
-                  'image' => asset('images/projects/project-5-packaging-vfd.jpg'),
-                  'specs' => 'Autonics Multi-Axis Servo Control • PLC Gateway',
-                  'summary' => 'Precision automation control panels driving high-speed packaging machinery with synchronized multi-axis servo drives.',
-                ],
-                [
-                  'title' => 'Freeport Indonesia Smelter Power Distribution',
-                  'badge' => 'Heavy Industry & Smelter',
-                  'badge_color' => '#DC2626',
-                  'location' => 'Manyar, Gresik',
-                  'year' => '2024',
-                  'image' => asset('images/projects/project-6-smelter-heavy.jpg'),
-                  'specs' => 'Schneider MasterPact NW 4000A • IP66 Enclosures',
-                  'summary' => 'Heavy-duty 4000A copper busbar power centers built for continuous chemical and copper metallurgical smelting operations.',
-                ],
-                [
-                  'title' => 'Surabaya Tier-3 Data Center Power Busway',
-                  'badge' => 'Critical Infrastructure',
-                  'badge_color' => '#06B6D4',
-                  'location' => 'Central Surabaya',
-                  'year' => '2024',
-                  'image' => asset('images/projects/project-7-datacenter-busway.jpg'),
-                  'specs' => 'Dual Redundant Busway Trunking • Legrand Modular PDU',
-                  'summary' => '2N dual-path electrical busway infrastructure and modular power distribution units guaranteeing 99.982% uptime for mission-critical servers.',
-                ],
-                [
-                  'title' => 'Maspion Industrial Estate 20kV Substation',
-                  'badge' => 'Industrial Estate 20kV',
-                  'badge_color' => '#6366F1',
-                  'location' => 'Manyar, Gresik',
-                  'year' => '2023 - 2024',
-                  'image' => asset('images/projects/project-8-industrial-park.jpg'),
-                  'specs' => 'Ring Main Unit (RMU) • GAE Metering • Jembo Cables',
-                  'summary' => 'Medium voltage 20kV step-down substation and low-voltage secondary switchgear servicing multi-tenant heavy manufacturing plants.',
-                ],
-              ];
-          }
-        @endphp
+    $projectData = $projectSource->map(function($p) {
+        return [
+            'id' => $p->id,
+            'title' => $p->title,
+            'badge' => $p->badge_name,
+            'badge_color' => $p->badge_color,
+            'location' => $p->location ?? 'Surabaya, Indonesia',
+            'year' => $p->completion_year ?? date('Y'),
+            'image' => $p->image_url,
+            'specs' => $p->scope_of_work ?? 'Engineering & Panel Assembly',
+            'summary' => $p->summary ?: Str::limit(strip_tags($p->content_html), 130),
+            'slug' => $p->slug,
+        ];
+    })->values()->toArray();
 
-        @foreach($projectData as $index => $item)
-          <div class="p3d-card" data-slot="{{ $index }}" data-project-index="{{ $index }}" role="button" tabindex="0">
-            <div class="p3d-card-inner">
-              <img src="{{ $item['image'] }}" alt="{{ $item['title'] }}" class="p3d-card-img" loading="eager">
-              <div class="p3d-card-scrim"></div>
-              <div class="p3d-card-badge" style="background: {{ $item['badge_color'] }};">{{ $item['badge'] }}</div>
-              <div class="p3d-card-content">
-                <div class="p3d-card-meta">
-                  <span>📍 {{ $item['location'] }}</span>
-                  <span>•</span>
-                  <span>{{ $item['year'] }}</span>
-                </div>
-                <h3 class="p3d-card-title">{{ $item['title'] }}</h3>
-                <div class="p3d-card-specs">{{ $item['specs'] }}</div>
-                <div class="p3d-card-cta">
-                  <span>View Specifications</span>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    // Duplicate project list to ensure a full 16-segment continuous cylinder with tight, elegant card gaps
+    $displayProjects = $projectData;
+    if (count($projectData) > 0 && count($projectData) < 16) {
+        $repeats = ceil(16 / count($projectData));
+        $temp = [];
+        for ($r = 0; $r < $repeats; $r++) {
+            foreach ($projectData as $idx => $p) {
+                $p['orig_idx'] = $idx;
+                $temp[] = $p;
+            }
+        }
+        $displayProjects = array_slice($temp, 0, 16);
+    }
+  @endphp
+
+  @if(count($projectData) === 0)
+    <div style="width: 100%; max-width: 520px; margin: 32px auto 56px auto; padding: 0 20px; text-align: center;">
+      <div style="background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 16px; box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04); padding: 32px 24px;">
+        <p style="font-size: 1.15rem; font-weight: 600; color: #64748B; margin: 0; letter-spacing: -0.01em;" data-i18n="projects.empty_notice">
+          Portfolio is not yet available.
+        </p>
+      </div>
+    </div>
+  @else
+    <!-- 3D Carousel Stage Area -->
+    <div class="p3d-stage-wrapper" id="p3dStage">
+      <!-- Atmospheric Edge Fog Masks (Framer Fog Fade) -->
+      <div class="p3d-fog-edge p3d-fog-left" aria-hidden="true"></div>
+      <div class="p3d-fog-edge p3d-fog-right" aria-hidden="true"></div>
+
+      <!-- 3D Viewport -->
+      <div class="p3d-viewport" id="p3dViewport">
+        <!-- 3D Cylinder Anchor -->
+        <div class="p3d-cylinder" id="p3dCylinder">
+          @foreach($displayProjects as $index => $item)
+            <div class="p3d-card" data-slot="{{ $index }}" data-project-index="{{ $item['orig_idx'] ?? ($index % count($projectData)) }}" role="button" tabindex="0">
+              <div class="p3d-card-inner">
+                <img src="{{ $item['image'] }}" alt="{{ $item['title'] }}" class="p3d-card-img" loading="eager">
+                <div class="p3d-card-scrim"></div>
+                <div class="p3d-card-badge" style="background: {{ $item['badge_color'] }};">{{ $item['badge'] }}</div>
+                <div class="p3d-card-content">
+                  <div class="p3d-card-meta">
+                    <span>📍 {{ $item['location'] }}</span>
+                    <span>•</span>
+                    <span>{{ $item['year'] }}</span>
+                  </div>
+                  <h3 class="p3d-card-title">{{ $item['title'] }}</h3>
+                  <div class="p3d-card-specs">{{ $item['specs'] }}</div>
+                  <div class="p3d-card-cta">
+                    <span>View Specifications</span>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        @endforeach
-
+          @endforeach
+        </div>
       </div>
     </div>
-  </div>
+  @endif
 </section>
 
 <!-- ========================================================
@@ -317,19 +262,19 @@
     position: absolute;
     top: 0;
     bottom: 0;
-    width: 220px;
+    width: 140px;
     z-index: 50;
     pointer-events: none;
   }
 
   .p3d-fog-left {
     left: 0;
-    background: linear-gradient(to right, #FFFFFF 25%, rgba(255, 255, 255, 0.8) 65%, rgba(255, 255, 255, 0) 100%);
+    background: linear-gradient(to right, #FFFFFF 20%, rgba(255, 255, 255, 0.75) 60%, rgba(255, 255, 255, 0) 100%);
   }
 
   .p3d-fog-right {
     right: 0;
-    background: linear-gradient(to left, #FFFFFF 25%, rgba(255, 255, 255, 0.8) 65%, rgba(255, 255, 255, 0) 100%);
+    background: linear-gradient(to left, #FFFFFF 20%, rgba(255, 255, 255, 0.75) 60%, rgba(255, 255, 255, 0) 100%);
   }
 
   /* 3D Perspective Viewport */
@@ -853,23 +798,23 @@
     }
   });
 
-  // 3D Carousel Engine: Spacious Gaps, Zero Overlap, Slow Gentle Drift
+  // 3D Carousel Engine: Tight, Cohesive Spacing, Zero Overlap, Continuous Smooth Drift
   (function initP3DCarousel() {
     const stage = document.getElementById('p3dStage');
     const cards = Array.from(document.querySelectorAll('.p3d-card'));
 
     if (!stage || cards.length === 0) return;
 
-    const totalCards = cards.length; // 12 cards
-    const angleStep = 360 / totalCards; // 30 degrees per card
+    const totalCards = cards.length; // 16 cards around the circle
+    const angleStep = 360 / totalCards; // 22.5 degrees per card
 
-    // Dynamic radius tuned so cards have generous gaps with ZERO overlap (broad panoramic ribbon)
+    // Dynamic radius tuned so cards have tight, elegant, consistent gaps (~24px - 32px)
     function getRadius() {
       const w = window.innerWidth;
-      if (w < 600) return 480;
-      if (w < 900) return 620;
-      if (w < 1200) return 740;
-      return 880; // Desktop radius: provides ~130px-180px gap between card centers, zero overlap
+      if (w < 600) return 560; // Mobile: cards 190px, step 214px, gap ~24px
+      if (w < 900) return 640; // Tablet: cards 230px, step 245px, gap ~15px
+      if (w < 1200) return 710; // Small desktop: cards 260px, step 271px, gap ~11px
+      return 770; // Desktop: cards 260px, step 294px, gap ~34px
     }
 
     let radius = getRadius();
@@ -885,7 +830,7 @@
     let dragStartX = 0;
     let dragStartY = 0;
     let isHovered = false;
-    const autoPlaySpeed = 0.038; // Moderately faster smooth and graceful drift
+    const autoPlaySpeed = 0.038; // Smooth, gentle drift
     const friction = 0.94; // Smooth inertia damping
     let lastTime = performance.now();
 
@@ -899,8 +844,8 @@
 
         const absAngle = Math.abs(angle);
 
-        // Hide cards past peripheral view (keeps stage spacious, zero crowding, no edge-on cards)
-        if (absAngle > 50) {
+        // Hide cards past peripheral view (smooth fade across ~5 cards in viewport)
+        if (absAngle > 60) {
           card.style.opacity = '0';
           card.style.visibility = 'hidden';
           card.style.pointerEvents = 'none';
@@ -908,24 +853,24 @@
           card.style.visibility = 'visible';
           card.style.pointerEvents = 'auto';
 
-          // Atmospheric fog fade on outer flanks (26deg to 50deg)
+          // Atmospheric fog fade on outer flanks (32deg to 58deg)
           let fogOpacity = 1;
-          if (absAngle > 26) {
-            fogOpacity = 1 - (absAngle - 26) / 24;
+          if (absAngle > 32) {
+            fogOpacity = 1 - (absAngle - 32) / 26;
           }
           card.style.opacity = Math.max(0, Math.min(1, fogOpacity)).toFixed(3);
 
           // Concave 3D Transform: Center card is at screen plane (z=0), flanks curve gently
           const rad = (angle * Math.PI) / 180;
           const x = radius * Math.sin(rad);
-          // Normalized Z: center is at 0 (full crisp size), edges curve gently forward
-          const z = radius * (1 - Math.cos(rad)) * 0.35;
+          // Normalized Z: center is at 0 (full crisp size), edges curve gently into background
+          const z = -radius * (1 - Math.cos(rad)) * 0.28;
 
           // Inward Concave Yaw: wings tilt gently inwards towards viewer/center (Framer style)
-          const yaw = -angle * 0.46;
+          const yaw = -angle * 0.45;
 
           card.style.transform = `translate3d(${x.toFixed(1)}px, 0, ${z.toFixed(1)}px) rotateY(${yaw.toFixed(1)}deg)`;
-          card.style.zIndex = Math.round(z + 20);
+          card.style.zIndex = Math.round(100 - absAngle);
         }
       });
     }

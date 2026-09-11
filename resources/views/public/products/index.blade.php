@@ -79,7 +79,7 @@
                     <span class="ats-lang-id">Pilih Brand</span>
                 </label>
                 <select name="brand" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-rose-500/20 focus:border-rose-500 text-sm bg-white">
-                    <option value="">{{ app()->getLocale() === 'id' ? 'Semua Brand' : 'All Brands' }}</option>
+                    <option value="">All Brands / Semua Brand</option>
                     @foreach($brands as $b)
                         <option value="{{ $b->slug }}" {{ request('brand') === $b->slug ? 'selected' : '' }}>{{ $b->name }}</option>
                     @endforeach
@@ -93,7 +93,7 @@
                     <span class="ats-lang-id">Kategori</span>
                 </label>
                 <select name="category" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-rose-500/20 focus:border-rose-500 text-sm bg-white">
-                    <option value="">{{ app()->getLocale() === 'id' ? 'Semua Kategori' : 'All Categories' }}</option>
+                    <option value="">All Categories / Semua Kategori</option>
                     @foreach($categories as $cat)
                         <option value="{{ $cat->slug }}" {{ request('category') === $cat->slug ? 'selected' : '' }}>{{ $cat->name }}</option>
                     @endforeach

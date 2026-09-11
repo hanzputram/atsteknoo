@@ -40,8 +40,34 @@ class LiveChatApiController extends Controller
                 'token' => $session->session_token,
                 'name' => $session->visitor_name,
                 'status' => $session->status,
+                'is_admin_typing' => $session->isAdminTyping(),
             ],
+            'is_typing' => $session->isAdminTyping(),
             'messages' => $messages,
+        ]);
+    }
+
+    public function updateTyping(Request $request): JsonResponse
+    {
+        $token = $request->input('session_token');
+        if (!$token) {
+            return response()->json(['success' => false, 'is_typing' => false]);
+        }
+
+        $session = LiveChatSession::where('session_token', $token)->first();
+        if (!$session) {
+            return response()->json(['success' => false, 'is_typing' => false]);
+        }
+
+        $isTyping = filter_var($request->input('typing', true), FILTER_VALIDATE_BOOLEAN);
+
+        $session->update([
+            'visitor_typing_at' => $isTyping ? now() : null,
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'is_typing' => $session->isAdminTyping(),
         ]);
     }
 
@@ -76,6 +102,7 @@ class LiveChatApiController extends Controller
                 'status' => 'unread',
                 'ip_address' => $request->ip(),
                 'last_message_at' => now(),
+                'visitor_typing_at' => null,
             ]);
         } else {
             // Update name / contact if provided
@@ -84,6 +111,7 @@ class LiveChatApiController extends Controller
                 'visitor_contact' => $request->input('contact'),
                 'last_message_at' => now(),
                 'status' => 'unread',
+                'visitor_typing_at' => null,
             ];
             $session->update($updates);
         }

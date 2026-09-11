@@ -18,8 +18,22 @@ class HomeController extends Controller
         $featuredProducts = Product::published()
             ->with(['brand', 'primaryCategory', 'mainImage'])
             ->where('is_featured', true)
-            ->take(8)
+            ->orderBy('sort_order')
+            ->orderBy('id', 'desc')
+            ->take(16)
             ->get();
+
+        // Fallback: If no products are specifically marked as featured, show latest published products
+        if ($featuredProducts->isEmpty()) {
+            $featuredProducts = Product::published()
+                ->with(['brand', 'primaryCategory', 'mainImage'])
+                ->orderBy('sort_order')
+                ->orderBy('id', 'desc')
+                ->take(8)
+                ->get();
+        }
+
+        $bestSellerProducts = $featuredProducts;
 
         $brands = Brand::active()
             ->with('logo')
@@ -29,9 +43,20 @@ class HomeController extends Controller
 
         $projects = Project::published()
             ->with(['category', 'coverImage'])
+            ->where('is_featured', true)
             ->orderBy('sort_order')
-            ->take(8)
+            ->orderBy('id', 'desc')
+            ->take(16)
             ->get();
+
+        if ($projects->isEmpty()) {
+            $projects = Project::published()
+                ->with(['category', 'coverImage'])
+                ->orderBy('sort_order')
+                ->orderBy('id', 'desc')
+                ->take(16)
+                ->get();
+        }
 
         $articles = Article::published()
             ->with(['category', 'thumbnail', 'author'])
@@ -39,6 +64,6 @@ class HomeController extends Controller
             ->take(7)
             ->get();
 
-        return view('app', compact('featuredProducts', 'brands', 'projects', 'articles'));
+        return view('app', compact('featuredProducts', 'bestSellerProducts', 'brands', 'projects', 'articles'));
     }
 }

@@ -7,9 +7,13 @@
 <div class="bg-slate-50 py-6 border-b border-slate-200/80">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <nav class="flex items-center gap-2 text-xs text-slate-500" aria-label="Breadcrumb">
-            <a href="{{ route('home') }}" class="hover:text-rose-600 transition">Beranda</a>
+            <a href="{{ route('home') }}" class="hover:text-rose-600 transition">
+                <span class="ats-lang-en">Home</span><span class="ats-lang-id">Beranda</span>
+            </a>
             <span>&rsaquo;</span>
-            <a href="{{ route('articles.index') }}" class="hover:text-rose-600 transition">Artikel</a>
+            <a href="{{ route('articles.index') }}" class="hover:text-rose-600 transition">
+                <span class="ats-lang-en">Articles</span><span class="ats-lang-id">Artikel</span>
+            </a>
             @if($article->category)
                 <span>&rsaquo;</span>
                 <span class="text-slate-600">{{ $article->category->name }}</span>
@@ -40,7 +44,10 @@
                 </div>
                 <div>
                     <span class="font-bold text-slate-800 block">{{ $article->author_display_name ?: ($article->author->name ?? 'Tim Engineering ATS') }}</span>
-                    <span class="text-[11px] text-slate-400">Penulis Teknis</span>
+                    <span class="text-[11px] text-slate-400">
+                        <span class="ats-lang-en">Technical Writer</span>
+                        <span class="ats-lang-id">Penulis Teknis</span>
+                    </span>
                 </div>
             </div>
             <span>&bull;</span>
@@ -65,7 +72,10 @@
     <!-- Tags List -->
     @if($article->tags->isNotEmpty())
     <div class="mt-12 pt-6 border-t border-slate-200 flex flex-wrap items-center gap-2">
-        <span class="text-xs font-bold text-slate-400 uppercase tracking-wider mr-2">Topik Terkait:</span>
+        <span class="text-xs font-bold text-slate-400 uppercase tracking-wider mr-2">
+            <span class="ats-lang-en">Related Topics:</span>
+            <span class="ats-lang-id">Topik Terkait:</span>
+        </span>
         @foreach($article->tags as $t)
             <span class="px-3 py-1 rounded-xl bg-slate-100 text-slate-700 text-xs font-semibold">
                 #{{ $t->name }}
@@ -77,7 +87,8 @@
     <!-- Back to Articles Button -->
     <div class="mt-10 pt-6 border-t border-slate-100 flex items-center justify-between">
         <a href="{{ route('articles.index') }}" class="inline-flex items-center gap-2 text-sm font-bold text-slate-600 hover:text-rose-600 transition">
-            &larr; Kembali ke Daftar Artikel
+            <span class="ats-lang-en">&larr; Back to Articles</span>
+            <span class="ats-lang-id">&larr; Kembali ke Daftar Artikel</span>
         </a>
     </div>
 </article>
@@ -86,7 +97,10 @@
 @if($relatedArticles->isNotEmpty())
 <div class="bg-slate-50 border-t border-slate-200/80 py-12 sm:py-16">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 class="text-2xl font-bold text-slate-900 mb-8">Artikel Terkait</h2>
+        <h2 class="text-2xl font-bold text-slate-900 mb-8">
+            <span class="ats-lang-en">Related Articles</span>
+            <span class="ats-lang-id">Artikel Terkait</span>
+        </h2>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             @foreach($relatedArticles as $rel)
@@ -99,7 +113,10 @@
                     <p class="text-xs text-slate-500 line-clamp-2">{{ $rel->excerpt }}</p>
                 </div>
                 <div class="pt-4 mt-4 border-t border-slate-100 text-right">
-                    <a href="{{ route('articles.show', $rel->slug) }}" class="text-xs font-bold text-rose-600">Baca &rarr;</a>
+                    <a href="{{ route('articles.show', $rel->slug) }}" class="text-xs font-bold text-rose-600">
+                        <span class="ats-lang-en">Read &rarr;</span>
+                        <span class="ats-lang-id">Baca &rarr;</span>
+                    </a>
                 </div>
             </div>
             @endforeach

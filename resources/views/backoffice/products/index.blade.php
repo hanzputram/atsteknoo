@@ -52,8 +52,16 @@
         </select>
       </div>
 
+      <div style="width: 150px;">
+        <select name="is_featured" class="form-control">
+          <option value="">Semua Unggulan</option>
+          <option value="1" {{ request('is_featured') === '1' ? 'selected' : '' }}>★ Best Seller Saja</option>
+          <option value="0" {{ request('is_featured') === '0' ? 'selected' : '' }}>Bukan Best Seller</option>
+        </select>
+      </div>
+
       <button type="submit" class="btn btn-secondary">Filter</button>
-      @if(request()->anyFilled(['search', 'brand_id', 'category_id', 'status']))
+      @if(request()->anyFilled(['search', 'brand_id', 'category_id', 'status', 'is_featured']))
         <a href="{{ route('backoffice.products.index') }}" class="btn btn-secondary" style="color: #DC2626;">Reset</a>
       @endif
     </form>
@@ -92,10 +100,15 @@
               <span style="font-family: monospace; font-weight: 700; color: #0F172A; background: #F1F5F9; padding: 4px 8px; border-radius: 4px; white-space: nowrap; font-size: 12px; display: inline-block;">{{ $p->sku }}</span>
             </td>
             <td>
-              <div style="font-weight: 700; color: #0F172A; line-height: 1.35;">
+              <div style="font-weight: 700; color: #0F172A; line-height: 1.35; display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
                 <a href="{{ route('backoffice.products.edit', $p->id) }}" style="color: inherit; text-decoration: none;">
                   {{ $p->name }}
                 </a>
+                @if($p->is_featured)
+                  <span style="display: inline-flex; align-items: center; gap: 3px; padding: 2px 7px; background: #FFE4E6; color: #E11D48; font-size: 10.5px; font-weight: 700; border-radius: 999px; border: 1px solid #FECDD3;" title="Tampil di Home Best Seller">
+                    ★ Best Seller
+                  </span>
+                @endif
               </div>
               @if($p->short_description)
                 <div style="font-size: 12px; color: #64748B; margin-top: 4px; line-height: 1.4;">{{ Str::limit($p->short_description, 70) }}</div>

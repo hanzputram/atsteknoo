@@ -486,97 +486,63 @@
         <!-- Swiper Slider Produk -->
         <div class="swiper product-swiper-container ourProductSwiper">
           <div class="swiper-wrapper">
-            
-            <!-- Product Card 1: MasterPact MTZ ACB -->
-            <div class="swiper-slide">
-              <div class="figma-product-card" onclick="openProductModal()">
-                <div>
-                  <span class="figma-product-badge">Schneider Electric</span>
-                  <div class="figma-product-name">MasterPact MTZ / NT / NW</div>
-                  <div class="figma-product-desc">Air Circuit Breakers (ACB) 630A up to 6300A, low-voltage primary electrical distribution protection.</div>
-                </div>
-                <div class="figma-product-footer">
-                  <span>Surabaya Ready Stock</span>
-                  <span class="figma-product-cta">Request Quotation &rarr;</span>
+            @php
+              $shelfProducts = isset($bestSellerProducts) && count($bestSellerProducts) > 0
+                ? $bestSellerProducts
+                : (isset($featuredProducts) && count($featuredProducts) > 0
+                    ? $featuredProducts
+                    : \App\Models\Product::published()->with(['brand', 'mainImage'])->where('is_featured', true)->orderBy('sort_order')->orderBy('id', 'desc')->take(16)->get());
+
+              if ($shelfProducts->isEmpty()) {
+                $shelfProducts = \App\Models\Product::published()->with(['brand', 'mainImage'])->orderBy('sort_order')->orderBy('id', 'desc')->take(6)->get();
+              }
+            @endphp
+
+            @forelse($shelfProducts as $product)
+              @php
+                $brandName = $product->brand ? $product->brand->name : 'ATS Tekno';
+                $badgeStyle = '';
+                if (stripos($brandName, 'Legrand') !== false) {
+                  $badgeStyle = 'background: rgba(225,29,72,0.25); color: #FFE4E6;';
+                } elseif (stripos($brandName, 'GAE') !== false) {
+                  $badgeStyle = 'background: rgba(37,99,235,0.25); color: #DBEAFE;';
+                }
+                $productUrl = route('products.show', $product->slug);
+              @endphp
+              <div class="swiper-slide">
+                <a href="{{ $productUrl }}" class="figma-product-card" title="Lihat detail {{ $product->name }}">
+                  <div>
+                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 2px;">
+                      <span class="figma-product-badge" style="{{ $badgeStyle }}">{{ $brandName }}</span>
+                      @if($product->sku)
+                        <span style="font-size: 10.5px; font-family: monospace; color: #94A3B8; font-weight: 600; letter-spacing: 0.02em;">{{ $product->sku }}</span>
+                      @endif
+                    </div>
+
+                    @if($product->mainImage)
+                      <div style="height: 100px; width: 100%; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.06); border-radius: 12px; margin-top: 10px; overflow: hidden; padding: 6px;">
+                        <img src="{{ route('media.view', $product->main_image_id) }}" alt="{{ $product->name }}" style="max-height: 100%; max-width: 100%; object-fit: contain;">
+                      </div>
+                    @endif
+
+                    <div class="figma-product-name">{{ $product->name }}</div>
+                    <div class="figma-product-desc">
+                      {{ $product->short_description ?: Str::limit(strip_tags($product->description_html), 110) }}
+                    </div>
+                  </div>
+                  <div class="figma-product-footer">
+                    <span>Surabaya Ready Stock</span>
+                    <span class="figma-product-cta">Request Quotation &rarr;</span>
+                  </div>
+                </a>
+              </div>
+            @empty
+              <div class="swiper-slide">
+                <div class="figma-product-card" style="justify-content: center; align-items: center; text-align: center;">
+                  <div style="color: #CBD5E1; font-size: 14px;">Belum ada produk yang dipilih sebagai Best Seller.</div>
                 </div>
               </div>
-            </div>
-
-            <!-- Product Card 2: ComPact NSX MCCB -->
-            <div class="swiper-slide">
-              <div class="figma-product-card" onclick="openProductModal()">
-                <div>
-                  <span class="figma-product-badge">Schneider Electric</span>
-                  <div class="figma-product-name">ComPact NSX &amp; CVS</div>
-                  <div class="figma-product-desc">Molded Case Circuit Breakers (MCCB) 16A up to 1600A, reliable for industrial distribution switchboards.</div>
-                </div>
-                <div class="figma-product-footer">
-                  <span>Surabaya Ready Stock</span>
-                  <span class="figma-product-cta">Request Quotation &rarr;</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Product Card 3: Altivar Inverter / VFD -->
-            <div class="swiper-slide">
-              <div class="figma-product-card" onclick="openProductModal()">
-                <div>
-                  <span class="figma-product-badge">Schneider Electric</span>
-                  <div class="figma-product-name">Altivar ATV630 / ATV320</div>
-                  <div class="figma-product-desc">Variable Speed Drives (VFD/Inverter) for precision industrial motor speed control &amp; energy savings.</div>
-                </div>
-                <div class="figma-product-footer">
-                  <span>Surabaya Ready Stock</span>
-                  <span class="figma-product-cta">Request Quotation &rarr;</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Product Card 4: TeSys D & F Contactors -->
-            <div class="swiper-slide">
-              <div class="figma-product-card" onclick="openProductModal()">
-                <div>
-                  <span class="figma-product-badge">Schneider Electric</span>
-                  <div class="figma-product-name">TeSys D &amp; F Series</div>
-                  <div class="figma-product-desc">Magnetic Contactors &amp; Overload Relays for motor starting from 9A up to 1000A premium grade.</div>
-                </div>
-                <div class="figma-product-footer">
-                  <span>Surabaya Ready Stock</span>
-                  <span class="figma-product-cta">Request Quotation &rarr;</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Product Card 5: Legrand Plexo Enclosures -->
-            <div class="swiper-slide">
-              <div class="figma-product-card" onclick="openProductModal()">
-                <div>
-                  <span class="figma-product-badge" style="background: rgba(225,29,72,0.25); color: #FFE4E6;">Legrand Indonesia</span>
-                  <div class="figma-product-name">Plexo™ IP66 &amp; Enclosures XL³</div>
-                  <div class="figma-product-desc">Weatherproof IP66 industrial enclosure boxes, modular distribution, and industrial switches.</div>
-                </div>
-                <div class="figma-product-footer">
-                  <span>Surabaya Ready Stock</span>
-                  <span class="figma-product-cta">Request Quotation &rarr;</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Product Card 6: GAE Power Quality -->
-            <div class="swiper-slide">
-              <div class="figma-product-card" onclick="openProductModal()">
-                <div>
-                  <span class="figma-product-badge" style="background: rgba(37,99,235,0.25); color: #DBEAFE;">GAE Group</span>
-                  <div class="figma-product-name">Power Quality &amp; Metering</div>
-                  <div class="figma-product-desc">Digital Energy Meters, Power Factor Capacitor Banks, Surge Protection, and Current Transformers (CT).</div>
-                </div>
-                <div class="figma-product-footer">
-                  <span>Surabaya Ready Stock</span>
-                  <span class="figma-product-cta">Request Quotation &rarr;</span>
-                </div>
-              </div>
-            </div>
-
+            @endforelse
           </div>
         </div>
 

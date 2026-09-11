@@ -113,7 +113,10 @@
                             </svg>
                         </div>
                         <div>
-                            <div class="font-bold text-emerald-800">Berhasil Terkirim!</div>
+                            <div class="font-bold text-emerald-800">
+                                <span class="ats-lang-en">Sent Successfully!</span>
+                                <span class="ats-lang-id">Berhasil Terkirim!</span>
+                            </div>
                             <p class="text-xs text-emerald-700 mt-0.5">{{ session('success') }}</p>
                         </div>
                     </div>
@@ -130,7 +133,10 @@
                             </svg>
                         </div>
                         <div class="space-y-1">
-                            <div class="font-bold text-rose-800">Mohon periksa kembali isian formulir:</div>
+                            <div class="font-bold text-rose-800">
+                                <span class="ats-lang-en">Please check the form inputs:</span>
+                                <span class="ats-lang-id">Mohon periksa kembali isian formulir:</span>
+                            </div>
                             @foreach($errors->all() as $err)
                                 <p>&bull; {{ $err }}</p>
                             @endforeach
@@ -146,16 +152,20 @@
                         </div>
                         <div class="flex flex-wrap gap-2">
                             <button type="button" onclick="setSubjectPreset('Permintaan Penawaran BoQ Breaker & Contactor Schneider')" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 hover:bg-rose-50 hover:text-rose-600 text-slate-700 border border-slate-200 transition cursor-pointer">
-                                Schneider Breaker / BoQ
+                                <span class="ats-lang-en">Schneider Breaker / BoQ</span>
+                                <span class="ats-lang-id">Schneider Breaker / BoQ</span>
                             </button>
                             <button type="button" onclick="setSubjectPreset('Konsultasi Komponen Panel Listrik & ATS')" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 hover:bg-rose-50 hover:text-rose-600 text-slate-700 border border-slate-200 transition cursor-pointer">
-                                Komponen Panel Listrik
+                                <span class="ats-lang-en">Switchboard Components</span>
+                                <span class="ats-lang-id">Komponen Panel Listrik</span>
                             </button>
                             <button type="button" onclick="setSubjectPreset('Cek Ketersediaan Stok & Harga Grosir')" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 hover:bg-rose-50 hover:text-rose-600 text-slate-700 border border-slate-200 transition cursor-pointer">
-                                Cek Stok &amp; Harga Grosir
+                                <span class="ats-lang-en">Stock &amp; Wholesale Price</span>
+                                <span class="ats-lang-id">Cek Stok &amp; Harga Grosir</span>
                             </button>
                             <button type="button" onclick="setSubjectPreset('Permintaan Katalog & Brosur Teknis Produk')" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 hover:bg-rose-50 hover:text-rose-600 text-slate-700 border border-slate-200 transition cursor-pointer">
-                                Katalog &amp; Spesifikasi
+                                <span class="ats-lang-en">Catalogs &amp; Datasheets</span>
+                                <span class="ats-lang-id">Katalog &amp; Spesifikasi</span>
                             </button>
                         </div>
                     </div>
@@ -260,7 +270,10 @@
                                     <span class="ats-lang-id">Detail Kebutuhan / Daftar Komponen</span>
                                     <span class="text-rose-500">*</span>
                                 </label>
-                                <span class="text-[11px] text-slate-400">Tipe, ampere, atau jumlah kuantitas</span>
+                                <span class="text-[11px] text-slate-400">
+                                    <span class="ats-lang-en">Model, current rating (A), or quantity</span>
+                                    <span class="ats-lang-id">Tipe, ampere, atau jumlah kuantitas</span>
+                                </span>
                             </div>
                             <div class="relative">
                                 <textarea name="message" rows="4" required
@@ -289,7 +302,10 @@
                         <rect width="18" height="11" x="3" y="11" rx="2" ry="2"/>
                         <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
                     </svg>
-                    <span>Data &amp; dokumen BoQ Anda terjamin kerahasiaannya &bull; Tim PT. ATS siap merespon</span>
+                    <span>
+                        <span class="ats-lang-en">Your BoQ documents are strictly confidential &bull; PT. ATS team is ready to assist</span>
+                        <span class="ats-lang-id">Data &amp; dokumen BoQ Anda terjamin kerahasiaannya &bull; Tim PT. ATS siap merespon</span>
+                    </span>
                 </div>
             </div>
 
@@ -397,7 +413,8 @@
                                     <span class="ats-lang-id">Jam Operasional Kantor</span>
                                 </div>
                                 <div class="text-xs font-bold text-slate-700">
-                                    Senin – Jumat: 08.00 – 17.00 WIB &bull; Sabtu: 08.00 – 16.00 WIB
+                                    <span class="ats-lang-en">Mon – Fri: 08:00 – 17:00 WIB &bull; Sat: 08:00 – 16:00 WIB</span>
+                                    <span class="ats-lang-id">Senin – Jumat: 08.00 – 17.00 WIB &bull; Sabtu: 08.00 – 16.00 WIB</span>
                                 </div>
                             </div>
                         </div>
@@ -422,7 +439,10 @@
                         </div>
                         <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold bg-white/20 backdrop-blur-xs text-white border border-white/25">
                             <span class="w-2 h-2 rounded-full bg-emerald-300 animate-pulse"></span>
-                            <span>Online &amp; Siap Melayani</span>
+                            <span>
+                                <span class="ats-lang-en">Online &amp; Ready to Assist</span>
+                                <span class="ats-lang-id">Online &amp; Siap Melayani</span>
+                            </span>
                         </span>
                     </div>
 
@@ -441,7 +461,11 @@
                         <svg class="w-4 h-4 text-emerald-600 fill-current" viewBox="0 0 24 24">
                             <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/>
                         </svg>
-                        <span>Chat WhatsApp: +62 822 2333 2830</span>
+                        <span>
+                            <span class="ats-lang-en">Chat WhatsApp:</span>
+                            <span class="ats-lang-id">Chat WhatsApp:</span>
+                            +62 822 2333 2830
+                        </span>
                         <span class="group-hover:translate-x-1 transition">&rarr;</span>
                     </a>
                 </div>
@@ -460,8 +484,14 @@
                                     <path d="m9 12 2 2 4-4"/>
                                 </svg>
                             </div>
-                            <div class="font-extrabold text-[11px] text-slate-800">100% Asli</div>
-                            <div class="text-[9.5px] text-slate-500">Garansi Pabrikan</div>
+                            <div class="font-extrabold text-[11px] text-slate-800">
+                                <span class="ats-lang-en">100% Genuine</span>
+                                <span class="ats-lang-id">100% Asli</span>
+                            </div>
+                            <div class="text-[9.5px] text-slate-500">
+                                <span class="ats-lang-en">Factory Warranty</span>
+                                <span class="ats-lang-id">Garansi Pabrikan</span>
+                            </div>
                         </div>
 
                         <div class="p-2.5 rounded-2xl bg-slate-50 border border-slate-100 text-center">
@@ -473,8 +503,14 @@
                                     <line x1="8" x2="12" y1="14" y2="14"/>
                                 </svg>
                             </div>
-                            <div class="font-extrabold text-[11px] text-slate-800">Faktur Pajak</div>
-                            <div class="text-[9.5px] text-slate-500">PPN 11% Resmi</div>
+                            <div class="font-extrabold text-[11px] text-slate-800">
+                                <span class="ats-lang-en">Tax Invoice</span>
+                                <span class="ats-lang-id">Faktur Pajak</span>
+                            </div>
+                            <div class="text-[9.5px] text-slate-500">
+                                <span class="ats-lang-en">Official 11% VAT</span>
+                                <span class="ats-lang-id">PPN 11% Resmi</span>
+                            </div>
                         </div>
 
                         <div class="p-2.5 rounded-2xl bg-slate-50 border border-slate-100 text-center">
@@ -486,8 +522,14 @@
                                     <circle cx="18.5" cy="18.5" r="2.5"/>
                                 </svg>
                             </div>
-                            <div class="font-extrabold text-[11px] text-slate-800">Kirim Cepat</div>
-                            <div class="text-[9.5px] text-slate-500">Seluruh Indonesia</div>
+                            <div class="font-extrabold text-[11px] text-slate-800">
+                                <span class="ats-lang-en">Fast Delivery</span>
+                                <span class="ats-lang-id">Kirim Cepat</span>
+                            </div>
+                            <div class="text-[9.5px] text-slate-500">
+                                <span class="ats-lang-en">Nationwide</span>
+                                <span class="ats-lang-id">Seluruh Indonesia</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -516,7 +558,9 @@
                             PT. Anugerah Tama Sejati — Surabaya Headquarters
                         </h3>
                         <p class="text-xs text-slate-500 mt-0.5">
-                            Ruko Galaxi Bumi Permai J-1 No. 23, Surabaya &bull; Akses Mudah &amp; Parkir Luas
+                            Ruko Galaxi Bumi Permai J-1 No. 23, Surabaya &bull;
+                            <span class="ats-lang-en">Easy Access &amp; Spacious Parking</span>
+                            <span class="ats-lang-id">Akses Mudah &amp; Parkir Luas</span>
                         </p>
                     </div>
                 </div>
@@ -528,7 +572,10 @@
                             <path d="M10 14 21 3"/>
                             <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
                         </svg>
-                        <span>Petunjuk Arah Google Maps</span>
+                        <span>
+                            <span class="ats-lang-en">Google Maps Directions</span>
+                            <span class="ats-lang-id">Petunjuk Arah Google Maps</span>
+                        </span>
                     </a>
                 </div>
             </div>
@@ -551,10 +598,13 @@
             <div class="px-6 py-4 bg-slate-50 border-t border-slate-100 flex flex-wrap items-center justify-between gap-4 text-xs text-slate-500">
                 <div class="flex items-center gap-2 font-medium">
                     <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-                    <span>Siap melayani pengambilan barang langsung (Self-Pickup) &amp; inspeksi panel listrik</span>
+                    <span>
+                        <span class="ats-lang-en">Ready for direct warehouse self-pickup &amp; switchboard inspection</span>
+                        <span class="ats-lang-id">Siap melayani pengambilan barang langsung (Self-Pickup) &amp; inspeksi panel listrik</span>
+                    </span>
                 </div>
                 <div class="text-[11px] text-slate-400 font-mono">
-                    Koordinat GEO: -7.250445, 112.768845
+                    <span class="ats-lang-en">GEO Coordinates:</span><span class="ats-lang-id">Koordinat GEO:</span> -7.250445, 112.768845
                 </div>
             </div>
         </div>

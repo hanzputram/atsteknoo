@@ -225,8 +225,11 @@ class ProductExcelService
      */
     public static function parseAndValidate(string $filePath, string $mode = 'upsert', ?int $userId = null): array
     {
+        @ini_set('memory_limit', '1024M');
+        @set_time_limit(600);
+
         $reader = IOFactory::createReader('Xlsx');
-        $reader->setReadDataOnly(false); // keep cell formats
+        $reader->setReadDataOnly(true);
         $spreadsheet = $reader->load($filePath);
 
         $sheetProducts = $spreadsheet->getSheetByName('products');
@@ -245,27 +248,38 @@ class ProductExcelService
             ];
         }
 
-        // 1. Read and map headers
-        $headerRow = $sheetProducts->getRowIterator(1, 1)->current();
-        $cellIterator = $headerRow->getCellIterator();
-        $cellIterator->setIterateOnlyExistingCells(false);
+        $allRows = $sheetProducts->toArray(null, true, false, false);
+        if (empty($allRows)) {
+            return [
+                'success' => false,
+                'errors' => [[
+                    'sheet' => 'products',
+                    'row_number' => 1,
+                    'sku' => '',
+                    'field' => 'sheet',
+                    'error_code' => 'EMPTY_SHEET',
+                    'error_message' => 'Sheet products kosong.',
+                    'suggested_fix' => 'Isi data produk pada sheet products.',
+                ]],
+            ];
+        }
 
+        // 1. Read and map headers from first row
+        $headerRow = $allRows[0];
         $headerMap = [];
-        $colIndex = 1;
-        foreach ($cellIterator as $cell) {
-            $val = strtolower(trim((string) $cell->getValue()));
+        foreach ($headerRow as $colIdx => $headerVal) {
+            $val = strtolower(trim((string) $headerVal));
             if (!empty($val)) {
-                // Map aliases
                 $normalizedHeader = match ($val) {
                     'reference_code' => 'sku',
                     'nama_produk' => 'name',
                     'deskripsi_produk' => 'description_html',
-                    'gdrive' => 'link_gdrive',
+                    'gdrive', 'link_gdrive', 'link_foto', 'link_gambar', 'image_url', 'url_gambar', 'url_foto', 'foto', 'gambar', 'foto_produk', 'main_image' => 'link_gdrive',
+                    'gallery', 'link_gallery', 'galeri', 'gallery_urls', 'foto_galeri', 'gambar_galeri' => 'gallery_links',
                     default => $val,
                 };
-                $headerMap[$normalizedHeader] = $colIndex;
+                $headerMap[$normalizedHeader] = $colIdx;
             }
-            $colIndex++;
         }
 
         if (!isset($headerMap['sku'])) {
@@ -283,46 +297,25 @@ class ProductExcelService
             ];
         }
 
+        // Pre-fetch DB lookups into in-memory collections for fast matching
+        $existingProducts = Product::all(['id', 'sku', 'normalized_sku', 'name', 'slug', 'status'])->keyBy('normalized_sku');
+        $brandsByCode = Brand::all(['id', 'code'])->keyBy(fn($b) => strtoupper(trim((string) $b->code)));
+        $categoriesByCode = ProductCategory::all(['id', 'code'])->keyBy(fn($c) => strtoupper(trim((string) $c->code)));
+
         $units = [];
         $errors = [];
         $seenSkus = [];
-        $highestRow = $sheetProducts->getHighestDataRow();
+        $totalRows = count($allRows);
 
         // 2. Parse products rows
-        for ($row = 2; $row <= $highestRow; $row++) {
-            $skuCell = $sheetProducts->getCellByColumnAndRow($headerMap['sku'], $row);
-            $rawSku = $skuCell->getValue();
+        for ($i = 1; $i < $totalRows; $i++) {
+            $row = $i + 1;
+            $rowCells = $allRows[$i];
+
+            $rawSku = $rowCells[$headerMap['sku']] ?? null;
 
             // Ignore completely empty row
             if ($rawSku === null || trim((string) $rawSku) === '') {
-                continue;
-            }
-
-            // Check if SKU cell was formatted as numeric instead of text
-            if ($skuCell->getDataType() === DataType::TYPE_NUMERIC) {
-                $errors[] = [
-                    'sheet' => 'products',
-                    'row_number' => $row,
-                    'sku' => (string) $rawSku,
-                    'field' => 'sku',
-                    'error_code' => 'SKU_NUMERIC_TYPE',
-                    'error_message' => "SKU '{$rawSku}' berformat angka, berisiko menghilangkan angka nol di depan.",
-                    'suggested_fix' => 'Format sel sebagai Text pada Excel dan isi kembali kode SKU.',
-                ];
-                continue;
-            }
-
-            // Formula rejection
-            if ($skuCell->isFormula()) {
-                $errors[] = [
-                    'sheet' => 'products',
-                    'row_number' => $row,
-                    'sku' => (string) $rawSku,
-                    'field' => 'sku',
-                    'error_code' => 'FORMULA_NOT_ALLOWED',
-                    'error_message' => 'Formula tidak diizinkan pada kolom SKU.',
-                    'suggested_fix' => 'Gunakan nilai teks biasa.',
-                ];
                 continue;
             }
 
@@ -347,13 +340,12 @@ class ProductExcelService
 
             // Extract row fields
             $rowData = [];
-            foreach ($headerMap as $headerName => $colNum) {
-                $cell = $sheetProducts->getCellByColumnAndRow($colNum, $row);
-                $rowData[$headerName] = $cell->getValue();
+            foreach ($headerMap as $headerName => $colIdx) {
+                $rowData[$headerName] = $rowCells[$colIdx] ?? null;
             }
 
             // Check existing product in DB
-            $existingProduct = Product::where('normalized_sku', $normalizedSku)->first();
+            $existingProduct = $existingProducts->get($normalizedSku);
 
             // Mode Validation
             if ($mode === 'create_only' && $existingProduct) {
@@ -400,9 +392,9 @@ class ProductExcelService
             // Brand validation
             $brandId = null;
             if (!empty($rowData['brand_code'])) {
-                $brandCode = trim((string) $rowData['brand_code']);
+                $brandCode = strtoupper(trim((string) $rowData['brand_code']));
                 if ($brandCode !== '__CLEAR__') {
-                    $brand = Brand::where('code', $brandCode)->first();
+                    $brand = $brandsByCode->get($brandCode);
                     if (!$brand) {
                         $errors[] = [
                             'sheet' => 'products',
@@ -425,8 +417,9 @@ class ProductExcelService
                 $catCodesStr = trim((string) $rowData['category_codes']);
                 if ($catCodesStr !== '__CLEAR__') {
                     $codes = array_filter(array_map('trim', explode(';', $catCodesStr)));
+                    $catError = false;
                     foreach ($codes as $cCode) {
-                        $cat = ProductCategory::where('code', $cCode)->first();
+                        $cat = $categoriesByCode->get(strtoupper($cCode));
                         if (!$cat) {
                             $errors[] = [
                                 'sheet' => 'products',
@@ -437,9 +430,13 @@ class ProductExcelService
                                 'error_message' => "Kode kategori '{$cCode}' tidak ditemukan di master Kategori Produk.",
                                 'suggested_fix' => 'Daftarkan kategori di Master Kategori Produk atau perbaiki kode.',
                             ];
-                            continue 2;
+                            $catError = true;
+                            break;
                         }
                         $categoryIds[] = $cat->id;
+                    }
+                    if ($catError) {
+                        continue;
                     }
                 }
             }
@@ -447,8 +444,8 @@ class ProductExcelService
             // Primary category validation
             $primaryCategoryId = null;
             if (!empty($rowData['primary_category_code'])) {
-                $pCode = trim((string) $rowData['primary_category_code']);
-                $pCat = ProductCategory::where('code', $pCode)->first();
+                $pCode = strtoupper(trim((string) $rowData['primary_category_code']));
+                $pCat = $categoriesByCode->get($pCode);
                 if (!$pCat) {
                     $errors[] = [
                         'sheet' => 'products',
@@ -496,7 +493,7 @@ class ProductExcelService
                 continue;
             }
 
-            // Google Drive Download Staging for Main Image
+            // Remote Download Staging for Main Image (Google Drive or Direct Web URL)
             $stagedMainImagePath = null;
             if (!empty($linkGdrive) && $linkGdrive !== '__CLEAR__') {
                 $dlResult = DriveDownloadAdapter::downloadToStaging($linkGdrive);
@@ -507,12 +504,28 @@ class ProductExcelService
                         'sku' => $sku,
                         'field' => 'link_gdrive',
                         'error_code' => $dlResult['error_code'],
-                        'error_message' => 'Gagal mengunduh gambar utama Google Drive: ' . $dlResult['error_message'],
-                        'suggested_fix' => 'Pastikan tautan dapat diakses dan format gambar valid.',
+                        'error_message' => 'Gagal mengunduh gambar utama: ' . $dlResult['error_message'],
+                        'suggested_fix' => 'Pastikan URL gambar dapat diakses secara publik (contoh: https://listrikonline.com/... atau link share Google Drive).',
                     ];
                     continue;
                 }
                 $stagedMainImagePath = $dlResult['path'];
+            }
+
+            // Remote Download Staging for Gallery Images (Google Drive or Direct Web URLs separated by ; or ,)
+            $stagedGalleryPaths = [];
+            $galleryLinks = isset($rowData['gallery_links']) ? trim((string) $rowData['gallery_links']) : '';
+            if (!empty($galleryLinks) && $galleryLinks !== '__CLEAR__') {
+                $rawUrls = preg_split('/[;,\n\r]+/', $galleryLinks);
+                foreach ($rawUrls as $rawUrl) {
+                    $u = trim($rawUrl);
+                    if (!empty($u)) {
+                        $dlResult = DriveDownloadAdapter::downloadToStaging($u);
+                        if ($dlResult['success']) {
+                            $stagedGalleryPaths[] = $dlResult['path'];
+                        }
+                    }
+                }
             }
 
             // Sanitization for description
@@ -526,6 +539,7 @@ class ProductExcelService
                 'action' => $existingProduct ? 'update' : 'create',
                 'sku' => $sku,
                 'normalized_sku' => $normalizedSku,
+                'valid' => true,
                 'existing_id' => $existingProduct?->id,
                 'data' => [
                     'name' => $nameVal ?: ($existingProduct ? $existingProduct->name : ''),
@@ -534,14 +548,15 @@ class ProductExcelService
                     'brand_id' => $brandId,
                     'category_ids' => $categoryIds,
                     'primary_category_id' => $primaryCategoryId,
-                    'slug' => !empty($rowData['slug']) ? Str::slug($rowData['slug']) : ($existingProduct ? $existingProduct->slug : Str::slug($nameVal ?: $sku)),
+                    'slug' => !empty($rowData['slug']) ? Str::slug($rowData['slug']) : ($existingProduct ? $existingProduct->slug : Str::slug(($nameVal ?: $sku) . '-' . $sku)),
                     'meta_title' => isset($rowData['meta_title']) ? trim((string) $rowData['meta_title']) : null,
                     'meta_description' => isset($rowData['meta_description']) ? trim((string) $rowData['meta_description']) : null,
-                    'status' => in_array($rowData['status'] ?? '', ['draft', 'published', 'archived'], true) ? $rowData['status'] : ($existingProduct ? $existingProduct->status : 'draft'),
+                    'status' => in_array($rowData['status'] ?? '', ['draft', 'published', 'archived'], true) ? $rowData['status'] : ($existingProduct ? $existingProduct->status : 'published'),
                     'is_featured' => in_array($rowData['is_featured'] ?? '', ['1', 'true', 1, true], true),
                     'sort_order' => (int) ($rowData['sort_order'] ?? 0),
                     'main_image_media_id' => !empty($mainMediaId) && $mainMediaId !== '__CLEAR__' ? (int) $mainMediaId : null,
                     'staged_main_image_path' => $stagedMainImagePath,
+                    'staged_gallery_paths' => $stagedGalleryPaths,
                     'image_alt' => isset($rowData['image_alt']) ? trim((string) $rowData['image_alt']) : null,
                     'gallery_action' => in_array($rowData['gallery_action'] ?? '', ['preserve', 'merge', 'replace', 'clear'], true) ? $rowData['gallery_action'] : 'preserve',
                     'raw_inputs' => $rowData,
@@ -553,11 +568,15 @@ class ProductExcelService
         // 3. Parse specifications sheet if available
         $sheetSpecs = $spreadsheet->getSheetByName('product_specifications');
         if ($sheetSpecs) {
-            $highestSpecRow = $sheetSpecs->getHighestDataRow();
+            $allSpecRows = $sheetSpecs->toArray(null, true, false, false);
+            $totalSpecRows = count($allSpecRows);
             $specSeenKeys = [];
 
-            for ($row = 2; $row <= $highestSpecRow; $row++) {
-                $rawSku = $sheetSpecs->getCellByColumnAndRow(1, $row)->getValue();
+            for ($j = 1; $j < $totalSpecRows; $j++) {
+                $specRowCells = $allSpecRows[$j];
+                $rowNum = $j + 1;
+
+                $rawSku = $specRowCells[0] ?? null;
                 if ($rawSku === null || trim((string) $rawSku) === '') {
                     continue;
                 }
@@ -568,7 +587,7 @@ class ProductExcelService
                 if (!isset($units[$normalizedSku])) {
                     $errors[] = [
                         'sheet' => 'product_specifications',
-                        'row_number' => $row,
+                        'row_number' => $rowNum,
                         'sku' => $sku,
                         'field' => 'sku',
                         'error_code' => 'SPEC_PARENT_NOT_FOUND',
@@ -578,11 +597,11 @@ class ProductExcelService
                     continue;
                 }
 
-                $attrCode = trim((string) $sheetSpecs->getCellByColumnAndRow(2, $row)->getValue());
+                $attrCode = trim((string) ($specRowCells[1] ?? ''));
                 if (empty($attrCode)) {
                     $errors[] = [
                         'sheet' => 'product_specifications',
-                        'row_number' => $row,
+                        'row_number' => $rowNum,
                         'sku' => $sku,
                         'field' => 'attribute_code',
                         'error_code' => 'MISSING_ATTRIBUTE_CODE',
@@ -596,7 +615,7 @@ class ProductExcelService
                 if (isset($specSeenKeys[$specKey])) {
                     $errors[] = [
                         'sheet' => 'product_specifications',
-                        'row_number' => $row,
+                        'row_number' => $rowNum,
                         'sku' => $sku,
                         'field' => 'attribute_code',
                         'error_code' => 'DUPLICATE_SPEC_CODE',
@@ -605,16 +624,16 @@ class ProductExcelService
                     ];
                     continue;
                 }
-                $specSeenKeys[$specKey] = $row;
+                $specSeenKeys[$specKey] = $rowNum;
 
                 $units[$normalizedSku]['specifications'][] = [
                     'attribute_code' => $attrCode,
-                    'label' => trim((string) $sheetSpecs->getCellByColumnAndRow(3, $row)->getValue()),
-                    'value' => trim((string) $sheetSpecs->getCellByColumnAndRow(4, $row)->getValue()),
-                    'unit' => trim((string) $sheetSpecs->getCellByColumnAndRow(5, $row)->getValue()),
-                    'group' => trim((string) $sheetSpecs->getCellByColumnAndRow(6, $row)->getValue()),
-                    'sort_order' => (int) $sheetSpecs->getCellByColumnAndRow(7, $row)->getValue(),
-                    'operation' => trim((string) $sheetSpecs->getCellByColumnAndRow(8, $row)->getValue()) === 'remove' ? 'remove' : 'upsert',
+                    'label' => trim((string) ($specRowCells[2] ?? '')),
+                    'value' => trim((string) ($specRowCells[3] ?? '')),
+                    'unit' => trim((string) ($specRowCells[4] ?? '')),
+                    'group' => trim((string) ($specRowCells[5] ?? '')),
+                    'sort_order' => (int) ($specRowCells[6] ?? 0),
+                    'operation' => trim((string) ($specRowCells[7] ?? '')) === 'remove' ? 'remove' : 'upsert',
                 ];
             }
         }
@@ -665,11 +684,21 @@ class ProductExcelService
             $actionTaken = 'unchanged';
 
             if (!$product) {
+                $baseSlug = $data['slug'] ?? Str::slug(($data['name'] ?? $sku) . '-' . $sku);
+                $slug = $baseSlug;
+                $counter = 1;
+                while (Product::where('slug', $slug)->exists()) {
+                    $slug = $baseSlug . '-' . $counter++;
+                }
+
+                $status = $data['status'] ?? 'published';
+                $publishedAt = ($status === 'published') ? now() : null;
+
                 $product = Product::create([
                     'sku' => $sku,
                     'normalized_sku' => $normalizedSku,
                     'name' => $data['name'] ?? $sku,
-                    'slug' => $data['slug'] ?? Str::slug(($data['name'] ?? $sku) . '-' . $sku),
+                    'slug' => $slug,
                     'short_description' => $data['short_description'] ?? null,
                     'description_html' => $data['description_html'] ?? null,
                     'brand_id' => $data['brand_id'] ?? null,
@@ -677,7 +706,8 @@ class ProductExcelService
                     'main_image_id' => $mainImageId,
                     'meta_title' => $data['meta_title'] ?? null,
                     'meta_description' => $data['meta_description'] ?? null,
-                    'status' => $data['status'] ?? 'draft',
+                    'status' => $status,
+                    'published_at' => $publishedAt,
                     'is_featured' => $data['is_featured'] ?? false,
                     'sort_order' => $data['sort_order'] ?? 0,
                     'created_by' => $userId,
@@ -694,7 +724,12 @@ class ProductExcelService
                 if ($mainImageId !== null) $updates['main_image_id'] = $mainImageId;
                 if (array_key_exists('meta_title', $data)) $updates['meta_title'] = $data['meta_title'];
                 if (array_key_exists('meta_description', $data)) $updates['meta_description'] = $data['meta_description'];
-                if (array_key_exists('status', $data) && $data['status'] !== null) $updates['status'] = $data['status'];
+                if (array_key_exists('status', $data) && $data['status'] !== null) {
+                    $updates['status'] = $data['status'];
+                    if ($data['status'] === 'published' && !$product->published_at) {
+                        $updates['published_at'] = now();
+                    }
+                }
                 if (array_key_exists('is_featured', $data)) $updates['is_featured'] = $data['is_featured'];
                 if (array_key_exists('sort_order', $data)) $updates['sort_order'] = $data['sort_order'];
 
@@ -728,6 +763,24 @@ class ProductExcelService
                                 'sort_order' => (int) ($spec['sort_order'] ?? 0),
                             ]
                         );
+                    }
+                }
+            }
+
+            // 5. Process Gallery Images if staged
+            if (!empty($data['staged_gallery_paths']) && is_array($data['staged_gallery_paths'])) {
+                $galleryAction = $data['gallery_action'] ?? 'merge';
+                if ($galleryAction === 'replace' || $galleryAction === 'clear') {
+                    $product->galleryUsages()->delete();
+                }
+                if ($galleryAction !== 'clear') {
+                    $currentMax = (int) $product->galleryUsages()->max('sort_order');
+                    foreach ($data['staged_gallery_paths'] as $gIdx => $gPath) {
+                        if (file_exists($gPath)) {
+                            $currentMax++;
+                            $gMedia = MediaService::storeStagedFile($gPath, "product_{$sku}_gallery_{$currentMax}.jpg", $userId);
+                            MediaService::attach($gMedia->id, Product::class, $product->id, 'gallery', $currentMax, $product->name);
+                        }
                     }
                 }
             }

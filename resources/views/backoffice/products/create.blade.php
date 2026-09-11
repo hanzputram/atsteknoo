@@ -156,16 +156,23 @@
           <div class="form-group">
             <label class="form-label" for="status">Status Konten *</label>
             <select name="status" id="status" class="form-control">
+              <option value="published" {{ old('status', 'published') === 'published' ? 'selected' : '' }}>Published (Langsung Publikasikan)</option>
               <option value="draft" {{ old('status') === 'draft' ? 'selected' : '' }}>Draft (Konsep)</option>
-              <option value="published" {{ old('status') === 'published' ? 'selected' : '' }}>Published (Publikasikan)</option>
               <option value="archived" {{ old('status') === 'archived' ? 'selected' : '' }}>Archived (Arsip)</option>
             </select>
           </div>
 
-          <div class="form-group" style="margin-bottom: 12px;">
-            <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; cursor: pointer;">
-              <input type="checkbox" name="is_featured" value="1" {{ old('is_featured') ? 'checked' : '' }}>
-              <span>Tampilkan sebagai Produk Unggulan</span>
+          <div class="form-group" style="margin-bottom: 16px;">
+            <label style="display: flex; align-items: flex-start; gap: 10px; font-size: 13px; font-weight: 600; cursor: pointer; padding: 12px 14px; background: #FFF1F2; border: 1px solid #FECDD3; border-radius: 10px; transition: background-color 0.2s;">
+              <input type="checkbox" name="is_featured" value="1" {{ old('is_featured') ? 'checked' : '' }} style="margin-top: 2px; accent-color: #E11D48; width: 18px; height: 18px; cursor: pointer;">
+              <div>
+                <div style="color: #9F1239; font-weight: 700; font-size: 13px; display: flex; align-items: center; gap: 6px;">
+                  <span>★</span> Tampilkan pada Best Seller (Home Carousel)
+                </div>
+                <div style="font-size: 11.5px; color: #475569; font-weight: 400; margin-top: 3px; line-height: 1.4;">
+                  Centang opsi ini agar produk ini tampil pada slider rak <strong>&ldquo;OUR BEST SELLER PRODUCT&rdquo;</strong> di halaman depan (Home).
+                </div>
+              </div>
             </label>
           </div>
 
