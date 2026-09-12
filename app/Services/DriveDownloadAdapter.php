@@ -26,8 +26,8 @@ class DriveDownloadAdapter
     /**
      * Connect timeout: 10s, request timeout: 60s
      */
-    protected const CONNECT_TIMEOUT = 10;
-    protected const TIMEOUT = 60;
+    protected const CONNECT_TIMEOUT = 5;
+    protected const TIMEOUT = 15;
 
     /**
      * Parse and extract File ID and query parameters from Google Drive share link.
@@ -306,6 +306,185 @@ class DriveDownloadAdapter
                 'success' => false,
                 'error_code' => 'IMAGE_STORAGE_FAILED',
                 'error_message' => 'Terjadi kesalahan sistem saat mengunduh gambar: ' . $e->getMessage(),
+            ];
+        }
+    }
+
+    /**
+     * Download Google Drive or web PDF document to a local private staging path.
+     *
+     * @return array [success => bool, path => string|null, error_code => string|null, error_message => string|null, mime => string|null, size => int|null]
+     */
+    public static function downloadPdfToStaging(string $url, ?string $targetDir = null): array
+    {
+        $url = trim($url);
+        $driveInfo = static::parseDriveUrl($url);
+        $isDrive = !empty($driveInfo);
+
+        if ($isDrive) {
+            $fileId = $driveInfo['file_id'];
+            $resourceKey = $driveInfo['resourcekey'];
+            $downloadUrl = "https://drive.google.com/uc?export=download&id={$fileId}";
+            if ($resourceKey) {
+                $downloadUrl .= "&resourcekey={$resourceKey}";
+            }
+            $stagedFileName = 'gdrive_pdf_' . $fileId . '_' . Str::random(12) . '.pdf';
+        } else {
+            if (!filter_var($url, FILTER_VALIDATE_URL) || !preg_match('#^https?://#i', $url)) {
+                return [
+                    'success' => false,
+                    'error_code' => 'INVALID_PDF_URL',
+                    'error_message' => 'Format URL tidak valid. Masukkan tautan Google Drive atau URL web PDF langsung (https://...).',
+                ];
+            }
+            $downloadUrl = $url;
+            $hash = substr(md5($url), 0, 12);
+            $stagedFileName = 'webpdf_' . $hash . '_' . Str::random(8) . '.pdf';
+            $fileId = $hash;
+        }
+
+        if (!$targetDir) {
+            $targetDir = storage_path('app/private/staging');
+        }
+
+        if (!is_dir($targetDir)) {
+            mkdir($targetDir, 0755, true);
+        }
+
+        $stagedPath = $targetDir . DIRECTORY_SEPARATOR . $stagedFileName;
+
+        try {
+            $urlCheck = static::validateUrlSecurity($downloadUrl);
+            if (!$urlCheck['safe']) {
+                return [
+                    'success' => false,
+                    'error_code' => 'BLOCKED_REMOTE_TARGET',
+                    'error_message' => 'Target URL diblokir oleh kebijakan keamanan jaringan: ' . $urlCheck['reason'],
+                ];
+            }
+
+            $fp = fopen($stagedPath, 'w+b');
+            if (!$fp) {
+                return [
+                    'success' => false,
+                    'error_code' => 'FILE_STORAGE_FAILED',
+                    'error_message' => 'Gagal membuka file staging lokal untuk dokumen PDF.',
+                ];
+            }
+
+            $currentUrl = $downloadUrl;
+            $redirectCount = 0;
+            $maxRedirects = 3;
+            $downloadSuccess = false;
+            $httpStatusCode = 200;
+
+            while ($redirectCount <= $maxRedirects) {
+                $ch = curl_init($currentUrl);
+                if (!$ch) {
+                    fclose($fp);
+                    return static::downloadViaStreamWrapper($currentUrl, $stagedPath);
+                }
+
+                curl_setopt_array($ch, [
+                    CURLOPT_FILE => $fp,
+                    CURLOPT_HEADER => false,
+                    CURLOPT_FOLLOWLOCATION => false,
+                    CURLOPT_CONNECTTIMEOUT => static::CONNECT_TIMEOUT,
+                    CURLOPT_TIMEOUT => static::TIMEOUT,
+                    CURLOPT_USERAGENT => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 ATS-Tekno/1.0',
+                    CURLOPT_SSL_VERIFYPEER => false,
+                    CURLOPT_SSL_VERIFYHOST => 0,
+                ]);
+
+                $execResult = curl_exec($ch);
+                $httpStatusCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                $redirectUrl = curl_getinfo($ch, CURLINFO_REDIRECT_URL);
+                $curlErrno = curl_errno($ch);
+                curl_close($ch);
+
+                if (!$execResult && $curlErrno === CURLE_OPERATION_TIMEDOUT) {
+                    fclose($fp);
+                    @unlink($stagedPath);
+                    return [
+                        'success' => false,
+                        'error_code' => 'PDF_DOWNLOAD_TIMEOUT',
+                        'error_message' => 'Koneksi ke server dokumen PDF melewati batas waktu (timeout).',
+                    ];
+                }
+
+                if (in_array($httpStatusCode, [301, 302, 303, 307, 308]) && !empty($redirectUrl)) {
+                    $sec = static::validateUrlSecurity($redirectUrl);
+                    if (!$sec['safe']) {
+                        fclose($fp);
+                        @unlink($stagedPath);
+                        return [
+                            'success' => false,
+                            'error_code' => 'BLOCKED_REMOTE_TARGET',
+                            'error_message' => 'Redirect ke host tidak diizinkan: ' . $sec['reason'],
+                        ];
+                    }
+                    ftruncate($fp, 0);
+                    rewind($fp);
+                    $currentUrl = $redirectUrl;
+                    $redirectCount++;
+                    continue;
+                }
+
+                $downloadSuccess = ($httpStatusCode >= 200 && $httpStatusCode < 300);
+                break;
+            }
+
+            fclose($fp);
+
+            if (!$downloadSuccess) {
+                @unlink($stagedPath);
+                return [
+                    'success' => false,
+                    'error_code' => 'PDF_DOWNLOAD_FAILED',
+                    'error_message' => "Gagal mengunduh berkas PDF (HTTP status {$httpStatusCode}).",
+                ];
+            }
+
+            $fileSize = filesize($stagedPath);
+            $maxPdfBytes = 20971520; // 20 MiB
+            if ($fileSize > $maxPdfBytes) {
+                @unlink($stagedPath);
+                return [
+                    'success' => false,
+                    'error_code' => 'PDF_TOO_LARGE',
+                    'error_message' => 'Ukuran file PDF melebihi batas 20 MiB (' . round($fileSize / 1048576, 2) . ' MiB).',
+                ];
+            }
+
+            $finfo = finfo_open(FILEINFO_MIME_TYPE);
+            $mimeType = finfo_file($finfo, $stagedPath);
+            finfo_close($finfo);
+
+            $headBytes = file_get_contents($stagedPath, false, null, 0, 10);
+            $isPdf = str_contains($mimeType, 'pdf') || str_starts_with($headBytes ?: '', '%PDF-');
+
+            if (!$isPdf) {
+                @unlink($stagedPath);
+                return [
+                    'success' => false,
+                    'error_code' => 'INVALID_PDF_CONTENT',
+                    'error_message' => 'Hasil download bukan berkas PDF valid (MIME: ' . $mimeType . ').',
+                ];
+            }
+
+            return [
+                'success' => true,
+                'path' => $stagedPath,
+                'file_id' => $fileId,
+                'mime' => 'application/pdf',
+                'size' => $fileSize,
+            ];
+        } catch (Exception $e) {
+            @unlink($stagedPath);
+            return [
+                'success' => false,
+                'error_code' => 'PDF_STORAGE_FAILED',
+                'error_message' => 'Terjadi kesalahan sistem saat mengunduh PDF: ' . $e->getMessage(),
             ];
         }
     }

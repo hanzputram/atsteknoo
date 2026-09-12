@@ -44,6 +44,12 @@
                 </a>
             </div>
             @endif
+
+            @if($brand->description_html)
+            <div class="w-full mt-4 pt-4 border-t border-slate-200/80 wysiwyg-content prose prose-slate max-w-none text-sm text-slate-700 leading-relaxed">
+                {!! $brand->description_html !!}
+            </div>
+            @endif
         </div>
     </div>
 </div>
@@ -52,11 +58,18 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         @forelse($products as $prod)
         <div class="bg-white rounded-2xl border border-slate-200/80 shadow-xs hover:shadow-md hover:border-slate-300 transition-all duration-200 flex flex-col overflow-hidden group">
-            <a href="{{ route('products.show', $prod->slug) }}" class="h-56 bg-slate-50/70 p-6 flex items-center justify-center relative overflow-hidden border-b border-slate-100">
-                @if($prod->mainImage)
-                    <img src="{{ route('media.view', $prod->main_image_id) }}" alt="{{ $prod->name }}" class="max-h-full max-w-full object-contain group-hover:scale-105 transition duration-300">
+            <a href="{{ route('products.show', $prod->slug) }}" class="h-64 sm:h-72 bg-white p-3 sm:p-4 flex items-center justify-center relative overflow-hidden border-b border-slate-100">
+                @if($prod->main_image_url)
+                    <img src="{{ $prod->main_image_url }}" alt="{{ $prod->mainImage->alt_text ?? $prod->name }}" class="w-full h-full max-h-full max-w-full object-contain group-hover:scale-105 transition duration-300" onerror="this.onerror=null; this.classList.add('hidden'); if(this.nextElementSibling) this.nextElementSibling.classList.remove('hidden');">
+                    <div class="hidden text-slate-300 flex flex-col items-center gap-1">
+                        <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                        <span class="text-[10px] font-mono uppercase tracking-wider">No Image</span>
+                    </div>
                 @else
-                    <span class="text-slate-300 text-xs font-mono">No Image</span>
+                    <div class="text-slate-300 flex flex-col items-center gap-1">
+                        <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                        <span class="text-[10px] font-mono uppercase tracking-wider">No Image</span>
+                    </div>
                 @endif
             </a>
 
@@ -89,9 +102,9 @@
         @endforelse
     </div>
 
-    @if($products->hasPages())
+    @if($products->total() > 0)
     <div class="mt-12 pt-6 border-t border-slate-200">
-        {{ $products->links() }}
+        {{ $products->onEachSide(1)->links() }}
     </div>
     @endif
 </div>

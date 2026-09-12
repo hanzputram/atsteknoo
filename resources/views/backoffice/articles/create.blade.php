@@ -55,7 +55,7 @@
 
           <div class="form-group">
             <label class="form-label" for="content_html">Isi Lengkap Artikel (WYSIWYG) *</label>
-            <textarea name="content_html" id="content_html" rows="14" class="form-control" placeholder="Tulis artikel dengan heading H2-H4, paragraf, list, tabel teknis...">{{ old('content_html') }}</textarea>
+            <textarea name="content_html" id="content_html" rows="14" class="form-control wysiwyg-editor" placeholder="Tulis artikel dengan heading H2-H4, paragraf, list, tabel teknis...">{{ old('content_html') }}</textarea>
             <span class="form-hint">HTML disanitasi otomatis di server. Tag script dan event handler akan dibuang.</span>
           </div>
 

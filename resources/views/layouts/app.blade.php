@@ -61,8 +61,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-  <!-- Tailwind CSS CDN for Modern Utility Layouts -->
-  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Tailwind CSS CDN with Typography & Forms Plugins -->
+  <script src="https://cdn.tailwindcss.com?plugins=typography,forms,aspect-ratio"></script>
   <script>
     tailwind.config = {
       theme: {
@@ -98,6 +98,202 @@
 
       --shadow-card: 0 20px 40px -15px rgba(225, 29, 72, 0.12), 0 10px 25px -5px rgba(0, 0, 0, 0.05);
       --transition-base: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* ==========================================================================
+       Rich WYSIWYG Content & Typography Styling (Products, Articles, Projects)
+       ========================================================================== */
+    .wysiwyg-content,
+    .prose {
+      font-family: var(--font-sans);
+      color: #334155;
+      line-height: 1.75;
+      font-size: 15px;
+    }
+    .wysiwyg-content h1, .prose h1 {
+      font-family: var(--font-outfit);
+      font-size: 1.875rem;
+      font-weight: 800;
+      color: #0f172a;
+      margin-top: 2rem;
+      margin-bottom: 0.85rem;
+      line-height: 1.25;
+      letter-spacing: -0.02em;
+    }
+    .wysiwyg-content h2, .prose h2 {
+      font-family: var(--font-outfit);
+      font-size: 1.45rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin-top: 1.85rem;
+      margin-bottom: 0.75rem;
+      line-height: 1.3;
+      letter-spacing: -0.01em;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    .wysiwyg-content h3, .prose h3 {
+      font-family: var(--font-outfit);
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #1e293b;
+      margin-top: 1.5rem;
+      margin-bottom: 0.6rem;
+      line-height: 1.35;
+      letter-spacing: -0.01em;
+    }
+    .wysiwyg-content h4, .prose h4 {
+      font-family: var(--font-outfit);
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #334155;
+      margin-top: 1.25rem;
+      margin-bottom: 0.5rem;
+    }
+    .wysiwyg-content h5, .prose h5,
+    .wysiwyg-content h6, .prose h6 {
+      font-family: var(--font-outfit);
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #475569;
+      margin-top: 1rem;
+      margin-bottom: 0.4rem;
+    }
+    .wysiwyg-content p, .prose p {
+      font-family: var(--font-sans);
+      margin-top: 0;
+      margin-bottom: 1.15rem;
+      line-height: 1.75;
+      color: #334155;
+    }
+    .wysiwyg-content strong, .prose strong,
+    .wysiwyg-content b, .prose b {
+      font-weight: 700;
+      color: #0f172a;
+    }
+    .wysiwyg-content em, .prose em,
+    .wysiwyg-content i, .prose i {
+      font-style: italic;
+    }
+    .wysiwyg-content ul, .prose ul {
+      list-style-type: disc !important;
+      padding-left: 1.6rem !important;
+      margin-top: 0.6rem !important;
+      margin-bottom: 1.25rem !important;
+    }
+    .wysiwyg-content ol, .prose ol {
+      list-style-type: decimal !important;
+      padding-left: 1.6rem !important;
+      margin-top: 0.6rem !important;
+      margin-bottom: 1.25rem !important;
+    }
+    .wysiwyg-content li, .prose li {
+      font-family: var(--font-sans);
+      margin-bottom: 0.4rem;
+      line-height: 1.65;
+      color: #334155;
+    }
+    .wysiwyg-content li::marker, .prose li::marker {
+      color: #e11d48;
+      font-weight: 700;
+    }
+    .wysiwyg-content table, .prose table {
+      width: 100%;
+      margin-top: 1.25rem;
+      margin-bottom: 1.5rem;
+      border-collapse: separate;
+      border-spacing: 0;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+      background: #ffffff;
+    }
+    .wysiwyg-content th, .prose th {
+      background: #f8fafc;
+      color: #0f172a;
+      font-weight: 700;
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 12px 16px;
+      border-bottom: 1px solid #e2e8f0;
+      border-right: 1px solid #f1f5f9;
+      text-align: left;
+    }
+    .wysiwyg-content td, .prose td {
+      padding: 11px 16px;
+      border-bottom: 1px solid #f1f5f9;
+      border-right: 1px solid #f8fafc;
+      color: #334155;
+      font-size: 0.92rem;
+      line-height: 1.5;
+    }
+    .wysiwyg-content tr:last-child td, .prose tr:last-child td {
+      border-bottom: none;
+    }
+    .wysiwyg-content td:first-child, .prose td:first-child {
+      font-weight: 600;
+      color: #1e293b;
+      background: #fafbfc;
+      width: 32%;
+      border-right: 1px solid #e2e8f0;
+    }
+    .wysiwyg-content tr:hover td, .prose tr:hover td {
+      background: #f8fafc;
+    }
+    .wysiwyg-content blockquote, .prose blockquote {
+      border-left: 4px solid #e11d48;
+      background: #fff1f2;
+      padding: 14px 20px;
+      margin: 1.5rem 0;
+      border-radius: 0 10px 10px 0;
+      font-style: italic;
+      color: #475569;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+    .wysiwyg-content code, .prose code {
+      background: #f1f5f9;
+      color: #e11d48;
+      padding: 2px 7px;
+      border-radius: 5px;
+      font-size: 0.88em;
+      font-family: Consolas, Monaco, monospace;
+      font-weight: 600;
+    }
+    .wysiwyg-content pre, .prose pre {
+      background: #0f172a;
+      color: #f8fafc;
+      padding: 16px 20px;
+      border-radius: 10px;
+      overflow-x: auto;
+      font-size: 0.9em;
+      line-height: 1.6;
+      margin: 1.5rem 0;
+    }
+    .wysiwyg-content hr, .prose hr {
+      border: none;
+      border-top: 1px solid #e2e8f0;
+      margin: 2rem 0;
+    }
+    .wysiwyg-content a, .prose a {
+      color: #e11d48;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      font-weight: 600;
+      transition: color 0.15s;
+    }
+    .wysiwyg-content a:hover, .prose a:hover {
+      color: #be123c;
+    }
+    .wysiwyg-content img, .prose img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 10px;
+      margin: 1.5rem 0;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+      border: 1px solid #e2e8f0;
     }
 
     * {

@@ -11,17 +11,23 @@ class CatalogCategoryController extends Controller
     /**
      * Display category page with subcategories and published products.
      */
-    public function show(string $slug)
+    public function show(Request $request, string $slug)
     {
         $category = ProductCategory::active()
             ->with(['children' => fn ($q) => $q->active()])
             ->where('slug', $slug)
             ->firstOrFail();
 
+        $perPage = (int) $request->input('per_page', 25);
+        if (!in_array($perPage, [10, 25, 50, 100], true)) {
+            $perPage = 25;
+        }
+
         $products = $category->products()
             ->published()
             ->with(['brand', 'mainImage'])
-            ->paginate(24);
+            ->paginate($perPage)
+            ->withQueryString();
 
         return view('public.product-categories.show', compact('category', 'products'));
     }

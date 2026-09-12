@@ -61,7 +61,7 @@
 
           <div class="form-group">
             <label class="form-label" for="content_html">Isi Lengkap Artikel (WYSIWYG) *</label>
-            <textarea name="content_html" id="content_html" rows="14" class="form-control">{{ old('content_html', $article->content_html) }}</textarea>
+            <textarea name="content_html" id="content_html" rows="14" class="form-control wysiwyg-editor">{{ old('content_html', $article->content_html) }}</textarea>
           </div>
 
           <div class="form-group">

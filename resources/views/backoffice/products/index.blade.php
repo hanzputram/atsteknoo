@@ -89,8 +89,8 @@
           <tr>
             <td>
               <div style="width: 48px; height: 48px; border-radius: 8px; border: 1px solid #E2E8F0; display: flex; align-items: center; justify-content: center; background: #F8FAFC; overflow: hidden;">
-                @if($p->mainImage)
-                  <img src="{{ route('media.view', $p->mainImage->id) }}" alt="{{ $p->name }}" style="width: 100%; height: 100%; object-fit: contain;">
+                @if($p->main_image_url)
+                  <img src="{{ $p->main_image_url }}" alt="{{ $p->name }}" style="width: 100%; height: 100%; object-fit: contain;" onerror="this.onerror=null; this.parentElement.innerHTML='<span style=\'font-size: 18px; color: #CBD5E1;\'>⚡</span>'">
                 @else
                   <span style="font-size: 18px; color: #CBD5E1;">⚡</span>
                 @endif

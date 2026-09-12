@@ -9,6 +9,7 @@ use App\Http\Controllers\Backoffice\ContactInquiryController;
 use App\Http\Controllers\Backoffice\DashboardController;
 use App\Http\Controllers\Backoffice\ImportCenterController;
 use App\Http\Controllers\Backoffice\LiveChatController;
+use App\Http\Controllers\Backoffice\MediaLibraryController;
 use App\Http\Controllers\Backoffice\PageController;
 use App\Http\Controllers\Backoffice\ProductCategoryController;
 use App\Http\Controllers\Backoffice\ProductController;
@@ -144,6 +145,10 @@ Route::prefix('backoffice')->name('backoffice.')->group(function () {
         Route::delete('live-chats/{id}', [LiveChatController::class, 'destroy'])->name('live-chats.destroy');
         Route::get('live-chats/{id}/poll', [LiveChatController::class, 'poll'])->name('live-chats.poll');
         Route::post('live-chats/{id}/typing', [LiveChatController::class, 'updateTyping'])->name('live-chats.typing');
+
+        // Media Library API for WYSIWYG
+        Route::get('media-library', [MediaLibraryController::class, 'index'])->name('media-library.index');
+        Route::post('media-library/upload', [MediaLibraryController::class, 'upload'])->name('media-library.upload');
 
         // Import Center
         Route::get('import-products', [ImportCenterController::class, 'index'])->name('import.index');

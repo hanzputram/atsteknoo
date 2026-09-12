@@ -45,6 +45,7 @@ Workbook template terdiri dari 5 lembar kerja (sheet):
 | `is_featured` | Angka / Boolean | `1` (unggul) atau `0` (biasa). |
 | `sort_order` | Angka | Urutan tampil (integer positif, default 0). |
 | `link_gdrive` | URL | URL tautan publik Google Drive untuk gambar utama produk. |
+| `link_datasheet` | URL | URL tautan dokumen PDF datasheet produk (Google Drive atau URL langsung). |
 | `main_image_media_id` | Angka | Alternatif jika menggunakan ID media lokal yang sudah ada di server. |
 | `image_alt` | Teks | Teks alt gambar untuk aksesibilitas dan SEO gambar. |
 | `gallery_links` | Teks (URL) | Link gambar galeri Google Drive, dipisahkan tanda titik koma (`;`). |
@@ -60,7 +61,6 @@ Workbook template terdiri dari 5 lembar kerja (sheet):
 | `label` | Teks (Wajib) | Nama parameter yang dibaca manusia (contoh: *Arus Nominal*). |
 | `value` | Teks (Wajib) | Nilai parameter (contoh: `1600`, `380 - 415`). |
 | `unit` | Teks | Satuan parameter (contoh: `A`, `V`, `kA`, `mm`, `kg`). |
-| `group` | Teks | Pengelompokan spesifikasi (contoh: *Elektrikal*, *Mekanikal*). |
 | `sort_order` | Angka | Urutan tampil spesifikasi pada tabel detail produk. |
 | `operation` | Pilihan | `upsert` (tambah/perbarui) atau `remove` (hapus spesifikasi ini). |
 

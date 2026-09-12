@@ -10,7 +10,9 @@ use App\Models\ProductSpecification;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use PhpOffice\PhpSpreadsheet\Cell\Cell;
 use PhpOffice\PhpSpreadsheet\Cell\DataType;
+use PhpOffice\PhpSpreadsheet\Cell\StringValueBinder;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
@@ -38,6 +40,7 @@ class ProductExcelService
         'is_featured',
         'sort_order',
         'link_gdrive',
+        'link_datasheet',
         'main_image_media_id',
         'image_alt',
         'gallery_links',
@@ -54,7 +57,6 @@ class ProductExcelService
         'label',
         'value',
         'unit',
-        'group',
         'sort_order',
         'operation',
     ];
@@ -84,7 +86,7 @@ class ProductExcelService
             'fill' => ['fillType' => Fill::FILL_SOLID, 'startColor' => ['rgb' => '0F172A']],
             'alignment' => ['vertical' => Alignment::VERTICAL_CENTER],
         ];
-        $sheetProducts->getStyle('A1:S1')->applyFromArray($headerStyle);
+        $sheetProducts->getStyle('A1:T1')->applyFromArray($headerStyle);
         $sheetProducts->getRowDimension(1)->setRowHeight(28);
 
         // Sheet 2: product_specifications
@@ -98,7 +100,7 @@ class ProductExcelService
             $sheetSpecs->getColumnDimension(\PhpOffice\PhpSpreadsheet\Cell\Coordinate::stringFromColumnIndex($col))->setAutoSize(true);
             $col++;
         }
-        $sheetSpecs->getStyle('A1:H1')->applyFromArray($headerStyle);
+        $sheetSpecs->getStyle('A1:G1')->applyFromArray($headerStyle);
         $sheetSpecs->getRowDimension(1)->setRowHeight(28);
 
         // Sheet 3: _instructions
@@ -110,9 +112,10 @@ class ProductExcelService
             ['1. Kolom SKU', 'Wajib berupa teks (Text). Jangan gunakan format angka agar angka nol di depan dan tanda hubung tidak hilang.'],
             ['2. Mode Impor', 'Upsert (tambah baru atau perbarui), Create only (hanya tambah baru), Update only (hanya perbarui).'],
             ['3. Gambar Google Drive', 'Masukkan URL share file gambar Google Drive pada kolom link_gdrive. Gambar akan diunduh dan disimpan otomatis.'],
-            ['4. Spesifikasi Teknis', 'Isi sheet product_specifications untuk atribut teknis fleksibel (arus nominal, tegangan, pole, dll).'],
-            ['5. Sel Kosong vs __CLEAR__', 'Sel kosong pada update mempertahankan data lama. Ketik __CLEAR__ untuk mengosongkan nilai field opsional.'],
-            ['6. Larangan Harga & Stok', 'Aplikasi ini adalah katalog murni. Kolom harga, diskon, dan stok tidak diproses.'],
+            ['4. Link Datasheet', 'Masukkan URL file PDF datasheet (Google Drive atau URL langsung) pada kolom link_datasheet. File PDF dapat langsung dibuka/diunduh di halaman detail produk.'],
+            ['5. Spesifikasi Teknis', 'Isi sheet product_specifications untuk atribut teknis fleksibel (arus nominal, tegangan, pole, dll).'],
+            ['6. Sel Kosong vs __CLEAR__', 'Sel kosong pada update mempertahankan data lama. Ketik __CLEAR__ untuk mengosongkan nilai field opsional.'],
+            ['7. Larangan Harga & Stok', 'Aplikasi ini adalah katalog murni. Kolom harga, diskon, dan stok tidak diproses.'],
         ];
         $r = 3;
         foreach ($instructions as $inst) {
@@ -166,53 +169,80 @@ class ProductExcelService
      */
     public static function exportProducts($productsQuery = null): Spreadsheet
     {
+        @ini_set('memory_limit', '1024M');
+        @set_time_limit(300);
+
         $spreadsheet = self::generateTemplate();
         $sheetProducts = $spreadsheet->getSheetByName('products');
         $sheetSpecs = $spreadsheet->getSheetByName('product_specifications');
 
+        // Disable autosize to optimize writer performance on large datasets
+        foreach (range('A', 'T') as $col) {
+            $sheetProducts->getColumnDimension($col)->setAutoSize(false)->setWidth(20);
+        }
+        foreach (range('A', 'G') as $col) {
+            $sheetSpecs->getColumnDimension($col)->setAutoSize(false)->setWidth(20);
+        }
+
         $products = $productsQuery ? $productsQuery->get() : Product::with(['brand', 'categories', 'primaryCategory', 'specifications', 'galleryUsages'])->get();
 
-        $rowProd = 2;
-        $rowSpec = 2;
+        $prodRows = [];
+        $specRows = [];
 
         foreach ($products as $prod) {
             $categoryCodes = $prod->categories->pluck('code')->implode(';');
             $galleryIds = $prod->galleryUsages->pluck('media_id')->implode(';');
+            $datasheetExportUrl = (string) ($prod->datasheet_url ?: ($prod->datasheet_id ? url('/media/' . $prod->datasheet_id) : ''));
+            $imageExportUrl = (string) ($prod->image_url ?: '');
 
-            $sheetProducts->setCellValueExplicit("A{$rowProd}", $prod->sku, DataType::TYPE_STRING);
-            $sheetProducts->setCellValueExplicit("B{$rowProd}", $prod->name, DataType::TYPE_STRING);
-            $sheetProducts->setCellValueExplicit("C{$rowProd}", (string) $prod->short_description, DataType::TYPE_STRING);
-            $sheetProducts->setCellValueExplicit("D{$rowProd}", (string) $prod->description_html, DataType::TYPE_STRING);
-            $sheetProducts->setCellValueExplicit("E{$rowProd}", (string) ($prod->brand ? $prod->brand->code : ''), DataType::TYPE_STRING);
-            $sheetProducts->setCellValueExplicit("F{$rowProd}", $categoryCodes, DataType::TYPE_STRING);
-            $sheetProducts->setCellValueExplicit("G{$rowProd}", (string) ($prod->primaryCategory ? $prod->primaryCategory->code : ''), DataType::TYPE_STRING);
-            $sheetProducts->setCellValueExplicit("H{$rowProd}", $prod->slug, DataType::TYPE_STRING);
-            $sheetProducts->setCellValueExplicit("I{$rowProd}", (string) $prod->meta_title, DataType::TYPE_STRING);
-            $sheetProducts->setCellValueExplicit("J{$rowProd}", (string) $prod->meta_description, DataType::TYPE_STRING);
-            $sheetProducts->setCellValueExplicit("K{$rowProd}", $prod->status, DataType::TYPE_STRING);
-            $sheetProducts->setCellValueExplicit("L{$rowProd}", $prod->is_featured ? '1' : '0', DataType::TYPE_STRING);
-            $sheetProducts->setCellValueExplicit("M{$rowProd}", (string) $prod->sort_order, DataType::TYPE_STRING);
-            $sheetProducts->setCellValueExplicit("N{$rowProd}", '', DataType::TYPE_STRING); // link_gdrive left empty on export
-            $sheetProducts->setCellValueExplicit("O{$rowProd}", (string) ($prod->main_image_id ?: ''), DataType::TYPE_STRING);
-            $sheetProducts->setCellValueExplicit("P{$rowProd}", '', DataType::TYPE_STRING); // image_alt
-            $sheetProducts->setCellValueExplicit("Q{$rowProd}", '', DataType::TYPE_STRING); // gallery_links left empty
-            $sheetProducts->setCellValueExplicit("R{$rowProd}", $galleryIds, DataType::TYPE_STRING);
-            $sheetProducts->setCellValueExplicit("S{$rowProd}", 'preserve', DataType::TYPE_STRING);
+            $prodRows[] = [
+                (string) $prod->sku,
+                (string) $prod->name,
+                (string) $prod->short_description,
+                (string) $prod->description_html,
+                (string) ($prod->brand ? $prod->brand->code : ''),
+                $categoryCodes,
+                (string) ($prod->primaryCategory ? $prod->primaryCategory->code : ''),
+                (string) $prod->slug,
+                (string) $prod->meta_title,
+                (string) $prod->meta_description,
+                (string) $prod->status,
+                $prod->is_featured ? '1' : '0',
+                (string) $prod->sort_order,
+                $imageExportUrl, // link_gdrive / image url
+                $datasheetExportUrl, // link_datasheet
+                (string) ($prod->main_image_id ?: ''),
+                '', // image_alt
+                '', // gallery_links
+                $galleryIds,
+                'preserve',
+            ];
 
-            $rowProd++;
-
-            // Export specs
             foreach ($prod->specifications as $spec) {
-                $sheetSpecs->setCellValueExplicit("A{$rowSpec}", $prod->sku, DataType::TYPE_STRING);
-                $sheetSpecs->setCellValueExplicit("B{$rowSpec}", $spec->attribute_code, DataType::TYPE_STRING);
-                $sheetSpecs->setCellValueExplicit("C{$rowSpec}", $spec->label, DataType::TYPE_STRING);
-                $sheetSpecs->setCellValueExplicit("D{$rowSpec}", $spec->value, DataType::TYPE_STRING);
-                $sheetSpecs->setCellValueExplicit("E{$rowSpec}", (string) $spec->unit, DataType::TYPE_STRING);
-                $sheetSpecs->setCellValueExplicit("F{$rowSpec}", (string) $spec->group, DataType::TYPE_STRING);
-                $sheetSpecs->setCellValueExplicit("G{$rowSpec}", (string) $spec->sort_order, DataType::TYPE_STRING);
-                $sheetSpecs->setCellValueExplicit("H{$rowSpec}", 'upsert', DataType::TYPE_STRING);
-                $rowSpec++;
+                $specRows[] = [
+                    (string) $prod->sku,
+                    (string) $spec->attribute_code,
+                    (string) $spec->label,
+                    (string) $spec->value,
+                    (string) $spec->unit,
+                    (string) $spec->sort_order,
+                    'upsert',
+                ];
             }
+        }
+
+        $prevBinder = Cell::getValueBinder();
+        Cell::setValueBinder(new StringValueBinder());
+        try {
+            if (!empty($prodRows)) {
+                $sheetProducts->fromArray($prodRows, null, 'A2', false);
+            }
+
+            if (!empty($specRows)) {
+                $sheetSpecs->fromArray($specRows, null, 'A2', false);
+            }
+        } finally {
+            Cell::setValueBinder($prevBinder);
         }
 
         return $spreadsheet;
@@ -276,6 +306,7 @@ class ProductExcelService
                     'deskripsi_produk' => 'description_html',
                     'gdrive', 'link_gdrive', 'link_foto', 'link_gambar', 'image_url', 'url_gambar', 'url_foto', 'foto', 'gambar', 'foto_produk', 'main_image' => 'link_gdrive',
                     'gallery', 'link_gallery', 'galeri', 'gallery_urls', 'foto_galeri', 'gambar_galeri' => 'gallery_links',
+                    'datasheet', 'link_datasheet', 'url_datasheet', 'datasheet_url', 'pdf_datasheet', 'link_pdf', 'datasheet_link', 'pdf' => 'link_datasheet',
                     default => $val,
                 };
                 $headerMap[$normalizedHeader] = $colIdx;
@@ -495,21 +526,37 @@ class ProductExcelService
 
             // Remote Download Staging for Main Image (Google Drive or Direct Web URL)
             $stagedMainImagePath = null;
-            if (!empty($linkGdrive) && $linkGdrive !== '__CLEAR__') {
-                $dlResult = DriveDownloadAdapter::downloadToStaging($linkGdrive);
-                if (!$dlResult['success']) {
-                    $errors[] = [
-                        'sheet' => 'products',
-                        'row_number' => $row,
-                        'sku' => $sku,
-                        'field' => 'link_gdrive',
-                        'error_code' => $dlResult['error_code'],
-                        'error_message' => 'Gagal mengunduh gambar utama: ' . $dlResult['error_message'],
-                        'suggested_fix' => 'Pastikan URL gambar dapat diakses secara publik (contoh: https://listrikonline.com/... atau link share Google Drive).',
-                    ];
-                    continue;
+            $imageUrlVal = null;
+            if (!empty($linkGdrive)) {
+                if ($linkGdrive === '__CLEAR__') {
+                    $imageUrlVal = '__CLEAR__';
+                } else {
+                    $imageUrlVal = $linkGdrive;
+                    if (str_contains($imageUrlVal, 'listrikonline.com/data/product-watermark/')) {
+                        $isSe = false;
+                        if (!empty($brandId)) {
+                            $brandObj = Brand::find($brandId);
+                            $isSe = ($brandObj && $brandObj->code === 'SE');
+                        } elseif (!empty($rowData['brand_code'])) {
+                            $isSe = (strtoupper(trim((string) $rowData['brand_code'])) === 'SE');
+                        }
+                        $targetExt = $isSe ? '.jpg' : '.webp';
+                        $imageUrlVal = preg_replace_callback('#(https?://[^/]+/data/product-watermark/)(.+)$#i', function($m) use ($targetExt) {
+                            $filename = strtolower($m[2]);
+                            $filename = preg_replace('/\.(webp|jpeg|jpg|png)$/i', $targetExt, $filename);
+                            if (!str_ends_with($filename, $targetExt)) {
+                                $filename .= $targetExt;
+                            }
+                            return $m[1] . $filename;
+                        }, $imageUrlVal);
+                    }
+                    if (DriveDownloadAdapter::parseDriveUrl($linkGdrive)) {
+                        $dlResult = DriveDownloadAdapter::downloadToStaging($linkGdrive);
+                        if ($dlResult['success']) {
+                            $stagedMainImagePath = $dlResult['path'];
+                        }
+                    }
                 }
-                $stagedMainImagePath = $dlResult['path'];
             }
 
             // Remote Download Staging for Gallery Images (Google Drive or Direct Web URLs separated by ; or ,)
@@ -519,12 +566,25 @@ class ProductExcelService
                 $rawUrls = preg_split('/[;,\n\r]+/', $galleryLinks);
                 foreach ($rawUrls as $rawUrl) {
                     $u = trim($rawUrl);
-                    if (!empty($u)) {
+                    if (!empty($u) && DriveDownloadAdapter::parseDriveUrl($u)) {
                         $dlResult = DriveDownloadAdapter::downloadToStaging($u);
                         if ($dlResult['success']) {
                             $stagedGalleryPaths[] = $dlResult['path'];
                         }
                     }
+                }
+            }
+
+            // Remote Datasheet PDF (Direct Web URL or Google Drive link)
+            $stagedDatasheetPath = null;
+            $linkDatasheet = isset($rowData['link_datasheet']) ? trim((string) $rowData['link_datasheet']) : '';
+            $datasheetUrlVal = null;
+
+            if (!empty($linkDatasheet)) {
+                if ($linkDatasheet === '__CLEAR__') {
+                    $datasheetUrlVal = '__CLEAR__';
+                } else {
+                    $datasheetUrlVal = $linkDatasheet;
                 }
             }
 
@@ -536,13 +596,13 @@ class ProductExcelService
 
             $units[$normalizedSku] = [
                 'row_number' => $row,
-                'action' => $existingProduct ? 'update' : 'create',
                 'sku' => $sku,
                 'normalized_sku' => $normalizedSku,
-                'valid' => true,
-                'existing_id' => $existingProduct?->id,
+                'action' => $existingProduct ? 'update' : 'create',
                 'data' => [
-                    'name' => $nameVal ?: ($existingProduct ? $existingProduct->name : ''),
+                    'sku' => $sku,
+                    'normalized_sku' => $normalizedSku,
+                    'name' => $nameVal ?: $sku,
                     'short_description' => isset($rowData['short_description']) ? trim((string) $rowData['short_description']) : null,
                     'description_html' => $descriptionHtml,
                     'brand_id' => $brandId,
@@ -556,7 +616,10 @@ class ProductExcelService
                     'sort_order' => (int) ($rowData['sort_order'] ?? 0),
                     'main_image_media_id' => !empty($mainMediaId) && $mainMediaId !== '__CLEAR__' ? (int) $mainMediaId : null,
                     'staged_main_image_path' => $stagedMainImagePath,
+                    'image_url' => $imageUrlVal,
                     'staged_gallery_paths' => $stagedGalleryPaths,
+                    'datasheet_url' => $datasheetUrlVal,
+                    'staged_datasheet_path' => $stagedDatasheetPath,
                     'image_alt' => isset($rowData['image_alt']) ? trim((string) $rowData['image_alt']) : null,
                     'gallery_action' => in_array($rowData['gallery_action'] ?? '', ['preserve', 'merge', 'replace', 'clear'], true) ? $rowData['gallery_action'] : 'preserve',
                     'raw_inputs' => $rowData,
@@ -572,11 +635,23 @@ class ProductExcelService
             $totalSpecRows = count($allSpecRows);
             $specSeenKeys = [];
 
+            // Map header names dynamically
+            $specHeaderMap = [];
+            if (!empty($allSpecRows[0])) {
+                foreach ($allSpecRows[0] as $colIdx => $headerVal) {
+                    $val = strtolower(trim((string) $headerVal));
+                    if (!empty($val)) {
+                        $specHeaderMap[$val] = $colIdx;
+                    }
+                }
+            }
+
             for ($j = 1; $j < $totalSpecRows; $j++) {
                 $specRowCells = $allSpecRows[$j];
                 $rowNum = $j + 1;
 
-                $rawSku = $specRowCells[0] ?? null;
+                $skuCol = $specHeaderMap['sku'] ?? 0;
+                $rawSku = $specRowCells[$skuCol] ?? null;
                 if ($rawSku === null || trim((string) $rawSku) === '') {
                     continue;
                 }
@@ -597,7 +672,8 @@ class ProductExcelService
                     continue;
                 }
 
-                $attrCode = trim((string) ($specRowCells[1] ?? ''));
+                $attrCodeCol = $specHeaderMap['attribute_code'] ?? 1;
+                $attrCode = trim((string) ($specRowCells[$attrCodeCol] ?? ''));
                 if (empty($attrCode)) {
                     $errors[] = [
                         'sheet' => 'product_specifications',
@@ -626,14 +702,19 @@ class ProductExcelService
                 }
                 $specSeenKeys[$specKey] = $rowNum;
 
+                $labelCol = $specHeaderMap['label'] ?? 2;
+                $valCol = $specHeaderMap['value'] ?? 3;
+                $unitCol = $specHeaderMap['unit'] ?? 4;
+                $sortCol = $specHeaderMap['sort_order'] ?? (isset($specHeaderMap['group']) ? 6 : 5);
+                $opCol = $specHeaderMap['operation'] ?? (isset($specHeaderMap['group']) ? 7 : 6);
+
                 $units[$normalizedSku]['specifications'][] = [
                     'attribute_code' => $attrCode,
-                    'label' => trim((string) ($specRowCells[2] ?? '')),
-                    'value' => trim((string) ($specRowCells[3] ?? '')),
-                    'unit' => trim((string) ($specRowCells[4] ?? '')),
-                    'group' => trim((string) ($specRowCells[5] ?? '')),
-                    'sort_order' => (int) ($specRowCells[6] ?? 0),
-                    'operation' => trim((string) ($specRowCells[7] ?? '')) === 'remove' ? 'remove' : 'upsert',
+                    'label' => trim((string) ($specRowCells[$labelCol] ?? '')),
+                    'value' => trim((string) ($specRowCells[$valCol] ?? '')),
+                    'unit' => trim((string) ($specRowCells[$unitCol] ?? '')),
+                    'sort_order' => (int) ($specRowCells[$sortCol] ?? 0),
+                    'operation' => trim((string) ($specRowCells[$opCol] ?? '')) === 'remove' ? 'remove' : 'upsert',
                 ];
             }
         }
@@ -679,6 +760,15 @@ class ProductExcelService
                 $mainImageId = $media->id;
             }
 
+            // Process datasheet document if staged or URL provided
+            $datasheetId = null;
+            if (!empty($data['staged_datasheet_path']) && file_exists($data['staged_datasheet_path'])) {
+                $mediaDoc = MediaService::storeStagedFile($data['staged_datasheet_path'], "datasheet_{$sku}.pdf", $userId);
+                $datasheetId = $mediaDoc->id;
+            }
+            $imageUrl = $data['image_url'] ?? null;
+            $datasheetUrl = $data['datasheet_url'] ?? null;
+
             // 2. Create or Update Product
             $product = Product::where('normalized_sku', $normalizedSku)->first();
             $actionTaken = 'unchanged';
@@ -704,6 +794,9 @@ class ProductExcelService
                     'brand_id' => $data['brand_id'] ?? null,
                     'primary_category_id' => $data['primary_category_id'] ?? null,
                     'main_image_id' => $mainImageId,
+                    'image_url' => ($imageUrl && $imageUrl !== '__CLEAR__') ? $imageUrl : null,
+                    'datasheet_id' => $datasheetId,
+                    'datasheet_url' => ($datasheetUrl && $datasheetUrl !== '__CLEAR__') ? $datasheetUrl : null,
                     'meta_title' => $data['meta_title'] ?? null,
                     'meta_description' => $data['meta_description'] ?? null,
                     'status' => $status,
@@ -722,6 +815,18 @@ class ProductExcelService
                 if (array_key_exists('brand_id', $data) && $data['brand_id'] !== null) $updates['brand_id'] = $data['brand_id'];
                 if (array_key_exists('primary_category_id', $data) && $data['primary_category_id'] !== null) $updates['primary_category_id'] = $data['primary_category_id'];
                 if ($mainImageId !== null) $updates['main_image_id'] = $mainImageId;
+                if (array_key_exists('image_url', $data) && $data['image_url'] !== null) {
+                    $updates['image_url'] = ($data['image_url'] === '__CLEAR__') ? null : $data['image_url'];
+                }
+                if ($datasheetId !== null) $updates['datasheet_id'] = $datasheetId;
+                if (array_key_exists('datasheet_url', $data) && $data['datasheet_url'] !== null) {
+                    if ($data['datasheet_url'] === '__CLEAR__') {
+                        $updates['datasheet_url'] = null;
+                        $updates['datasheet_id'] = null;
+                    } else {
+                        $updates['datasheet_url'] = $data['datasheet_url'];
+                    }
+                }
                 if (array_key_exists('meta_title', $data)) $updates['meta_title'] = $data['meta_title'];
                 if (array_key_exists('meta_description', $data)) $updates['meta_description'] = $data['meta_description'];
                 if (array_key_exists('status', $data) && $data['status'] !== null) {
@@ -759,7 +864,7 @@ class ProductExcelService
                                 'label' => $spec['label'] ?? $spec['attribute_code'],
                                 'value' => $spec['value'] ?? '',
                                 'unit' => $spec['unit'] ?? null,
-                                'group' => $spec['group'] ?? null,
+                                'group' => null,
                                 'sort_order' => (int) ($spec['sort_order'] ?? 0),
                             ]
                         );

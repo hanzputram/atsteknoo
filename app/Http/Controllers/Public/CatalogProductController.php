@@ -57,8 +57,13 @@ class CatalogProductController extends Controller
                 break;
         }
 
-        // 24 items per page (strictly without unbounded 'all')
-        $products = $query->paginate(24)->withQueryString();
+        // Allowed per_page options: 10, 25, 50, 100 (default: 25)
+        $perPage = (int) $request->input('per_page', 25);
+        if (!in_array($perPage, [10, 25, 50, 100], true)) {
+            $perPage = 25;
+        }
+
+        $products = $query->paginate($perPage)->withQueryString();
 
         $brands = Brand::active()->orderBy('name')->get();
         $categories = ProductCategory::active()->whereNull('parent_id')->with('children')->orderBy('sort_order')->get();

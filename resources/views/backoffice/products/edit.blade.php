@@ -105,7 +105,7 @@
         </div>
         <div class="panel-body">
           <div class="form-group">
-            <textarea name="description_html" id="description_html" rows="8" class="form-control">{{ old('description_html', $product->description_html) }}</textarea>
+            <textarea name="description_html" id="description_html" rows="8" class="form-control wysiwyg-editor">{{ old('description_html', $product->description_html) }}</textarea>
             <span class="form-hint">HTML akan disanitasi otomatis di server untuk keamanan.</span>
           </div>
         </div>
@@ -116,7 +116,7 @@
         <div style="padding: 16px 24px; border-bottom: 1px solid var(--color-border); display: flex; align-items: center; justify-content: space-between;">
           <div>
             <h2 style="font-size: 16px; font-weight: 700;">3. Spesifikasi Teknis Produk</h2>
-            <p style="font-size: 12px; color: #64748B;">Kelompokkan spesifikasi teknis untuk kemudahan pembacaan publik.</p>
+            <p style="font-size: 12px; color: #64748B;">Atribut spesifikasi fleksibel (Arus, Tegangan, Pole, Dimensi, Sertifikasi).</p>
           </div>
           <button type="button" class="btn btn-secondary btn-sm" onclick="addSpecRow()">+ Tambah Atribut</button>
         </div>
@@ -125,11 +125,10 @@
             <table class="data-table" id="specsTable">
               <thead>
                 <tr>
-                  <th style="width: 22%;">Kode Atribut</th>
-                  <th style="width: 26%;">Label</th>
-                  <th style="width: 22%;">Nilai</th>
-                  <th style="width: 14%;">Satuan</th>
-                  <th style="width: 16%;">Grup</th>
+                  <th style="width: 25%;">Kode Atribut</th>
+                  <th style="width: 35%;">Label</th>
+                  <th style="width: 25%;">Nilai</th>
+                  <th style="width: 15%;">Satuan</th>
                   <th style="width: 40px;"></th>
                 </tr>
               </thead>
@@ -160,20 +159,20 @@
 
     </div>
 
-    <!-- Right Column: Media, Status & Publishing -->
+    <!-- Right Column: Media & Publication -->
     <div style="display: flex; flex-direction: column; gap: 24px;">
 
       <!-- Publikasi Card -->
       <div class="panel-card">
         <div style="padding: 16px 20px; border-bottom: 1px solid var(--color-border);">
-          <h2 style="font-size: 15px; font-weight: 700;">Publikasi Produk</h2>
+          <h2 style="font-size: 15px; font-weight: 700;">Status Publikasi</h2>
         </div>
         <div class="panel-body" style="padding: 20px;">
           <div class="form-group">
             <label class="form-label" for="status">Status Konten *</label>
             <select name="status" id="status" class="form-control">
+              <option value="published" {{ old('status', $product->status) === 'published' ? 'selected' : '' }}>Published (Publik)</option>
               <option value="draft" {{ old('status', $product->status) === 'draft' ? 'selected' : '' }}>Draft (Konsep)</option>
-              <option value="published" {{ old('status', $product->status) === 'published' ? 'selected' : '' }}>Published (Publikasikan)</option>
               <option value="archived" {{ old('status', $product->status) === 'archived' ? 'selected' : '' }}>Archived (Arsip)</option>
             </select>
           </div>
@@ -208,37 +207,37 @@
         </div>
       </div>
 
-      <!-- Media Gambar & PDF Datasheet -->
+      <!-- Media & Dokumen -->
       <div class="panel-card">
         <div style="padding: 16px 20px; border-bottom: 1px solid var(--color-border);">
           <h2 style="font-size: 15px; font-weight: 700;">Media &amp; Dokumen</h2>
         </div>
         <div class="panel-body" style="padding: 20px;">
-          <!-- Current Main Image Preview -->
+          <!-- Foto Utama -->
           <div class="form-group">
             <label class="form-label">Foto Utama Saat Ini</label>
-            <div style="width: 100%; height: 160px; border-radius: 12px; border: 1px solid var(--color-border); background: #F8FAFC; display: flex; align-items: center; justify-content: center; overflow: hidden; margin-bottom: 8px;">
-              @if($product->mainImage)
-                <img src="{{ route('media.view', $product->mainImage->id) }}" alt="{{ $product->name }}" style="max-width: 100%; max-height: 100%; object-fit: contain;">
-              @else
-                <span style="color: #94A3B8; font-size: 13px;">Belum ada foto utama</span>
-              @endif
-            </div>
-            <label class="form-label" for="main_image" style="font-size: 12px;">Ganti Foto Utama</label>
+            @if($product->main_image_url)
+              <div style="margin-bottom: 10px; border-radius: 8px; overflow: hidden; max-width: 140px; border: 1px solid var(--color-border); background: #f8fafc; padding: 4px;">
+                <img src="{{ $product->main_image_url }}" alt="{{ $product->name }}" style="width: 100%; display: block;" onerror="this.onerror=null; this.parentElement.innerHTML='<div style=\'padding:8px; font-size:11px; color:#ef4444; background:#fef2f2; border-radius:4px;\'>⚠️ Gambar tidak dapat dimuat dari URL (404/blokir).</div>'">
+              </div>
+            @endif
+            <label class="form-label" for="main_image" style="font-size: 12px;">Unggah Berkas Foto Utama</label>
             <input type="file" name="main_image" id="main_image" class="form-control" accept="image/jpeg,image/png,image/webp">
+            <div style="margin-top: 8px;">
+              <label class="form-label" for="image_url" style="font-size: 12px; color: var(--color-text-muted);">Atau Tautan URL Foto (Web / Google Drive):</label>
+              <input type="url" name="image_url" id="image_url" class="form-control" value="{{ old('image_url', $product->image_url) }}" placeholder="https://... tautan gambar langsung">
+            </div>
           </div>
 
-          <!-- Existing Gallery Preview -->
+          <!-- Galeri Foto -->
           <div class="form-group">
-            <label class="form-label">Galeri Foto ({{ $product->galleryUsages->count() }} foto)</label>
+            <label class="form-label">Galeri Foto ({{ $product->galleryUsages->count() }} Foto)</label>
             @if($product->galleryUsages->isNotEmpty())
-              <div style="display: flex; gap: 8px; overflow-x: auto; padding: 6px 0; margin-bottom: 8px;">
+              <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 10px;">
                 @foreach($product->galleryUsages as $gUsage)
-                  @if($gUsage->media)
-                    <div style="width: 60px; height: 60px; border-radius: 8px; border: 1px solid #E2E8F0; overflow: hidden; flex-shrink: 0; background: #FFFFFF;">
-                      <img src="{{ route('media.view', $gUsage->media->id) }}" alt="Gallery thumbnail" style="width: 100%; height: 100%; object-fit: contain;">
-                    </div>
-                  @endif
+                  <div style="border-radius: 6px; overflow: hidden; border: 1px solid var(--color-border); aspect-ratio: 1;">
+                    <img src="{{ route('media.view', $gUsage->media_id) }}" alt="" style="width: 100%; height: 100%; object-fit: cover;">
+                  </div>
                 @endforeach
               </div>
             @endif
@@ -248,17 +247,31 @@
 
           <!-- PDF Datasheet -->
           <div class="form-group">
-            <label class="form-label">PDF Datasheet</label>
+            <label class="form-label">PDF Datasheet / Spesifikasi Teknis</label>
             @if($product->datasheet)
               <div style="display: flex; align-items: center; gap: 8px; font-size: 12.5px; margin-bottom: 8px; color: #2563EB;">
-                <span>📄</span>
+                <span>📄 Berkas Media:</span>
                 <a href="{{ route('media.view', $product->datasheet->id) }}" target="_blank" style="color: inherit; text-decoration: underline;">
                   {{ $product->datasheet->original_name }}
                 </a>
               </div>
             @endif
-            <label class="form-label" for="datasheet" style="font-size: 12px;">Ganti PDF Datasheet</label>
+            @if($product->datasheet_url)
+              <div style="display: flex; align-items: center; gap: 8px; font-size: 12.5px; margin-bottom: 8px; color: #059669;">
+                <span>🔗 Tautan URL:</span>
+                <a href="{{ $product->datasheet_url }}" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: underline; word-break: break-all;">
+                  {{ $product->datasheet_url }}
+                </a>
+              </div>
+            @endif
+
+            <label class="form-label" for="datasheet_url" style="font-size: 12px; margin-top: 6px;">Link URL PDF Datasheet (Google Drive / Web URL)</label>
+            <input type="url" name="datasheet_url" id="datasheet_url" class="form-control" value="{{ old('datasheet_url', $product->datasheet_url) }}" placeholder="https://drive.google.com/... atau https://...">
+            <span class="form-hint">Tautan share Google Drive atau URL langsung ke dokumen PDF.</span>
+
+            <label class="form-label" for="datasheet" style="font-size: 12px; margin-top: 12px;">Unggah / Ganti Berkas PDF Datasheet</label>
             <input type="file" name="datasheet" id="datasheet" class="form-control" accept="application/pdf">
+            <span class="form-hint">Berkas PDF resmi pabrikan (Maksimal 20 MiB).</span>
           </div>
         </div>
       </div>
@@ -271,7 +284,7 @@
 <script>
 let specIndex = 0;
 
-function addSpecRow(code = '', label = '', val = '', unit = '', group = '') {
+function addSpecRow(code = '', label = '', val = '', unit = '') {
   const container = document.getElementById('specsContainer');
   const tr = document.createElement('tr');
   tr.innerHTML = `
@@ -279,7 +292,6 @@ function addSpecRow(code = '', label = '', val = '', unit = '', group = '') {
     <td><input type="text" name="specs[${specIndex}][label]" class="form-control" style="padding: 6px 10px; font-size: 13px;" value="${label}" placeholder="misal: Arus Nominal" required></td>
     <td><input type="text" name="specs[${specIndex}][value]" class="form-control" style="padding: 6px 10px; font-size: 13px;" value="${val}" placeholder="misal: 100"></td>
     <td><input type="text" name="specs[${specIndex}][unit]" class="form-control" style="padding: 6px 10px; font-size: 13px;" value="${unit}" placeholder="A"></td>
-    <td><input type="text" name="specs[${specIndex}][group]" class="form-control" style="padding: 6px 10px; font-size: 13px;" value="${group}" placeholder="Elektrikal"></td>
     <td><button type="button" onclick="this.closest('tr').remove()" style="background:none; border:none; color:#DC2626; font-size:18px; cursor:pointer;" title="Hapus baris">&times;</button></td>
   `;
   container.appendChild(tr);
@@ -290,11 +302,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const existingSpecs = @json($product->specifications);
   if (existingSpecs && existingSpecs.length > 0) {
     existingSpecs.forEach(s => {
-      addSpecRow(s.attribute_code, s.label, s.value, s.unit || '', s.group || '');
+      addSpecRow(s.attribute_code, s.label, s.value, s.unit || '');
     });
   } else {
-    addSpecRow('rated_current', 'Arus Nominal (In)', '', 'A', 'Elektrikal');
-    addSpecRow('number_of_poles', 'Jumlah Kutub (Poles)', '', '', 'Mekanikal');
+    addSpecRow('rated_current', 'Arus Nominal (In)', '', 'A');
+    addSpecRow('number_of_poles', 'Jumlah Kutub (Poles)', '', '');
   }
 });
 </script>

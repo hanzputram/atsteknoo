@@ -65,7 +65,7 @@
     @endif
 
     <!-- Main Content Body (Sanitized WYSIWYG) -->
-    <div class="prose prose-slate prose-lg max-w-none text-slate-700 leading-relaxed space-y-6">
+    <div class="wysiwyg-content prose prose-slate prose-lg max-w-none text-slate-700 leading-relaxed">
         {!! $article->content_html !!}
     </div>
 

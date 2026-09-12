@@ -1082,6 +1082,8 @@
     });
   </script>
 
+  @include('backoffice.partials.wysiwyg')
+
   @stack('scripts')
 </body>
 </html>

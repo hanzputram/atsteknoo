@@ -49,7 +49,12 @@ class ProductController extends Controller
         $sortField = in_array($request->input('sort'), ['name', 'sku', 'updated_at'], true) ? $request->input('sort') : 'updated_at';
         $sortOrder = $request->input('order') === 'asc' ? 'asc' : 'desc';
 
-        $products = $query->orderBy($sortField, $sortOrder)->paginate(20)->withQueryString();
+        $perPage = (int) $request->input('per_page', 20);
+        if (!in_array($perPage, [10, 20, 25, 50, 100], true)) {
+            $perPage = 20;
+        }
+
+        $products = $query->orderBy($sortField, $sortOrder)->paginate($perPage)->withQueryString();
 
         $brands = Brand::orderBy('name')->get();
         $categories = ProductCategory::orderBy('name')->get();
@@ -80,7 +85,9 @@ class ProductController extends Controller
             'category_ids.*' => ['exists:product_categories,id'],
             'primary_category_id' => ['nullable', 'exists:product_categories,id'],
             'main_image' => ['nullable', 'image', 'max:10240'],
+            'image_url' => ['nullable', 'string', 'max:1000'],
             'datasheet' => ['nullable', 'file', 'mimes:pdf', 'max:20480'],
+            'datasheet_url' => ['nullable', 'string', 'max:1000'],
             'meta_title' => ['nullable', 'string', 'max:255'],
             'meta_description' => ['nullable', 'string', 'max:500'],
             'is_featured' => ['nullable', 'boolean'],
@@ -134,7 +141,9 @@ class ProductController extends Controller
             'brand_id' => $request->brand_id,
             'primary_category_id' => $request->primary_category_id ?: ($request->category_ids[0] ?? null),
             'main_image_id' => $mainImageId,
+            'image_url' => $request->image_url,
             'datasheet_id' => $datasheetId,
+            'datasheet_url' => $request->datasheet_url,
             'meta_title' => $request->meta_title,
             'meta_description' => $request->meta_description,
             'is_featured' => $request->boolean('is_featured'),
@@ -214,6 +223,8 @@ class ProductController extends Controller
             'brand_id' => ['nullable', 'exists:brands,id'],
             'category_ids' => ['nullable', 'array'],
             'primary_category_id' => ['nullable', 'exists:product_categories,id'],
+            'image_url' => ['nullable', 'string', 'max:1000'],
+            'datasheet_url' => ['nullable', 'string', 'max:1000'],
             'meta_title' => ['nullable', 'string', 'max:255'],
             'meta_description' => ['nullable', 'string', 'max:500'],
             'is_featured' => ['nullable', 'boolean'],
@@ -270,7 +281,9 @@ class ProductController extends Controller
             'brand_id' => $request->brand_id,
             'primary_category_id' => $request->primary_category_id ?: ($request->category_ids[0] ?? null),
             'main_image_id' => $mainImageId,
+            'image_url' => $request->image_url,
             'datasheet_id' => $datasheetId,
+            'datasheet_url' => $request->datasheet_url,
             'meta_title' => $request->meta_title,
             'meta_description' => $request->meta_description,
             'is_featured' => $request->boolean('is_featured'),

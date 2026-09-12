@@ -519,9 +519,9 @@
                       @endif
                     </div>
 
-                    @if($product->mainImage)
-                      <div style="height: 100px; width: 100%; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.06); border-radius: 12px; margin-top: 10px; overflow: hidden; padding: 6px;">
-                        <img src="{{ route('media.view', $product->main_image_id) }}" alt="{{ $product->name }}" style="max-height: 100%; max-width: 100%; object-fit: contain;">
+                    @if($product->main_image_url)
+                      <div style="height: 125px; width: 100%; display: flex; align-items: center; justify-content: center; background: #ffffff; border-radius: 12px; margin-top: 10px; overflow: hidden; padding: 6px; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.05);">
+                        <img src="{{ $product->main_image_url }}" alt="{{ $product->name }}" style="max-height: 100%; max-width: 100%; width: 100%; height: 100%; object-fit: contain;" onerror="this.onerror=null; this.parentElement.style.display='none';">
                       </div>
                     @endif
 

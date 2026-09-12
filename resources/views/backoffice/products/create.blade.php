@@ -89,7 +89,7 @@
         </div>
         <div class="panel-body">
           <div class="form-group">
-            <textarea name="description_html" id="description_html" rows="8" class="form-control" placeholder="Masukkan rincian teknis, aplikasi industri, fitur utama...">{{ old('description_html') }}</textarea>
+            <textarea name="description_html" id="description_html" rows="8" class="form-control wysiwyg-editor" placeholder="Masukkan rincian teknis, aplikasi industri, fitur utama...">{{ old('description_html') }}</textarea>
             <span class="form-hint">HTML akan disanitasi otomatis di server untuk keamanan.</span>
           </div>
         </div>
@@ -109,11 +109,10 @@
             <table class="data-table" id="specsTable">
               <thead>
                 <tr>
-                  <th style="width: 22%;">Kode Atribut</th>
-                  <th style="width: 26%;">Label</th>
-                  <th style="width: 22%;">Nilai</th>
-                  <th style="width: 14%;">Satuan</th>
-                  <th style="width: 16%;">Grup</th>
+                  <th style="width: 25%;">Kode Atribut</th>
+                  <th style="width: 35%;">Label</th>
+                  <th style="width: 25%;">Nilai</th>
+                  <th style="width: 15%;">Satuan</th>
                   <th style="width: 40px;"></th>
                 </tr>
               </thead>
@@ -195,9 +194,15 @@
         </div>
         <div class="panel-body" style="padding: 20px;">
           <div class="form-group">
-            <label class="form-label" for="main_image">Foto Utama Produk *</label>
+            <label class="form-label" for="main_image">Foto Utama Produk</label>
             <input type="file" name="main_image" id="main_image" class="form-control" accept="image/jpeg,image/png,image/webp">
             <span class="form-hint">JPEG, PNG, atau WEBP (Maksimal 10 MiB).</span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="image_url">Atau Link URL Foto Utama (Google Drive / Web)</label>
+            <input type="url" name="image_url" id="image_url" class="form-control" value="{{ old('image_url') }}" placeholder="https://drive.google.com/... atau https://...">
+            <span class="form-hint">Tautan langsung atau share Google Drive untuk foto utama produk.</span>
           </div>
 
           <div class="form-group">
@@ -207,7 +212,13 @@
           </div>
 
           <div class="form-group">
-            <label class="form-label" for="datasheet">PDF Datasheet / Spesifikasi Teknis</label>
+            <label class="form-label" for="datasheet_url">Link URL PDF Datasheet (Google Drive / Web)</label>
+            <input type="url" name="datasheet_url" id="datasheet_url" class="form-control" value="{{ old('datasheet_url') }}" placeholder="https://drive.google.com/... atau https://...">
+            <span class="form-hint">Tautan share Google Drive atau URL langsung ke dokumen PDF spesifikasi teknis.</span>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="datasheet">Atau Unggah Berkas PDF Datasheet</label>
             <input type="file" name="datasheet" id="datasheet" class="form-control" accept="application/pdf">
             <span class="form-hint">Berkas PDF resmi pabrikan (Maksimal 20 MiB).</span>
           </div>
@@ -222,7 +233,7 @@
 <script>
 let specIndex = 0;
 
-function addSpecRow(code = '', label = '', val = '', unit = '', group = '') {
+function addSpecRow(code = '', label = '', val = '', unit = '') {
   const container = document.getElementById('specsContainer');
   const tr = document.createElement('tr');
   tr.innerHTML = `
@@ -230,7 +241,6 @@ function addSpecRow(code = '', label = '', val = '', unit = '', group = '') {
     <td><input type="text" name="specs[${specIndex}][label]" class="form-control" style="padding: 6px 10px; font-size: 13px;" value="${label}" placeholder="misal: Arus Nominal" required></td>
     <td><input type="text" name="specs[${specIndex}][value]" class="form-control" style="padding: 6px 10px; font-size: 13px;" value="${val}" placeholder="misal: 100"></td>
     <td><input type="text" name="specs[${specIndex}][unit]" class="form-control" style="padding: 6px 10px; font-size: 13px;" value="${unit}" placeholder="A"></td>
-    <td><input type="text" name="specs[${specIndex}][group]" class="form-control" style="padding: 6px 10px; font-size: 13px;" value="${group}" placeholder="Elektrikal"></td>
     <td><button type="button" onclick="this.closest('tr').remove()" style="background:none; border:none; color:#DC2626; font-size:18px; cursor:pointer;" title="Hapus baris">&times;</button></td>
   `;
   container.appendChild(tr);
@@ -239,9 +249,9 @@ function addSpecRow(code = '', label = '', val = '', unit = '', group = '') {
 
 document.addEventListener('DOMContentLoaded', () => {
   // Pre-seed common electrical spec rows if empty
-  addSpecRow('rated_current', 'Arus Nominal (In)', '', 'A', 'Elektrikal');
-  addSpecRow('voltage_rating', 'Tegangan Operasional (Ue)', '', 'V AC', 'Elektrikal');
-  addSpecRow('number_of_poles', 'Jumlah Kutub (Poles)', '', '', 'Mekanikal');
+  addSpecRow('rated_current', 'Arus Nominal (In)', '', 'A');
+  addSpecRow('voltage_rating', 'Tegangan Operasional (Ue)', '', 'V AC');
+  addSpecRow('number_of_poles', 'Jumlah Kutub (Poles)', '', '');
 });
 </script>
 @endpush

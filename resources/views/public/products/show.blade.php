@@ -31,9 +31,16 @@
         <!-- Image & Gallery Column (5 cols) -->
         <div class="lg:col-span-5 space-y-4">
             <!-- Main Featured Image Canvas -->
-            <div class="bg-white rounded-3xl border border-slate-200/80 shadow-sm p-8 flex items-center justify-center h-80 sm:h-96 relative overflow-hidden">
-                @if($product->mainImage)
-                    <img id="mainProductImg" src="{{ route('media.view', $product->main_image_id) }}" alt="{{ $product->mainImage->alt_text ?? $product->name }}" class="max-h-full max-w-full object-contain transition-all duration-300">
+            <div class="bg-white rounded-3xl border border-slate-200/80 shadow-sm p-4 sm:p-6 flex items-center justify-center h-96 sm:h-[440px] relative overflow-hidden">
+                @if($product->main_image_url)
+                    <img id="mainProductImg" src="{{ $product->main_image_url }}" alt="{{ $product->mainImage->alt_text ?? $product->name }}" class="w-full h-full max-h-full max-w-full object-contain transition-all duration-300" onerror="this.onerror=null; this.classList.add('hidden'); if(this.nextElementSibling) this.nextElementSibling.classList.remove('hidden');">
+                    <div class="hidden text-slate-300 flex flex-col items-center gap-2">
+                        <svg class="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                        <span class="text-xs font-mono uppercase">
+                            <span class="ats-lang-en">No Image Available</span>
+                            <span class="ats-lang-id">Gambar Belum Tersedia</span>
+                        </span>
+                    </div>
                 @else
                     <div class="text-slate-300 flex flex-col items-center gap-2">
                         <svg class="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
@@ -145,8 +152,11 @@
                     </span>
                 </a>
 
-                @if($product->datasheet)
-                <a href="{{ route('media.view', $product->datasheet_id) }}" target="_blank" class="inline-flex items-center gap-2 px-5 py-3.5 bg-white hover:bg-slate-50 text-slate-700 border border-slate-200/80 font-bold text-sm rounded-2xl shadow-xs transition">
+                @php
+                    $datasheetHref = $product->datasheet_link;
+                @endphp
+                @if($datasheetHref)
+                <a href="{{ $datasheetHref }}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-5 py-3.5 bg-white hover:bg-slate-50 text-slate-700 border border-slate-200/80 font-bold text-sm rounded-2xl shadow-xs transition">
                     <svg class="w-5 h-5 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
                     <span>
                         <span class="ats-lang-en">Download Datasheet (PDF)</span>
@@ -178,10 +188,6 @@
                     <thead>
                         <tr class="bg-slate-50/80 text-xs font-semibold text-slate-500 uppercase tracking-wider border-b border-slate-200/80">
                             <th class="py-3 px-5">
-                                <span class="ats-lang-en">Parameter Group</span>
-                                <span class="ats-lang-id">Kelompok Parameter</span>
-                            </th>
-                            <th class="py-3 px-5">
                                 <span class="ats-lang-en">Characteristic / Label</span>
                                 <span class="ats-lang-id">Karakteristik / Parameter</span>
                             </th>
@@ -198,9 +204,6 @@
                     <tbody class="divide-y divide-slate-100">
                         @foreach($product->specifications as $spec)
                         <tr class="hover:bg-slate-50/50 transition">
-                            <td class="py-3.5 px-5 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                                {{ $spec->group ?: 'General' }}
-                            </td>
                             <td class="py-3.5 px-5 font-semibold text-slate-800">
                                 {{ $spec->label }}
                             </td>
@@ -231,7 +234,7 @@
                 </h2>
             </div>
 
-            <div class="prose prose-slate max-w-none text-sm sm:text-base leading-relaxed text-slate-700">
+            <div class="wysiwyg-content prose prose-slate max-w-none text-sm sm:text-base leading-relaxed text-slate-700">
                 {!! $product->description_html !!}
             </div>
         </div>
@@ -249,9 +252,13 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             @foreach($relatedProducts as $rel)
             <div class="bg-white rounded-2xl border border-slate-200/80 shadow-xs hover:shadow-md transition flex flex-col overflow-hidden group">
-                <a href="{{ route('products.show', $rel->slug) }}" class="h-44 bg-slate-50 p-4 flex items-center justify-center border-b border-slate-100">
-                    @if($rel->mainImage)
-                        <img src="{{ route('media.view', $rel->main_image_id) }}" alt="{{ $rel->name }}" class="max-h-full max-w-full object-contain group-hover:scale-105 transition">
+                <a href="{{ route('products.show', $rel->slug) }}" class="h-60 sm:h-64 bg-white p-3 sm:p-4 flex items-center justify-center relative overflow-hidden border-b border-slate-100">
+                    @if($rel->main_image_url)
+                        <img src="{{ $rel->main_image_url }}" alt="{{ $rel->name }}" class="w-full h-full max-h-full max-w-full object-contain group-hover:scale-105 transition" onerror="this.onerror=null; this.classList.add('hidden'); if(this.nextElementSibling) this.nextElementSibling.classList.remove('hidden');">
+                        <span class="hidden text-slate-300 text-xs font-mono">
+                            <span class="ats-lang-en">No Image</span>
+                            <span class="ats-lang-id">Tidak Ada Foto</span>
+                        </span>
                     @else
                         <span class="text-slate-300 text-xs font-mono">
                             <span class="ats-lang-en">No Image</span>

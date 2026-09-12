@@ -67,4 +67,17 @@ return [
 
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | DevTools
+    |--------------------------------------------------------------------------
+    |
+    | Disable Inertia DevTools request logging to avoid memory exhaustion
+    | on file uploads and heavy request processing.
+    |
+    */
+    'devtools' => [
+        'enabled' => false,
+    ],
+
 ];

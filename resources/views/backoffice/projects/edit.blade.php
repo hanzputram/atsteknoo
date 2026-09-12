@@ -85,7 +85,7 @@
 
           <div class="form-group">
             <label class="form-label" for="content_html">Uraian &amp; Narasi Teknis Project</label>
-            <textarea name="content_html" id="content_html" rows="8" class="form-control">{{ old('content_html', $project->content_html) }}</textarea>
+            <textarea name="content_html" id="content_html" rows="8" class="form-control wysiwyg-editor">{{ old('content_html', $project->content_html) }}</textarea>
           </div>
         </div>
       </div>

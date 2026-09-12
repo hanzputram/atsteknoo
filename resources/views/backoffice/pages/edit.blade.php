@@ -54,7 +54,7 @@
 
       <div class="form-group">
         <label class="form-label">Konten Narasi Lengkap (HTML)</label>
-        <textarea name="content_html" rows="10" style="font-family: monospace; font-size: 13px;">{{ old('content_html', $page->content_html) }}</textarea>
+        <textarea name="content_html" rows="10" class="wysiwyg-editor">{{ old('content_html', $page->content_html) }}</textarea>
         <span class="form-hint">Mendukung format HTML standar (p, h2, h3, ul, ol, strong, em).</span>
       </div>
 

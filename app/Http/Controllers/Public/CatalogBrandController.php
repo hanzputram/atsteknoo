@@ -33,14 +33,20 @@ class CatalogBrandController extends Controller
     /**
      * Display brand profile and its catalog of products.
      */
-    public function show(string $slug)
+    public function show(Request $request, string $slug)
     {
         $brand = Brand::active()->with('logo')->where('slug', $slug)->firstOrFail();
+
+        $perPage = (int) $request->input('per_page', 25);
+        if (!in_array($perPage, [10, 25, 50, 100], true)) {
+            $perPage = 25;
+        }
 
         $products = $brand->products()
             ->published()
             ->with(['primaryCategory', 'mainImage'])
-            ->paginate(24);
+            ->paginate($perPage)
+            ->withQueryString();
 
         return view('public.brands.show', compact('brand', 'products'));
     }

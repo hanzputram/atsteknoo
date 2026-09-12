@@ -118,10 +118,11 @@
                     Filter
                 </button>
                 @if(request()->anyFilled(['search', 'brand', 'category', 'sort']))
-                <a href="{{ route('products.index') }}" class="p-2.5 border border-slate-200 hover:bg-slate-50 text-slate-500 rounded-xl transition" title="Reset Filter">
+                <a href="{{ route('products.index', request()->filled('per_page') ? ['per_page' => request('per_page')] : []) }}" class="p-2.5 border border-slate-200 hover:bg-slate-50 text-slate-500 rounded-xl transition" title="Reset Filter">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
                 </a>
                 @endif
+                <input type="hidden" name="per_page" value="{{ request('per_page', 25) }}">
             </div>
         </form>
     </div>
@@ -131,9 +132,13 @@
         @forelse($products as $prod)
         <div class="bg-white rounded-2xl border border-slate-200/80 shadow-xs hover:shadow-md hover:border-slate-300 transition-all duration-200 flex flex-col overflow-hidden group">
             <!-- Product Image Container with contain -->
-            <a href="{{ route('products.show', $prod->slug) }}" class="h-56 bg-slate-50/70 p-6 flex items-center justify-center relative overflow-hidden border-b border-slate-100">
-                @if($prod->mainImage)
-                    <img src="{{ route('media.view', $prod->main_image_id) }}" alt="{{ $prod->mainImage->alt_text ?? $prod->name }}" class="max-h-full max-w-full object-contain group-hover:scale-105 transition duration-300">
+            <a href="{{ route('products.show', $prod->slug) }}" class="h-64 sm:h-72 bg-white p-3 sm:p-4 flex items-center justify-center relative overflow-hidden border-b border-slate-100">
+                @if($prod->main_image_url)
+                    <img src="{{ $prod->main_image_url }}" alt="{{ $prod->mainImage->alt_text ?? $prod->name }}" class="w-full h-full max-h-full max-w-full object-contain group-hover:scale-105 transition duration-300" onerror="this.onerror=null; this.classList.add('hidden'); if(this.nextElementSibling) this.nextElementSibling.classList.remove('hidden');">
+                    <div class="hidden text-slate-300 flex flex-col items-center gap-1">
+                        <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                        <span class="text-[10px] font-mono uppercase tracking-wider">No Image</span>
+                    </div>
                 @else
                     <div class="text-slate-300 flex flex-col items-center gap-1">
                         <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
@@ -142,7 +147,7 @@
                 @endif
 
                 @if($prod->brand)
-                    <span class="absolute top-3 left-3 px-2.5 py-1 rounded-lg text-[10px] font-bold tracking-wider uppercase bg-white/90 backdrop-blur-xs text-slate-800 border border-slate-200/80 shadow-xs">
+                    <span class="absolute top-3 left-3 z-10 px-2.5 py-1 rounded-lg text-[10px] font-bold tracking-wider uppercase bg-white/95 backdrop-blur-xs text-slate-800 border border-slate-200/80 shadow-xs">
                         {{ $prod->brand->name }}
                     </span>
                 @endif
@@ -206,9 +211,9 @@
     </div>
 
     <!-- Pagination -->
-    @if($products->hasPages())
+    @if($products->total() > 0)
     <div class="mt-12 pt-6 border-t border-slate-200">
-        {{ $products->links() }}
+        {{ $products->onEachSide(1)->links() }}
     </div>
     @endif
 </div>

@@ -46,7 +46,7 @@
 
       <div class="form-group">
         <label class="form-label" for="description_html">Profil Singkat Brand</label>
-        <textarea name="description_html" id="description_html" rows="3" class="form-control">{{ old('description_html') }}</textarea>
+        <textarea name="description_html" id="description_html" rows="3" class="form-control wysiwyg-editor">{{ old('description_html') }}</textarea>
       </div>
 
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">

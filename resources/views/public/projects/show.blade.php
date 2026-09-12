@@ -75,7 +75,7 @@
     <!-- WYSIWYG Content Description -->
     @if($project->content_html)
     <div class="bg-white rounded-3xl border border-slate-200/80 shadow-sm p-6 sm:p-10">
-        <div class="prose prose-slate max-w-none text-slate-700 leading-relaxed text-sm sm:text-base">
+        <div class="wysiwyg-content prose prose-slate max-w-none text-slate-700 leading-relaxed text-sm sm:text-base">
             {!! $project->content_html !!}
         </div>
     </div>

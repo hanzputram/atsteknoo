@@ -25,7 +25,9 @@ class Product extends Model
         'brand_id',
         'primary_category_id',
         'main_image_id',
+        'image_url',
         'datasheet_id',
+        'datasheet_url',
         'meta_title',
         'meta_description',
         'is_featured',
@@ -106,6 +108,24 @@ class Product extends Model
     public function isPublished(): bool
     {
         return $this->status === 'published' && $this->published_at && $this->published_at->lte(now());
+    }
+
+    public function getMainImageUrlAttribute(): ?string
+    {
+        if ($this->main_image_id) {
+            return route('media.view', $this->main_image_id);
+        }
+
+        return $this->image_url ?: null;
+    }
+
+    public function getDatasheetLinkAttribute(): ?string
+    {
+        if ($this->datasheet_id) {
+            return route('media.view', $this->datasheet_id);
+        }
+
+        return $this->datasheet_url ?: null;
     }
 
     public static function normalizeSku(string $sku): string

@@ -39,13 +39,19 @@ class ImportCenterController extends Controller
 
     public function export(Request $request)
     {
+        @ini_set('memory_limit', '1024M');
+        @set_time_limit(300);
+
         $spreadsheet = ProductExcelService::exportProducts();
         $fileName = 'ATS_Product_Catalog_Export_' . date('Ymd_His') . '.xlsx';
 
         AuditLog::log('EXPORT', 'Product', null, ['filename' => $fileName]);
 
         return new StreamedResponse(function () use ($spreadsheet) {
+            @ini_set('memory_limit', '1024M');
+            @set_time_limit(300);
             $writer = new Xlsx($spreadsheet);
+            $writer->setPreCalculateFormulas(false);
             $writer->save('php://output');
         }, 200, [
             'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
