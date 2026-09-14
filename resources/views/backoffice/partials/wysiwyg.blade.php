@@ -385,17 +385,52 @@
     </div>
 
     <!-- Body -->
-    <div class="wp-media-modal-body">
+    <div class="wp-media-modal-body" style="padding: 16px;">
       <!-- Tab 1: Library -->
-      <div id="mediaTabLibrary">
-        <div style="display: flex; gap: 10px; margin-bottom: 14px;">
-          <input type="text" id="wpMediaSearchInput" placeholder="Cari nama berkas media..." class="form-control" style="font-size: 13px; height: 34px; padding: 6px 12px;" oninput="debounceSearchMedia(this.value)">
-          <button type="button" class="btn btn-secondary btn-sm" onclick="loadMediaLibrary(1, document.getElementById('wpMediaSearchInput').value)">Segarkan</button>
+      <div id="mediaTabLibrary" style="display: flex; gap: 16px; height: 100%;">
+        <!-- Left: Search & Grid -->
+        <div style="flex: 1; display: flex; flex-direction: column; min-width: 0;">
+          <div style="display: flex; gap: 10px; margin-bottom: 12px;">
+            <input type="text" id="wpMediaSearchInput" placeholder="Cari nama berkas media..." class="form-control" style="font-size: 13px; height: 36px; padding: 6px 12px;" oninput="debounceSearchMedia(this.value)">
+            <button type="button" class="btn btn-secondary btn-sm" onclick="loadMediaLibrary(1, document.getElementById('wpMediaSearchInput').value)">Segarkan</button>
+          </div>
+          <div id="wpMediaGrid" class="wp-media-grid" style="flex: 1; overflow-y: auto; max-height: 420px; padding: 4px;">
+            <!-- Populated via AJAX -->
+            <div style="grid-column: 1 / -1; padding: 30px; text-align: center; color: #94a3b8; font-size: 13px;">
+              Memuat pustaka media...
+            </div>
+          </div>
         </div>
-        <div id="wpMediaGrid" class="wp-media-grid">
-          <!-- Populated via AJAX -->
-          <div style="grid-column: 1 / -1; padding: 30px; text-align: center; color: #94a3b8; font-size: 13px;">
-            Memuat pustaka media...
+
+        <!-- Right: Layout & Attachment Details Sidebar -->
+        <div id="wpMediaOptionsSidebar" style="width: 290px; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 16px; display: flex; flex-direction: column; gap: 12px; overflow-y: auto; max-height: 460px;">
+          <div style="font-size: 13px; font-weight: 700; color: #0f172a; border-bottom: 1px solid #f1f5f9; padding-bottom: 8px; display: flex; align-items: center; gap: 6px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#E11D48" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+            <span>Penataan & Keterangan Foto</span>
+          </div>
+
+          <div id="wpMediaPreviewBox" style="width: 100%; height: 110px; background: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 8px; display: flex; align-items: center; justify-content: center; overflow: hidden; padding: 6px;">
+            <span style="font-size: 11.5px; color: #94a3b8; text-align: center;">Pilih gambar dari daftar di kiri</span>
+          </div>
+
+          <div class="form-group" style="margin-bottom: 0;">
+            <label class="form-label" style="font-size: 12px;">Posisi / Perataan Gambar:</label>
+            <select id="wpMediaAlignSelect" class="form-control" style="font-size: 12.5px; height: 34px; padding: 4px 8px;">
+              <option value="center" selected>🎯 Tengah (Center Showcase)</option>
+              <option value="left">⬅️ Rata Kiri (Float Left)</option>
+              <option value="right">➡️ Rata Kanan (Float Right)</option>
+              <option value="full">↔️ Lebar Penuh (Full Width)</option>
+            </select>
+          </div>
+
+          <div class="form-group" style="margin-bottom: 0;">
+            <label class="form-label" style="font-size: 12px;">Keterangan Foto (Caption):</label>
+            <input type="text" id="wpMediaCaptionInput" placeholder="Contoh: Skema Panel ATS Schneider 4P" class="form-control" style="font-size: 12.5px; padding: 6px 10px;">
+          </div>
+
+          <div class="form-group" style="margin-bottom: 0;">
+            <label class="form-label" style="font-size: 12px;">Teks Alternatif (Alt Text):</label>
+            <input type="text" id="wpMediaAltInput" placeholder="Deskripsi untuk SEO" class="form-control" style="font-size: 12.5px; padding: 6px 10px;">
           </div>
         </div>
       </div>
@@ -420,14 +455,27 @@
 
       <!-- Tab 3: URL -->
       <div id="mediaTabUrl" style="display: none;">
-        <div style="max-width: 500px; margin: 0 auto; background: #fff; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0;">
+        <div style="max-width: 520px; margin: 0 auto; background: #fff; padding: 20px; border-radius: 8px; border: 1px solid #e2e8f0;">
           <div class="form-group" style="margin-bottom: 12px;">
             <label class="form-label" style="font-size: 12.5px;">Tautan Gambar (URL):</label>
             <input type="url" id="wpUrlInput" placeholder="https://domain.com/gambar.jpg" class="form-control" style="font-size: 13px;" oninput="previewExternalUrl(this.value)">
           </div>
           <div class="form-group" style="margin-bottom: 12px;">
+            <label class="form-label" style="font-size: 12.5px;">Keterangan Foto (Caption):</label>
+            <input type="text" id="wpUrlCaptionInput" placeholder="Keterangan gambar teknis" class="form-control" style="font-size: 13px;">
+          </div>
+          <div class="form-group" style="margin-bottom: 12px;">
             <label class="form-label" style="font-size: 12.5px;">Teks Alternatif (Alt Text):</label>
             <input type="text" id="wpUrlAltInput" placeholder="Deskripsi gambar teknis" class="form-control" style="font-size: 13px;">
+          </div>
+          <div class="form-group" style="margin-bottom: 12px;">
+            <label class="form-label" style="font-size: 12.5px;">Perataan Gambar:</label>
+            <select id="wpUrlAlignSelect" class="form-control" style="font-size: 12.5px; height: 34px;">
+              <option value="center" selected>🎯 Tengah (Center Showcase)</option>
+              <option value="left">⬅️ Rata Kiri (Float Left)</option>
+              <option value="right">➡️ Rata Kanan (Float Right)</option>
+              <option value="full">↔️ Lebar Penuh (Full Width)</option>
+            </select>
           </div>
           <div id="wpUrlPreviewContainer" style="display: none; margin-top: 10px; border: 1px solid #e2e8f0; border-radius: 6px; padding: 8px; text-align: center;">
             <img id="wpUrlPreviewImg" src="" alt="" style="max-height: 140px; max-width: 100%; object-fit: contain;">
@@ -520,15 +568,14 @@
           'paste textcolor colorpicker'
         ],
         // Baris 1 persis screenshot WordPress:
-        toolbar1: 'bold italic strikethrough | bullist numlist | blockquote hr | alignleft aligncenter alignright | link unlink | wp_more | wp_adv fullscreen',
-        // Baris 2 persis screenshot WordPress:
-        toolbar2: 'styleselect formatselect | underline alignjustify | forecolor | pastetext removeformat | charmap | outdent indent | undo redo | wp_help',
+        toolbar1: 'bold italic underline strikethrough | bullist numlist | blockquote hr | alignleft aligncenter alignright | link unlink | wp_callout wp_table_spec | wp_more | wp_adv fullscreen',
+        // Baris 2:
+        toolbar2: 'styleselect formatselect | forecolor | pastetext removeformat | charmap | outdent indent | undo redo | wp_help',
         
         // Formats dropdown menu sub-items persis seperti di screenshot
         style_formats: [
           {
             title: 'Headings', items: [
-              { title: 'Heading 1', format: 'h1' },
               { title: 'Heading 2', format: 'h2' },
               { title: 'Heading 3', format: 'h3' },
               { title: 'Heading 4', format: 'h4' },
@@ -599,19 +646,69 @@
         content_style: `
           body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-            font-size: 14px;
-            line-height: 1.6;
-            color: #333;
-            padding: 12px;
+            font-size: 15px;
+            line-height: 1.75;
+            color: #334155;
+            padding: 16px 20px;
           }
-          img { max-width: 100%; height: auto; border-radius: 4px; }
-          table { width: 100%; border-collapse: collapse; margin: 12px 0; }
-          th, td { border: 1px solid #cbd5e1; padding: 8px 12px; }
-          th { background: #f8fafc; }
-          blockquote { border-left: 4px solid #e11d48; margin: 1em 0; padding-left: 14px; color: #64748b; font-style: italic; }
+          h2, h3, h4, h5, h6 {
+            color: #0f172a;
+            font-weight: 700;
+            margin-top: 1.6em;
+            margin-bottom: 0.5em;
+          }
+          h2 { font-size: 1.6rem; border-bottom: 1px solid #f1f5f9; padding-bottom: 6px; }
+          h3 { font-size: 1.3rem; }
+          h4 { font-size: 1.1rem; }
+          p { margin-top: 0; margin-bottom: 1.25rem; }
+          figure.article-figure { margin: 2rem 0; text-align: center; }
+          figure.article-figure div { display: inline-block; padding: 8px; background: #fff; border: 1px solid #e2e8f0; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); max-width: 100%; }
+          figure.article-figure img { max-width: 100%; height: auto; border-radius: 12px; display: block; margin: 0 auto; }
+          figcaption { font-size: 12.5px; color: #64748b; font-weight: 600; margin-top: 10px; text-align: center; }
+          figure.align-left { float: left; margin: 0.5rem 1.5rem 1rem 0; max-width: 340px; }
+          figure.align-right { float: right; margin: 0.5rem 0 1rem 1.5rem; max-width: 340px; }
+          figure.align-full { width: 100%; }
+          .callout-box { padding: 18px 22px; border-radius: 14px; margin: 1.8rem 0; }
+          .callout-info { background: #fff1f2; border-left: 4px solid #e11d48; color: #9f1239; }
+          .callout-info h5 { color: #881337; margin-top: 0; margin-bottom: 4px; }
+          table { width: 100%; border-collapse: separate; border-spacing: 0; margin: 1.5rem 0; border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; }
+          th { background: #f8fafc; color: #0f172a; font-weight: 700; padding: 10px 14px; border-bottom: 1px solid #e2e8f0; text-align: left; }
+          td { padding: 10px 14px; border-bottom: 1px solid #f1f5f9; color: #334155; }
+          blockquote { border-left: 4px solid #e11d48; margin: 1.5em 0; padding: 12px 18px; background: #fff1f2; color: #64748b; font-style: italic; border-radius: 0 10px 10px 0; }
         `,
 
         setup: function(ed) {
+          // Tombol custom: Callout Catatan Teknis ATS
+          ed.addButton('wp_callout', {
+            tooltip: 'Sisipkan Kotak Catatan Teknis / Tips PUIL',
+            text: '⚡ Tips Teknis',
+            onclick: function() {
+              ed.insertContent(
+                '<div class="callout-box callout-info my-6 p-5 rounded-2xl bg-rose-50/80 border-l-4 border-rose-600 shadow-xs">' +
+                '<h5 class="text-rose-900 font-bold text-sm mb-1" style="color: #9f1239; font-weight: 700; margin-top: 0; margin-bottom: 4px;">⚡ Catatan Keselamatan & Teknis ATS:</h5>' +
+                '<p class="text-xs sm:text-sm text-rose-800 m-0" style="color: #881337; margin: 0; font-size: 13px;">Pastikan pemilihan rating proteksi dan instalasi sirkuit dilakukan oleh teknisi bersertifikat dan mengacu pada standar PUIL 2011 / IEC 60364.</p>' +
+                '</div><p></p>'
+              );
+            }
+          });
+
+          // Tombol custom: Tabel Spesifikasi Produk
+          ed.addButton('wp_table_spec', {
+            tooltip: 'Sisipkan Tabel Parameter Spesifikasi',
+            text: '📊 Tabel Spek',
+            onclick: function() {
+              ed.insertContent(
+                '<table class="article-spec-table my-6 w-full text-sm border border-slate-200 rounded-xl overflow-hidden">' +
+                '<thead><tr class="bg-slate-100 text-slate-800 text-left font-bold text-xs uppercase"><th class="p-3 border-b border-slate-200">Parameter Teknis</th><th class="p-3 border-b border-slate-200">Spesifikasi Komponen</th><th class="p-3 border-b border-slate-200">Standar Acuan</th></tr></thead>' +
+                '<tbody>' +
+                '<tr><td class="p-3 border-b border-slate-100 font-medium">Tegangan Operasional (Ue)</td><td class="p-3 border-b border-slate-100">230 / 400 V AC 50/60 Hz</td><td class="p-3 border-b border-slate-100">IEC/EN 61008-1</td></tr>' +
+                '<tr><td class="p-3 border-b border-slate-100 font-medium">Arus Pengenal (In)</td><td class="p-3 border-b border-slate-100">25A / 40A / 63A</td><td class="p-3 border-b border-slate-100">Schneider Electric Standar</td></tr>' +
+                '<tr><td class="p-3 border-b border-slate-100 font-medium">Sensitivitas Kebocoran (IΔn)</td><td class="p-3 border-b border-slate-100">30 mA / 300 mA</td><td class="p-3 border-b border-slate-100">PUIL 2011 Pasal 3.15</td></tr>' +
+                '</tbody></table><p></p>'
+              );
+            }
+          });
+
           // Tombol custom: Read More tag (<!--more-->)
           ed.addButton('wp_more', {
             tooltip: 'Insert Read More tag',
@@ -781,6 +878,20 @@
           window.selectedMediaAsset = item;
           document.getElementById('wpMediaSelectedInfo').innerText = `Terpilih: ${item.filename} (${item.size_human})`;
           document.getElementById('wpMediaInsertBtn').disabled = false;
+
+          // Perbarui preview thumbnail di sidebar opsi
+          const previewBox = document.getElementById('wpMediaPreviewBox');
+          if (previewBox) {
+            previewBox.innerHTML = `<img src="${item.url}" alt="${item.alt_text || ''}" style="max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 6px;">`;
+          }
+          const altInput = document.getElementById('wpMediaAltInput');
+          if (altInput) {
+            altInput.value = item.alt_text || item.filename.replace(/\.[^/.]+$/, "").replace(/[-_]/g, " ");
+          }
+          const captionInput = document.getElementById('wpMediaCaptionInput');
+          if (captionInput && !captionInput.value) {
+            captionInput.value = item.filename.replace(/\.[^/.]+$/, "").replace(/[-_]/g, " ");
+          }
         };
         grid.appendChild(el);
       });
@@ -866,28 +977,49 @@
 
     let imgUrl = '';
     let altText = '';
+    let captionText = '';
+    let align = 'center';
 
     if (window.selectedMediaAsset.isUrl) {
       imgUrl = document.getElementById('wpUrlInput').value.trim();
-      altText = document.getElementById('wpUrlAltInput').value.trim() || 'Product image';
+      altText = document.getElementById('wpUrlAltInput').value.trim() || 'Komponen Elektrikal ATS';
+      captionText = document.getElementById('wpUrlCaptionInput')?.value.trim() || '';
+      align = document.getElementById('wpUrlAlignSelect')?.value || 'center';
     } else {
       imgUrl = window.selectedMediaAsset.url;
-      altText = window.selectedMediaAsset.alt_text || window.selectedMediaAsset.filename;
+      altText = document.getElementById('wpMediaAltInput')?.value.trim() || window.selectedMediaAsset.alt_text || window.selectedMediaAsset.filename;
+      captionText = document.getElementById('wpMediaCaptionInput')?.value.trim() || '';
+      align = document.getElementById('wpMediaAlignSelect')?.value || 'center';
     }
 
     if (!imgUrl) return;
 
-    const imgTag = `<p><img src="${imgUrl}" alt="${altText}" style="max-width: 100%; height: auto; border-radius: 4px;" /></p>`;
+    let figureClass = 'article-figure align-center my-8 text-center';
+    if (align === 'left') {
+      figureClass = 'article-figure align-left sm:float-left sm:mr-6 sm:mb-4 my-4 text-center max-w-xs sm:max-w-sm';
+    } else if (align === 'right') {
+      figureClass = 'article-figure align-right sm:float-right sm:ml-6 sm:mb-4 my-4 text-center max-w-xs sm:max-w-sm';
+    } else if (align === 'full') {
+      figureClass = 'article-figure align-full my-8 text-center w-full';
+    }
+
+    const escapeCaption = captionText ? captionText.replace(/[&<>"']/g, function(m) {
+      return {'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;'}[m];
+    }) : '';
+
+    const captionHtml = escapeCaption ? `<figcaption class="text-xs sm:text-sm text-slate-500 font-semibold mt-3 text-center tracking-wide">${escapeCaption}</figcaption>` : '';
+
+    const figureTag = `<figure class="${figureClass}"><div class="inline-block overflow-hidden rounded-2xl border border-slate-200 shadow-sm bg-white p-2.5 max-w-full"><img src="${imgUrl}" alt="${altText}" class="max-w-full h-auto mx-auto rounded-xl object-contain shadow-xs transition duration-300 hover:scale-[1.02]" loading="lazy" /></div>${captionHtml}</figure><p></p>`;
 
     const editorId = window.currentActiveWpEditorId;
     const ed = tinymce.get(editorId);
 
     if (ed && !ed.isHidden()) {
-      ed.insertContent(imgTag);
+      ed.insertContent(figureTag);
     } else {
       const textarea = document.getElementById(editorId);
       if (textarea) {
-        textarea.value += '\n' + imgTag;
+        textarea.value += '\n' + figureTag;
       }
     }
 

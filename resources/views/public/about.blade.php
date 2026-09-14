@@ -255,20 +255,21 @@
             </div>
 
             <!-- Certificates Dynamic Grid -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
                 @forelse($certificates as $cert)
-                <div class="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200/90 shadow-sm hover:shadow-xl hover:border-emerald-300 transition-all duration-300 flex flex-col justify-between group">
+                <div class="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200/90 shadow-sm hover:shadow-xl hover:border-emerald-300 transition-all duration-300 flex flex-col justify-between group h-full">
                     <div>
-                        <!-- Certificate Image Preview Box -->
-                        <div class="relative bg-slate-100 rounded-2xl overflow-hidden mb-6 aspect-[3/4] border border-slate-200/80 cursor-pointer group-hover:border-emerald-400 transition"
+                        <!-- Certificate Image Preview Box (Adaptive Aspect Ratio: Landscape vs Portrait) -->
+                        <div class="relative bg-slate-100/90 rounded-2xl overflow-hidden mb-6 {{ $cert->is_landscape ? 'aspect-[4/3] sm:aspect-[1.42/1]' : 'aspect-[3/4]' }} border border-slate-200/80 cursor-pointer group-hover:border-emerald-400 transition flex items-center justify-center"
                              onclick="openCertModal('{{ $cert->image_url }}', '{{ addslashes($cert->title) }}', '{{ addslashes($cert->description ?? $cert->partner_name) }}')">
                             <img src="{{ $cert->image_url }}"
                                  alt="{{ $cert->title }}"
-                                 class="w-full h-full object-cover object-top transition duration-500 group-hover:scale-105">
+                                 class="w-full h-full object-contain p-2 transition duration-500 group-hover:scale-105 drop-shadow-xs">
                             <div class="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center">
                                 <span class="px-4 py-2 rounded-xl bg-white text-slate-900 font-bold text-xs shadow-lg flex items-center gap-1.5">
                                     <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7"/></svg>
-                                    Click to View Certificate
+                                    <span class="ats-lang-en">Click to View Full</span>
+                                    <span class="ats-lang-id">Klik untuk Perbesar</span>
                                 </span>
                             </div>
                             <div class="absolute top-3 right-3 bg-emerald-600 text-white text-[10px] font-black px-2.5 py-1 rounded-full uppercase tracking-wider shadow">
@@ -302,11 +303,11 @@
                 </div>
                 @empty
                 <!-- Fallback Certificate 1: Schneider Electric -->
-                <div class="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200/90 shadow-sm hover:shadow-xl hover:border-emerald-300 transition-all duration-300 flex flex-col justify-between group">
+                <div class="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200/90 shadow-sm hover:shadow-xl hover:border-emerald-300 transition-all duration-300 flex flex-col justify-between group h-full">
                     <div>
-                        <div class="relative bg-slate-100 rounded-2xl overflow-hidden mb-6 aspect-[3/4] border border-slate-200/80 cursor-pointer group-hover:border-emerald-400 transition"
+                        <div class="relative bg-slate-100/90 rounded-2xl overflow-hidden mb-6 aspect-[4/3] sm:aspect-[1.42/1] border border-slate-200/80 cursor-pointer group-hover:border-emerald-400 transition flex items-center justify-center"
                              onclick="openCertModal('{{ asset('certificates/cert-schneider.png') }}', 'Schneider Electric Authorized Partner Certificate', 'Official Distributor License for Low Voltage Electrical Components & Industrial Systems.')">
-                            <img src="{{ asset('certificates/cert-schneider.png') }}" alt="Schneider Electric Certificate" class="w-full h-full object-cover object-top transition duration-500 group-hover:scale-105">
+                            <img src="{{ asset('certificates/cert-schneider.png') }}" alt="Schneider Electric Certificate" class="w-full h-full object-contain p-2 transition duration-500 group-hover:scale-105 drop-shadow-xs">
                             <div class="absolute top-3 right-3 bg-emerald-600 text-white text-[10px] font-black px-2.5 py-1 rounded-full uppercase tracking-wider shadow">
                                 VERIFIED PARTNER
                             </div>
@@ -559,8 +560,8 @@
                         </svg>
                     </div>
                     <h3 class="text-lg font-black text-slate-900 tracking-tight">
-                        <span class="ats-lang-en">Surabaya Ready Stock Hub</span>
-                        <span class="ats-lang-id">Pusat Ready Stock Surabaya</span>
+                        <span class="ats-lang-en">Industrial Ready Stock Hub</span>
+                        <span class="ats-lang-id">Pusat Ready Stock Komponen</span>
                     </h3>
                     <p class="text-xs sm:text-sm text-slate-600 mt-2.5 leading-relaxed">
                         <span class="ats-lang-en">Extensive inventory of circuit breakers (ACB, MCCB, MCB), Altivar VFD inverters, TeSys contactors, and IP66 enclosures to keep your project downtime at zero.</span>
@@ -768,27 +769,27 @@
 <!-- ========================================================
      CERTIFICATE ZOOM LIGHTBOX MODAL
      ======================================================== -->
-<div id="certModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center p-4">
-    <div class="relative bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-hidden shadow-2xl flex flex-col animate-in fade-in zoom-in-95 duration-200">
+<div id="certModal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden items-center justify-center p-4 sm:p-6">
+    <div class="relative bg-white rounded-3xl max-w-5xl w-full max-h-[94vh] overflow-hidden shadow-2xl flex flex-col animate-in fade-in zoom-in-95 duration-200">
         <!-- Modal Header -->
         <div class="px-6 py-4 border-b border-slate-200 flex items-center justify-between bg-slate-50">
             <div>
-                <h3 id="certModalTitle" class="text-base font-black text-slate-900 leading-tight">
+                <h3 id="certModalTitle" class="text-base sm:text-lg font-black text-slate-900 leading-tight">
                     <span class="ats-lang-en">Certificate Details</span>
                     <span class="ats-lang-id">Detail Sertifikat</span>
                 </h3>
-                <p id="certModalDesc" class="text-xs text-slate-500 mt-0.5">
+                <p id="certModalDesc" class="text-xs sm:text-sm text-slate-500 mt-0.5">
                     <span class="ats-lang-en">Official Accreditation License</span>
                     <span class="ats-lang-id">Lisensi Akreditasi Resmi</span>
                 </p>
             </div>
-            <button type="button" onclick="closeCertModal()" class="w-8 h-8 rounded-full bg-slate-200 hover:bg-slate-300 text-slate-700 flex items-center justify-center transition">
+            <button type="button" onclick="closeCertModal()" class="w-8 h-8 rounded-full bg-slate-200 hover:bg-slate-300 text-slate-700 flex items-center justify-center transition" aria-label="Close">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
             </button>
         </div>
         <!-- Modal Body (Certificate Image) -->
-        <div class="p-6 overflow-y-auto flex items-center justify-center bg-slate-100/50">
-            <img id="certModalImg" src="" alt="Certificate" class="max-h-[65vh] w-auto object-contain rounded-xl shadow-md border border-slate-200">
+        <div class="p-4 sm:p-8 overflow-y-auto flex items-center justify-center bg-slate-900/5 min-h-[50vh]">
+            <img id="certModalImg" src="" alt="Certificate" class="max-h-[72vh] w-auto max-w-full object-contain rounded-xl shadow-lg border border-slate-200/80 bg-white">
         </div>
         <!-- Modal Footer -->
         <div class="px-6 py-3.5 border-t border-slate-200 bg-white flex items-center justify-between">
@@ -797,7 +798,7 @@
                 <span class="ats-lang-en">Authenticity Verified</span>
                 <span class="ats-lang-id">Keaslian Terverifikasi</span>
             </span>
-            <button type="button" onclick="closeCertModal()" class="px-4 py-2 rounded-xl bg-slate-900 text-white font-bold text-xs hover:bg-slate-800 transition">
+            <button type="button" onclick="closeCertModal()" class="px-5 py-2 rounded-xl bg-slate-900 text-white font-bold text-xs hover:bg-slate-800 transition">
                 <span class="ats-lang-en">Close Preview</span>
                 <span class="ats-lang-id">Tutup Pratinjau</span>
             </button>

@@ -35,16 +35,60 @@ class LiveChatApiController extends Controller
                 ];
             });
 
+        $lastActivity = $session->last_message_at ?: $session->created_at;
+        $inactiveMinutes = $lastActivity ? (int) $lastActivity->diffInMinutes(now()) : 0;
+        $isExpired = $inactiveMinutes >= 45;
+
+        if ($isExpired && $session->status !== 'closed') {
+            $session->update(['status' => 'closed']);
+        }
+
         return response()->json([
             'session' => [
                 'token' => $session->session_token,
                 'name' => $session->visitor_name,
                 'status' => $session->status,
                 'is_admin_typing' => $session->isAdminTyping(),
+                'last_message_at' => $lastActivity ? $lastActivity->toIso8601String() : null,
+                'inactive_minutes' => $inactiveMinutes,
+                'is_expired' => $isExpired,
             ],
             'is_typing' => $session->isAdminTyping(),
             'messages' => $messages,
         ]);
+    }
+
+    /**
+     * Retrieve past chat transcripts for archived sessions tokens.
+     */
+    public function getChatHistory(Request $request): JsonResponse
+    {
+        $tokens = $request->input('tokens', []);
+        if (empty($tokens) || !is_array($tokens)) {
+            return response()->json(['sessions' => []]);
+        }
+
+        $sessions = LiveChatSession::whereIn('session_token', array_slice($tokens, 0, 30))
+            ->with(['messages' => fn ($q) => $q->orderBy('created_at', 'asc')])
+            ->orderByDesc('last_message_at')
+            ->get()
+            ->map(function ($s) {
+                return [
+                    'token' => $s->session_token,
+                    'visitor_name' => $s->visitor_name,
+                    'date' => $s->created_at->format('d M Y, H:i'),
+                    'last_active' => $s->last_message_at ? $s->last_message_at->format('d M Y, H:i') : $s->created_at->format('d M Y, H:i'),
+                    'status' => $s->status,
+                    'messages' => $s->messages->map(fn ($m) => [
+                        'id' => $m->id,
+                        'sender' => $m->sender,
+                        'message' => $m->message,
+                        'time' => $m->created_at->format('H:i'),
+                    ]),
+                ];
+            });
+
+        return response()->json(['sessions' => $sessions]);
     }
 
     public function updateTyping(Request $request): JsonResponse

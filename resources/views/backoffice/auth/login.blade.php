@@ -63,18 +63,23 @@
     }
 
     .login-logo-box {
-      width: 52px;
-      height: 52px;
-      border-radius: 14px;
-      background: #0F172A;
-      color: #FFFFFF;
+      width: 60px;
+      height: 60px;
+      border-radius: 16px;
+      background: #FFFFFF;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 22px;
-      font-weight: 800;
-      font-family: var(--font-heading);
-      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.25);
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.1);
+      border: 1px solid #E2E8F0;
+      padding: 8px;
+    }
+
+    .login-logo-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
     }
 
     .login-brand-title {
@@ -165,7 +170,9 @@
 
   <div class="login-card">
     <div class="login-brand-header">
-      <div class="login-logo-box">ATS</div>
+      <div class="login-logo-box">
+        <img src="{{ asset('images/ats-logo.png') }}" alt="PT. Anugerah Tama Sejati Logo">
+      </div>
       <h1 class="login-brand-title">PT. ANUGERAH TAMA SEJATI</h1>
       <p class="login-brand-subtitle">Masuk ke Backoffice Pengelolaan Katalog</p>
     </div>

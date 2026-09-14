@@ -19,7 +19,7 @@ class CatalogCategoryController extends Controller
             ->firstOrFail();
 
         $perPage = (int) $request->input('per_page', 25);
-        if (!in_array($perPage, [10, 25, 50, 100], true)) {
+        if ($perPage < 1 || $perPage > 100) {
             $perPage = 25;
         }
 

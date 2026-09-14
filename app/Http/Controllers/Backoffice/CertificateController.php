@@ -31,6 +31,7 @@ class CertificateController extends Controller
             'description'  => ['nullable', 'string'],
             'image'        => ['required', 'image', 'mimes:png,jpg,jpeg,webp', 'max:10240'], // up to 10MB
             'file_url'     => ['nullable', 'url', 'max:500'],
+            'is_landscape' => ['nullable', 'boolean'],
             'sort_order'   => ['nullable', 'integer'],
             'is_active'    => ['nullable', 'boolean'],
         ]);
@@ -53,6 +54,7 @@ class CertificateController extends Controller
             'badge_text'   => trim($request->badge_text ?: 'VERIFIED PARTNER'),
             'description'  => $request->description,
             'image_path'   => $imagePath,
+            'is_landscape' => $request->boolean('is_landscape'),
             'file_url'     => $request->file_url,
             'sort_order'   => (int) $request->input('sort_order', 0),
             'is_active'    => $request->boolean('is_active', true),
@@ -82,6 +84,7 @@ class CertificateController extends Controller
             'description'  => ['nullable', 'string'],
             'image'        => ['nullable', 'image', 'mimes:png,jpg,jpeg,webp', 'max:10240'],
             'file_url'     => ['nullable', 'url', 'max:500'],
+            'is_landscape' => ['nullable', 'boolean'],
             'sort_order'   => ['nullable', 'integer'],
             'is_active'    => ['nullable', 'boolean'],
         ]);
@@ -104,6 +107,7 @@ class CertificateController extends Controller
             'badge_text'   => trim($request->badge_text ?: 'VERIFIED PARTNER'),
             'description'  => $request->description,
             'image_path'   => $imagePath,
+            'is_landscape' => $request->boolean('is_landscape'),
             'file_url'     => $request->file_url,
             'sort_order'   => (int) $request->input('sort_order', 0),
             'is_active'    => $request->boolean('is_active', true),

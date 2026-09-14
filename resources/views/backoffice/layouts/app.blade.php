@@ -97,17 +97,30 @@
     }
 
     .sidebar-logo {
-      width: 40px;
-      height: 40px;
+      width: 42px;
+      height: 42px;
       border-radius: 10px;
-      background: rgba(255, 255, 255, 0.1);
+      background: #FFFFFF;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-weight: 800;
-      color: #FFFFFF;
-      font-family: var(--font-heading);
-      border: 1px solid rgba(255, 255, 255, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      padding: 6px;
+      flex-shrink: 0;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .sidebar-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    .sidebar-header a:hover .sidebar-logo {
+      transform: scale(1.05);
+      box-shadow: 0 6px 16px rgba(225, 29, 72, 0.3);
     }
 
     .sidebar-title-wrap h2 {
@@ -847,6 +860,157 @@
         gap: 12px;
       }
     }
+
+    /* Live Chat Real-Time Floating Alert Banner */
+    .livechat-floating-banner {
+      background: linear-gradient(135deg, #0F172A 0%, #1E1B4B 100%);
+      border-bottom: 2px solid #FC0001;
+      box-shadow: 0 10px 25px -5px rgba(252, 0, 1, 0.25), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+      padding: 12px 24px;
+      position: sticky;
+      top: 60px;
+      z-index: 45;
+      animation: slideDownAlert 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes slideDownAlert {
+      from { transform: translateY(-100%); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    .livechat-floating-banner .banner-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      color: #FFFFFF;
+    }
+    .banner-glow-icon {
+      position: relative;
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: #FC0001;
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      box-shadow: 0 0 15px rgba(252, 0, 1, 0.6);
+    }
+    .pulse-wave {
+      position: absolute;
+      inset: -4px;
+      border-radius: 16px;
+      border: 2px solid #FC0001;
+      animation: pulseAlert 1.5s infinite;
+      pointer-events: none;
+    }
+    @keyframes pulseAlert {
+      0% { transform: scale(0.95); opacity: 0.9; }
+      100% { transform: scale(1.3); opacity: 0; }
+    }
+    .banner-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .banner-headline {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 2px;
+      flex-wrap: wrap;
+    }
+    .badge-live-chat {
+      font-size: 10px;
+      font-weight: 800;
+      background: #FC0001;
+      color: #FFFFFF;
+      padding: 2px 6px;
+      border-radius: 6px;
+      letter-spacing: 0.05em;
+    }
+    .visitor-name {
+      font-weight: 700;
+      font-size: 13.5px;
+      color: #F8FAFC;
+    }
+    .chat-time {
+      font-size: 11px;
+      color: #94A3B8;
+    }
+    .message-snippet {
+      font-size: 12.5px;
+      color: #CBD5E1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 700px;
+    }
+    .banner-cta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+    .btn-open-chat {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #FC0001;
+      color: #FFFFFF;
+      font-weight: 700;
+      font-size: 12.5px;
+      padding: 8px 16px;
+      border-radius: 10px;
+      text-decoration: none;
+      transition: all 0.2s;
+      box-shadow: 0 2px 8px rgba(252, 0, 1, 0.4);
+    }
+    .btn-open-chat:hover {
+      background: #D80001;
+      transform: translateY(-1px);
+    }
+    .btn-close-banner {
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      color: #94A3B8;
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-close-banner:hover {
+      background: rgba(255, 255, 255, 0.2);
+      color: #FFFFFF;
+    }
+    .btn-notif-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 8px;
+      border: 1px solid var(--color-border);
+      background: #FFFFFF;
+      color: var(--color-text-muted);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-notif-toggle:hover {
+      border-color: #CBD5E1;
+      color: var(--color-text-main);
+    }
+    .btn-notif-toggle.is-active {
+      background: #F0FDF4;
+      border-color: #86EFAC;
+      color: #15803D;
+    }
   </style>
   @stack('styles')
 </head>
@@ -859,7 +1023,9 @@
   <aside class="admin-sidebar" id="adminSidebar">
     <div class="sidebar-header" style="justify-content: space-between;">
       <a href="{{ route('backoffice.dashboard') }}" style="display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit; min-width: 0;">
-        <div class="sidebar-logo">ATS</div>
+        <div class="sidebar-logo">
+          <img src="{{ asset('images/ats-logo.png') }}" alt="PT. Anugerah Tama Sejati Logo">
+        </div>
         <div class="sidebar-title-wrap">
           <h2>ATS TEKNO</h2>
           <span>Backoffice Admin</span>
@@ -949,9 +1115,7 @@
         @php
           $sidebarLiveChatUnread = \App\Models\LiveChatSession::where('status', 'unread')->count();
         @endphp
-        @if($sidebarLiveChatUnread > 0)
-          <span style="background-color: #FC0001; color: #FFFFFF; font-size: 10px; font-weight: 800; padding: 2px 7px; border-radius: 9999px;">{{ $sidebarLiveChatUnread }}</span>
-        @endif
+        <span id="sidebarLiveChatBadge" style="{{ $sidebarLiveChatUnread > 0 ? '' : 'display: none;' }} background-color: #FC0001; color: #FFFFFF; font-size: 10px; font-weight: 800; padding: 2px 7px; border-radius: 9999px;">{{ $sidebarLiveChatUnread }}</span>
       </a>
       <a href="{{ route('backoffice.inquiries.index') }}" class="nav-link {{ request()->routeIs('backoffice.inquiries.*') ? 'active' : '' }}">
         <span class="nav-icon">
@@ -1007,6 +1171,12 @@
       </div>
 
       <div class="topbar-actions">
+        <!-- Desktop Notification Banner Button -->
+        <button type="button" id="btnEnableDesktopNotif" onclick="toggleDesktopNotificationPermission()" class="btn-notif-toggle" title="Notifikasi Banner Laptop untuk Live Chat">
+          <span id="notifBellIcon">🔔</span>
+          <span id="notifBellLabel">Notif Laptop</span>
+        </button>
+
         <a href="{{ route('home') }}" target="_blank" class="btn-view-site">
           <span>Website Publik</span>
           <span>&nearr;</span>
@@ -1020,6 +1190,31 @@
         </form>
       </div>
     </header>
+
+    <!-- Global Sticky Live Chat Alert Banner -->
+    <div id="liveChatGlobalAlert" class="livechat-floating-banner" style="display: none;">
+      <div class="banner-inner">
+        <div class="banner-glow-icon">
+          <span class="pulse-wave"></span>
+          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.3" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+        </div>
+        <div class="banner-info">
+          <div class="banner-headline">
+            <span class="badge-live-chat">CHAT MASUK</span>
+            <span id="liveChatVisitorName" class="visitor-name"></span>
+            <span id="liveChatVisitorTime" class="chat-time"></span>
+          </div>
+          <div id="liveChatMessageSnippet" class="message-snippet"></div>
+        </div>
+        <div class="banner-cta">
+          <a id="liveChatDirectLink" href="#" class="btn-open-chat">
+            <span>Buka Chat</span>
+            <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+          </a>
+          <button type="button" onclick="dismissLiveChatAlert()" class="btn-close-banner" aria-label="Tutup Banner">&times;</button>
+        </div>
+      </div>
+    </div>
 
     <main class="admin-content">
       <!-- Session Feedback Notifications -->
@@ -1080,6 +1275,226 @@
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') closeAdminSidebar();
     });
+  </script>
+
+  <!-- Live Chat Real-Time Notification Engine (Laptop Desktop Notification & Audio Alert) -->
+  <script>
+  (function() {
+    const notifToggleBtn = document.getElementById('btnEnableDesktopNotif');
+    const notifBellIcon = document.getElementById('notifBellIcon');
+    const notifBellLabel = document.getElementById('notifBellLabel');
+    const globalAlert = document.getElementById('liveChatGlobalAlert');
+    const visitorNameEl = document.getElementById('liveChatVisitorName');
+    const visitorTimeEl = document.getElementById('liveChatVisitorTime');
+    const messageSnippetEl = document.getElementById('liveChatMessageSnippet');
+    const directLinkEl = document.getElementById('liveChatDirectLink');
+    const sidebarBadge = document.getElementById('sidebarLiveChatBadge');
+
+    let lastSeenMessageId = 0;
+    let audioCtx = null;
+
+    // Initialize Audio Context on user interaction to abide by browser autoplay policies
+    function initAudio() {
+      if (!audioCtx) {
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (AudioContextClass) {
+          audioCtx = new AudioContextClass();
+        }
+      }
+      if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+    }
+
+    // Dual tone force chime sound (rich & attention-grabbing)
+    function playNotificationChime() {
+      try {
+        initAudio();
+        if (!audioCtx) return;
+
+        const now = audioCtx.currentTime;
+
+        // Tone 1: E5 (659.25 Hz) ramping to A5 (880 Hz)
+        const osc1 = audioCtx.createOscillator();
+        const gain1 = audioCtx.createGain();
+        osc1.type = 'sine';
+        osc1.frequency.setValueAtTime(659.25, now);
+        osc1.frequency.exponentialRampToValueAtTime(880, now + 0.15);
+        gain1.gain.setValueAtTime(0.001, now);
+        gain1.gain.linearRampToValueAtTime(0.35, now + 0.03);
+        gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
+        osc1.connect(gain1);
+        gain1.connect(audioCtx.destination);
+        osc1.start(now);
+        osc1.stop(now + 0.4);
+
+        // Tone 2: D6 (1174.66 Hz) ramping to E6 (1318.51 Hz) - crystal ringing chime
+        const osc2 = audioCtx.createOscillator();
+        const gain2 = audioCtx.createGain();
+        osc2.type = 'triangle';
+        osc2.frequency.setValueAtTime(880, now + 0.15);
+        osc2.frequency.exponentialRampToValueAtTime(1318.51, now + 0.35);
+        gain2.gain.setValueAtTime(0.001, now + 0.15);
+        gain2.gain.linearRampToValueAtTime(0.45, now + 0.2);
+        gain2.gain.exponentialRampToValueAtTime(0.0001, now + 0.75);
+        osc2.connect(gain2);
+        gain2.connect(audioCtx.destination);
+        osc2.start(now + 0.15);
+        osc2.stop(now + 0.75);
+      } catch(e) {
+        console.warn('Audio alert failed:', e);
+      }
+    }
+
+    // Update button UI based on Notification permission
+    function updateNotifBtnUI() {
+      if (!('Notification' in window)) {
+        if (notifToggleBtn) notifToggleBtn.style.display = 'none';
+        return;
+      }
+      if (Notification.permission === 'granted') {
+        if (notifToggleBtn) {
+          notifToggleBtn.classList.add('is-active');
+          notifToggleBtn.title = 'Notifikasi Banner Laptop Aktif';
+        }
+        if (notifBellIcon) notifBellIcon.textContent = '🔔';
+        if (notifBellLabel) notifBellLabel.textContent = 'Notif Aktif';
+      } else if (Notification.permission === 'denied') {
+        if (notifToggleBtn) {
+          notifToggleBtn.classList.remove('is-active');
+          notifToggleBtn.title = 'Notifikasi Laptop Diblokir oleh Pengaturan Browser';
+        }
+        if (notifBellIcon) notifBellIcon.textContent = '🔕';
+        if (notifBellLabel) notifBellLabel.textContent = 'Notif Diblokir';
+      } else {
+        if (notifToggleBtn) {
+          notifToggleBtn.classList.remove('is-active');
+          notifToggleBtn.title = 'Klik untuk mengaktifkan notifikasi banner laptop';
+        }
+        if (notifBellIcon) notifBellIcon.textContent = '🔔';
+        if (notifBellLabel) notifBellLabel.textContent = 'Aktifkan Notif';
+      }
+    }
+
+    window.toggleDesktopNotificationPermission = async function() {
+      initAudio();
+      if (!('Notification' in window)) {
+        alert('Browser Anda tidak mendukung Notifikasi Desktop.');
+        return;
+      }
+      if (Notification.permission === 'granted') {
+        playNotificationChime();
+        triggerLaptopNotification('🔔 Notifikasi Live Chat ATS Aktif', 'Notifikasi banner laptop telah aktif dan siap menerima pesan dari pengunjung!', null);
+        return;
+      }
+      try {
+        const permission = await Notification.requestPermission();
+        updateNotifBtnUI();
+        if (permission === 'granted') {
+          playNotificationChime();
+          triggerLaptopNotification('✅ Notifikasi Laptop Berhasil Diaktifkan!', 'Setiap pengunjung yang mengirim pesan live chat akan memunculkan banner di laptop Anda.', null);
+        }
+      } catch(err) {
+        console.error(err);
+      }
+    };
+
+    function triggerLaptopNotification(title, body, url) {
+      if (!('Notification' in window) || Notification.permission !== 'granted') return;
+      try {
+        const notif = new Notification(title, {
+          body: body,
+          icon: '{{ asset("favicon.svg") }}',
+          badge: '{{ asset("favicon-32x32.png") }}',
+          tag: 'ats-live-chat-' + Date.now(),
+          renotify: true,
+          requireInteraction: true // Keeps the banner on laptop screen until interacted!
+        });
+        notif.onclick = function(e) {
+          e.preventDefault();
+          window.focus();
+          if (url) {
+            window.location.href = url;
+          }
+          notif.close();
+        };
+      } catch(e) {
+        console.warn('Native notification trigger failed:', e);
+      }
+    }
+
+    window.dismissLiveChatAlert = function() {
+      if (globalAlert) globalAlert.style.display = 'none';
+    };
+
+    function showInAppAlert(data) {
+      if (!globalAlert) return;
+      if (visitorNameEl) visitorNameEl.textContent = data.visitor_name + (data.visitor_contact ? ` (${data.visitor_contact})` : '');
+      if (visitorTimeEl) visitorTimeEl.textContent = '• ' + data.time;
+      if (messageSnippetEl) messageSnippetEl.textContent = `"${data.message}"`;
+      if (directLinkEl) directLinkEl.href = `/backoffice/live-chats/${data.session_id}`;
+      globalAlert.style.display = 'block';
+    }
+
+    // Poll for new live chat messages every 3.5 seconds
+    async function checkLiveChatNotifications() {
+      try {
+        const res = await fetch(`{{ route('backoffice.live-chats.notifications') }}?last_seen_id=${lastSeenMessageId}`);
+        if (!res.ok) return;
+        const data = await res.json();
+
+        // Update sidebar badge count
+        if (sidebarBadge) {
+          if (data.unread_count > 0) {
+            sidebarBadge.textContent = data.unread_count;
+            sidebarBadge.style.display = 'inline-block';
+          } else {
+            sidebarBadge.style.display = 'none';
+          }
+        }
+
+        // Initial pass: seed lastSeenMessageId so past messages don't falsely sound alarm on first visit
+        if (lastSeenMessageId === 0) {
+          lastSeenMessageId = data.latest_id || 1;
+          return;
+        }
+
+        // If new visitor message arrived
+        if (data.has_new && data.latest_message) {
+          lastSeenMessageId = data.latest_id;
+
+          // 1. Force audio alert
+          playNotificationChime();
+
+          // 2. Native laptop desktop notification banner
+          triggerLaptopNotification(
+            `💬 Pesan Chat Baru: ${data.latest_message.visitor_name}`,
+            data.latest_message.message,
+            `/backoffice/live-chats/${data.latest_message.session_id}`
+          );
+
+          // 3. In-App glowing top banner
+          showInAppAlert(data.latest_message);
+        } else if (data.latest_id > lastSeenMessageId) {
+          lastSeenMessageId = data.latest_id;
+        }
+      } catch(err) {
+        // silent network retry
+      }
+    }
+
+    // Init UI & start polling
+    document.addEventListener('DOMContentLoaded', () => {
+      updateNotifBtnUI();
+      checkLiveChatNotifications();
+      setInterval(checkLiveChatNotifications, 3500);
+
+      // Warm up audio context on first user click anywhere in the page
+      document.addEventListener('click', () => {
+        initAudio();
+      }, { once: true });
+    });
+  })();
   </script>
 
   @include('backoffice.partials.wysiwyg')

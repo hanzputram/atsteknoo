@@ -1,7 +1,85 @@
 @extends('layouts.app')
 
-@section('title', ($product->meta_title ?: $product->name) . ' - PT. Anugerah Tama Sejati')
-@section('meta_description', $product->meta_description ?: ($product->short_description ?: 'Technical specifications for ' . $product->name . ' from authorized distributor PT. Anugerah Tama Sejati.'))
+@section('title', ($product->meta_title ?: ($product->name . ' - Distributor Surabaya')) . ' | PT. Anugerah Tama Sejati')
+@section('meta_description', $product->meta_description ?: ($product->short_description ?: ('Spesifikasi teknis ' . $product->name . ' SKU ' . $product->sku . ' dari distributor resmi PT. Anugerah Tama Sejati di Surabaya.')))
+@section('canonical', route('products.show', $product->slug))
+
+@push('schema')
+<script type="application/ld+json">
+{
+  "{{ '@context' }}": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "{{ route('home') }}"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Products",
+          "item": "{{ route('products.index') }}"
+        },
+        @if($product->primaryCategory)
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "{{ $product->primaryCategory->name }}",
+          "item": "{{ route('product-categories.show', $product->primaryCategory->slug) }}"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "{{ $product->name }}",
+          "item": "{{ route('products.show', $product->slug) }}"
+        }
+        @else
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "{{ $product->name }}",
+          "item": "{{ route('products.show', $product->slug) }}"
+        }
+        @endif
+      ]
+    },
+    {
+      "@type": "Product",
+      "name": "{{ $product->name }}",
+      "sku": "{{ $product->sku }}",
+      @if($product->main_image_url)
+      "image": "{{ $product->main_image_url }}",
+      @endif
+      "description": "{{ addslashes($product->short_description ?: $product->name) }}",
+      @if($product->brand)
+      "brand": {
+        "@type": "Brand",
+        "name": "{{ $product->brand->name }}"
+      },
+      @endif
+      "offers": {
+        "@type": "Offer",
+        "url": "{{ route('products.show', $product->slug) }}",
+        "priceCurrency": "IDR",
+        "price": "0",
+        "priceValidUntil": "2027-12-31",
+        "availability": "https://schema.org/InStock",
+        "itemCondition": "https://schema.org/NewCondition",
+        "seller": {
+          "@type": "Organization",
+          "name": "PT. Anugerah Tama Sejati",
+          "url": "{{ url('/') }}"
+        }
+      }
+    }
+  ]
+}
+</script>
+@endpush
 
 @section('content')
 <div class="bg-slate-50 py-6 border-b border-slate-200/80">

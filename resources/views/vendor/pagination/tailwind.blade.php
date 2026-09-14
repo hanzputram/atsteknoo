@@ -17,7 +17,13 @@
                     <select id="atsPerPageSelect" onchange="atsUpdatePerPage(this.value)" class="appearance-none bg-white text-xs font-bold text-slate-800 border border-slate-200/90 rounded-xl pl-3 pr-8 py-1.5 hover:border-slate-300 focus:ring-2 focus:ring-rose-500/20 focus:border-rose-500 transition cursor-pointer shadow-2xs">
                         @php
                             $currentPer = (int) request('per_page', $paginator->perPage());
-                            $perOptions = [10, 25, 50, 100];
+                            if (request()->routeIs('articles.*')) {
+                                $perOptions = [9, 18, 27, 50, 100];
+                            } elseif (request()->routeIs('projects.*')) {
+                                $perOptions = [12, 24, 48, 100];
+                            } else {
+                                $perOptions = [10, 25, 50, 100];
+                            }
                             if (!in_array($currentPer, $perOptions)) {
                                 $perOptions[] = $currentPer;
                                 sort($perOptions);

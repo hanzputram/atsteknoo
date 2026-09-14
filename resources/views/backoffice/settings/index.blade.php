@@ -115,9 +115,30 @@
                 <div class="form-group" style="margin-bottom: 0;">
                     <label class="form-label" style="display: flex; align-items: center; justify-content: space-between;">
                         <span>Opsi 2: Upload Manual File PDF Compro</span>
-                        <span style="font-size: 11px; color: #64748B; font-weight: normal;">(Maksimal 50 MB)</span>
+                        <span style="font-size: 11px; color: #64748B; font-weight: normal;">(Maksimal 100 MB)</span>
                     </label>
-                    <input type="file" name="company_profile_file" accept=".pdf" class="form-control">
+                    <input type="file" name="company_profile_file" id="company_profile_file" accept=".pdf" class="form-control">
+                    <input type="hidden" name="company_profile_auto_thumb" id="company_profile_auto_thumb">
+
+                    <!-- Realtime Auto-extracted Thumbnail from Page 1 -->
+                    <div id="compro_auto_thumb_loading" style="display: none; margin-top: 10px; font-size: 12.5px; color: #059669; align-items: center; gap: 8px;">
+                        <span style="display: inline-block; width: 14px; height: 14px; border: 2px solid #059669; border-top-color: transparent; border-radius: 50%; animation: spin 0.8s linear infinite;"></span>
+                        <span>Mengekstrak Halaman 1 PDF untuk cover otomatis...</span>
+                    </div>
+                    <div id="compro_auto_thumb_container" style="display: none; margin-top: 10px; padding: 12px 14px; background: #ECFDF5; border: 1px solid #A7F3D0; border-radius: 8px;">
+                        <div style="display: flex; align-items: center; gap: 14px;">
+                            <img id="compro_auto_thumb_img" src="" alt="Auto Thumbnail Compro" style="width: 48px; height: 64px; object-fit: cover; border-radius: 6px; border: 1px solid #10B981; box-shadow: 0 2px 6px rgba(16, 185, 129, 0.2);">
+                            <div>
+                                <div style="font-weight: 700; color: #065F46; font-size: 13px; display: flex; align-items: center; gap: 6px;">
+                                    <span>✨</span> Cover Halaman 1 PDF Berhasil Dibuat Otomatis!
+                                </div>
+                                <div style="font-size: 12px; color: #047857; margin-top: 2px;">
+                                    Thumbnail ini akan otomatis disimpan jika Anda tidak mengunggah cover foto manual di bawah.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     @if(!empty($settings['company_profile_pdf']))
                         <div style="margin-top: 8px; padding: 8px 12px; background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; display: flex; align-items: center; justify-content: space-between; font-size: 12px;">
                             <span style="color: #334155; font-weight: 500;">
@@ -133,10 +154,11 @@
 
                 <div class="form-group" style="margin-bottom: 0;">
                     <label class="form-label" style="display: flex; align-items: center; justify-content: space-between;">
-                        <span>Thumbnail / Cover Mockup PDF Compro</span>
-                        <span style="font-size: 11px; color: #64748B; font-weight: normal;">(Foto Cover Rasio 3:4)</span>
+                        <span>Thumbnail / Cover Mockup PDF Compro (Opsional)</span>
+                        <span style="font-size: 11px; color: #64748B; font-weight: normal;">(Foto Cover Manual Rasio 3:4)</span>
                     </label>
                     <input type="file" name="company_profile_thumb_file" accept="image/*" class="form-control">
+                    <span class="form-hint" style="font-size: 11.5px; color: #64748B; margin-top: 4px; display: block;">💡 Kosongkan jika ingin cover otomatis dibuat dari Halaman 1 file PDF yang diunggah.</span>
                     @if(!empty($settings['company_profile_thumbnail']))
                         <div style="margin-top: 8px; display: flex; align-items: center; gap: 12px; padding: 8px 12px; background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px;">
                             <img src="{{ $settings['company_profile_thumbnail'] }}" alt="Thumbnail Compro" style="width: 44px; height: 60px; object-fit: cover; border-radius: 6px; border: 1px solid #CBD5E1;">
@@ -193,9 +215,30 @@
                 <div class="form-group" style="margin-bottom: 0;">
                     <label class="form-label" style="display: flex; align-items: center; justify-content: space-between;">
                         <span>Opsi 2: Upload Manual File PDF Dokumen Panel</span>
-                        <span style="font-size: 11px; color: #64748B; font-weight: normal;">(Maksimal 50 MB)</span>
+                        <span style="font-size: 11px; color: #64748B; font-weight: normal;">(Maksimal 100 MB)</span>
                     </label>
-                    <input type="file" name="panel_project_doc_file" accept=".pdf" class="form-control">
+                    <input type="file" name="panel_project_doc_file" id="panel_project_doc_file" accept=".pdf" class="form-control">
+                    <input type="hidden" name="panel_project_doc_auto_thumb" id="panel_project_doc_auto_thumb">
+
+                    <!-- Realtime Auto-extracted Thumbnail from Page 1 -->
+                    <div id="panel_auto_thumb_loading" style="display: none; margin-top: 10px; font-size: 12.5px; color: #EA580C; align-items: center; gap: 8px;">
+                        <span style="display: inline-block; width: 14px; height: 14px; border: 2px solid #EA580C; border-top-color: transparent; border-radius: 50%; animation: spin 0.8s linear infinite;"></span>
+                        <span>Mengekstrak Halaman 1 PDF untuk cover otomatis...</span>
+                    </div>
+                    <div id="panel_auto_thumb_container" style="display: none; margin-top: 10px; padding: 12px 14px; background: #FFF7ED; border: 1px solid #FED7AA; border-radius: 8px;">
+                        <div style="display: flex; align-items: center; gap: 14px;">
+                            <img id="panel_auto_thumb_img" src="" alt="Auto Thumbnail Panel Project" style="width: 48px; height: 64px; object-fit: cover; border-radius: 6px; border: 1px solid #F97316; box-shadow: 0 2px 6px rgba(249, 115, 22, 0.2);">
+                            <div>
+                                <div style="font-weight: 700; color: #9A3412; font-size: 13px; display: flex; align-items: center; gap: 6px;">
+                                    <span>✨</span> Cover Halaman 1 PDF Berhasil Dibuat Otomatis!
+                                </div>
+                                <div style="font-size: 12px; color: #C2410C; margin-top: 2px;">
+                                    Thumbnail ini akan otomatis disimpan jika Anda tidak mengunggah cover foto manual di bawah.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     @if(!empty($settings['panel_project_doc_pdf']))
                         <div style="margin-top: 8px; padding: 8px 12px; background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px; display: flex; align-items: center; justify-content: space-between; font-size: 12px;">
                             <span style="color: #334155; font-weight: 500;">
@@ -211,10 +254,11 @@
 
                 <div class="form-group" style="margin-bottom: 0;">
                     <label class="form-label" style="display: flex; align-items: center; justify-content: space-between;">
-                        <span>Thumbnail / Cover Mockup PDF Panel Project</span>
-                        <span style="font-size: 11px; color: #64748B; font-weight: normal;">(Foto Cover Rasio 3:4)</span>
+                        <span>Thumbnail / Cover Mockup PDF Panel Project (Opsional)</span>
+                        <span style="font-size: 11px; color: #64748B; font-weight: normal;">(Foto Cover Manual Rasio 3:4)</span>
                     </label>
                     <input type="file" name="panel_project_doc_thumb_file" accept="image/*" class="form-control">
+                    <span class="form-hint" style="font-size: 11.5px; color: #64748B; margin-top: 4px; display: block;">💡 Kosongkan jika ingin cover otomatis dibuat dari Halaman 1 file PDF yang diunggah.</span>
                     @if(!empty($settings['panel_project_doc_thumbnail']))
                         <div style="margin-top: 8px; display: flex; align-items: center; gap: 12px; padding: 8px 12px; background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px;">
                             <img src="{{ $settings['panel_project_doc_thumbnail'] }}" alt="Thumbnail Panel Project" style="width: 44px; height: 60px; object-fit: cover; border-radius: 6px; border: 1px solid #CBD5E1;">
@@ -333,7 +377,7 @@
                 <div class="form-group" style="margin-bottom: 0;">
                     <label class="form-label" style="display: flex; align-items: center; justify-content: space-between;">
                         <span>Opsi 2: Upload Manual File PDF Master Price List</span>
-                        <span style="font-size: 11px; color: #64748B; font-weight: normal;">(Maksimal 50 MB)</span>
+                        <span style="font-size: 11px; color: #64748B; font-weight: normal;">(Maksimal 100 MB)</span>
                     </label>
                     <input type="file" name="master_price_list_file" accept=".pdf" class="form-control">
                     @if(!empty($settings['master_price_list_pdf']))
@@ -393,3 +437,132 @@
     </div>
 </form>
 @endsection
+
+@push('scripts')
+<script src="{{ asset('js/pdf.min.js') }}"></script>
+<script>
+    if (typeof pdfjsLib !== 'undefined') {
+        pdfjsLib.GlobalWorkerOptions.workerSrc = "{{ asset('js/pdf.worker.min.js') }}";
+    }
+
+    /**
+     * Renders Page 1 of a PDF File into a high-quality JPEG Data URL.
+     */
+    async function extractPdfFirstPage(file) {
+        if (!file || typeof pdfjsLib === 'undefined') return null;
+        try {
+            const arrayBuffer = await file.arrayBuffer();
+            const loadingTask = pdfjsLib.getDocument({ data: arrayBuffer });
+            const pdf = await loadingTask.promise;
+            const page = await pdf.getPage(1);
+            
+            // Scale 1.5 gives great crispness (~900x1200px for A4) while staying compact
+            const viewport = page.getViewport({ scale: 1.5 });
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+            canvas.width = viewport.width;
+            canvas.height = viewport.height;
+            
+            await page.render({ canvasContext: context, viewport: viewport }).promise;
+            return canvas.toDataURL('image/jpeg', 0.88);
+        } catch (err) {
+            console.error('Gagal mengekstrak halaman 1 PDF:', err);
+            return null;
+        }
+    }
+
+    // Company Profile PDF handler
+    const comproPdfInput = document.getElementById('company_profile_file');
+    const comproAutoThumb = document.getElementById('company_profile_auto_thumb');
+    const comproThumbImg = document.getElementById('compro_auto_thumb_img');
+    const comproThumbBox = document.getElementById('compro_auto_thumb_container');
+    const comproThumbLoading = document.getElementById('compro_auto_thumb_loading');
+
+    if (comproPdfInput) {
+        comproPdfInput.addEventListener('change', async function() {
+            const file = this.files[0];
+            if (!file) {
+                if (comproThumbBox) comproThumbBox.style.display = 'none';
+                if (comproAutoThumb) comproAutoThumb.value = '';
+                return;
+            }
+            if (comproThumbLoading) comproThumbLoading.style.display = 'flex';
+            if (comproThumbBox) comproThumbBox.style.display = 'none';
+
+            const dataUrl = await extractPdfFirstPage(file);
+            if (comproThumbLoading) comproThumbLoading.style.display = 'none';
+
+            if (dataUrl) {
+                if (comproAutoThumb) comproAutoThumb.value = dataUrl;
+                if (comproThumbImg) comproThumbImg.src = dataUrl;
+                if (comproThumbBox) comproThumbBox.style.display = 'block';
+            }
+        });
+    }
+
+    // Panel Project Document PDF handler
+    const panelPdfInput = document.getElementById('panel_project_doc_file');
+    const panelAutoThumb = document.getElementById('panel_project_doc_auto_thumb');
+    const panelThumbImg = document.getElementById('panel_auto_thumb_img');
+    const panelThumbBox = document.getElementById('panel_auto_thumb_container');
+    const panelThumbLoading = document.getElementById('panel_auto_thumb_loading');
+
+    if (panelPdfInput) {
+        panelPdfInput.addEventListener('change', async function() {
+            const file = this.files[0];
+            if (!file) {
+                if (panelThumbBox) panelThumbBox.style.display = 'none';
+                if (panelAutoThumb) panelAutoThumb.value = '';
+                return;
+            }
+            if (panelThumbLoading) panelThumbLoading.style.display = 'flex';
+            if (panelThumbBox) panelThumbBox.style.display = 'none';
+
+            const dataUrl = await extractPdfFirstPage(file);
+            if (panelThumbLoading) panelThumbLoading.style.display = 'none';
+
+            if (dataUrl) {
+                if (panelAutoThumb) panelAutoThumb.value = dataUrl;
+                if (panelThumbImg) panelThumbImg.src = dataUrl;
+                if (panelThumbBox) panelThumbBox.style.display = 'block';
+            }
+        });
+    }
+
+    // Form submit loading protection
+    const settingsForm = document.getElementById('settings-form');
+    if (settingsForm) {
+        settingsForm.addEventListener('submit', async function(e) {
+            // If user selected a PDF and auto-thumbnail is still being generated or not yet set, try to extract before submitting
+            if (comproPdfInput && comproPdfInput.files[0] && !comproAutoThumb.value) {
+                const manualThumb = document.querySelector('input[name="company_profile_thumb_file"]');
+                if (!manualThumb || !manualThumb.files.length) {
+                    const dataUrl = await extractPdfFirstPage(comproPdfInput.files[0]);
+                    if (dataUrl) comproAutoThumb.value = dataUrl;
+                }
+            }
+            if (panelPdfInput && panelPdfInput.files[0] && !panelAutoThumb.value) {
+                const manualThumb = document.querySelector('input[name="panel_project_doc_thumb_file"]');
+                if (!manualThumb || !manualThumb.files.length) {
+                    const dataUrl = await extractPdfFirstPage(panelPdfInput.files[0]);
+                    if (dataUrl) panelAutoThumb.value = dataUrl;
+                }
+            }
+
+            const submitBtns = document.querySelectorAll('button[type="submit"][form="settings-form"], #settings-form button[type="submit"]');
+            submitBtns.forEach(btn => {
+                btn.disabled = true;
+                btn.style.opacity = '0.75';
+                btn.style.cursor = 'not-allowed';
+                btn.innerHTML = '<span style="display:inline-block; animation: spin 0.8s linear infinite; margin-right: 6px;">⏳</span> Sedang Mengunggah &amp; Menyimpan...';
+            });
+        });
+    }
+</script>
+<style>
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+</style>
+@endpush

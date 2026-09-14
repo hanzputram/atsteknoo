@@ -79,7 +79,8 @@
                     <span class="ats-lang-id">Pilih Brand</span>
                 </label>
                 <select name="brand" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 focus:ring-2 focus:ring-rose-500/20 focus:border-rose-500 text-sm bg-white">
-                    <option value="">All Brands / Semua Brand</option>
+                    <option value="" {{ empty(request('brand')) ? 'selected' : '' }}>Brand Utama (Schneider, Vinsa, Supreme, GAE, Legrand)</option>
+                    <option value="all" {{ request('brand') === 'all' ? 'selected' : '' }}>Semua Brand (Seluruh Katalog)</option>
                     @foreach($brands as $b)
                         <option value="{{ $b->slug }}" {{ request('brand') === $b->slug ? 'selected' : '' }}>{{ $b->name }}</option>
                     @endforeach

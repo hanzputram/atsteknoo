@@ -112,7 +112,7 @@
         @endforelse
     </div>
 
-    @if($projects->hasPages())
+    @if($projects->total() > 0)
     <div class="mt-12 pt-6 border-t border-slate-200">
         {{ $projects->links() }}
     </div>

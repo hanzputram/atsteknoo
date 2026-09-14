@@ -50,7 +50,7 @@ class ArticleController extends Controller
     {
         $request->validate([
             'title' => ['required', 'string', 'max:255'],
-            'slug' => ['nullable', 'string', 'max:255', 'unique:articles,slug'],
+            'slug' => ['nullable', 'string', 'max:255'],
             'excerpt' => ['nullable', 'string', 'max:500'],
             'content_html' => ['nullable', 'string'],
             'category_id' => ['nullable', 'exists:article_categories,id'],
@@ -81,16 +81,18 @@ class ArticleController extends Controller
             }
         }
 
+        $slug = Article::generateUniqueSlug($request->title, $request->slug);
+
         $article = Article::create([
             'title' => trim($request->title),
-            'slug' => $request->slug ? Str::slug($request->slug) : Str::slug($request->title),
+            'slug' => $slug,
             'excerpt' => $request->excerpt ?: Str::limit(strip_tags($cleanContent), 160),
             'content_html' => $cleanContent,
             'thumbnail_id' => $thumbnailId,
             'thumbnail_alt' => $request->thumbnail_alt ?: $request->title,
             'category_id' => $request->category_id,
             'author_id' => auth()->id(),
-            'author_display_name' => $request->author_display_name,
+            'author_display_name' => $request->author_display_name ?: 'ATS Engineering Team',
             'meta_title' => $request->meta_title,
             'meta_description' => $request->meta_description,
             'is_featured' => $request->boolean('is_featured'),
@@ -149,15 +151,17 @@ class ArticleController extends Controller
             }
         }
 
+        $slug = Article::generateUniqueSlug($request->title, $request->slug ?: $article->slug, $article->id);
+
         $article->update([
             'title' => trim($request->title),
-            'slug' => $request->slug ? Str::slug($request->slug) : $article->slug,
+            'slug' => $slug,
             'excerpt' => $request->excerpt ?: Str::limit(strip_tags($cleanContent), 160),
             'content_html' => $cleanContent,
             'thumbnail_id' => $thumbnailId,
             'thumbnail_alt' => $request->thumbnail_alt ?: $request->title,
             'category_id' => $request->category_id,
-            'author_display_name' => $request->author_display_name,
+            'author_display_name' => $request->author_display_name ?: 'ATS Engineering Team',
             'meta_title' => $request->meta_title,
             'meta_description' => $request->meta_description,
             'is_featured' => $request->boolean('is_featured'),

@@ -18,6 +18,7 @@ class Certificate extends Model
         'badge_text',
         'description',
         'image_path',
+        'is_landscape',
         'file_url',
         'sort_order',
         'is_active',
@@ -26,11 +27,17 @@ class Certificate extends Model
     ];
 
     protected $casts = [
+        'is_landscape' => 'boolean',
         'is_active' => 'boolean',
         'sort_order' => 'integer',
     ];
 
     protected $appends = ['image_url'];
+
+    public function isLandscape(): bool
+    {
+        return (bool) $this->is_landscape;
+    }
 
     public function getImageUrlAttribute(): string
     {

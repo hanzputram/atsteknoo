@@ -57,10 +57,11 @@ class SitemapController extends Controller
             ->select('slug', 'updated_at')
             ->get()
             ->map(function ($item) {
+                $isSchneider = ($item->slug === 'schneider-electric');
                 return [
                     'loc' => route('brands.show', $item->slug),
-                    'priority' => '0.8',
-                    'changefreq' => 'weekly',
+                    'priority' => $isSchneider ? '1.0' : '0.8',
+                    'changefreq' => $isSchneider ? 'daily' : 'weekly',
                     'lastmod' => $item->updated_at ? $item->updated_at->toAtomString() : now()->toAtomString(),
                 ];
             });

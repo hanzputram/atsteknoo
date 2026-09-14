@@ -29,7 +29,18 @@ class BlogArticleController extends Controller
             });
         }
 
-        $articles = $query->latest('published_at')->paginate(9)->withQueryString();
+        if ($tagSlug = $request->input('tag')) {
+            $query->whereHas('tags', function ($q) use ($tagSlug) {
+                $q->where('slug', $tagSlug);
+            });
+        }
+
+        $perPage = (int) $request->input('per_page', 9);
+        if ($perPage < 1 || $perPage > 100) {
+            $perPage = 9;
+        }
+
+        $articles = $query->latest('published_at')->paginate($perPage)->withQueryString();
         $categories = ArticleCategory::active()->orderBy('name')->get();
 
         return view('public.articles.index', compact('articles', 'categories'));

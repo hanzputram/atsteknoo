@@ -17,6 +17,9 @@ class CatalogProductController extends Controller
     {
         $query = Product::published()->with(['brand', 'primaryCategory', 'mainImage']);
 
+        // Flagship partner brands prioritized by PT ATS
+        $flagshipBrandSlugs = ['schneider-electric', 'vinsa', 'supreme-cable', 'gae-group', 'legrand-indonesia'];
+
         // Search by name or SKU
         if ($search = $request->input('search')) {
             $query->where(function ($q) use ($search) {
@@ -27,9 +30,17 @@ class CatalogProductController extends Controller
         }
 
         // Filter by Brand
-        if ($brandSlug = $request->input('brand')) {
-            $query->whereHas('brand', function ($q) use ($brandSlug) {
-                $q->where('slug', $brandSlug);
+        if ($request->filled('brand')) {
+            $brandSlug = $request->input('brand');
+            if ($brandSlug !== 'all') {
+                $query->whereHas('brand', function ($q) use ($brandSlug) {
+                    $q->where('slug', $brandSlug);
+                });
+            }
+        } elseif (!$request->filled('search')) {
+            // Default initial visit: Display flagship products (Schneider, Vinsa, Supreme, GAE, Legrand)
+            $query->whereHas('brand', function ($q) use ($flagshipBrandSlugs) {
+                $q->whereIn('slug', $flagshipBrandSlugs);
             });
         }
 
@@ -53,13 +64,12 @@ class CatalogProductController extends Controller
                 $query->orderBy('sku', 'asc');
                 break;
             default:
-                $query->orderBy('sort_order', 'asc')->orderBy('created_at', 'desc');
+                $query->orderBy('sort_order', 'asc')->orderBy('id', 'asc');
                 break;
         }
 
-        // Allowed per_page options: 10, 25, 50, 100 (default: 25)
         $perPage = (int) $request->input('per_page', 25);
-        if (!in_array($perPage, [10, 25, 50, 100], true)) {
+        if ($perPage < 1 || $perPage > 100) {
             $perPage = 25;
         }
 

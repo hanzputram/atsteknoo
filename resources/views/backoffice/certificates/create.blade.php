@@ -42,7 +42,36 @@
                 <div>
                     <label class="form-label">Unggah Foto / Scan Sertifikat (PNG, JPG, WEBP) <span class="text-red-500">*</span></label>
                     <input type="file" name="image" accept="image/*" required class="form-control">
-                    <span class="form-hint">Maksimal 10MB. Format rasio potret (portrait 3:4) sangat disarankan.</span>
+                    <span class="form-hint">Maksimal 10MB. Format gambar sertifikat resmi dari prinsipal.</span>
+                </div>
+
+                <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200">
+                    <label class="form-label font-bold text-slate-800 text-sm mb-1 block">Orientasi Sertifikat <span class="text-red-500">*</span></label>
+                    <p class="text-xs text-slate-500 mb-3">Tentukan orientasi sertifikat agar tampilan kartu di website publik otomatis menyesuaikan rasio dan tidak terpotong.</p>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <label class="relative flex items-center gap-3 p-3.5 rounded-xl border bg-white cursor-pointer transition hover:border-slate-400 has-[:checked]:border-rose-500 has-[:checked]:bg-rose-50/40 has-[:checked]:ring-1 has-[:checked]:ring-rose-500">
+                            <input type="radio" name="is_landscape" value="0" {{ old('is_landscape', '0') == '0' ? 'checked' : '' }} class="w-4 h-4 text-rose-600 focus:ring-rose-500">
+                            <div class="flex items-center gap-2.5">
+                                <div class="w-7 h-9 rounded border-2 border-dashed border-slate-400 flex items-center justify-center text-[10px] font-black text-slate-500 bg-slate-50">P</div>
+                                <div>
+                                    <div class="text-xs font-bold text-slate-900">Portrait (Tegak / Vertikal)</div>
+                                    <div class="text-[11px] text-slate-500">Format A4 tegak (seperti surat resmi GAE)</div>
+                                </div>
+                            </div>
+                        </label>
+                        
+                        <label class="relative flex items-center gap-3 p-3.5 rounded-xl border bg-white cursor-pointer transition hover:border-slate-400 has-[:checked]:border-emerald-500 has-[:checked]:bg-emerald-50/40 has-[:checked]:ring-1 has-[:checked]:ring-emerald-500">
+                            <input type="radio" name="is_landscape" value="1" {{ old('is_landscape') == '1' ? 'checked' : '' }} class="w-4 h-4 text-emerald-600 focus:ring-emerald-500">
+                            <div class="flex items-center gap-2.5">
+                                <div class="w-9 h-7 rounded border-2 border-dashed border-emerald-500 flex items-center justify-center text-[10px] font-black text-emerald-600 bg-emerald-50">L</div>
+                                <div>
+                                    <div class="text-xs font-bold text-slate-900">Landscape (Mendatar / Horizontal)</div>
+                                    <div class="text-[11px] text-slate-500">Format melebar (seperti Schneider &amp; Legrand)</div>
+                                </div>
+                            </div>
+                        </label>
+                    </div>
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">

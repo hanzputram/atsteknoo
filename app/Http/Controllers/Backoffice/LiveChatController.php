@@ -8,9 +8,46 @@ use App\Models\LiveChatMessage;
 use App\Models\LiveChatSession;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class LiveChatController extends Controller
 {
+    /**
+     * Check for incoming visitor messages, unread sessions count, and desktop notification triggers.
+     */
+    public function checkNotifications(Request $request): JsonResponse
+    {
+        $lastSeenId = (int) $request->query('last_seen_id', 0);
+
+        // Count unread sessions
+        $unreadCount = LiveChatSession::where('status', 'unread')->count();
+
+        // Get latest visitor message
+        $latestVisitorMsg = LiveChatMessage::where('sender', 'visitor')
+            ->with('session')
+            ->latest('id')
+            ->first();
+
+        $hasNew = false;
+        if ($latestVisitorMsg && $lastSeenId > 0 && $latestVisitorMsg->id > $lastSeenId) {
+            $hasNew = true;
+        }
+
+        return response()->json([
+            'unread_count' => $unreadCount,
+            'latest_id' => $latestVisitorMsg ? $latestVisitorMsg->id : 0,
+            'has_new' => $hasNew,
+            'latest_message' => ($latestVisitorMsg && $hasNew) ? [
+                'id' => $latestVisitorMsg->id,
+                'session_id' => $latestVisitorMsg->session_id,
+                'visitor_name' => $latestVisitorMsg->session ? $latestVisitorMsg->session->visitor_name : 'Pengunjung Web',
+                'visitor_contact' => $latestVisitorMsg->session ? $latestVisitorMsg->session->visitor_contact : '',
+                'message' => Str::limit($latestVisitorMsg->message, 120),
+                'time' => $latestVisitorMsg->created_at->format('H:i'),
+            ] : null,
+        ]);
+    }
+
     public function index(Request $request)
     {
         $query = LiveChatSession::with(['latestMessage']);

@@ -35,7 +35,7 @@
 
             <!-- Categories Chips -->
             <div class="flex flex-wrap items-center gap-2">
-                <a href="{{ route('articles.index') }}" class="px-3 py-1.5 rounded-xl text-xs font-semibold {{ !request('category') ? 'bg-rose-600 text-white' : 'bg-white border border-slate-200 text-slate-700 hover:bg-slate-50' }} transition">
+                <a href="{{ route('articles.index') }}" class="px-3 py-1.5 rounded-xl text-xs font-semibold {{ !request('category') && !request('tag') ? 'bg-rose-600 text-white' : 'bg-white border border-slate-200 text-slate-700 hover:bg-slate-50' }} transition">
                     <span class="ats-lang-en">All</span><span class="ats-lang-id">Semua</span>
                 </a>
                 @foreach($categories as $cat)
@@ -45,6 +45,16 @@
                 @endforeach
             </div>
         </div>
+
+        @if(request('tag'))
+        <div class="mt-4 pt-3 border-t border-slate-200/60 flex items-center gap-2 text-xs">
+            <span class="text-slate-500 font-medium">Filter Topik Rekayasa:</span>
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-50 text-rose-600 border border-rose-200 font-bold">
+                #{{ request('tag') }}
+                <a href="{{ route('articles.index', array_filter(['category' => request('category'), 'search' => request('search')])) }}" class="hover:text-rose-800 ml-1 text-sm font-black" title="Hapus filter">&times;</a>
+            </span>
+        </div>
+        @endif
     </div>
 </div>
 
@@ -53,11 +63,7 @@
         @forelse($articles as $art)
         <div class="bg-white rounded-3xl border border-slate-200/80 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col overflow-hidden group">
             <a href="{{ route('articles.show', $art->slug) }}" class="h-52 bg-slate-100 relative overflow-hidden block">
-                @if($art->thumbnail)
-                    <img src="{{ route('media.view', $art->thumbnail_id) }}" alt="{{ $art->thumbnail_alt ?: $art->title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-                @else
-                    <div class="w-full h-full flex items-center justify-center text-slate-400 text-xs font-mono">No Thumbnail</div>
-                @endif
+                <img src="{{ $art->thumbnail_url }}" alt="{{ $art->thumbnail_alt ?: $art->title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" onerror="this.onerror=null; this.src='{{ asset('images/projects/project-1-substation.jpg') }}';">
 
                 @if($art->category)
                     <span class="absolute top-4 left-4 px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-white/95 backdrop-blur-xs text-slate-800 shadow-xs">
@@ -70,10 +76,8 @@
                 <div>
                     <div class="flex items-center gap-2 text-xs text-slate-400 mb-2">
                         <span>{{ $art->published_at ? $art->published_at->format('d F Y') : $art->created_at->format('d F Y') }}</span>
-                        @if($art->author)
-                            <span>&bull;</span>
-                            <span>{{ $art->author_display_name ?: $art->author->name }}</span>
-                        @endif
+                        <span>&bull;</span>
+                        <span class="font-semibold text-slate-600">{{ $art->author_display_name ?: 'ATS Engineering Team' }}</span>
                     </div>
 
                     <h3 class="text-lg font-bold text-slate-900 group-hover:text-rose-600 transition leading-snug mb-3">
@@ -86,9 +90,13 @@
                 </div>
 
                 <div class="pt-4 border-t border-slate-100 flex items-center justify-between">
+                    @php
+                        $articleWords = str_word_count(strip_tags($art->content_html ?? ''));
+                        $readMinutes = max(1, (int) ceil($articleWords / 200));
+                    @endphp
                     <span class="text-xs font-semibold text-slate-400">
-                        <span class="ats-lang-en">~3 min read</span>
-                        <span class="ats-lang-id">~3 mnt baca</span>
+                        <span class="ats-lang-en">{{ $readMinutes }} min read</span>
+                        <span class="ats-lang-id">{{ $readMinutes }} menit baca</span>
                     </span>
                     <a href="{{ route('articles.show', $art->slug) }}" class="inline-flex items-center gap-1 text-xs font-bold text-rose-600 hover:text-rose-700 transition">
                         <span class="ats-lang-en">Read Article &rarr;</span>
@@ -105,7 +113,7 @@
         @endforelse
     </div>
 
-    @if($articles->hasPages())
+    @if($articles->total() > 0)
     <div class="mt-12 pt-6 border-t border-slate-200">
         {{ $articles->links() }}
     </div>

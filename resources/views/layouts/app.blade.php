@@ -4,9 +4,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>@yield('title', 'PT. Anugerah Tama Sejati - Best Electrical Supplier')</title>
-  <meta name="description" content="@yield('meta_description', 'PT. Anugerah Tama Sejati - Your trusted one-stop supplier for all industrial electrical and wiring components.')">
+  <title>@yield('title', 'Distributor Schneider Electric Surabaya & Supplier Elektrikal - PT. Anugerah Tama Sejati')</title>
+  <meta name="description" content="@yield('meta_description', 'Distributor resmi Schneider Electric di Surabaya & Jawa Timur. Supplier terlengkap MCB, MCCB, ACB, Kontaktor TeSys, Inverter Altivar, dan panel maker bersertifikat PT. Anugerah Tama Sejati.')">
   <meta name="robots" content="@yield('robots', 'index, follow')">
+  <link rel="canonical" href="@yield('canonical', url()->current())">
 
   <!-- Official ATS Brand Favicon -->
   <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
@@ -23,11 +24,12 @@
   <meta name="geo.country" content="ID">
 
   <!-- Open Graph / SEO -->
-  <meta property="og:title" content="@yield('title', 'PT. Anugerah Tama Sejati')">
-  <meta property="og:description" content="@yield('meta_description', 'Leading industrial electrical and automation distributor in Indonesia.')">
+  <meta property="og:title" content="@yield('title', 'Distributor Schneider Electric Surabaya - PT. Anugerah Tama Sejati')">
+  <meta property="og:description" content="@yield('meta_description', 'Distributor resmi Schneider Electric di Surabaya & Jawa Timur. Ready stock MCB, MCCB, ACB, Inverter, dan fabrikasi panel listrik bersertifikat.')">
   <meta property="og:type" content="website">
   <meta property="og:url" content="{{ url()->current() }}">
   <meta property="og:site_name" content="PT. Anugerah Tama Sejati">
+  <meta property="og:locale" content="id_ID">
 
   <!-- Schema.org JSON-LD LocalBusiness -->
   <script type="application/ld+json">
@@ -35,11 +37,18 @@
     "{{ '@context' }}": "https://schema.org",
     "@type": ["LocalBusiness", "ElectricalSupplyStore", "WholesaleStore"],
     "name": "PT. Anugerah Tama Sejati",
-    "alternateName": "PT ATS - Best Electrical Supplier & Panel Maker",
-    "description": "Authorized industrial electrical distributor and switchboard panel maker in Surabaya, East Java, Indonesia.",
+    "alternateName": [
+      "Distributor Schneider Surabaya",
+      "Distributor Schneider Electric Surabaya",
+      "Supplier Elektrikal Surabaya",
+      "PT ATS",
+      "ATS Tekno"
+    ],
+    "description": "Authorized industrial electrical distributor and certified switchboard panel maker in Surabaya, East Java, Indonesia. Official partner of Schneider Electric, Legrand, GAE Group, Socomec, Autonics, and Himel.",
     "url": "{{ url('/') }}",
     "telephone": "+62-31-59178887",
     "email": "sales@atstekno.com",
+    "priceRange": "$$",
     "address": {
       "@type": "PostalAddress",
       "streetAddress": "Ruko Galaxi Bumi Permai J-1 No. 23",
@@ -52,9 +61,12 @@
       "@type": "GeoCoordinates",
       "latitude": -7.250445,
       "longitude": 112.768845
-    }
+    },
+    "hasMap": "https://maps.google.com/?q=-7.250445,112.768845"
   }
   </script>
+
+  @stack('schema')
 
   <!-- Google Fonts: Outfit & Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -99,6 +111,21 @@
       --shadow-card: 0 20px 40px -15px rgba(225, 29, 72, 0.12), 0 10px 25px -5px rgba(0, 0, 0, 0.05);
       --transition-base: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     }
+
+    /* Bilingual i18n Switching Rules */
+    html[lang="en"] .ats-lang-id,
+    html:not([lang="id"]) .ats-lang-id { display: none !important; }
+    html[lang="en"] .ats-lang-en,
+    html:not([lang="id"]) .ats-lang-en { display: inline !important; }
+    html[lang="id"] .ats-lang-en { display: none !important; }
+    html[lang="id"] .ats-lang-id { display: inline !important; }
+
+    html[lang="en"] .ats-lang-block-id,
+    html:not([lang="id"]) .ats-lang-block-id { display: none !important; }
+    html[lang="en"] .ats-lang-block-en,
+    html:not([lang="id"]) .ats-lang-block-en { display: block !important; }
+    html[lang="id"] .ats-lang-block-en { display: none !important; }
+    html[lang="id"] .ats-lang-block-id { display: block !important; }
 
     /* ==========================================================================
        Rich WYSIWYG Content & Typography Styling (Products, Articles, Projects)
@@ -290,10 +317,92 @@
     .wysiwyg-content img, .prose img {
       max-width: 100%;
       height: auto;
-      border-radius: 10px;
-      margin: 1.5rem 0;
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+      border-radius: 12px;
+      margin: 1.25rem 0;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
       border: 1px solid #e2e8f0;
+    }
+    .wysiwyg-content figure, .prose figure,
+    .wysiwyg-content .article-figure, .prose .article-figure {
+      margin: 2rem 0;
+      clear: both;
+    }
+    .wysiwyg-content .article-figure.align-center,
+    .prose .article-figure.align-center {
+      text-align: center;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .wysiwyg-content .article-figure.align-left,
+    .prose .article-figure.align-left {
+      float: left;
+      margin: 0.5rem 1.75rem 1.25rem 0;
+      max-width: 360px;
+    }
+    .wysiwyg-content .article-figure.align-right,
+    .prose .article-figure.align-right {
+      float: right;
+      margin: 0.5rem 0 1.25rem 1.75rem;
+      max-width: 360px;
+    }
+    .wysiwyg-content .article-figure.align-full,
+    .prose .article-figure.align-full {
+      width: 100%;
+      text-align: center;
+    }
+    @media (max-width: 640px) {
+      .wysiwyg-content .article-figure.align-left,
+      .wysiwyg-content .article-figure.align-right,
+      .prose .article-figure.align-left,
+      .prose .article-figure.align-right {
+        float: none !important;
+        margin: 1.5rem auto !important;
+        max-width: 100% !important;
+        text-align: center !important;
+      }
+    }
+    .wysiwyg-content figcaption, .prose figcaption {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: #64748b;
+      margin-top: 0.65rem;
+      line-height: 1.5;
+      text-align: center;
+      letter-spacing: 0.02em;
+    }
+    .wysiwyg-content .callout-box, .prose .callout-box {
+      border-radius: 16px;
+      padding: 1.25rem 1.5rem;
+      margin: 1.8rem 0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+    }
+    .wysiwyg-content .callout-info, .prose .callout-info {
+      background: #fff1f2;
+      border-left: 4px solid #e11d48;
+      color: #9f1239;
+    }
+    .wysiwyg-content .callout-info h5, .prose .callout-info h5 {
+      color: #881337;
+      font-weight: 800;
+      margin-top: 0;
+      margin-bottom: 0.35rem;
+      font-size: 0.95rem;
+    }
+    .wysiwyg-content .callout-info p, .prose .callout-info p {
+      color: #9f1239;
+      margin-bottom: 0;
+      font-size: 0.88rem;
+      line-height: 1.6;
+    }
+    .wysiwyg-content .article-spec-table, .prose .article-spec-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      overflow: hidden;
+      margin: 1.8rem 0;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
     }
 
     * {

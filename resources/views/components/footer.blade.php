@@ -185,21 +185,65 @@
   }
 
   /* Column 1: Brand & Contact Info */
+  .ats-ft-brand-identity {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 0 0 14px 0;
+  }
+
+  .ats-ft-logo-wrap {
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.08) 100%);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 13px;
+    padding: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 8px 20px -4px rgba(0, 0, 0, 0.35), inset 0 1px 1px 0 rgba(255, 255, 255, 0.4);
+    transition: all 0.25s ease;
+  }
+
+  .ats-ft-logo-wrap:hover {
+    transform: scale(1.06);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.12) 100%);
+    border-color: rgba(255, 255, 255, 0.45);
+  }
+
+  .ats-ft-logo-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+  }
+
+  .ats-ft-brand-text {
+    display: flex;
+    flex-direction: column;
+  }
+
   .ats-ft-brand-title {
     font-size: 1.12rem;
     font-weight: 800;
     color: #FFFFFF;
     letter-spacing: -0.01em;
-    margin: 0 0 4px 0;
+    margin: 0 0 3px 0;
+    line-height: 1.2;
   }
 
   .ats-ft-brand-tagline {
-    font-size: 0.8rem;
+    font-size: 0.76rem;
     font-weight: 600;
     color: var(--ats-ft-accent);
     text-transform: uppercase;
     letter-spacing: 0.04em;
-    margin: 0 0 12px 0;
+    margin: 0;
+    line-height: 1.3;
   }
 
   .ats-ft-bio {
@@ -649,8 +693,16 @@
         <!-- ================= COLUMN 1: BRAND PROFILE & CREDENTIALS ================= -->
         <div class="ats-ft-col">
           <div class="ats-ft-col-header" data-i18n="footer.col1_header">Company Profile</div>
-          <h2 class="ats-ft-brand-title">PT. Anugerah Tama Sejati</h2>
-          <div class="ats-ft-brand-tagline" data-i18n="footer.tagline">Industrial Electrical Supplier &amp; Panel Maker</div>
+          
+          <div class="ats-ft-brand-identity">
+            <div class="ats-ft-logo-wrap">
+              <img src="{{ asset('images/ats-logo.png') }}" alt="PT. Anugerah Tama Sejati Logo" class="ats-ft-logo-img">
+            </div>
+            <div class="ats-ft-brand-text">
+              <h2 class="ats-ft-brand-title">PT. Anugerah Tama Sejati</h2>
+              <div class="ats-ft-brand-tagline" data-i18n="footer.tagline">Industrial Electrical Supplier &amp; Panel Maker</div>
+            </div>
+          </div>
           
           <p class="ats-ft-bio" data-i18n="footer.bio">
             Trusted nationwide distributor since 2019. Providing certified low-voltage distribution switchboards, industrial automation components, and genuine electrical equipment.
@@ -681,18 +733,58 @@
           </div>
         </div>
 
-        <!-- ================= COLUMN 2: CORE SOLUTIONS ================= -->
+        <!-- ================= COLUMN 2: KATALOG & KATEGORI PRODUK RELEVAN ================= -->
         <div class="ats-ft-col">
-          <div class="ats-ft-col-header" data-i18n="footer.col2_header">Solutions</div>
+          <div class="ats-ft-col-header" data-i18n="footer.col2_header">Product Catalog</div>
           <ul class="ats-ft-nav-list">
-            <li class="ats-ft-nav-item"><a href="{{ route('products.index') }}"><span class="ats-lang-en">Low Voltage Switchboards (LVMDP)</span><span class="ats-lang-id">Panel Distribusi Utama (LVMDP)</span></a></li>
-            <li class="ats-ft-nav-item"><a href="{{ route('products.index') }}"><span class="ats-lang-en">Motor Control Center (MCC &amp; VFD)</span><span class="ats-lang-id">Pusat Kontrol Motor (MCC &amp; VFD)</span></a></li>
-            <li class="ats-ft-nav-item"><a href="{{ route('products.index') }}"><span class="ats-lang-en">Air Circuit Breakers (ACB) 630A&ndash;6300A</span><span class="ats-lang-id">Air Circuit Breaker (ACB) 630A&ndash;6300A</span></a></li>
-            <li class="ats-ft-nav-item"><a href="{{ route('products.index') }}"><span class="ats-lang-en">Molded Case Circuit Breakers (MCCB)</span><span class="ats-lang-id">Pemutus Sirkuit Kotak (MCCB)</span></a></li>
-            <li class="ats-ft-nav-item"><a href="{{ route('products.index') }}"><span class="ats-lang-en">Variable Speed Drives (Altivar ATV)</span><span class="ats-lang-id">Inverter Motor (Altivar ATV)</span></a></li>
-            <li class="ats-ft-nav-item"><a href="{{ route('products.index') }}"><span class="ats-lang-en">Automatic Transfer Switch (AMF-ATS)</span><span class="ats-lang-id">Panel Otomatis Genset (AMF-ATS)</span></a></li>
-            <li class="ats-ft-nav-item"><a href="{{ route('products.index') }}"><span class="ats-lang-en">Capacitor Banks &amp; Power Quality</span><span class="ats-lang-id">Kapasitor Bank &amp; Kualitas Daya</span></a></li>
-            <li class="ats-ft-nav-item"><a href="{{ route('products.index') }}"><span class="ats-lang-en">IP66 Weatherproof Enclosures</span><span class="ats-lang-id">Box Panel Tahan Cuaca IP66</span></a></li>
+            <li class="ats-ft-nav-item">
+              <a href="{{ route('products.index') }}">
+                <span class="ats-lang-en">All Products &amp; Catalog</span>
+                <span class="ats-lang-id">Semua Produk &amp; Katalog</span>
+              </a>
+            </li>
+            <li class="ats-ft-nav-item">
+              <a href="{{ route('product-categories.show', 'power-distribution-circuit-breakers') }}">
+                <span class="ats-lang-en">Power Distribution &amp; Breakers</span>
+                <span class="ats-lang-id">Distribusi Daya &amp; Breaker</span>
+              </a>
+            </li>
+            <li class="ats-ft-nav-item">
+              <a href="{{ route('product-categories.show', 'motor-starting-control') }}">
+                <span class="ats-lang-en">Motor Starting &amp; Control</span>
+                <span class="ats-lang-id">Starter &amp; Kontrol Motor</span>
+              </a>
+            </li>
+            <li class="ats-ft-nav-item">
+              <a href="{{ route('product-categories.show', 'industrial-drives-inverters') }}">
+                <span class="ats-lang-en">Industrial Drives &amp; Inverters</span>
+                <span class="ats-lang-id">Inverter &amp; Drive Industri</span>
+              </a>
+            </li>
+            <li class="ats-ft-nav-item">
+              <a href="{{ route('product-categories.show', 'industrial-enclosures-wiring') }}">
+                <span class="ats-lang-en">Enclosures &amp; Box Panel</span>
+                <span class="ats-lang-id">Box Panel &amp; Pengkabelan</span>
+              </a>
+            </li>
+            <li class="ats-ft-nav-item">
+              <a href="{{ route('product-categories.show', 'metering-power-quality') }}">
+                <span class="ats-lang-en">Metering &amp; Power Quality</span>
+                <span class="ats-lang-id">Pengukuran &amp; Kualitas Daya</span>
+              </a>
+            </li>
+            <li class="ats-ft-nav-item">
+              <a href="{{ route('price-list.index') }}">
+                <span class="ats-lang-en">Authorized Brand Directory</span>
+                <span class="ats-lang-id">Direktori Brand &amp; Pricelist</span>
+              </a>
+            </li>
+            <li class="ats-ft-nav-item">
+              <a href="https://wa.me/6282223332830?text=Halo%20PT%20ATS,%20saya%20ingin%20konsultasi%20pembuatan%20panel%20listrik%20dan%20BoQ" target="_blank">
+                <span class="ats-lang-en">Custom Panel Fabrication (BoQ)</span>
+                <span class="ats-lang-id">Fabrikasi &amp; Perakitan Panel</span>
+              </a>
+            </li>
           </ul>
         </div>
 

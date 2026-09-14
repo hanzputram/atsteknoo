@@ -47,7 +47,14 @@
           <p class="chat-drawer-subtitle" data-i18n="chat.drawer_sub">PT Anugerah Tama Sejati • Live Online</p>
         </div>
       </div>
-      <button type="button" class="chat-drawer-close" id="chatDrawerClose" aria-label="Close Chat">&times;</button>
+      <div class="chat-header-actions">
+        <button type="button" id="chatHistoryToggleBtn" class="chat-history-toggle-btn" title="Lihat Riwayat Chat">
+          <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.3" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          <span><span class="ats-lang-en">History</span><span class="ats-lang-id">Riwayat</span></span>
+          <span id="historyBadgeCount" class="history-badge-pill" style="display: none;">0</span>
+        </button>
+        <button type="button" class="chat-drawer-close" id="chatDrawerClose" aria-label="Close Chat">&times;</button>
+      </div>
     </div>
 
     <!-- Quick Channels Bar (WhatsApp, Telp, Email) -->
@@ -80,6 +87,23 @@
             <p style="margin-top:6px;">Ada yang bisa kami bantu seputar spesifikasi panel listrik, motor control center (MCC), SCADA, atau penawaran BoQ komponen Schneider, Siemens, dan Mitsubishi?</p>
           </div>
           <span class="chat-msg-timestamp">Official ATS Support</span>
+        </div>
+      </div>
+
+      <!-- Session Inactivity / Reset Banner -->
+      <div id="sessionResetBanner" class="session-reset-banner" style="display: none;">
+        <div class="reset-icon-wrap">
+          <svg width="15" height="15" fill="none" stroke="#D97706" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        </div>
+        <div class="reset-desc">
+          <p class="reset-text-main">
+            <span class="ats-lang-en">Previous session completed (45 min timeout). New session started.</span>
+            <span class="ats-lang-id">Sesi sebelumnya selesai (inaktif 45 menit). Sesi baru dimulai.</span>
+          </p>
+          <button type="button" id="btnNoticeOpenHistory" class="btn-notice-history">
+            <span class="ats-lang-en">View Past Transcript &rarr;</span>
+            <span class="ats-lang-id">Lihat Riwayat Chat Lalu &rarr;</span>
+          </button>
         </div>
       </div>
 
@@ -139,6 +163,46 @@
       </form>
       <div class="chat-footer-secure-badge">
         <span>🔒 <span class="ats-lang-en">Direct connection to ATS Backoffice Engineer</span><span class="ats-lang-id">Langsung tersambung ke Backoffice Engineer ATS</span></span>
+      </div>
+    </div>
+
+    <!-- History Modal / Drawer Overlay -->
+    <div id="chatHistoryOverlay" class="chat-history-overlay" style="display: none;">
+      <div class="history-overlay-header">
+        <button type="button" id="btnHistoryBack" class="btn-history-back" title="Kembali ke Chat">
+          <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg>
+          <span class="ats-lang-en">Back to Chat</span>
+          <span class="ats-lang-id">Kembali</span>
+        </button>
+        <div class="history-overlay-title">
+          <span class="ats-lang-en">Past Consultations</span>
+          <span class="ats-lang-id">Riwayat Percakapan</span>
+        </div>
+      </div>
+
+      <!-- History Sessions List -->
+      <div id="historySessionsList" class="history-sessions-container">
+        <div class="history-loading-spinner" id="historyLoadingSpinner" style="display: none;">
+          <span class="ats-lang-en">Loading history...</span>
+          <span class="ats-lang-id">Memuat riwayat chat...</span>
+        </div>
+        <div class="history-empty-state" id="historyEmptyState" style="display: none;">
+          <svg width="36" height="36" fill="none" stroke="#94A3B8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          <p class="ats-lang-en">No previous chat sessions found.</p>
+          <p class="ats-lang-id">Belum ada riwayat percakapan sebelumnya.</p>
+        </div>
+        <div id="historySessionsCards" class="history-cards-wrap"></div>
+      </div>
+
+      <!-- Single Session Transcript Viewer -->
+      <div id="historyTranscriptViewer" class="history-transcript-container" style="display: none;">
+        <div class="transcript-sub-header">
+          <button type="button" id="btnTranscriptBackToList" class="btn-transcript-back">
+            &larr; <span class="ats-lang-en">All Sessions</span><span class="ats-lang-id">Daftar Sesi</span>
+          </button>
+          <span id="transcriptSessionDate" class="transcript-date-badge"></span>
+        </div>
+        <div id="historyTranscriptStream" class="history-transcript-stream"></div>
       </div>
     </div>
   </div>
@@ -984,6 +1048,245 @@
     height: 500px;
   }
 }
+
+/* Live Chat Session Inactivity & History Styles */
+.chat-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.chat-history-toggle-btn {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #FFFFFF;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.chat-history-toggle-btn:hover {
+  background: rgba(255, 255, 255, 0.22);
+  border-color: rgba(255, 255, 255, 0.35);
+}
+.history-badge-pill {
+  background: #FC0001;
+  color: #FFFFFF;
+  font-size: 9.5px;
+  font-weight: 800;
+  padding: 1px 5px;
+  border-radius: 9999px;
+  line-height: 1.2;
+}
+.session-reset-banner {
+  background: #FFFBEB;
+  border: 1px solid #FDE68A;
+  border-radius: 14px;
+  padding: 10px 14px;
+  margin: 10px 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  animation: fadeInNotice 0.3s ease;
+}
+@keyframes fadeInNotice {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.reset-icon-wrap {
+  background: #FEF3C7;
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.reset-desc {
+  flex: 1;
+}
+.reset-text-main {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #92400E;
+  line-height: 1.4;
+  margin: 0 0 4px 0;
+}
+.btn-notice-history {
+  background: none;
+  border: none;
+  color: #B45309;
+  font-size: 11px;
+  font-weight: 700;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0;
+}
+.btn-notice-history:hover {
+  color: #78350F;
+}
+
+/* Chat History Overlay */
+.chat-history-overlay {
+  position: absolute;
+  inset: 0;
+  background: #F8FAFC;
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  border-radius: 24px;
+  overflow: hidden;
+  animation: slideInHistory 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes slideInHistory {
+  from { opacity: 0; transform: translateX(30px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+.history-overlay-header {
+  background: #0F172A;
+  color: #FFFFFF;
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+.btn-history-back {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: #FFFFFF;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 6px 12px;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-history-back:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+.history-overlay-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #F8FAFC;
+}
+.history-sessions-container {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+}
+.history-loading-spinner {
+  text-align: center;
+  padding: 30px;
+  color: #64748B;
+  font-size: 12.5px;
+}
+.history-empty-state {
+  text-align: center;
+  padding: 40px 20px;
+  color: #64748B;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  font-size: 12.5px;
+}
+.history-cards-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.history-card {
+  background: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 14px;
+  padding: 12px 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+}
+.history-card:hover {
+  border-color: #CBD5E1;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  transform: translateY(-1px);
+}
+.history-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+.history-card-date {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #0F172A;
+}
+.history-card-badge {
+  font-size: 10px;
+  font-weight: 700;
+  background: #F1F5F9;
+  color: #475569;
+  padding: 2px 7px;
+  border-radius: 6px;
+}
+.history-card-preview {
+  font-size: 12px;
+  color: #64748B;
+  line-height: 1.4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.history-transcript-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: #F8FAFC;
+}
+.transcript-sub-header {
+  padding: 10px 16px;
+  background: #FFFFFF;
+  border-bottom: 1px solid #E2E8F0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.btn-transcript-back {
+  background: none;
+  border: none;
+  font-size: 12px;
+  font-weight: 700;
+  color: #0F172A;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+.btn-transcript-back:hover {
+  background: #F1F5F9;
+}
+.transcript-date-badge {
+  font-size: 11px;
+  color: #64748B;
+  font-weight: 600;
+}
+.history-transcript-stream {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
 </style>
 
 <script>
@@ -1035,6 +1338,200 @@
   }
 
   updateIdentityUI();
+
+  const historyToggleBtn = document.getElementById('chatHistoryToggleBtn');
+  const historyBadgeCount = document.getElementById('historyBadgeCount');
+  const historyOverlay = document.getElementById('chatHistoryOverlay');
+  const historyBackBtn = document.getElementById('btnHistoryBack');
+  const historyLoading = document.getElementById('historyLoadingSpinner');
+  const historyEmpty = document.getElementById('historyEmptyState');
+  const historyCardsWrap = document.getElementById('historySessionsCards');
+  const historyViewer = document.getElementById('historyTranscriptViewer');
+  const historyListContainer = document.getElementById('historySessionsList');
+  const transcriptBackToList = document.getElementById('btnTranscriptBackToList');
+  const transcriptStream = document.getElementById('historyTranscriptStream');
+  const transcriptDateBadge = document.getElementById('transcriptSessionDate');
+  const sessionResetBanner = document.getElementById('sessionResetBanner');
+  const btnNoticeOpenHistory = document.getElementById('btnNoticeOpenHistory');
+
+  const INACTIVITY_TIMEOUT_MS = 45 * 60 * 1000; // 45 minutes
+  let lastActiveTime = parseInt(localStorage.getItem('ats_livechat_last_active') || '0', 10);
+
+  function getArchivedTokens() {
+    try {
+      return JSON.parse(localStorage.getItem('ats_chat_archived_tokens') || '[]');
+    } catch(e) {
+      return [];
+    }
+  }
+
+  function saveArchivedTokens(tokens) {
+    localStorage.setItem('ats_chat_archived_tokens', JSON.stringify(tokens));
+    updateHistoryBadgeUI();
+  }
+
+  function updateHistoryBadgeUI() {
+    const tokens = getArchivedTokens();
+    if (historyBadgeCount) {
+      if (tokens.length > 0) {
+        historyBadgeCount.textContent = tokens.length;
+        historyBadgeCount.style.display = 'inline-block';
+      } else {
+        historyBadgeCount.style.display = 'none';
+      }
+    }
+  }
+
+  function restartSessionDueToInactivity() {
+    if (sessionToken) {
+      const archived = getArchivedTokens();
+      if (!archived.includes(sessionToken)) {
+        archived.unshift(sessionToken);
+        saveArchivedTokens(archived);
+      }
+    }
+
+    sessionToken = null;
+    lastActiveTime = 0;
+    localStorage.removeItem('ats_livechat_token');
+    localStorage.removeItem('ats_livechat_last_active');
+    knownMessageIds.clear();
+
+    if (dynamicContainer) dynamicContainer.innerHTML = '';
+    if (sessionResetBanner) sessionResetBanner.style.display = 'flex';
+    updateHistoryBadgeUI();
+  }
+
+  function checkSessionInactivity() {
+    if (!sessionToken) return;
+    const now = Date.now();
+    if (lastActiveTime > 0 && (now - lastActiveTime >= INACTIVITY_TIMEOUT_MS)) {
+      restartSessionDueToInactivity();
+    }
+  }
+
+  updateHistoryBadgeUI();
+  checkSessionInactivity();
+  setInterval(checkSessionInactivity, 15000); // Check every 15s
+
+  if (historyToggleBtn) {
+    historyToggleBtn.addEventListener('click', () => {
+      openHistoryOverlay();
+    });
+  }
+
+  if (btnNoticeOpenHistory) {
+    btnNoticeOpenHistory.addEventListener('click', () => {
+      openHistoryOverlay();
+    });
+  }
+
+  if (historyBackBtn) {
+    historyBackBtn.addEventListener('click', () => {
+      closeHistoryOverlay();
+    });
+  }
+
+  if (transcriptBackToList) {
+    transcriptBackToList.addEventListener('click', () => {
+      if (historyViewer) historyViewer.style.display = 'none';
+      if (historyListContainer) historyListContainer.style.display = 'block';
+    });
+  }
+
+  async function openHistoryOverlay() {
+    if (!historyOverlay) return;
+    historyOverlay.style.display = 'flex';
+    if (historyViewer) historyViewer.style.display = 'none';
+    if (historyListContainer) historyListContainer.style.display = 'block';
+
+    const tokens = getArchivedTokens();
+    if (tokens.length === 0) {
+      if (historyEmpty) historyEmpty.style.display = 'flex';
+      if (historyCardsWrap) historyCardsWrap.innerHTML = '';
+      if (historyLoading) historyLoading.style.display = 'none';
+      return;
+    }
+
+    if (historyEmpty) historyEmpty.style.display = 'none';
+    if (historyLoading) historyLoading.style.display = 'block';
+    if (historyCardsWrap) historyCardsWrap.innerHTML = '';
+
+    try {
+      const res = await fetch('/live-chat/history', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({ tokens: tokens })
+      });
+      const data = await res.json();
+      if (historyLoading) historyLoading.style.display = 'none';
+
+      if (data.sessions && data.sessions.length > 0) {
+        renderHistorySessionsList(data.sessions);
+      } else {
+        if (historyEmpty) historyEmpty.style.display = 'flex';
+      }
+    } catch(e) {
+      if (historyLoading) historyLoading.style.display = 'none';
+      if (historyEmpty) historyEmpty.style.display = 'flex';
+    }
+  }
+
+  function closeHistoryOverlay() {
+    if (historyOverlay) historyOverlay.style.display = 'none';
+  }
+
+  function renderHistorySessionsList(sessions) {
+    if (!historyCardsWrap) return;
+    historyCardsWrap.innerHTML = sessions.map((sess, idx) => {
+      const count = sess.messages ? sess.messages.length : 0;
+      const lastMsg = count > 0 ? sess.messages[count - 1].message : 'Tidak ada pesan';
+      return `
+        <div class="history-card" onclick="viewHistoryTranscript(${idx})">
+          <div class="history-card-top">
+            <span class="history-card-date">🗓️ ${escapeHtml(sess.date)}</span>
+            <span class="history-card-badge">${count} pesan</span>
+          </div>
+          <p class="history-card-preview">"${escapeHtml(lastMsg)}"</p>
+          <div style="display: flex; justify-content: flex-end; margin-top: 6px;">
+            <span style="font-size: 11px; font-weight: 700; color: #FC0001;">Lihat Percakapan &rarr;</span>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    window.cachedHistorySessions = sessions;
+  }
+
+  window.viewHistoryTranscript = function(index) {
+    const session = window.cachedHistorySessions ? window.cachedHistorySessions[index] : null;
+    if (!session) return;
+
+    if (historyListContainer) historyListContainer.style.display = 'none';
+    if (historyViewer) historyViewer.style.display = 'flex';
+    if (transcriptDateBadge) transcriptDateBadge.textContent = session.date;
+
+    if (transcriptStream) {
+      if (!session.messages || session.messages.length === 0) {
+        transcriptStream.innerHTML = '<p style="text-align:center; color:#94A3B8; font-size:12px; padding:20px;">Tidak ada rekaman pesan pada sesi ini.</p>';
+      } else {
+        transcriptStream.innerHTML = session.messages.map(m => {
+          const isVisitor = m.sender === 'visitor';
+          return `
+            <div class="chat-msg ${isVisitor ? 'chat-msg-visitor' : 'chat-msg-admin'}">
+              <div class="chat-msg-bubble">
+                <p style="white-space:pre-wrap;">${escapeHtml(m.message)}</p>
+                <span class="chat-msg-timestamp">${isVisitor ? 'Anda' : 'ATS Engineer'} • ${m.time}</span>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+    }
+  };
 
   if (editIdentityBtn) {
     editIdentityBtn.addEventListener('click', () => {
@@ -1228,6 +1725,9 @@
           sessionToken = data.session_token;
           localStorage.setItem('ats_livechat_token', sessionToken);
         }
+        lastActiveTime = Date.now();
+        localStorage.setItem('ats_livechat_last_active', lastActiveTime.toString());
+        if (sessionResetBanner) sessionResetBanner.style.display = 'none';
         msgInput.value = '';
         appendSingleMessage(data.message);
         scrollToBottom();
@@ -1336,6 +1836,18 @@
       const res = await fetch(`/live-chat/messages?session_token=${encodeURIComponent(sessionToken)}`);
       if (!res.ok) return;
       const data = await res.json();
+
+      // Check if session has expired after 45 minutes of inactivity
+      if (data.session && data.session.is_expired) {
+        restartSessionDueToInactivity();
+        return;
+      }
+
+      // Track last activity time from messages
+      if (data.messages && data.messages.length > 0) {
+        lastActiveTime = Date.now();
+        localStorage.setItem('ats_livechat_last_active', lastActiveTime.toString());
+      }
 
       // Update admin typing indicator
       updateAdminTypingUI(!!data.is_typing);

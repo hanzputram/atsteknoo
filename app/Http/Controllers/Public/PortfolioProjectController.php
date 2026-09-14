@@ -22,7 +22,12 @@ class PortfolioProjectController extends Controller
             });
         }
 
-        $projects = $query->orderBy('sort_order')->latest('published_at')->paginate(12)->withQueryString();
+        $perPage = (int) $request->input('per_page', 12);
+        if ($perPage < 1 || $perPage > 100) {
+            $perPage = 12;
+        }
+
+        $projects = $query->orderBy('sort_order')->latest('published_at')->paginate($perPage)->withQueryString();
         $categories = ProjectCategory::active()->orderBy('sort_order')->get();
 
         return view('public.projects.index', compact('projects', 'categories'));

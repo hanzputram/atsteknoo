@@ -50,7 +50,7 @@
 
             <div class="form-group">
               <label class="form-label" for="author_display_name">Nama Penulis Publik</label>
-              <input type="text" name="author_display_name" id="author_display_name" class="form-control" value="{{ old('author_display_name', $article->author_display_name) }}">
+              <input type="text" name="author_display_name" id="author_display_name" class="form-control" value="{{ old('author_display_name', $article->author_display_name ?: 'ATS Engineering Team') }}">
             </div>
           </div>
 

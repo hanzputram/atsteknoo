@@ -20,6 +20,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->validateCsrfTokens(except: [
             'live-chat/send',
             'live-chat/typing',
+            'live-chat/history',
         ]);
 
         $middleware->encryptCookies(except: ['appearance', 'sidebar_state']);

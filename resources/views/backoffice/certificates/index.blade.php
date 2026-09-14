@@ -17,9 +17,10 @@
         <table class="data-table">
             <thead>
                 <tr>
-                    <th style="width: 70px;">Preview</th>
+                    <th style="width: 75px;">Preview</th>
                     <th>Judul Sertifikat</th>
                     <th>Prinsipal / Penerbit</th>
+                    <th>Orientasi</th>
                     <th>Badge Status</th>
                     <th>Urutan</th>
                     <th>Status</th>
@@ -30,20 +31,31 @@
                 @forelse($certificates as $cert)
                 <tr>
                     <td>
-                        <div style="width: 48px; height: 64px; border-radius: 6px; border: 1px solid #E2E8F0; background: #F8FAFC; overflow: hidden; display: flex; align-items: center; justify-content: center; cursor: pointer;" onclick="window.open('{{ $cert->image_url }}', '_blank')" title="Klik untuk lihat gambar penuh">
-                            <img src="{{ $cert->image_url }}" alt="{{ $cert->title }}" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+                        <div style="width: {{ $cert->is_landscape ? '56px' : '44px' }}; height: {{ $cert->is_landscape ? '40px' : '58px' }}; border-radius: 6px; border: 1px solid #CBD5E1; background: #FFFFFF; overflow: hidden; display: flex; align-items: center; justify-content: center; cursor: pointer; padding: 2px;" onclick="window.open('{{ $cert->image_url }}', '_blank')" title="Klik untuk lihat gambar penuh">
+                            <img src="{{ $cert->image_url }}" alt="{{ $cert->title }}" style="max-width: 100%; max-height: 100%; object-fit: contain; display: block;">
                         </div>
                     </td>
                     <td>
                         <div style="font-weight: 700; color: #0F172A;">{{ $cert->title }}</div>
                         @if($cert->description)
-                            <div style="font-size: 12px; color: #64748B; margin-top: 3px; max-width: 450px;">{{ Str::limit($cert->description, 90) }}</div>
+                            <div style="font-size: 12px; color: #64748B; margin-top: 3px; max-width: 420px;">{{ Str::limit($cert->description, 90) }}</div>
                         @endif
                     </td>
                     <td>
                         <span style="display: inline-flex; align-items: center; padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: 600; background: #F1F5F9; color: #1E293B;">
                             {{ $cert->partner_name }}
                         </span>
+                    </td>
+                    <td>
+                        @if($cert->is_landscape)
+                            <span class="badge" style="background: #ECFDF5; color: #059669; border: 1px solid #A7F3D0; font-size: 11px; font-weight: 700;">
+                                ↔ Landscape
+                            </span>
+                        @else
+                            <span class="badge" style="background: #FFF1F2; color: #E11D48; border: 1px solid #FECDD3; font-size: 11px; font-weight: 700;">
+                                ↕ Portrait
+                            </span>
+                        @endif
                     </td>
                     <td>
                         <span class="badge badge-success">{{ $cert->badge_text }}</span>

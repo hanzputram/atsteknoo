@@ -58,7 +58,7 @@ class ProjectController extends Controller
         $request->validate([
             'project_code' => ['nullable', 'string', 'max:64', 'unique:projects,project_code'],
             'title' => ['required', 'string', 'max:255'],
-            'slug' => ['nullable', 'string', 'max:255', 'unique:projects,slug'],
+            'slug' => ['nullable', 'string', 'max:255'],
             'category_id' => ['nullable', 'exists:project_categories,id'],
             'cover_image' => ['nullable', 'image', 'max:10240'],
             'status' => ['required', 'in:draft,published,archived'],
@@ -77,10 +77,13 @@ class ProjectController extends Controller
 
         $code = $request->input('project_code') ?: 'PRJ-' . strtoupper(Str::random(6));
 
+        // Auto-generate guaranteed unique slug (prevents duplicate key errors)
+        $slug = Project::generateUniqueSlug($request->title, $request->slug);
+
         $project = Project::create([
             'project_code' => $code,
             'title' => trim($request->title),
-            'slug' => $request->slug ? Str::slug($request->slug) : Str::slug($request->title),
+            'slug' => $slug,
             'summary' => $request->summary,
             'content_html' => $contentClean,
             'category_id' => $categoryId,
@@ -130,7 +133,7 @@ class ProjectController extends Controller
         $request->validate([
             'project_code' => ['required', 'string', 'max:64', Rule::unique('projects', 'project_code')->ignore($project->id)],
             'title' => ['required', 'string', 'max:255'],
-            'slug' => ['nullable', 'string', 'max:255', Rule::unique('projects', 'slug')->ignore($project->id)],
+            'slug' => ['nullable', 'string', 'max:255'],
             'status' => ['required', 'in:draft,published,archived'],
         ]);
 
@@ -151,10 +154,12 @@ class ProjectController extends Controller
             $publishedAt = now();
         }
 
+        $slug = Project::generateUniqueSlug($request->title, $request->slug ?: $project->slug, $project->id);
+
         $project->update([
             'project_code' => trim($request->project_code),
             'title' => trim($request->title),
-            'slug' => $request->slug ? Str::slug($request->slug) : $project->slug,
+            'slug' => $slug,
             'summary' => $request->summary,
             'content_html' => $contentClean,
             'category_id' => $request->category_id,

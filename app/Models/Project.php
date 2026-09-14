@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Str;
 
 class Project extends Model
 {
@@ -126,5 +127,26 @@ class Project extends Model
         ];
 
         return $colorMap[$this->sort_order % 8 ?: 8] ?? '#E11D48';
+    }
+
+    /**
+     * Generate a guaranteed unique slug for projects, even with identical titles or custom slugs.
+     */
+    public static function generateUniqueSlug(string $title, ?string $customSlug = null, ?int $ignoreId = null): string
+    {
+        $baseSlug = Str::slug($customSlug ?: $title);
+        if (empty($baseSlug)) {
+            $baseSlug = 'project-' . strtolower(Str::random(6));
+        }
+
+        $slug = $baseSlug;
+        $count = 2;
+
+        while (static::withTrashed()->where('slug', $slug)->when($ignoreId, fn($q) => $q->where('id', '!=', $ignoreId))->exists()) {
+            $slug = "{$baseSlug}-{$count}";
+            $count++;
+        }
+
+        return $slug;
     }
 }

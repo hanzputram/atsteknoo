@@ -1,7 +1,37 @@
 @extends('layouts.app')
 
-@section('title', ($category->meta_title ?: $category->name) . ' - Kategori Produk PT. Anugerah Tama Sejati')
+@section('title', $category->meta_title ?: ($category->name . ' - Kategori Produk PT. Anugerah Tama Sejati'))
 @section('meta_description', $category->meta_description ?: ($category->description ?: 'Lihat katalog produk ' . $category->name . ' dari distributor resmi PT. Anugerah Tama Sejati.'))
+@section('canonical', route('product-categories.show', $category->slug))
+
+@push('schema')
+<script type="application/ld+json">
+{
+  "{{ '@context' }}": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "{{ route('home') }}"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Product Catalog",
+      "item": "{{ route('products.index') }}"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "{{ $category->name }}",
+      "item": "{{ route('product-categories.show', $category->slug) }}"
+    }
+  ]
+}
+</script>
+@endpush
 
 @section('content')
 <div class="bg-slate-50 py-10 sm:py-14 border-b border-slate-200/80">

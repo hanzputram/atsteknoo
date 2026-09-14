@@ -84,7 +84,7 @@
     position: relative;
     width: 100%;
     aspect-ratio: 1312 / 622;
-    min-height: 520px;
+    min-height: 570px;
     box-sizing: border-box;
     border-radius: 48px;
     overflow: visible;
@@ -108,7 +108,7 @@
     top: 24px;
     left: 44px;
     right: 44px;
-    bottom: 23%; /* Jarak aman dan proporsional di atas lekukan notch SVG */
+    bottom: 14%; /* Jarak lapang & proporsional di atas lekukan notch tanpa memotong bagian bawah kartu */
     z-index: 2;
     display: flex;
     align-items: stretch;
@@ -118,8 +118,8 @@
   .product-swiper-container {
     width: 100%;
     height: 100% !important;
-    padding-top: 18px !important; /* Ruang angkat hover tanpa pernah menyentuh batas overflow */
-    padding-bottom: 18px !important; /* Ruang bayangan kartu tanpa terpotong */
+    padding-top: 14px !important; /* Ruang angkat hover tanpa pernah menyentuh batas overflow */
+    padding-bottom: 24px !important; /* Ruang lapang kartu dan bayangan tanpa terpotong */
     box-sizing: border-box;
     overflow: visible !important;
   }
@@ -132,83 +132,245 @@
     box-sizing: border-box;
   }
 
-  /* Kartu Produk (Dark Slate Gray dengan elevasi halus) */
+  /* Kartu Produk (Refined Modern Industrial White Card - Matching ATS Tekno Design System) */
   .figma-product-card {
-    background: #4E545F;
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: #FFFFFF;
+    border: 1.5px solid #E2E8F0;
     border-radius: 22px;
     width: 100%;
     height: 100%;
-    padding: 22px 20px 18px 20px;
+    padding: 20px 18px 16px 18px;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.28s ease, box-shadow 0.28s ease;
-    box-shadow: 0 6px 18px rgba(15, 23, 42, 0.07);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+    box-shadow: 0 4px 18px rgba(15, 23, 42, 0.04), 0 1px 3px rgba(15, 23, 42, 0.02);
     cursor: pointer;
     text-decoration: none;
-    color: #FFFFFF;
+    color: #0F172A;
     position: relative;
+    overflow: hidden;
+  }
+
+  /* Sleek top accent line matching ATS feature cards */
+  .figma-product-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3.5px;
+    background: linear-gradient(90deg, #E11D48, #FDA4AF);
+    opacity: 0;
+    transition: opacity 0.3s ease, height 0.3s ease;
   }
 
   .figma-product-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 14px 28px rgba(15, 23, 42, 0.12);
-    background: #444A54;
+    transform: translateY(-6px);
+    box-shadow: 0 20px 36px -6px rgba(15, 23, 42, 0.1), 0 8px 16px -4px rgba(15, 23, 42, 0.04);
+    border-color: #CBD5E1;
+  }
+
+  .figma-product-card:hover::before {
+    opacity: 1;
+    height: 4.5px;
+  }
+
+  .figma-product-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
   }
 
   .figma-product-badge {
-    display: inline-block;
-    align-self: flex-start;
-    padding: 4px 10px;
-    border-radius: 8px;
-    font-size: 11px;
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 9px;
+    border-radius: 9999px;
+    font-size: 10.5px;
     font-weight: 700;
-    background: rgba(255, 255, 255, 0.14);
-    color: #F8FAFC;
-    backdrop-filter: blur(8px);
     letter-spacing: 0.04em;
     text-transform: uppercase;
+    background: #F1F5F9;
+    color: #334155;
+    border: 1px solid #E2E8F0;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+  }
+
+  .figma-product-sku {
+    font-size: 10.5px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    color: #64748B;
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-radius: 6px;
+    padding: 2px 7px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+  }
+
+  /* Product Image Stage (Dedicated clean canvas without any shadow) */
+  .figma-product-img-box {
+    height: 125px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #FFFFFF;
+    border-radius: 14px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    overflow: hidden;
+    padding: 8px;
+    border: 1px solid #F1F5F9;
+    position: relative;
+    box-shadow: none;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .figma-product-card:hover .figma-product-img-box {
+    background: #FFFFFF;
+    border-color: #E2E8F0;
+    box-shadow: none;
+  }
+
+  .figma-product-img {
+    max-height: 100%;
+    max-width: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    filter: none;
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .figma-product-card:hover .figma-product-img {
+    transform: scale(1.08);
+    filter: none;
   }
 
   .figma-product-name {
-    font-size: 1.25rem;
+    font-family: 'Outfit', 'Plus Jakarta Sans', -apple-system, sans-serif;
+    font-size: 1.05rem;
     font-weight: 800;
-    line-height: 1.25;
-    color: #FFFFFF;
-    margin-top: 12px;
-    letter-spacing: -0.01em;
+    line-height: 1.35;
+    color: #0F172A;
+    margin-top: 2px;
+    letter-spacing: -0.015em;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    min-height: 2.7em;
+    transition: color 0.2s ease;
+  }
+
+  .figma-product-card:hover .figma-product-name {
+    color: #E11D48;
   }
 
   .figma-product-desc {
-    font-size: 0.82rem;
-    color: #CBD5E1;
-    line-height: 1.45;
-    margin-top: 8px;
+    font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+    font-size: 0.815rem;
+    color: #64748B;
+    line-height: 1.5;
+    margin-top: 6px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    min-height: 2.5em;
   }
 
+  /* Card Footer */
   .figma-product-footer {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding-top: 14px;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    font-size: 11px;
-    color: #94A3B8;
+    gap: 8px;
+    padding-top: 13px;
+    margin-top: 12px;
+    border-top: 1px solid #F1F5F9;
+  }
+
+  .figma-stock-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11.5px;
+    font-weight: 600;
+    color: #059669;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .figma-stock-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #10B981;
+    position: relative;
+    display: inline-block;
+    flex-shrink: 0;
+  }
+
+  .figma-stock-dot::after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    border-radius: 50%;
+    background: rgba(16, 185, 129, 0.4);
+    animation: figmaStockPulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  @keyframes figmaStockPulse {
+    0%, 100% {
+      transform: scale(1);
+      opacity: 0.8;
+    }
+    50% {
+      transform: scale(1.6);
+      opacity: 0;
+    }
   }
 
   .figma-product-cta {
-    color: #FDA4AF;
-    font-weight: 700;
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    gap: 4px;
-    transition: color 0.2s;
+    gap: 5px;
+    padding: 5px 12px;
+    border-radius: 9999px;
+    background: #FFF1F2;
+    color: #E11D48;
+    border: 1px solid #FFE4E6;
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .figma-product-cta .cta-arrow {
+    transition: transform 0.22s ease;
   }
 
   .figma-product-card:hover .figma-product-cta {
+    background: #E11D48;
     color: #FFFFFF;
+    border-color: #E11D48;
+    box-shadow: 0 4px 12px rgba(225, 29, 72, 0.28);
+  }
+
+  .figma-product-card:hover .figma-product-cta .cta-arrow {
+    transform: translateX(3px);
   }
 
   /* ========================================================
@@ -298,11 +460,11 @@
   }
 
   .figma-product-nav-btn:hover {
-    background: #0F172A;
+    background: #E11D48;
     color: #FFFFFF;
-    border-color: #0F172A;
+    border-color: #E11D48;
     transform: scale(1.08);
-    box-shadow: 0 6px 18px rgba(15, 23, 42, 0.14);
+    box-shadow: 0 8px 20px rgba(225, 29, 72, 0.28);
   }
 
   .figma-product-nav-btn:active {
@@ -345,10 +507,10 @@
     }
     .figma-shelf-stage {
       aspect-ratio: auto;
-      height: 500px;
+      height: 540px;
     }
     .figma-shelf-cards-layer {
-      bottom: 96px;
+      bottom: 86px;
       top: 18px;
       left: 14px;
       right: 14px;
@@ -381,10 +543,10 @@
 
   @media (max-width: 640px) {
     .figma-shelf-stage {
-      height: 500px;
+      height: 540px;
     }
     .figma-shelf-cards-layer {
-      bottom: 106px;
+      bottom: 96px;
       top: 14px;
       left: 12px;
       right: 12px;
@@ -502,28 +664,34 @@
               @php
                 $brandName = $product->brand ? $product->brand->name : 'ATS Tekno';
                 $badgeStyle = '';
-                if (stripos($brandName, 'Legrand') !== false) {
-                  $badgeStyle = 'background: rgba(225,29,72,0.25); color: #FFE4E6;';
+                if (stripos($brandName, 'Schneider') !== false) {
+                  $badgeStyle = 'background: #ECFDF5; color: #047857; border-color: #A7F3D0;';
+                } elseif (stripos($brandName, 'Legrand') !== false) {
+                  $badgeStyle = 'background: #FFF1F2; color: #BE123C; border-color: #FECDD3;';
                 } elseif (stripos($brandName, 'GAE') !== false) {
-                  $badgeStyle = 'background: rgba(37,99,235,0.25); color: #DBEAFE;';
+                  $badgeStyle = 'background: #EFF6FF; color: #1D4ED8; border-color: #BFDBFE;';
                 }
                 $productUrl = route('products.show', $product->slug);
               @endphp
               <div class="swiper-slide">
                 <a href="{{ $productUrl }}" class="figma-product-card" title="Lihat detail {{ $product->name }}">
                   <div>
-                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 2px;">
+                    <div class="figma-product-card-top">
                       <span class="figma-product-badge" style="{{ $badgeStyle }}">{{ $brandName }}</span>
                       @if($product->sku)
-                        <span style="font-size: 10.5px; font-family: monospace; color: #94A3B8; font-weight: 600; letter-spacing: 0.02em;">{{ $product->sku }}</span>
+                        <span class="figma-product-sku">{{ $product->sku }}</span>
                       @endif
                     </div>
 
-                    @if($product->main_image_url)
-                      <div style="height: 125px; width: 100%; display: flex; align-items: center; justify-content: center; background: #ffffff; border-radius: 12px; margin-top: 10px; overflow: hidden; padding: 6px; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.05);">
-                        <img src="{{ $product->main_image_url }}" alt="{{ $product->name }}" style="max-height: 100%; max-width: 100%; width: 100%; height: 100%; object-fit: contain;" onerror="this.onerror=null; this.parentElement.style.display='none';">
-                      </div>
-                    @endif
+                    <div class="figma-product-img-box">
+                      @if($product->main_image_url)
+                        <img src="{{ $product->main_image_url }}" alt="{{ $product->name }}" class="figma-product-img" onerror="this.onerror=null; this.parentElement.innerHTML='<svg width=\'36\' height=\'36\' fill=\'none\' stroke=\'#CBD5E1\' viewBox=\'0 0 24 24\'><path stroke-linecap=\'round\' stroke-linejoin=\'round\' stroke-width=\'1.5\' d=\'M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z\'/></svg>';">
+                      @else
+                        <svg width="36" height="36" fill="none" stroke="#CBD5E1" viewBox="0 0 24 24">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                        </svg>
+                      @endif
+                    </div>
 
                     <div class="figma-product-name">{{ $product->name }}</div>
                     <div class="figma-product-desc">
@@ -531,15 +699,23 @@
                     </div>
                   </div>
                   <div class="figma-product-footer">
-                    <span>Surabaya Ready Stock</span>
-                    <span class="figma-product-cta">Request Quotation &rarr;</span>
+                    <div class="figma-stock-tag" title="Ready Stock">
+                      <span class="figma-stock-dot"></span>
+                      <span data-i18n="products.ready_stock">Ready Stock</span>
+                    </div>
+                    <div class="figma-product-cta">
+                      <span data-i18n="products.view_specs">Lihat Spesifikasi</span>
+                      <svg class="cta-arrow" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M12 5l7 7-7 7"/>
+                      </svg>
+                    </div>
                   </div>
                 </a>
               </div>
             @empty
               <div class="swiper-slide">
-                <div class="figma-product-card" style="justify-content: center; align-items: center; text-align: center;">
-                  <div style="color: #CBD5E1; font-size: 14px;">Belum ada produk yang dipilih sebagai Best Seller.</div>
+                <div class="figma-product-card" style="justify-content: center; align-items: center; text-align: center; min-height: 280px;">
+                  <div style="color: #64748B; font-size: 14px; font-weight: 500;">Belum ada produk yang dipilih sebagai Best Seller.</div>
                 </div>
               </div>
             @endforelse

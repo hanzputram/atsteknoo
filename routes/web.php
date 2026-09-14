@@ -77,9 +77,11 @@ Route::post('/contact-us', [PublicContactController::class, 'submit'])->name('co
 Route::get('/live-chat/messages', [LiveChatApiController::class, 'getSessionMessages'])->name('live-chat.messages');
 Route::post('/live-chat/send', [LiveChatApiController::class, 'sendMessage'])->name('live-chat.send');
 Route::post('/live-chat/typing', [LiveChatApiController::class, 'updateTyping'])->name('live-chat.typing');
+Route::post('/live-chat/history', [LiveChatApiController::class, 'getChatHistory'])->name('live-chat.history');
 
 // Protected Media Delivery
 Route::get('/media/{id}/view', [MediaDeliveryController::class, 'view'])->name('media.view');
+
 
 
 /*
@@ -139,6 +141,7 @@ Route::prefix('backoffice')->name('backoffice.')->group(function () {
 
         // Live Chat Center (Inbox & Real-time Replies)
         Route::get('live-chats', [LiveChatController::class, 'index'])->name('live-chats.index');
+        Route::get('live-chats/notifications', [LiveChatController::class, 'checkNotifications'])->name('live-chats.notifications');
         Route::get('live-chats/{id}', [LiveChatController::class, 'show'])->name('live-chats.show');
         Route::post('live-chats/{id}/reply', [LiveChatController::class, 'reply'])->name('live-chats.reply');
         Route::post('live-chats/{id}/close', [LiveChatController::class, 'close'])->name('live-chats.close');
@@ -163,8 +166,14 @@ Route::prefix('backoffice')->name('backoffice.')->group(function () {
         // Admin-Only Modules
         Route::middleware(['backoffice:admin'])->group(function () {
             Route::get('settings', [SettingController::class, 'index'])->name('settings.index');
-            Route::post('settings', [SettingController::class, 'update'])->name('settings.update');
+            Route::match(['post', 'put'], 'settings', [SettingController::class, 'update'])->name('settings.update');
             Route::resource('users', UserController::class);
         });
     });
 });
+
+// SEO Preservation: 301 Permanent Redirects for Legacy WordPress URLs (Never Lose Rank)
+// Catch-all route placed at the end so it does not intercept defined routes (e.g. /backoffice)
+Route::get('/{slug}', [\App\Http\Controllers\Public\LegacyRedirectController::class, 'handle'])
+    ->where('slug', '[a-zA-Z0-9\-_]+')
+    ->name('legacy.redirect');

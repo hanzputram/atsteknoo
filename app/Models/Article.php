@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Str;
 
 class Article extends Model
 {
@@ -20,6 +21,7 @@ class Article extends Model
         'content_html',
         'thumbnail_id',
         'thumbnail_alt',
+        'image_url',
         'category_id',
         'author_id',
         'author_display_name',
@@ -97,22 +99,12 @@ class Article extends Model
 
     public function getThumbnailUrlAttribute(): string
     {
-        if ($this->thumbnail) {
-            return route('media.view', $this->thumbnail->id);
+        if (!empty($this->image_url)) {
+            return $this->image_url;
         }
 
-        $slugImageMap = [
-            'how-to-select-mccb-vs-acb-for-industrial-panels' => 'images/projects/project-1-substation.jpg',
-            'designing-600kvar-automatic-capacitor-banks-power-factor' => 'images/projects/project-6-smelter-heavy.jpg',
-            'vfd-harmonics-mitigation-industrial-pumping-systems' => 'images/projects/project-2-indofood-mcc.jpg',
-            'mcc-sizing-type-2-coordination-arc-flash-safety' => 'images/projects/project-4-scada-control.jpg',
-            'smart-electrical-switchboards-modbus-iot-energy-gateways' => 'images/projects/project-7-datacenter-busway.jpg',
-            'ats-generator-synchronizing-zero-downtime-tier-3' => 'images/projects/project-3-coldstorage.jpg',
-            'industrial-cable-sizing-derating-voltage-drop-calculations' => 'images/projects/project-8-industrial-park.jpg',
-        ];
-
-        if (isset($slugImageMap[$this->slug]) && file_exists(public_path($slugImageMap[$this->slug]))) {
-            return asset($slugImageMap[$this->slug]);
+        if ($this->thumbnail) {
+            return route('media.view', $this->thumbnail->id);
         }
 
         return asset('images/projects/project-1-substation.jpg');
@@ -123,5 +115,26 @@ class Article extends Model
         $wordCount = str_word_count(strip_tags($this->content_html ?? ''));
         $minutes = max(4, ceil($wordCount / 180));
         return $minutes . ' min read';
+    }
+
+    /**
+     * Generate a guaranteed unique slug for articles.
+     */
+    public static function generateUniqueSlug(string $title, ?string $customSlug = null, ?int $ignoreId = null): string
+    {
+        $baseSlug = Str::slug($customSlug ?: $title);
+        if (empty($baseSlug)) {
+            $baseSlug = 'article-' . strtolower(Str::random(6));
+        }
+
+        $slug = $baseSlug;
+        $count = 2;
+
+        while (static::withTrashed()->where('slug', $slug)->when($ignoreId, fn($q) => $q->where('id', '!=', $ignoreId))->exists()) {
+            $slug = "{$baseSlug}-{$count}";
+            $count++;
+        }
+
+        return $slug;
     }
 }
