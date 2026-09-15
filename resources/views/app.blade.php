@@ -1836,8 +1836,8 @@
                   <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
                 </svg>
                 <span>
-                  <span class="ats-lang-en" data-i18n="hero.btn_panel">Consult Panel Builder</span>
-                  <span class="ats-lang-id" data-i18n="hero.btn_panel">Konsultasi Panel Listrik</span>
+                  <span class="ats-lang-en" data-i18n="hero.btn_panel">Contact Us</span>
+                  <span class="ats-lang-id" data-i18n="hero.btn_panel">Hubungi Kami</span>
                 </span>
               </a>
             </div>
@@ -1877,11 +1877,10 @@
       <!-- Dynamic Walking Brand Logos in Hero Notch (Marquee Ticker) -->
       <div class="hero-notch-marquee-wrapper" id="notchMarquee" title="Authorized Brands &amp; Official Partners - PT. Anugerah Tama Sejati">
         <div class="marquee-track">
-          <!-- Set 1 (All 14 Official Brand Logos) -->
+          <!-- Set 1 (Official Brand Logos) -->
           <div class="marquee-logo-card"><img src="logos/1.png" alt="Schneider Electric Authorized Dealer" loading="lazy"></div>
           <div class="marquee-logo-card"><img src="logos/2.png" alt="GAE Authorized Dealer" loading="lazy"></div>
           <div class="marquee-logo-card"><img src="logos/vinsa.png" alt="VINSA France" loading="lazy"></div>
-          <div class="marquee-logo-card"><img src="logos/DV.webp" alt="DV Electrical Products" loading="lazy"></div>
           <div class="marquee-logo-card"><img src="logos/Legrand.webp" alt="Legrand" loading="lazy"></div>
           <div class="marquee-logo-card"><img src="logos/Socomec.png" alt="Socomec" loading="lazy"></div>
           <div class="marquee-logo-card"><img src="logos/Autonics.webp" alt="Autonics" loading="lazy"></div>
@@ -1897,7 +1896,6 @@
           <div class="marquee-logo-card"><img src="logos/1.png" alt="Schneider Electric Authorized Dealer" loading="lazy"></div>
           <div class="marquee-logo-card"><img src="logos/2.png" alt="GAE Authorized Dealer" loading="lazy"></div>
           <div class="marquee-logo-card"><img src="logos/vinsa.png" alt="VINSA France" loading="lazy"></div>
-          <div class="marquee-logo-card"><img src="logos/DV.webp" alt="DV Electrical Products" loading="lazy"></div>
           <div class="marquee-logo-card"><img src="logos/Legrand.webp" alt="Legrand" loading="lazy"></div>
           <div class="marquee-logo-card"><img src="logos/Socomec.png" alt="Socomec" loading="lazy"></div>
           <div class="marquee-logo-card"><img src="logos/Autonics.webp" alt="Autonics" loading="lazy"></div>

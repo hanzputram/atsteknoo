@@ -1518,11 +1518,10 @@
       <!-- Dynamic Walking Brand Logos in Hero Notch (Marquee Ticker - Exact app.blade.php match) -->
       <div class="hero-notch-marquee-wrapper" id="notchMarquee" title="Authorized Brands &amp; Official Partners - PT. Anugerah Tama Sejati">
         <div class="marquee-track">
-          <!-- Set 1 (All 14 Official Brand Logos) -->
+          <!-- Set 1 (Official Brand Logos) -->
           <div class="marquee-logo-card"><img src="{{ asset('logos/1.png') }}" alt="Schneider Electric Authorized Dealer" loading="lazy"></div>
           <div class="marquee-logo-card"><img src="{{ asset('logos/2.png') }}" alt="GAE Authorized Dealer" loading="lazy"></div>
           <div class="marquee-logo-card"><img src="{{ asset('logos/vinsa.png') }}" alt="VINSA France" loading="lazy"></div>
-          <div class="marquee-logo-card"><img src="{{ asset('logos/DV.webp') }}" alt="DV Electrical Products" loading="lazy"></div>
           <div class="marquee-logo-card"><img src="{{ asset('logos/Legrand.webp') }}" alt="Legrand" loading="lazy"></div>
           <div class="marquee-logo-card"><img src="{{ asset('logos/Socomec.png') }}" alt="Socomec" loading="lazy"></div>
           <div class="marquee-logo-card"><img src="{{ asset('logos/Autonics.webp') }}" alt="Autonics" loading="lazy"></div>
@@ -1538,7 +1537,6 @@
           <div class="marquee-logo-card"><img src="{{ asset('logos/1.png') }}" alt="Schneider Electric Authorized Dealer" loading="lazy"></div>
           <div class="marquee-logo-card"><img src="{{ asset('logos/2.png') }}" alt="GAE Authorized Dealer" loading="lazy"></div>
           <div class="marquee-logo-card"><img src="{{ asset('logos/vinsa.png') }}" alt="VINSA France" loading="lazy"></div>
-          <div class="marquee-logo-card"><img src="{{ asset('logos/DV.webp') }}" alt="DV Electrical Products" loading="lazy"></div>
           <div class="marquee-logo-card"><img src="{{ asset('logos/Legrand.webp') }}" alt="Legrand" loading="lazy"></div>
           <div class="marquee-logo-card"><img src="{{ asset('logos/Socomec.png') }}" alt="Socomec" loading="lazy"></div>
           <div class="marquee-logo-card"><img src="{{ asset('logos/Autonics.webp') }}" alt="Autonics" loading="lazy"></div>
