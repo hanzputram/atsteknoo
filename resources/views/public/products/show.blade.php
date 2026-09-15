@@ -28,9 +28,9 @@
         $pageTitle = preg_replace('/\s+/', ' ', trim($pageTitle));
     }
 
-    // Clean plain text description preserving symbols (<, >, &, etc.)
+    // Clean plain text description preserving symbols (<, >, &, etc.) without tag truncation
     $rawDesc = $product->meta_description ?: ($product->short_description ?: ('Spesifikasi teknis ' . $h1Heading . ' dari distributor resmi PT. Anugerah Tama Sejati di Surabaya.'));
-    $cleanDesc = trim(preg_replace('/\s+/', ' ', strip_tags($rawDesc)));
+    $cleanDesc = \App\Support\TextSanitizer::cleanDescription($rawDesc);
 
     // Prepare JSON-LD Product schema (Strictly NO offers block per audit guidelines)
     $breadcrumbItems = [

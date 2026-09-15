@@ -21,7 +21,7 @@
     }
 
     $rawDesc = $brand->meta_description ?: ('Katalog resmi dan spesifikasi teknis komponen elektrikal industri ' . $brand->name . ' dari distributor resmi PT. Anugerah Tama Sejati di Surabaya.');
-    $cleanDesc = trim(preg_replace('/\s+/', ' ', strip_tags($rawDesc)));
+    $cleanDesc = \App\Support\TextSanitizer::cleanDescription($rawDesc);
 
     $brandSchema = [
         '@context' => 'https://schema.org',

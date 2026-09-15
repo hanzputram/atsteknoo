@@ -6,7 +6,7 @@
     $categoryTitle = trim($categoryTitle) . ' | ATS Tekno';
 
     $rawDesc = $category->meta_description ?: ($category->description ?: ('Lihat katalog produk ' . $category->name . ' dari distributor resmi PT. Anugerah Tama Sejati Surabaya.'));
-    $cleanDesc = trim(preg_replace('/\s+/', ' ', strip_tags($rawDesc)));
+    $cleanDesc = \App\Support\TextSanitizer::cleanDescription($rawDesc);
 
     $categorySchema = [
         '@context' => 'https://schema.org',

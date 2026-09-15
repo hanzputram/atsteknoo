@@ -6,7 +6,7 @@
     $articleTitle = trim($articleTitle) . ' | ATS Tekno';
 
     $rawDesc = $article->meta_description ?: ($article->excerpt ?: ('Artikel panduan kelistrikan: ' . $article->title . ' dari PT. Anugerah Tama Sejati Surabaya.'));
-    $cleanDesc = trim(preg_replace('/\s+/', ' ', strip_tags($rawDesc)));
+    $cleanDesc = \App\Support\TextSanitizer::cleanDescription($rawDesc);
 
     $articleSchema = [
         '@context' => 'https://schema.org',
