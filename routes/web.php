@@ -66,7 +66,35 @@ Route::get('/css/{file}', function ($file) {
     abort(404);
 })->where('file', '.*');
 
+Route::get('/public/css/{file}', function ($file) {
+    $path = public_path('css/' . $file);
+    if (!file_exists($path) && file_exists(base_path('css/' . $file))) {
+        $path = base_path('css/' . $file);
+    }
+    if (file_exists($path)) {
+        return response()->file($path, [
+            'Content-Type' => 'text/css; charset=utf-8',
+            'Cache-Control' => 'public, max-age=31536000'
+        ]);
+    }
+    abort(404);
+})->where('file', '.*');
+
 Route::get('/js/{file}', function ($file) {
+    $path = public_path('js/' . $file);
+    if (!file_exists($path) && file_exists(base_path('js/' . $file))) {
+        $path = base_path('js/' . $file);
+    }
+    if (file_exists($path)) {
+        return response()->file($path, [
+            'Content-Type' => 'application/javascript; charset=utf-8',
+            'Cache-Control' => 'public, max-age=31536000'
+        ]);
+    }
+    abort(404);
+})->where('file', '.*');
+
+Route::get('/public/js/{file}', function ($file) {
     $path = public_path('js/' . $file);
     if (!file_exists($path) && file_exists(base_path('js/' . $file))) {
         $path = base_path('js/' . $file);

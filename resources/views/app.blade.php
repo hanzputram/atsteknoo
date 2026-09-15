@@ -140,8 +140,9 @@
   <!-- Swiper CSS CDN -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
-  <!-- ATS Smooth Scroll & Framer Text Reveal Styles -->
+  <!-- ATS Smooth Scroll & Framer Text Reveal Styles (Dual-path delivery for localhost & shared hosting) -->
   <link rel="stylesheet" href="{{ asset('css/ats-scroll-effects.css') }}?v={{ filemtime(public_path('css/ats-scroll-effects.css')) }}">
+  <link rel="stylesheet" href="{{ url('/public/css/ats-scroll-effects.css') }}?v={{ filemtime(public_path('css/ats-scroll-effects.css')) }}">
 
   <style>
     :root {
@@ -2393,9 +2394,10 @@
   <!-- Floating Live Chat & Windows Desktop Notification -->
   @include('components.floating-live-chat')
 
-  <!-- Lenis Smooth Scroll & Framer Text Reveal On Scroll Engine -->
-  <script src="{{ asset('js/lenis.min.js') }}?v={{ filemtime(public_path('js/lenis.min.js')) }}"></script>
-  <script src="{{ asset('js/ats-scroll-effects.js') }}?v={{ filemtime(public_path('js/ats-scroll-effects.js')) }}"></script>
+  <!-- Lenis Smooth Scroll & Framer Text Reveal On Scroll Engine (Resilient Dual-Path Delivery) -->
+  <script src="{{ asset('js/ats-scroll-effects.js') }}?v={{ filemtime(public_path('js/ats-scroll-effects.js')) }}"
+          onerror="if(!this.dataset.fallback){this.dataset.fallback='1';this.src='{{ url('/public/js/ats-scroll-effects.js') }}?v={{ filemtime(public_path('js/ats-scroll-effects.js')) }}';}">
+  </script>
 </body>
 
 </html>
