@@ -323,7 +323,7 @@
     }
   };
 
-  // 2. Retrieve Current Language (Default to 'en')
+  // 2. Retrieve Current Language (Default to 'id')
   window.atsGetLanguage = function() {
     try {
       const stored = localStorage.getItem('ats_lang');
@@ -334,7 +334,7 @@
     const match = document.cookie.match(/(?:^|;\s*)ats_lang=([^;]+)/);
     if (match && (match[1] === 'id' || match[1] === 'en')) return match[1];
 
-    return 'en'; // Primary language is English
+    return 'id'; // Default language is Indonesian
   };
 
   // Safe translation execution flag to prevent any infinite loops
@@ -342,7 +342,7 @@
 
   // 3. Set Language and Apply to Entire Page
   window.atsSetLanguage = function(lang) {
-    if (lang !== 'en' && lang !== 'id') lang = 'en';
+    if (lang !== 'en' && lang !== 'id') lang = 'id';
 
     // Store in localStorage & Cookie
     try {
@@ -373,7 +373,7 @@
     isUpdating = true;
 
     try {
-      const dict = window.ATS_DICTIONARY[lang] || window.ATS_DICTIONARY.en;
+      const dict = window.ATS_DICTIONARY[lang] || window.ATS_DICTIONARY.id;
 
       // A. Elements with data-i18n="key"
       document.querySelectorAll('[data-i18n]').forEach(el => {
@@ -437,7 +437,7 @@
   // 6. Public Helper to query a translated string
   window.atsT = function(key, fallback) {
     const lang = window.atsGetLanguage();
-    const dict = window.ATS_DICTIONARY[lang] || window.ATS_DICTIONARY.en;
+    const dict = window.ATS_DICTIONARY[lang] || window.ATS_DICTIONARY.id;
     return dict[key] || fallback || key;
   };
 

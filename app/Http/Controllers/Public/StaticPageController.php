@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Brand;
 use App\Models\Certificate;
 use App\Models\Page;
+use App\Models\Project;
 use App\Models\SiteSetting;
 
 class StaticPageController extends Controller
@@ -64,5 +65,18 @@ class StaticPageController extends Controller
         $settings = SiteSetting::all()->pluck('value', 'key');
 
         return view('public.about', compact('page', 'brands', 'customers', 'certificates', 'settings'));
+    }
+
+    /**
+     * Display the Jasa Pembuatan Panel Listrik (Switchboard Panel Builder) service landing page.
+     */
+    public function panelMaker()
+    {
+        $projects = Project::published()->with(['coverImage', 'category'])->latest()->take(6)->get();
+        $certificates = Certificate::active()->orderBy('sort_order')->get();
+        $brands = Brand::active()->orderBy('sort_order')->get();
+        $settings = SiteSetting::all()->pluck('value', 'key');
+
+        return view('public.panel-maker', compact('projects', 'certificates', 'brands', 'settings'));
     }
 }

@@ -1,66 +1,80 @@
 @extends('layouts.app')
 
-@section('title', ($article->meta_title ?: $article->title) . ' - PT. Anugerah Tama Sejati')
-@section('meta_description', $article->meta_description ?: ($article->excerpt ?: ('Artikel panduan kelistrikan: ' . $article->title . ' dari PT. Anugerah Tama Sejati Surabaya.')))
+@php
+    $rawTitle = $article->meta_title ?: $article->title;
+    $articleTitle = preg_replace('/\s*[-|]\s*(PT\.?\s*Anugerah\s*Tama\s*Sejati|ATS\s*Tekno).*$/i', '', $rawTitle);
+    $articleTitle = trim($articleTitle) . ' | ATS Tekno';
+
+    $rawDesc = $article->meta_description ?: ($article->excerpt ?: ('Artikel panduan kelistrikan: ' . $article->title . ' dari PT. Anugerah Tama Sejati Surabaya.'));
+    $cleanDesc = trim(preg_replace('/\s+/', ' ', strip_tags($rawDesc)));
+
+    $articleSchema = [
+        '@context' => 'https://schema.org',
+        '@graph' => [
+            [
+                '@type' => 'BreadcrumbList',
+                'itemListElement' => [
+                    [
+                        '@type' => 'ListItem',
+                        'position' => 1,
+                        'name' => 'Home',
+                        'item' => route('home'),
+                    ],
+                    [
+                        '@type' => 'ListItem',
+                        'position' => 2,
+                        'name' => 'Articles',
+                        'item' => route('articles.index'),
+                    ],
+                    [
+                        '@type' => 'ListItem',
+                        'position' => 3,
+                        'name' => $article->title,
+                        'item' => route('articles.show', $article->slug),
+                    ]
+                ]
+            ],
+            array_filter([
+                '@type' => 'Article',
+                'headline' => $article->title,
+                'description' => $cleanDesc,
+                'image' => $article->featured_image_url ?: null,
+                'datePublished' => optional($article->published_at)->toIso8601String() ?: optional($article->created_at)->toIso8601String(),
+                'dateModified' => optional($article->updated_at)->toIso8601String(),
+                'author' => [
+                    '@type' => 'Organization',
+                    'name' => 'PT. Anugerah Tama Sejati',
+                    'url' => url('/'),
+                ],
+                'publisher' => [
+                    '@type' => 'Organization',
+                    'name' => 'PT. Anugerah Tama Sejati',
+                    'logo' => [
+                        '@type' => 'ImageObject',
+                        'url' => asset('images/ats-logo.png'),
+                    ]
+                ],
+                'mainEntityOfPage' => [
+                    '@type' => 'WebPage',
+                    '@id' => route('articles.show', $article->slug),
+                ]
+            ])
+        ]
+    ];
+
+    $articleSchemaJson = json_encode(
+        $articleSchema,
+        JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_THROW_ON_ERROR
+    );
+@endphp
+
+@section('title', $articleTitle)
+@section('meta_description', $cleanDesc)
 @section('canonical', route('articles.show', $article->slug))
 
 @push('schema')
 <script type="application/ld+json">
-{
-  "@@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "BreadcrumbList",
-      "itemListElement": [
-        {
-          "@type": "ListItem",
-          "position": 1,
-          "name": "Home",
-          "item": "{{ route('home') }}"
-        },
-        {
-          "@type": "ListItem",
-          "position": 2,
-          "name": "Articles",
-          "item": "{{ route('articles.index') }}"
-        },
-        {
-          "@type": "ListItem",
-          "position": 3,
-          "name": "{{ $article->title }}",
-          "item": "{{ route('articles.show', $article->slug) }}"
-        }
-      ]
-    },
-    {
-      "@type": "Article",
-      "headline": "{!! str_replace(["\r\n", "\r", "\n", '"'], [' ', ' ', ' ', '\\"'], e(strip_tags($article->title))) !!}",
-      "description": "{!! str_replace(["\r\n", "\r", "\n", '"'], [' ', ' ', ' ', '\\"'], e(strip_tags($article->meta_description ?: ($article->excerpt ?: $article->title)))) !!}",
-      @if($article->featured_image_url)
-      "image": "{{ $article->featured_image_url }}",
-      @endif
-      "datePublished": "{{ optional($article->published_at)->toIso8601String() ?: optional($article->created_at)->toIso8601String() }}",
-      "dateModified": "{{ optional($article->updated_at)->toIso8601String() }}",
-      "author": {
-        "@type": "Organization",
-        "name": "PT. Anugerah Tama Sejati",
-        "url": "{{ url('/') }}"
-      },
-      "publisher": {
-        "@type": "Organization",
-        "name": "PT. Anugerah Tama Sejati",
-        "logo": {
-          "@type": "ImageObject",
-          "url": "{{ asset('images/ats-logo.png') }}"
-        }
-      },
-      "mainEntityOfPage": {
-        "@type": "WebPage",
-        "@id": "{{ route('articles.show', $article->slug) }}"
-      }
-    }
-  ]
-}
+{!! $articleSchemaJson !!}
 </script>
 @endpush
 

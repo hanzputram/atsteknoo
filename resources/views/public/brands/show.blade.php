@@ -1,48 +1,77 @@
 @extends('layouts.app')
 
-@section('title', $brand->meta_title ?: ($brand->name . ' - Official Distributor PT. Anugerah Tama Sejati'))
-@section('meta_description', $brand->meta_description ?: ('Katalog resmi dan spesifikasi teknis komponen elektrikal industri ' . $brand->name . ' dari distributor resmi PT. Anugerah Tama Sejati.'))
+@php
+    $isSchneider = ($brand->slug === 'schneider-electric' || $brand->slug === 'schneider');
+
+    // Page Title
+    if ($isSchneider) {
+        $brandTitle = 'Supplier Schneider Electric Surabaya | ATS Tekno';
+    } elseif ($brand->meta_title) {
+        $brandTitle = preg_replace('/\s*\|\s*(PT\.?\s*Anugerah\s*Tama\s*Sejati|ATS\s*Tekno).*$/i', '', $brand->meta_title);
+        $brandTitle = trim($brandTitle) . ' | ATS Tekno';
+    } else {
+        $brandTitle = "Supplier {$brand->name} Surabaya | ATS Tekno";
+    }
+
+    // H1 Heading
+    if ($isSchneider) {
+        $brandH1 = 'Supplier Schneider Electric di Surabaya';
+    } else {
+        $brandH1 = "Supplier {$brand->name} di Surabaya";
+    }
+
+    $rawDesc = $brand->meta_description ?: ('Katalog resmi dan spesifikasi teknis komponen elektrikal industri ' . $brand->name . ' dari distributor resmi PT. Anugerah Tama Sejati di Surabaya.');
+    $cleanDesc = trim(preg_replace('/\s+/', ' ', strip_tags($rawDesc)));
+
+    $brandSchema = [
+        '@context' => 'https://schema.org',
+        '@graph' => [
+            [
+                '@type' => 'BreadcrumbList',
+                'itemListElement' => [
+                    [
+                        '@type' => 'ListItem',
+                        'position' => 1,
+                        'name' => 'Home',
+                        'item' => route('home'),
+                    ],
+                    [
+                        '@type' => 'ListItem',
+                        'position' => 2,
+                        'name' => 'Price List & Catalogs',
+                        'item' => route('price-list.index'),
+                    ],
+                    [
+                        '@type' => 'ListItem',
+                        'position' => 3,
+                        'name' => $brand->name,
+                        'item' => route('brands.show', $brand->slug),
+                    ]
+                ]
+            ],
+            array_filter([
+                '@type' => 'Brand',
+                'name' => $brand->name,
+                'url' => route('brands.show', $brand->slug),
+                'logo' => $brand->logo_url ?: null,
+                'description' => $cleanDesc,
+            ])
+        ]
+    ];
+
+    $brandSchemaJson = json_encode(
+        $brandSchema,
+        JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_THROW_ON_ERROR
+    );
+@endphp
+
+@section('title', $brandTitle)
+@section('meta_description', $cleanDesc)
 @section('canonical', route('brands.show', $brand->slug))
 
 @push('schema')
 <script type="application/ld+json">
-{
-  "@@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "BreadcrumbList",
-      "itemListElement": [
-        {
-          "@type": "ListItem",
-          "position": 1,
-          "name": "Home",
-          "item": "{{ route('home') }}"
-        },
-        {
-          "@type": "ListItem",
-          "position": 2,
-          "name": "Price List & Catalogs",
-          "item": "{{ route('price-list.index') }}"
-        },
-        {
-          "@type": "ListItem",
-          "position": 3,
-          "name": "{{ $brand->name }}",
-          "item": "{{ route('brands.show', $brand->slug) }}"
-        }
-      ]
-    },
-    {
-      "@type": "Brand",
-      "name": "{{ $brand->name }}",
-      "url": "{{ route('brands.show', $brand->slug) }}",
-      @if($brand->logo_url)
-      "logo": "{{ $brand->logo_url }}",
-      @endif
-      "description": "{!! str_replace(["\r\n", "\r", "\n", '"'], [' ', ' ', ' ', '\\"'], e(strip_tags($brand->meta_description ?: 'Official products by ' . $brand->name))) !!}"
-    }
-  ]
-}
+{!! $brandSchemaJson !!}
 </script>
 @endpush
 
@@ -72,7 +101,7 @@
                 @endif
                 <div>
                     <div class="flex items-center gap-2.5 flex-wrap">
-                        <h1 class="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">{{ $brand->name }}</h1>
+                        <h1 class="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">{{ $brandH1 }}</h1>
                         <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider bg-rose-50 text-rose-600 border border-rose-200">
                             <span class="ats-lang-en">Authorized Partner</span>
                             <span class="ats-lang-id">Mitra Resmi</span>

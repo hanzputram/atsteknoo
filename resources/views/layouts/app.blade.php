@@ -33,18 +33,17 @@
   <meta property="og:site_name" content="PT. Anugerah Tama Sejati">
   <meta property="og:locale" content="id_ID">
 
-  <!-- Schema.org JSON-LD LocalBusiness -->
+  <!-- Schema.org JSON-LD LocalBusiness & Organization -->
   <script type="application/ld+json">
   {
     "@@context": "https://schema.org",
-    "@type": ["LocalBusiness", "ElectricalSupplyStore", "WholesaleStore"],
+    "@type": ["LocalBusiness", "WholesaleStore"],
+    "@id": "{{ url('/#organization') }}",
     "name": "PT. Anugerah Tama Sejati",
     "alternateName": [
-      "Distributor Schneider Surabaya",
-      "Distributor Schneider Electric Surabaya",
-      "Supplier Elektrikal Surabaya",
+      "ATS Tekno",
       "PT ATS",
-      "ATS Tekno"
+      "PT Anugerah Tama Sejati"
     ],
     "description": "Authorized industrial electrical distributor and certified switchboard panel maker in Surabaya, East Java, Indonesia. Official partner of Schneider Electric, Legrand, GAE Group, Socomec, Autonics, and Himel.",
     "url": "{{ url('/') }}",
@@ -499,6 +498,7 @@
         <nav class="hidden lg:flex items-center gap-1">
           <a href="{{ route('home') }}" class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}" data-i18n="nav.home">HOME</a>
           <a href="{{ route('about.index') }}" class="nav-link {{ request()->routeIs('about.*') ? 'active' : '' }}" data-i18n="nav.about">ABOUT US</a>
+          <a href="{{ route('services.panel') }}" class="nav-link {{ request()->routeIs('services.panel') ? 'active' : '' }}"><span class="ats-lang-en">PANEL BUILDER</span><span class="ats-lang-id">JASA PANEL</span></a>
           <a href="{{ route('products.index') }}" class="nav-link {{ request()->routeIs('products.*') ? 'active' : '' }}" data-i18n="nav.products">PRODUCTS</a>
           <a href="{{ route('price-list.index') }}" class="nav-link {{ request()->routeIs('price-list.*') || request()->routeIs('brands.*') ? 'active' : '' }}" data-i18n="nav.price_list">PRICE LIST</a>
           <a href="{{ route('projects.index') }}" class="nav-link {{ request()->routeIs('projects.*') ? 'active' : '' }}" data-i18n="nav.projects">PROJECTS</a>
@@ -523,6 +523,7 @@
     <div id="mobileMenu" class="hidden lg:hidden border-t border-slate-200 bg-white/95 backdrop-blur-md px-4 pt-3 pb-5 space-y-1">
       <a href="{{ route('home') }}" class="block px-3 py-2 rounded-xl text-sm font-bold {{ request()->routeIs('home') ? 'bg-rose-50 text-rose-600' : 'text-slate-700 hover:bg-slate-50' }}" data-i18n="nav.home">HOME</a>
       <a href="{{ route('about.index') }}" class="block px-3 py-2 rounded-xl text-sm font-bold {{ request()->routeIs('about.*') ? 'bg-rose-50 text-rose-600' : 'text-slate-700 hover:bg-slate-50' }}" data-i18n="nav.about">ABOUT US</a>
+      <a href="{{ route('services.panel') }}" class="block px-3 py-2 rounded-xl text-sm font-bold {{ request()->routeIs('services.panel') ? 'bg-rose-50 text-rose-600' : 'text-slate-700 hover:bg-slate-50' }}"><span class="ats-lang-en">PANEL BUILDER</span><span class="ats-lang-id">JASA PANEL LISTRIK</span></a>
       <a href="{{ route('products.index') }}" class="block px-3 py-2 rounded-xl text-sm font-bold {{ request()->routeIs('products.*') ? 'bg-rose-50 text-rose-600' : 'text-slate-700 hover:bg-slate-50' }}" data-i18n="nav.products">PRODUCTS</a>
       <a href="{{ route('price-list.index') }}" class="block px-3 py-2 rounded-xl text-sm font-bold {{ request()->routeIs('price-list.*') || request()->routeIs('brands.*') ? 'bg-rose-50 text-rose-600' : 'text-slate-700 hover:bg-slate-50' }}" data-i18n="nav.price_list">PRICE LIST</a>
       <a href="{{ route('projects.index') }}" class="block px-3 py-2 rounded-xl text-sm font-bold {{ request()->routeIs('projects.*') ? 'bg-rose-50 text-rose-600' : 'text-slate-700 hover:bg-slate-50' }}" data-i18n="nav.projects">PROJECTS</a>

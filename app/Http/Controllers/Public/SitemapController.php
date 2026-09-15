@@ -19,15 +19,24 @@ class SitemapController extends Controller
     {
         $baseUrl = url('/');
 
+        $viewLastMod = function (string $viewFile): string {
+            $path = resource_path('views/' . $viewFile);
+            if (file_exists($path)) {
+                return date('c', filemtime($path));
+            }
+            return '2026-09-15T00:00:00+07:00';
+        };
+
         $staticPages = [
-            ['loc' => url('/'), 'priority' => '1.0', 'changefreq' => 'daily', 'lastmod' => now()->toAtomString()],
-            ['loc' => route('products.index'), 'priority' => '0.9', 'changefreq' => 'daily', 'lastmod' => now()->toAtomString()],
-            ['loc' => route('price-list.index'), 'priority' => '0.9', 'changefreq' => 'weekly', 'lastmod' => now()->toAtomString()],
-            ['loc' => route('projects.index'), 'priority' => '0.9', 'changefreq' => 'weekly', 'lastmod' => now()->toAtomString()],
-            ['loc' => route('articles.index'), 'priority' => '0.9', 'changefreq' => 'daily', 'lastmod' => now()->toAtomString()],
-            ['loc' => route('about.index'), 'priority' => '0.8', 'changefreq' => 'monthly', 'lastmod' => now()->toAtomString()],
-            ['loc' => route('contact.index'), 'priority' => '0.8', 'changefreq' => 'monthly', 'lastmod' => now()->toAtomString()],
-            ['loc' => route('promo.index'), 'priority' => '0.9', 'changefreq' => 'weekly', 'lastmod' => now()->toAtomString()],
+            ['loc' => url('/'), 'priority' => '1.0', 'changefreq' => 'daily', 'lastmod' => $viewLastMod('app.blade.php')],
+            ['loc' => route('services.panel'), 'priority' => '1.0', 'changefreq' => 'weekly', 'lastmod' => $viewLastMod('public/panel-maker.blade.php')],
+            ['loc' => route('products.index'), 'priority' => '0.9', 'changefreq' => 'daily', 'lastmod' => $viewLastMod('public/products/index.blade.php')],
+            ['loc' => route('price-list.index'), 'priority' => '0.9', 'changefreq' => 'weekly', 'lastmod' => $viewLastMod('public/price-list/index.blade.php')],
+            ['loc' => route('projects.index'), 'priority' => '0.9', 'changefreq' => 'weekly', 'lastmod' => $viewLastMod('public/projects/index.blade.php')],
+            ['loc' => route('articles.index'), 'priority' => '0.9', 'changefreq' => 'daily', 'lastmod' => $viewLastMod('public/articles/index.blade.php')],
+            ['loc' => route('about.index'), 'priority' => '0.8', 'changefreq' => 'monthly', 'lastmod' => $viewLastMod('public/about.blade.php')],
+            ['loc' => route('contact.index'), 'priority' => '0.8', 'changefreq' => 'monthly', 'lastmod' => $viewLastMod('public/contact.blade.php')],
+            ['loc' => route('promo.index'), 'priority' => '0.9', 'changefreq' => 'weekly', 'lastmod' => $viewLastMod('public/promo.blade.php')],
         ];
 
         $products = Product::published()

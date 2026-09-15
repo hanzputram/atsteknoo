@@ -1,35 +1,51 @@
 @extends('layouts.app')
 
-@section('title', $category->meta_title ?: ($category->name . ' - Kategori Produk PT. Anugerah Tama Sejati'))
-@section('meta_description', $category->meta_description ?: ($category->description ?: 'Lihat katalog produk ' . $category->name . ' dari distributor resmi PT. Anugerah Tama Sejati.'))
+@php
+    $rawTitle = $category->meta_title ?: ($category->name . ' - Kategori Produk');
+    $categoryTitle = preg_replace('/\s*[-|]\s*(PT\.?\s*Anugerah\s*Tama\s*Sejati|ATS\s*Tekno).*$/i', '', $rawTitle);
+    $categoryTitle = trim($categoryTitle) . ' | ATS Tekno';
+
+    $rawDesc = $category->meta_description ?: ($category->description ?: ('Lihat katalog produk ' . $category->name . ' dari distributor resmi PT. Anugerah Tama Sejati Surabaya.'));
+    $cleanDesc = trim(preg_replace('/\s+/', ' ', strip_tags($rawDesc)));
+
+    $categorySchema = [
+        '@context' => 'https://schema.org',
+        '@type' => 'BreadcrumbList',
+        'itemListElement' => [
+            [
+                '@type' => 'ListItem',
+                'position' => 1,
+                'name' => 'Home',
+                'item' => route('home'),
+            ],
+            [
+                '@type' => 'ListItem',
+                'position' => 2,
+                'name' => 'Product Catalog',
+                'item' => route('products.index'),
+            ],
+            [
+                '@type' => 'ListItem',
+                'position' => 3,
+                'name' => $category->name,
+                'item' => route('product-categories.show', $category->slug),
+            ]
+        ]
+    ];
+
+    $categorySchemaJson = json_encode(
+        $categorySchema,
+        JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_THROW_ON_ERROR
+    );
+@endphp
+
+@section('title', $categoryTitle)
+@section('meta_description', $cleanDesc)
 @section('canonical', route('product-categories.show', $category->slug))
 
 @push('schema')
 <script type="application/ld+json">
-{
-  "@@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position": 1,
-      "name": "Home",
-      "item": "{{ route('home') }}"
-    },
-    {
-      "@type": "ListItem",
-      "position": 2,
-      "name": "Product Catalog",
-      "item": "{{ route('products.index') }}"
-    },
-    {
-      "@type": "ListItem",
-      "position": 3,
-      "name": "{{ $category->name }}",
-      "item": "{{ route('product-categories.show', $category->slug) }}"
-    }
-  ]
-}
+{!! $categorySchemaJson !!}
 </script>
 @endpush
 

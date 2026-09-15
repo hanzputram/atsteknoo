@@ -77,8 +77,11 @@ Route::get('/articles/{slug}', [BlogArticleController::class, 'show'])->name('ar
 
 // Static Pages & Contact
 Route::get('/about-us', [StaticPageController::class, 'about'])->name('about.index');
+Route::get('/jasa-pembuatan-panel-listrik', [StaticPageController::class, 'panelMaker'])->name('services.panel');
 Route::get('/contact', [PublicContactController::class, 'index'])->name('contact.index');
-Route::get('/contact-us', [PublicContactController::class, 'index'])->name('contact.us');
+Route::get('/contact-us', function () {
+    return redirect()->route('contact.index', [], 301);
+})->name('contact.us');
 Route::post('/contact', [PublicContactController::class, 'submit'])->name('contact.submit');
 Route::post('/contact-us', [PublicContactController::class, 'submit'])->name('contact.us.submit');
 
@@ -188,6 +191,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
 require __DIR__.'/settings.php';
 
 // SEO Preservation: 301 Permanent Redirects for Legacy WordPress URLs (Never Lose Rank)
+Route::get('/product/{slug}', [\App\Http\Controllers\Public\LegacyRedirectController::class, 'handleProduct'])
+    ->where('slug', '.*')
+    ->name('legacy.product');
+Route::get('/product-category/{slug}', [\App\Http\Controllers\Public\LegacyRedirectController::class, 'handleCategory'])
+    ->where('slug', '.*')
+    ->name('legacy.category');
+
 // Catch-all route placed at the end so it does not intercept defined routes (e.g. /backoffice)
 Route::get('/{slug}', [\App\Http\Controllers\Public\LegacyRedirectController::class, 'handle'])
     ->where('slug', '[a-zA-Z0-9\-_]+')

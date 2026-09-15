@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Distributor Schneider Electric Surabaya Resmi & Supplier Elektrikal - PT. Anugerah Tama Sejati</title>
+  <title>Supplier Electrical &amp; Panel Listrik Surabaya | ATS Tekno</title>
   <meta name="description"
-    content="Distributor resmi Schneider Electric di Surabaya & Jawa Timur. Supplier terlengkap MCB, MCCB, ACB MasterPact, Kontaktor TeSys, Inverter Altivar, dan perakitan panel LVMDP/MCC bersertifikat. Hubungi PT. Anugerah Tama Sejati.">
+    content="ATS Tekno menyediakan komponen elektrikal dan jasa pembuatan panel listrik di Surabaya. Lihat katalog produk dan konsultasikan kebutuhan proyek Anda.">
   <meta name="keywords"
-    content="distributor schneider surabaya, distributor resmi schneider electric, supplier schneider surabaya, jual mcb schneider surabaya, inverter altivar schneider, kontaktor tesys, panel maker surabaya, pt anugerah tama sejati">
+    content="supplier electrical surabaya, jasa pembuatan panel listrik surabaya, distributor schneider surabaya, panel maker surabaya, pt anugerah tama sejati">
 
   <!-- Official ATS Brand Favicon -->
   <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
@@ -32,8 +32,8 @@
   <link rel="alternate" hreflang="id" href="{{ url('/') }}">
   <link rel="alternate" hreflang="x-default" href="{{ url('/') }}">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Distributor Schneider Electric Surabaya Resmi - PT. Anugerah Tama Sejati">
-  <meta property="og:description" content="Distributor resmi Schneider Electric di Surabaya & Jawa Timur. Ready stock MCB, MCCB, ACB, Kontaktor, Inverter, dan fabrikasi panel listrik bersertifikat.">
+  <meta property="og:title" content="Supplier Electrical &amp; Panel Listrik Surabaya | ATS Tekno">
+  <meta property="og:description" content="ATS Tekno menyediakan komponen elektrikal dan jasa pembuatan panel listrik di Surabaya. Lihat katalog produk dan konsultasikan kebutuhan proyek Anda.">
   <meta property="og:url" content="{{ url('/') }}">
   <meta property="og:site_name" content="PT. Anugerah Tama Sejati">
   <meta property="og:locale" content="id_ID">
@@ -41,23 +41,22 @@
 
   <!-- Twitter Card SEO -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Distributor Schneider Electric Surabaya Resmi - PT. Anugerah Tama Sejati">
-  <meta name="twitter:description" content="Distributor resmi Schneider Electric di Surabaya & Jawa Timur. MCB, MCCB, ACB, Kontaktor, Inverter, dan panel maker bersertifikat.">
+  <meta name="twitter:title" content="Supplier Electrical &amp; Panel Listrik Surabaya | ATS Tekno">
+  <meta name="twitter:description" content="ATS Tekno menyediakan komponen elektrikal dan jasa pembuatan panel listrik di Surabaya. Lihat katalog produk dan konsultasikan kebutuhan proyek Anda.">
 
-  <!-- Schema.org JSON-LD: LocalBusiness & ElectricalSupplyStore for Google & AI -->
+  <!-- Schema.org JSON-LD: LocalBusiness & Organization for Google & AI -->
   <script type="application/ld+json">
   {
     "@@context": "https://schema.org",
-    "@type": ["LocalBusiness", "ElectricalSupplyStore", "WholesaleStore"],
+    "@type": ["LocalBusiness", "WholesaleStore"],
+    "@id": "{{ url('/#organization') }}",
     "name": "PT. Anugerah Tama Sejati",
     "alternateName": [
-      "Distributor Schneider Surabaya",
-      "Distributor Resmi Schneider Electric Surabaya",
-      "Supplier Elektrikal Surabaya",
+      "ATS Tekno",
       "PT ATS",
-      "ATS Tekno"
+      "PT Anugerah Tama Sejati"
     ],
-    "description": "Authorized industrial electrical distributor and certified switchboard panel maker in Surabaya, East Java, Indonesia. Official partner of Schneider Electric, Legrand, GAE Group, Socomec, Autonics, and Himel.",
+    "description": "ATS Tekno menyediakan komponen elektrikal dan jasa pembuatan panel listrik di Surabaya. Distributor resmi Schneider Electric, Legrand, GAE Group, Socomec, Autonics, dan Himel.",
     "url": "{{ url('/') }}",
     "telephone": "+62-31-59178887",
     "email": "sales@atstekno.com",
@@ -1745,6 +1744,8 @@
             <ul class="nav-menu">
               <li class="nav-item active"><a href="{{ route('home') }}" data-i18n="nav.home">HOME</a></li>
               <li class="nav-item"><a href="{{ route('about.index') }}" data-i18n="nav.about">ABOUT US</a></li>
+              <li class="nav-item"><a href="{{ route('services.panel') }}"><span class="ats-lang-en">PANEL BUILDER</span><span class="ats-lang-id">JASA PANEL</span></a></li>
+              <li class="nav-item"><a href="{{ route('products.index') }}" data-i18n="nav.products">PRODUCTS</a></li>
               <li class="nav-item"><a href="{{ route('price-list.index') }}" data-i18n="nav.price_list">PRICE LIST</a></li>
               <li class="nav-item"><a href="{{ route('articles.index') }}" data-i18n="nav.article">ARTICLE</a></li>
               <li class="nav-item"><a href="{{ route('contact.index') }}" data-i18n="nav.contact">CONTACT US</a></li>
@@ -1773,29 +1774,28 @@
           <!-- Left Text Column -->
           <div class="hero-left-column">
             <h1 class="hero-headline">
-              <span data-i18n="hero.headline_pre">Discover Your</span><br>
-              <span class="text-gradient-accent" data-i18n="hero.headline_highlight">Best Electrical</span> <span data-i18n="hero.headline_post">Supplier</span>
+              Supplier Electrical dan Jasa Panel Listrik di Surabaya
             </h1>
 
-            <p class="hero-subheadline" data-i18n="hero.subheadline">
-              Your trusted one-stop supplier for all electrical and wiring components.
+            <p class="hero-subheadline">
+              PT. Anugerah Tama Sejati membantu kebutuhan pengadaan komponen elektrikal dan pembuatan panel listrik untuk industri, kontraktor, serta bisnis. Temukan produk sesuai kode dan spesifikasi, atau konsultasikan kebutuhan panel Anda bersama tim ATS Tekno di Surabaya.
             </p>
 
-            <!-- Action Buttons: Product List & Contact Us -->
+            <!-- Action Buttons: Lihat Katalog Produk & Konsultasi Panel Listrik -->
             <div class="hero-cta-group">
-              <a href="{{ url('/products') }}" class="btn-cta-white" id="btnProductList">
-                <span data-i18n="hero.btn_product_list">Product List</span>
+              <a href="{{ route('products.index') }}" class="btn-cta-white" id="btnProductList">
+                <span>Lihat Katalog Produk</span>
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                   <line x1="5" y1="12" x2="19" y2="12"></line>
                   <polyline points="12 5 19 12 12 19"></polyline>
                 </svg>
               </a>
 
-              <a href="{{ url('/contact-us') }}" class="btn-cta-dark" id="btnContactUs">
+              <a href="{{ route('services.panel') }}" class="btn-cta-dark" id="btnPanelService">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
                 </svg>
-                <span data-i18n="hero.btn_contact_us">Contact Us</span>
+                <span>Konsultasi Panel Listrik</span>
               </a>
             </div>
           </div>
@@ -2138,6 +2138,14 @@
         <span data-i18n="nav.about">ABOUT US</span>
         <span class="drawer-arrow">&rarr;</span>
       </a>
+      <a href="{{ route('services.panel') }}" class="drawer-link" onclick="closeMobileNav()">
+        <span><span class="ats-lang-en">PANEL BUILDER</span><span class="ats-lang-id">JASA PANEL LISTRIK</span></span>
+        <span class="drawer-arrow">&rarr;</span>
+      </a>
+      <a href="{{ route('products.index') }}" class="drawer-link" onclick="closeMobileNav()">
+        <span data-i18n="nav.products">PRODUCTS</span>
+        <span class="drawer-arrow">&rarr;</span>
+      </a>
       <a href="{{ route('price-list.index') }}" class="drawer-link" onclick="closeMobileNav()">
         <span data-i18n="nav.price_list">PRICE LIST</span>
         <span class="drawer-arrow">&rarr;</span>
@@ -2154,7 +2162,7 @@
 
     <div class="drawer-footer">
       <div class="drawer-action-buttons">
-        <a href="{{ url('/contact-us') }}" class="drawer-btn-primary" onclick="closeMobileNav();">
+        <a href="{{ route('contact.index') }}" class="drawer-btn-primary" onclick="closeMobileNav();">
           <span data-i18n="hero.btn_contact_us">Contact Us</span>
         </a>
         <a href="https://wa.me/6282223332830?text=Halo%20PT.%20Anugerah%20Tama%20Sejati,%20saya%20ingin%20konsultasi%20komponen%20listrik" target="_blank" class="drawer-btn-whatsapp">

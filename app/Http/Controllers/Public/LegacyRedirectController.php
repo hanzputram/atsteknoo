@@ -89,4 +89,74 @@ class LegacyRedirectController extends Controller
 
         abort(404);
     }
+
+    /**
+     * Handle legacy WordPress /product/{slug} URLs with strict 301 or 404.
+     */
+    public function handleProduct(Request $request, string $slug): RedirectResponse
+    {
+        $cleanSlug = strtolower(trim($slug, "/ \t\n\r\0\x0B"));
+
+        // 1. Exact match by slug in modern products table
+        $product = Product::where('slug', $cleanSlug)->first();
+        if ($product) {
+            return redirect()->route('products.show', $product->slug, 301);
+        }
+
+        // 2. Exact match by SKU (e.g. /product/DOMF01106 or /product/lc1d09bd)
+        $productBySku = Product::whereRaw('LOWER(sku) = ?', [$cleanSlug])->first();
+        if ($productBySku) {
+            return redirect()->route('products.show', $productBySku->slug, 301);
+        }
+
+        // 3. Extract tokens from legacy slug (e.g. schneider-lc1k0910m7-kontrol-ac-9a-n-o-220-vac)
+        // Check if any token matches an authoritative SKU in products
+        $tokens = preg_split('/[^a-z0-9]+/i', $cleanSlug);
+        foreach ($tokens as $token) {
+            $token = trim($token);
+            // SKUs in electrical catalog are alphanumeric and usually >= 5 chars
+            if (strlen($token) >= 5) {
+                $matched = Product::whereRaw('LOWER(sku) = ?', [strtolower($token)])->first();
+                if ($matched) {
+                    return redirect()->route('products.show', $matched->slug, 301);
+                }
+            }
+        }
+
+        // 4. Per SEO audit specifications: no generic guess or soft 404 to homepage.
+        // Return real HTTP 404 for removed/missing products without valid replacement.
+        abort(404);
+    }
+
+    /**
+     * Handle legacy WordPress /product-category/{slug} URLs with 301 or 404.
+     */
+    public function handleCategory(Request $request, string $slug): RedirectResponse
+    {
+        $cleanSlug = strtolower(trim($slug, "/ \t\n\r\0\x0B"));
+
+        $category = ProductCategory::where('slug', $cleanSlug)->first();
+        if ($category) {
+            return redirect()->route('product-categories.show', $category->slug, 301);
+        }
+
+        // Keyword mapping for common legacy WordPress category slugs
+        if (str_contains($cleanSlug, 'mcb') || str_contains($cleanSlug, 'mccb') || str_contains($cleanSlug, 'breaker') || str_contains($cleanSlug, 'distribution')) {
+            return redirect()->route('product-categories.show', 'power-distribution-circuit-breakers', 301);
+        }
+        if (str_contains($cleanSlug, 'motor') || str_contains($cleanSlug, 'starter') || str_contains($cleanSlug, 'contactor') || str_contains($cleanSlug, 'kontaktor')) {
+            return redirect()->route('product-categories.show', 'motor-starting-control', 301);
+        }
+        if (str_contains($cleanSlug, 'inverter') || str_contains($cleanSlug, 'drive') || str_contains($cleanSlug, 'altivar')) {
+            return redirect()->route('product-categories.show', 'industrial-drives-inverters', 301);
+        }
+        if (str_contains($cleanSlug, 'enclosure') || str_contains($cleanSlug, 'box') || str_contains($cleanSlug, 'panel') || str_contains($cleanSlug, 'wiring')) {
+            return redirect()->route('product-categories.show', 'industrial-enclosures-wiring', 301);
+        }
+        if (str_contains($cleanSlug, 'meter') || str_contains($cleanSlug, 'power-quality') || str_contains($cleanSlug, 'pm')) {
+            return redirect()->route('product-categories.show', 'metering-power-quality', 301);
+        }
+
+        abort(404);
+    }
 }

@@ -1,83 +1,111 @@
 @extends('layouts.app')
 
-@section('title', ($product->meta_title ?: ($product->name . ' - Distributor Surabaya')) . ' | PT. Anugerah Tama Sejati')
-@section('meta_description', $product->meta_description ?: ($product->short_description ?: ('Spesifikasi teknis ' . $product->name . ' SKU ' . $product->sku . ' dari distributor resmi PT. Anugerah Tama Sejati di Surabaya.')))
+@php
+    $brandName = $product->brand ? $product->brand->name : 'Schneider Electric';
+    $sku = $product->sku;
+    $rawName = $product->name;
+    
+    // Clean name from leading brand if already present
+    $nameWithoutBrand = $rawName;
+    if (stripos($nameWithoutBrand, $brandName) === 0) {
+        $nameWithoutBrand = trim(substr($nameWithoutBrand, strlen($brandName)));
+    }
+    // Clean name from leading SKU if already present
+    if ($sku && stripos($nameWithoutBrand, $sku) === 0) {
+        $nameWithoutBrand = trim(substr($nameWithoutBrand, strlen($sku)));
+    }
+    $nameWithoutBrand = ltrim($nameWithoutBrand, "—-\t ");
+
+    // H1 Heading
+    $h1Heading = $sku ? "{$brandName} {$sku} — {$nameWithoutBrand}" : "{$brandName} — {$nameWithoutBrand}";
+
+    // Title: check if meta_title exists, otherwise construct standard
+    if ($product->meta_title) {
+        $pageTitle = preg_replace('/\s*\|\s*(PT\.?\s*Anugerah\s*Tama\s*Sejati|ATS\s*Tekno).*$/i', '', $product->meta_title);
+        $pageTitle = trim($pageTitle) . ' | ATS Tekno';
+    } else {
+        $pageTitle = "{$brandName} {$sku} {$nameWithoutBrand} | ATS Tekno";
+        $pageTitle = preg_replace('/\s+/', ' ', trim($pageTitle));
+    }
+
+    // Clean plain text description preserving symbols (<, >, &, etc.)
+    $rawDesc = $product->meta_description ?: ($product->short_description ?: ('Spesifikasi teknis ' . $h1Heading . ' dari distributor resmi PT. Anugerah Tama Sejati di Surabaya.'));
+    $cleanDesc = trim(preg_replace('/\s+/', ' ', strip_tags($rawDesc)));
+
+    // Prepare JSON-LD Product schema (Strictly NO offers block per audit guidelines)
+    $breadcrumbItems = [
+        [
+            '@type' => 'ListItem',
+            'position' => 1,
+            'name' => 'Home',
+            'item' => route('home'),
+        ],
+        [
+            '@type' => 'ListItem',
+            'position' => 2,
+            'name' => 'Products',
+            'item' => route('products.index'),
+        ]
+    ];
+    if ($product->primaryCategory) {
+        $breadcrumbItems[] = [
+            '@type' => 'ListItem',
+            'position' => 3,
+            'name' => $product->primaryCategory->name,
+            'item' => route('product-categories.show', $product->primaryCategory->slug),
+        ];
+        $breadcrumbItems[] = [
+            '@type' => 'ListItem',
+            'position' => 4,
+            'name' => $h1Heading,
+            'item' => route('products.show', $product->slug),
+        ];
+    } else {
+        $breadcrumbItems[] = [
+            '@type' => 'ListItem',
+            'position' => 3,
+            'name' => $h1Heading,
+            'item' => route('products.show', $product->slug),
+        ];
+    }
+
+    $productSchema = [
+        '@context' => 'https://schema.org',
+        '@graph' => [
+            [
+                '@type' => 'BreadcrumbList',
+                'itemListElement' => $breadcrumbItems,
+            ],
+            array_filter([
+                '@type' => 'Product',
+                '@id' => route('products.show', $product->slug) . '#product',
+                'url' => route('products.show', $product->slug),
+                'name' => $h1Heading,
+                'sku' => $product->sku ?: null,
+                'mpn' => $product->sku ?: null,
+                'image' => $product->main_image_url ?: null,
+                'description' => $cleanDesc,
+                'brand' => [
+                    '@type' => 'Brand',
+                    'name' => $brandName,
+                ],
+            ])
+        ]
+    ];
+
+    $productSchemaJson = json_encode(
+        $productSchema,
+        JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_THROW_ON_ERROR
+    );
+@endphp
+
+@section('title', $pageTitle)
+@section('meta_description', $cleanDesc)
 @section('canonical', route('products.show', $product->slug))
 
 @push('schema')
 <script type="application/ld+json">
-{
-  "@@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "BreadcrumbList",
-      "itemListElement": [
-        {
-          "@type": "ListItem",
-          "position": 1,
-          "name": "Home",
-          "item": "{{ route('home') }}"
-        },
-        {
-          "@type": "ListItem",
-          "position": 2,
-          "name": "Products",
-          "item": "{{ route('products.index') }}"
-        },
-        @if($product->primaryCategory)
-        {
-          "@type": "ListItem",
-          "position": 3,
-          "name": "{{ $product->primaryCategory->name }}",
-          "item": "{{ route('product-categories.show', $product->primaryCategory->slug) }}"
-        },
-        {
-          "@type": "ListItem",
-          "position": 4,
-          "name": "{{ $product->name }}",
-          "item": "{{ route('products.show', $product->slug) }}"
-        }
-        @else
-        {
-          "@type": "ListItem",
-          "position": 3,
-          "name": "{{ $product->name }}",
-          "item": "{{ route('products.show', $product->slug) }}"
-        }
-        @endif
-      ]
-    },
-    {
-      "@type": "Product",
-      "name": "{{ $product->name }}",
-      "sku": "{{ $product->sku }}",
-      @if($product->main_image_url)
-      "image": "{{ $product->main_image_url }}",
-      @endif
-      "description": "{!! str_replace(["\r\n", "\r", "\n", '"'], [' ', ' ', ' ', '\\"'], e(strip_tags($product->short_description ?: $product->name))) !!}",
-      @if($product->brand)
-      "brand": {
-        "@type": "Brand",
-        "name": "{{ $product->brand->name }}"
-      },
-      @endif
-      "offers": {
-        "@type": "Offer",
-        "url": "{{ route('products.show', $product->slug) }}",
-        "priceCurrency": "IDR",
-        "price": "0",
-        "priceValidUntil": "2027-12-31",
-        "availability": "https://schema.org/InStock",
-        "itemCondition": "https://schema.org/NewCondition",
-        "seller": {
-          "@type": "Organization",
-          "name": "PT. Anugerah Tama Sejati",
-          "url": "{{ url('/') }}"
-        }
-      }
-    }
-  ]
-}
+{!! $productSchemaJson !!}
 </script>
 @endpush
 
@@ -175,9 +203,9 @@
                 </div>
             </div>
 
-            <!-- Product Title -->
+            <!-- Product Title (Semantic H1: [Brand] [SKU] — [Name]) -->
             <h1 class="text-2xl sm:text-3xl lg:text-4xl font-black text-slate-900 tracking-tight leading-tight">
-                {{ $product->name }}
+                {{ $h1Heading }}
             </h1>
 
             <!-- Categories Tags -->

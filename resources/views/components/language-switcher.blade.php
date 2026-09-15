@@ -8,22 +8,22 @@
 <div class="ats-lang-switcher" role="group" aria-label="Language Selector">
   <button 
     type="button" 
-    class="ats-lang-btn active" 
+    class="ats-lang-btn" 
     data-lang="en" 
     onclick="atsSetLanguage('en')" 
     aria-label="Switch to English"
-    title="English (Primary)"
+    title="English"
   >
     <span class="ats-flag-icon">EN</span>
   </button>
   <span class="ats-lang-sep" aria-hidden="true">/</span>
   <button 
     type="button" 
-    class="ats-lang-btn" 
+    class="ats-lang-btn active" 
     data-lang="id" 
     onclick="atsSetLanguage('id')" 
     aria-label="Ganti ke Bahasa Indonesia"
-    title="Bahasa Indonesia"
+    title="Bahasa Indonesia (Utama)"
   >
     <span class="ats-flag-icon">ID</span>
   </button>
