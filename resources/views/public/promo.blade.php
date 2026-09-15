@@ -40,6 +40,9 @@
     href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
     rel="stylesheet">
 
+  <!-- ATS Smooth Scroll & Framer Text Reveal Styles -->
+  <link rel="stylesheet" href="{{ asset('css/ats-scroll-effects.css') }}">
+
   <!-- Swiper CSS CDN -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
@@ -2091,6 +2094,8 @@
 
     });
   </script>
-
+  <!-- Lenis Smooth Scroll & Framer Text Reveal On Scroll Engine -->
+  <script src="{{ asset('js/lenis.min.js') }}"></script>
+  <script src="{{ asset('js/ats-scroll-effects.js') }}"></script>
 </body>
 </html>

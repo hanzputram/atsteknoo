@@ -118,7 +118,7 @@
                     </span>
                 </div>
 
-                <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-tight text-white">
+                <h1 class="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-tight text-white" data-reveal-text>
                     <span class="ats-lang-en">Certified Switchboard Panel Maker in Surabaya</span>
                     <span class="ats-lang-id">Jasa Pembuatan Panel Listrik di Surabaya</span>
                 </h1>
@@ -222,7 +222,7 @@
                 <span class="ats-lang-en">Manufacturing Portfolio</span>
                 <span class="ats-lang-id">Portofolio Perakitan</span>
             </span>
-            <h2 class="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
+            <h2 class="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight" data-reveal-text>
                 <span class="ats-lang-en">Types of Switchboard Panels We Build</span>
                 <span class="ats-lang-id">Jenis Panel Listrik yang Kami Kerjakan</span>
             </h2>
@@ -359,7 +359,7 @@
                     <span class="ats-lang-en">Quality &amp; Safety Standards</span>
                     <span class="ats-lang-id">Standar Kualitas &amp; Keamanan</span>
                 </span>
-                <h2 class="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight leading-tight">
+                <h2 class="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight leading-tight" data-reveal-text>
                     <span class="ats-lang-en">ATS Tekno Panel Fabrication Scope</span>
                     <span class="ats-lang-id">Scope Layanan Perakitan Panel ATS Tekno</span>
                 </h2>
@@ -521,7 +521,7 @@
                 <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold tracking-wider uppercase bg-emerald-50 text-emerald-700 border border-emerald-200 mb-3">
                     Bukti Pengerjaan
                 </span>
-                <h2 class="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
+                <h2 class="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight" data-reveal-text>
                     Proyek Perakitan Panel yang Telah Diselesaikan
                 </h2>
                 <p class="text-slate-600 mt-2 text-sm sm:text-base max-w-2xl">
@@ -658,7 +658,7 @@
 <div class="py-16 sm:py-20 bg-slate-50 border-b border-slate-200/80">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-12">
-            <h2 class="text-3xl font-black text-slate-900 tracking-tight">
+            <h2 class="text-3xl font-black text-slate-900 tracking-tight" data-reveal-text>
                 <span class="ats-lang-en">Frequently Asked Questions (FAQ)</span>
                 <span class="ats-lang-id">Pertanyaan yang Sering Diajukan (FAQ)</span>
             </h2>
@@ -718,7 +718,7 @@
 <!-- Section: Final CTA -->
 <div class="py-16 sm:py-20 bg-white">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6">
-        <h2 class="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
+        <h2 class="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight" data-reveal-text>
             <span class="ats-lang-en">Consult Your Switchboard Project Today</span>
             <span class="ats-lang-id">Konsultasikan Kebutuhan Panel Listrik Proyek Anda</span>
         </h2>

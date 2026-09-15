@@ -140,6 +140,9 @@
   <!-- Swiper CSS CDN -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
+  <!-- ATS Smooth Scroll & Framer Text Reveal Styles -->
+  <link rel="stylesheet" href="{{ asset('css/ats-scroll-effects.css') }}">
+
   <style>
     :root {
       --font-outfit: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -458,11 +461,11 @@
 
     /* Subheadline Description */
     .hero-subheadline {
-      font-size: clamp(1.15rem, 1.45vw, 1.35rem);
+      font-size: clamp(1.02rem, 1.22vw, 1.18rem);
       font-weight: 300;
       line-height: 1.6;
       color: rgba(255, 255, 255, 0.88);
-      max-width: 540px;
+      max-width: 520px;
     }
 
     /* Hero Action CTA Group (Enlarged & Positioned into SVG Bottom Pocket) */
@@ -1810,8 +1813,8 @@
             </h1>
 
             <p class="hero-subheadline">
-              <span class="ats-lang-en" data-i18n="hero.subheadline">PT. Anugerah Tama Sejati provides reliable industrial electrical components and custom low-voltage switchboard manufacturing in Surabaya &amp; East Java. Discover genuine products by catalog code or consult your switchboard project requirements with our engineering team.</span>
-              <span class="ats-lang-id" data-i18n="hero.subheadline">PT. Anugerah Tama Sejati membantu kebutuhan pengadaan komponen elektrikal dan pembuatan panel listrik untuk industri, kontraktor, serta bisnis. Temukan produk sesuai kode dan spesifikasi, atau konsultasikan kebutuhan panel Anda bersama tim ATS Tekno di Surabaya.</span>
+              <span class="ats-lang-en" data-i18n="hero.subheadline">Reliable industrial electrical components and certified switchboard manufacturing with ready stock and engineering support.</span>
+              <span class="ats-lang-id" data-i18n="hero.subheadline">Pengadaan komponen elektrikal original dan perakitan panel listrik bersertifikat dengan ready stock serta dukungan teknis berpengalaman.</span>
             </p>
 
             <!-- Action Buttons: Lihat Katalog Produk & Konsultasi Panel Listrik -->
@@ -2390,6 +2393,9 @@
   <!-- Floating Live Chat & Windows Desktop Notification -->
   @include('components.floating-live-chat')
 
+  <!-- Lenis Smooth Scroll & Framer Text Reveal On Scroll Engine -->
+  <script src="{{ asset('js/lenis.min.js') }}"></script>
+  <script src="{{ asset('js/ats-scroll-effects.js') }}"></script>
 </body>
 
 </html>

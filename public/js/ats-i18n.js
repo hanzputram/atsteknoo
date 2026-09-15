@@ -25,7 +25,7 @@
       "hero.brand_tag": "ELECTRICAL SUPPLIER",
       "hero.eyebrow": "AUTHORIZED SCHNEIDER ELECTRIC DISTRIBUTOR SURABAYA",
       "hero.headline": "Electrical Supplier & Switchboard Panel Builder in Surabaya",
-      "hero.subheadline": "PT. Anugerah Tama Sejati provides reliable industrial electrical components and custom low-voltage switchboard manufacturing in Surabaya & East Java. Discover genuine products by catalog code or consult your switchboard project requirements with our engineering team.",
+      "hero.subheadline": "Reliable industrial electrical components and certified switchboard manufacturing with ready stock and engineering support.",
       "hero.btn_products": "Explore Product Catalog",
       "hero.btn_panel": "Consult Panel Builder",
       "hero.btn_product_list": "Explore Product Catalog",
@@ -182,7 +182,7 @@
       "hero.brand_tag": "SUPPLIER ELEKTRIKAL",
       "hero.eyebrow": "DISTRIBUTOR RESMI SCHNEIDER ELECTRIC SURABAYA",
       "hero.headline": "Supplier Electrical dan Jasa Panel Listrik di Surabaya",
-      "hero.subheadline": "PT. Anugerah Tama Sejati membantu kebutuhan pengadaan komponen elektrikal dan pembuatan panel listrik untuk industri, kontraktor, serta bisnis. Temukan produk sesuai kode dan spesifikasi, atau konsultasikan kebutuhan panel Anda bersama tim ATS Tekno di Surabaya.",
+      "hero.subheadline": "Pengadaan komponen elektrikal original dan perakitan panel listrik bersertifikat dengan ready stock serta dukungan teknis berpengalaman.",
       "hero.btn_products": "Lihat Katalog Produk",
       "hero.btn_panel": "Konsultasi Panel Listrik",
       "hero.btn_product_list": "Lihat Katalog Produk",
@@ -379,6 +379,10 @@
 
       // A. Elements with data-i18n="key"
       document.querySelectorAll('[data-i18n]').forEach(el => {
+        // Respect dedicated bilingual containers
+        if (el.classList.contains('ats-lang-en') && lang !== 'en') return;
+        if (el.classList.contains('ats-lang-id') && lang !== 'id') return;
+
         const key = el.getAttribute('data-i18n');
         const targetVal = dict[key];
         if (targetVal !== undefined) {
