@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 
 <head>
   <meta charset="UTF-8">
@@ -338,26 +338,37 @@
     .nav-container {
       display: flex;
       align-items: center;
-      gap: 28px;
+      gap: 14px;
+      flex-shrink: 0;
     }
 
     /* Nav Links Right */
     .nav-menu {
       display: flex;
       align-items: center;
-      gap: 32px;
+      gap: 14px;
       list-style: none;
+      margin: 0;
+      padding: 0;
+      flex-shrink: 0;
+    }
+
+    .nav-item {
+      white-space: nowrap !important;
+      flex-shrink: 0;
     }
 
     .nav-item a {
-      font-size: 15px;
-      font-weight: 500;
+      font-size: 13px;
+      font-weight: 600;
       color: rgba(255, 255, 255, 0.85);
       text-decoration: none;
-      letter-spacing: 0.04em;
+      letter-spacing: 0.02em;
       text-transform: uppercase;
       position: relative;
       padding: 6px 0;
+      white-space: nowrap !important;
+      display: inline-block;
       transition: var(--transition-base);
     }
 
@@ -1585,7 +1596,26 @@
       }
     }
 
-    @media (max-width: 1024px) {
+    @media (max-width: 1360px) and (min-width: 1201px) {
+      .nav-container {
+        gap: 10px !important;
+      }
+      .nav-menu {
+        gap: 10px !important;
+      }
+      .nav-item a {
+        font-size: 12px !important;
+        letter-spacing: 0.01em !important;
+      }
+      .brand-company-title {
+        font-size: 16px !important;
+      }
+      .brand-company-tag {
+        font-size: 10.5px !important;
+      }
+    }
+
+    @media (max-width: 1200px) {
       .desktop-nav-only {
         display: none !important;
       }
@@ -1744,9 +1774,10 @@
             <ul class="nav-menu">
               <li class="nav-item active"><a href="{{ route('home') }}" data-i18n="nav.home">HOME</a></li>
               <li class="nav-item"><a href="{{ route('about.index') }}" data-i18n="nav.about">ABOUT US</a></li>
-              <li class="nav-item"><a href="{{ route('services.panel') }}"><span class="ats-lang-en">PANEL BUILDER</span><span class="ats-lang-id">JASA PANEL</span></a></li>
+              <li class="nav-item"><a href="{{ route('services.panel') }}" data-i18n="nav.panel_builder">PANEL BUILDER</a></li>
               <li class="nav-item"><a href="{{ route('products.index') }}" data-i18n="nav.products">PRODUCTS</a></li>
               <li class="nav-item"><a href="{{ route('price-list.index') }}" data-i18n="nav.price_list">PRICE LIST</a></li>
+              <li class="nav-item"><a href="{{ route('projects.index') }}" data-i18n="nav.projects">PROJECTS</a></li>
               <li class="nav-item"><a href="{{ route('articles.index') }}" data-i18n="nav.article">ARTICLE</a></li>
               <li class="nav-item"><a href="{{ route('contact.index') }}" data-i18n="nav.contact">CONTACT US</a></li>
             </ul>
@@ -1774,17 +1805,22 @@
           <!-- Left Text Column -->
           <div class="hero-left-column">
             <h1 class="hero-headline">
-              Supplier Electrical dan Jasa Panel Listrik di Surabaya
+              <span class="ats-lang-en" data-i18n="hero.headline">Electrical Supplier &amp; Switchboard Panel Builder in Surabaya</span>
+              <span class="ats-lang-id" data-i18n="hero.headline">Supplier Electrical dan Jasa Panel Listrik di Surabaya</span>
             </h1>
 
             <p class="hero-subheadline">
-              PT. Anugerah Tama Sejati membantu kebutuhan pengadaan komponen elektrikal dan pembuatan panel listrik untuk industri, kontraktor, serta bisnis. Temukan produk sesuai kode dan spesifikasi, atau konsultasikan kebutuhan panel Anda bersama tim ATS Tekno di Surabaya.
+              <span class="ats-lang-en" data-i18n="hero.subheadline">PT. Anugerah Tama Sejati provides reliable industrial electrical components and custom low-voltage switchboard manufacturing in Surabaya &amp; East Java. Discover genuine products by catalog code or consult your switchboard project requirements with our engineering team.</span>
+              <span class="ats-lang-id" data-i18n="hero.subheadline">PT. Anugerah Tama Sejati membantu kebutuhan pengadaan komponen elektrikal dan pembuatan panel listrik untuk industri, kontraktor, serta bisnis. Temukan produk sesuai kode dan spesifikasi, atau konsultasikan kebutuhan panel Anda bersama tim ATS Tekno di Surabaya.</span>
             </p>
 
             <!-- Action Buttons: Lihat Katalog Produk & Konsultasi Panel Listrik -->
             <div class="hero-cta-group">
               <a href="{{ route('products.index') }}" class="btn-cta-white" id="btnProductList">
-                <span>Lihat Katalog Produk</span>
+                <span>
+                  <span class="ats-lang-en" data-i18n="hero.btn_products">Explore Product Catalog</span>
+                  <span class="ats-lang-id" data-i18n="hero.btn_products">Lihat Katalog Produk</span>
+                </span>
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                   <line x1="5" y1="12" x2="19" y2="12"></line>
                   <polyline points="12 5 19 12 12 19"></polyline>
@@ -1795,7 +1831,10 @@
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
                 </svg>
-                <span>Konsultasi Panel Listrik</span>
+                <span>
+                  <span class="ats-lang-en" data-i18n="hero.btn_panel">Consult Panel Builder</span>
+                  <span class="ats-lang-id" data-i18n="hero.btn_panel">Konsultasi Panel Listrik</span>
+                </span>
               </a>
             </div>
           </div>
@@ -2139,7 +2178,7 @@
         <span class="drawer-arrow">&rarr;</span>
       </a>
       <a href="{{ route('services.panel') }}" class="drawer-link" onclick="closeMobileNav()">
-        <span><span class="ats-lang-en">PANEL BUILDER</span><span class="ats-lang-id">JASA PANEL LISTRIK</span></span>
+        <span data-i18n="nav.panel_builder">PANEL BUILDER</span>
         <span class="drawer-arrow">&rarr;</span>
       </a>
       <a href="{{ route('products.index') }}" class="drawer-link" onclick="closeMobileNav()">
@@ -2148,6 +2187,10 @@
       </a>
       <a href="{{ route('price-list.index') }}" class="drawer-link" onclick="closeMobileNav()">
         <span data-i18n="nav.price_list">PRICE LIST</span>
+        <span class="drawer-arrow">&rarr;</span>
+      </a>
+      <a href="{{ route('projects.index') }}" class="drawer-link" onclick="closeMobileNav()">
+        <span data-i18n="nav.projects">PROJECTS</span>
         <span class="drawer-arrow">&rarr;</span>
       </a>
       <a href="{{ route('articles.index') }}" class="drawer-link" onclick="closeMobileNav()">

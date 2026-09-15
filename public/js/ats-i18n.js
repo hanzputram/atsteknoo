@@ -14,21 +14,22 @@
       // Nav
       "nav.home": "HOME",
       "nav.about": "ABOUT US",
-      "nav.projects": "PROJECTS",
+      "nav.panel_builder": "PANEL BUILDER",
       "nav.products": "PRODUCTS",
       "nav.price_list": "PRICE LIST",
-      "nav.contact": "CONTACT US",
+      "nav.projects": "PROJECTS",
       "nav.article": "ARTICLE",
+      "nav.contact": "CONTACT US",
 
       // Hero
       "hero.brand_tag": "ELECTRICAL SUPPLIER",
       "hero.eyebrow": "AUTHORIZED SCHNEIDER ELECTRIC DISTRIBUTOR SURABAYA",
-      "hero.headline_pre": "Discover Your",
-      "hero.headline_highlight": "Best Electrical",
-      "hero.headline_post": "Supplier",
-      "hero.subheadline": "Your trusted one-stop supplier for all electrical and wiring components.",
-      "hero.btn_product_list": "Product List",
-      "hero.btn_contact_us": "Contact Us",
+      "hero.headline": "Electrical Supplier & Switchboard Panel Builder in Surabaya",
+      "hero.subheadline": "PT. Anugerah Tama Sejati provides reliable industrial electrical components and custom low-voltage switchboard manufacturing in Surabaya & East Java. Discover genuine products by catalog code or consult your switchboard project requirements with our engineering team.",
+      "hero.btn_products": "Explore Product Catalog",
+      "hero.btn_panel": "Consult Panel Builder",
+      "hero.btn_product_list": "Explore Product Catalog",
+      "hero.btn_contact_us": "Consult Panel Builder",
       "hero.badge_certified": "Certified Panel Builder",
       "hero.badge_stock": "Ready Stock Across Indonesia",
       "hero.stat_clients": "1,000+ Industrial Clients",
@@ -170,21 +171,22 @@
       // Nav
       "nav.home": "BERANDA",
       "nav.about": "TENTANG KAMI",
-      "nav.projects": "PROYEK",
+      "nav.panel_builder": "JASA PANEL",
       "nav.products": "PRODUK",
       "nav.price_list": "DAFTAR HARGA",
-      "nav.contact": "HUBUNGI KAMI",
+      "nav.projects": "PROYEK",
       "nav.article": "ARTIKEL",
+      "nav.contact": "HUBUNGI KAMI",
 
       // Hero
       "hero.brand_tag": "SUPPLIER ELEKTRIKAL",
       "hero.eyebrow": "DISTRIBUTOR RESMI SCHNEIDER ELECTRIC SURABAYA",
-      "hero.headline_pre": "Temukan Mitra",
-      "hero.headline_highlight": "Elektrikal Terbaik",
-      "hero.headline_post": "Anda",
-      "hero.subheadline": "Supplier terpercaya dan terlengkap untuk seluruh kebutuhan komponen elektrikal dan perpanelan Anda.",
-      "hero.btn_product_list": "Daftar Produk",
-      "hero.btn_contact_us": "Hubungi Kami",
+      "hero.headline": "Supplier Electrical dan Jasa Panel Listrik di Surabaya",
+      "hero.subheadline": "PT. Anugerah Tama Sejati membantu kebutuhan pengadaan komponen elektrikal dan pembuatan panel listrik untuk industri, kontraktor, serta bisnis. Temukan produk sesuai kode dan spesifikasi, atau konsultasikan kebutuhan panel Anda bersama tim ATS Tekno di Surabaya.",
+      "hero.btn_products": "Lihat Katalog Produk",
+      "hero.btn_panel": "Konsultasi Panel Listrik",
+      "hero.btn_product_list": "Lihat Katalog Produk",
+      "hero.btn_contact_us": "Konsultasi Panel Listrik",
       "hero.badge_certified": "Perakit Panel Bersertifikat",
       "hero.badge_stock": "Ready Stock Ribuan SKU",
       "hero.stat_clients": "1.000+ Klien Industri",
@@ -323,7 +325,7 @@
     }
   };
 
-  // 2. Retrieve Current Language (Default to 'id')
+  // 2. Retrieve Current Language (Default to 'en')
   window.atsGetLanguage = function() {
     try {
       const stored = localStorage.getItem('ats_lang');
@@ -334,7 +336,7 @@
     const match = document.cookie.match(/(?:^|;\s*)ats_lang=([^;]+)/);
     if (match && (match[1] === 'id' || match[1] === 'en')) return match[1];
 
-    return 'id'; // Default language is Indonesian
+    return 'en'; // Primary language is English by default
   };
 
   // Safe translation execution flag to prevent any infinite loops
@@ -342,7 +344,7 @@
 
   // 3. Set Language and Apply to Entire Page
   window.atsSetLanguage = function(lang) {
-    if (lang !== 'en' && lang !== 'id') lang = 'id';
+    if (lang !== 'en' && lang !== 'id') lang = 'en';
 
     // Store in localStorage & Cookie
     try {
@@ -373,7 +375,7 @@
     isUpdating = true;
 
     try {
-      const dict = window.ATS_DICTIONARY[lang] || window.ATS_DICTIONARY.id;
+      const dict = window.ATS_DICTIONARY[lang] || window.ATS_DICTIONARY.en;
 
       // A. Elements with data-i18n="key"
       document.querySelectorAll('[data-i18n]').forEach(el => {
@@ -437,7 +439,7 @@
   // 6. Public Helper to query a translated string
   window.atsT = function(key, fallback) {
     const lang = window.atsGetLanguage();
-    const dict = window.ATS_DICTIONARY[lang] || window.ATS_DICTIONARY.id;
+    const dict = window.ATS_DICTIONARY[lang] || window.ATS_DICTIONARY.en;
     return dict[key] || fallback || key;
   };
 

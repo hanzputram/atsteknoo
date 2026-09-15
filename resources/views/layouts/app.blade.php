@@ -437,16 +437,18 @@
 
     .nav-link {
       font-size: 13px;
-      font-weight: 700;
-      letter-spacing: 0.05em;
+      font-weight: 600;
+      letter-spacing: 0.02em;
       color: #334155;
-      padding: 8px 14px;
-      border-radius: 9999px;
+      padding: 6px 9px;
+      border-radius: 8px;
       transition: all 0.2s ease;
       text-transform: uppercase;
       text-decoration: none;
       display: inline-flex;
       align-items: center;
+      white-space: nowrap !important;
+      flex-shrink: 0;
     }
 
     .nav-link:hover {
@@ -455,9 +457,18 @@
     }
 
     .nav-link.active {
-      color: #FFFFFF;
-      background-color: var(--color-primary);
-      box-shadow: 0 4px 12px rgba(225, 29, 72, 0.25);
+      color: var(--color-primary);
+      font-weight: 700;
+      background-color: rgba(225, 29, 72, 0.08);
+      border-radius: 8px;
+    }
+
+    @media (max-width: 1360px) and (min-width: 1280px) {
+      .nav-link {
+        font-size: 12px;
+        padding: 5px 7px;
+        letter-spacing: 0.01em;
+      }
     }
 
     .content-area-wrapper {
@@ -495,10 +506,10 @@
         </a>
 
         <!-- Desktop Navigation Items -->
-        <nav class="hidden lg:flex items-center gap-1">
+        <nav class="hidden xl:flex items-center gap-1">
           <a href="{{ route('home') }}" class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}" data-i18n="nav.home">HOME</a>
           <a href="{{ route('about.index') }}" class="nav-link {{ request()->routeIs('about.*') ? 'active' : '' }}" data-i18n="nav.about">ABOUT US</a>
-          <a href="{{ route('services.panel') }}" class="nav-link {{ request()->routeIs('services.panel') ? 'active' : '' }}"><span class="ats-lang-en">PANEL BUILDER</span><span class="ats-lang-id">JASA PANEL</span></a>
+          <a href="{{ route('services.panel') }}" class="nav-link {{ request()->routeIs('services.panel') ? 'active' : '' }}" data-i18n="nav.panel_builder">PANEL BUILDER</a>
           <a href="{{ route('products.index') }}" class="nav-link {{ request()->routeIs('products.*') ? 'active' : '' }}" data-i18n="nav.products">PRODUCTS</a>
           <a href="{{ route('price-list.index') }}" class="nav-link {{ request()->routeIs('price-list.*') || request()->routeIs('brands.*') ? 'active' : '' }}" data-i18n="nav.price_list">PRICE LIST</a>
           <a href="{{ route('projects.index') }}" class="nav-link {{ request()->routeIs('projects.*') ? 'active' : '' }}" data-i18n="nav.projects">PROJECTS</a>
@@ -511,7 +522,7 @@
           @include('components.language-switcher')
 
           <!-- Mobile Hamburger Toggle -->
-          <button type="button" onclick="document.getElementById('mobileMenu').classList.toggle('hidden')" class="lg:hidden p-2 rounded-xl text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition" aria-label="Toggle menu">
+          <button type="button" onclick="document.getElementById('mobileMenu').classList.toggle('hidden')" class="xl:hidden p-2 rounded-xl text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition" aria-label="Toggle menu">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"/></svg>
           </button>
         </div>
@@ -520,10 +531,10 @@
     </div>
 
     <!-- Mobile Navigation Dropdown -->
-    <div id="mobileMenu" class="hidden lg:hidden border-t border-slate-200 bg-white/95 backdrop-blur-md px-4 pt-3 pb-5 space-y-1">
+    <div id="mobileMenu" class="hidden xl:hidden border-t border-slate-200 bg-white/95 backdrop-blur-md px-4 pt-3 pb-5 space-y-1">
       <a href="{{ route('home') }}" class="block px-3 py-2 rounded-xl text-sm font-bold {{ request()->routeIs('home') ? 'bg-rose-50 text-rose-600' : 'text-slate-700 hover:bg-slate-50' }}" data-i18n="nav.home">HOME</a>
       <a href="{{ route('about.index') }}" class="block px-3 py-2 rounded-xl text-sm font-bold {{ request()->routeIs('about.*') ? 'bg-rose-50 text-rose-600' : 'text-slate-700 hover:bg-slate-50' }}" data-i18n="nav.about">ABOUT US</a>
-      <a href="{{ route('services.panel') }}" class="block px-3 py-2 rounded-xl text-sm font-bold {{ request()->routeIs('services.panel') ? 'bg-rose-50 text-rose-600' : 'text-slate-700 hover:bg-slate-50' }}"><span class="ats-lang-en">PANEL BUILDER</span><span class="ats-lang-id">JASA PANEL LISTRIK</span></a>
+      <a href="{{ route('services.panel') }}" class="block px-3 py-2 rounded-xl text-sm font-bold {{ request()->routeIs('services.panel') ? 'bg-rose-50 text-rose-600' : 'text-slate-700 hover:bg-slate-50' }}" data-i18n="nav.panel_builder">PANEL BUILDER</a>
       <a href="{{ route('products.index') }}" class="block px-3 py-2 rounded-xl text-sm font-bold {{ request()->routeIs('products.*') ? 'bg-rose-50 text-rose-600' : 'text-slate-700 hover:bg-slate-50' }}" data-i18n="nav.products">PRODUCTS</a>
       <a href="{{ route('price-list.index') }}" class="block px-3 py-2 rounded-xl text-sm font-bold {{ request()->routeIs('price-list.*') || request()->routeIs('brands.*') ? 'bg-rose-50 text-rose-600' : 'text-slate-700 hover:bg-slate-50' }}" data-i18n="nav.price_list">PRICE LIST</a>
       <a href="{{ route('projects.index') }}" class="block px-3 py-2 rounded-xl text-sm font-bold {{ request()->routeIs('projects.*') ? 'bg-rose-50 text-rose-600' : 'text-slate-700 hover:bg-slate-50' }}" data-i18n="nav.projects">PROJECTS</a>
