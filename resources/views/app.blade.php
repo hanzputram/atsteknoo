@@ -24,6 +24,9 @@
   <meta name="ICBM" content="-7.250445, 112.768845">
   <meta name="geo.country" content="ID">
 
+  <!-- Google Search Console Verification -->
+  <meta name="google-site-verification" content="google9133ec987e4d89f7">
+
   <!-- Open Graph & Canonical SEO -->
   <link rel="canonical" href="{{ url('/') }}">
   <meta property="og:type" content="website">

@@ -41,6 +41,10 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 // Dynamic Sitemap & Robots for Google Search Console & AI Crawlers
 Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap.xml');
 Route::get('/robots.txt', [SitemapController::class, 'robots'])->name('robots.txt');
+Route::get('/google9133ec987e4d89f7.html', function () {
+    return response("google-site-verification: google9133ec987e4d89f7.html", 200)
+        ->header('Content-Type', 'text/html; charset=UTF-8');
+});
 
 // Products & Categories
 Route::get('/products', [CatalogProductController::class, 'index'])->name('products.index');
