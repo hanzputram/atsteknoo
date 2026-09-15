@@ -172,6 +172,12 @@ Route::prefix('backoffice')->name('backoffice.')->group(function () {
     });
 });
 
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::inertia('dashboard', 'dashboard')->name('dashboard');
+});
+
+require __DIR__.'/settings.php';
+
 // SEO Preservation: 301 Permanent Redirects for Legacy WordPress URLs (Never Lose Rank)
 // Catch-all route placed at the end so it does not intercept defined routes (e.g. /backoffice)
 Route::get('/{slug}', [\App\Http\Controllers\Public\LegacyRedirectController::class, 'handle'])
