@@ -120,7 +120,7 @@ class LiveChatController extends Controller
                     'id' => $message->id,
                     'sender' => 'admin',
                     'message' => $message->message,
-                    'time' => $message->created_at->format('H:i'),
+                    'time' => $message->created_at->timezone('Asia/Jakarta')->format('H:i'),
                     'admin_name' => auth()->user()->name ?? 'Engineer ATS',
                 ],
             ]);
@@ -159,7 +159,7 @@ class LiveChatController extends Controller
                 'id' => $msg->id,
                 'sender' => $msg->sender,
                 'message' => $msg->message,
-                'time' => $msg->created_at->format('H:i'),
+                'time' => $msg->created_at->timezone('Asia/Jakarta')->format('H:i'),
                 'admin_name' => $msg->admin ? $msg->admin->name : 'Engineer ATS',
             ];
         });

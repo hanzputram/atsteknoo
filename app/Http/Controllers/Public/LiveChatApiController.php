@@ -31,7 +31,7 @@ class LiveChatApiController extends Controller
                     'id' => $msg->id,
                     'sender' => $msg->sender,
                     'message' => $msg->message,
-                    'time' => $msg->created_at->format('H:i'),
+                    'time' => $msg->created_at->timezone('Asia/Jakarta')->format('H:i'),
                 ];
             });
 
@@ -76,14 +76,14 @@ class LiveChatApiController extends Controller
                 return [
                     'token' => $s->session_token,
                     'visitor_name' => $s->visitor_name,
-                    'date' => $s->created_at->format('d M Y, H:i'),
-                    'last_active' => $s->last_message_at ? $s->last_message_at->format('d M Y, H:i') : $s->created_at->format('d M Y, H:i'),
+                    'date' => $s->created_at->timezone('Asia/Jakarta')->format('d M Y, H:i'),
+                    'last_active' => $s->last_message_at ? $s->last_message_at->timezone('Asia/Jakarta')->format('d M Y, H:i') : $s->created_at->timezone('Asia/Jakarta')->format('d M Y, H:i'),
                     'status' => $s->status,
                     'messages' => $s->messages->map(fn ($m) => [
                         'id' => $m->id,
                         'sender' => $m->sender,
                         'message' => $m->message,
-                        'time' => $m->created_at->format('H:i'),
+                        'time' => $m->created_at->timezone('Asia/Jakarta')->format('H:i'),
                     ]),
                 ];
             });
@@ -174,7 +174,7 @@ class LiveChatApiController extends Controller
                 'id' => $chatMsg->id,
                 'sender' => $chatMsg->sender,
                 'message' => $chatMsg->message,
-                'time' => $chatMsg->created_at->format('H:i'),
+                'time' => $chatMsg->created_at->timezone('Asia/Jakarta')->format('H:i'),
             ],
         ]);
     }

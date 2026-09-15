@@ -59,7 +59,7 @@
 
     <!-- Quick Channels Bar (WhatsApp, Telp, Email) -->
     <div class="chat-quick-channels-bar">
-      <a href="https://wa.me/628113058887?text=Halo%20PT%20Anugerah%20Tama%20Sejati,%20saya%20ingin%20konsultasi%20mengenai%20panel%20listrik%20dan%20komponen%20industri." target="_blank" rel="noopener noreferrer" class="channel-chip channel-chip-wa">
+      <a href="https://wa.me/6282223332830?text=Halo%20PT%20Anugerah%20Tama%20Sejati,%20saya%20ingin%20konsultasi%20mengenai%20panel%20listrik%20dan%20komponen%20industri." target="_blank" rel="noopener noreferrer" class="channel-chip channel-chip-wa">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
         <span>WhatsApp</span>
       </a>
@@ -1523,7 +1523,7 @@
           return `
             <div class="chat-msg ${isVisitor ? 'chat-msg-visitor' : 'chat-msg-admin'}">
               <div class="chat-msg-bubble">
-                <p style="white-space:pre-wrap;">${escapeHtml(m.message)}</p>
+                <p style="white-space:pre-line; word-break:break-word; text-align:left; margin:0;">${escapeHtml(m.message.trim())}</p>
                 <span class="chat-msg-timestamp">${isVisitor ? 'Anda' : 'ATS Engineer'} • ${m.time}</span>
               </div>
             </div>
@@ -1820,7 +1820,7 @@
     
     msgEl.innerHTML = `
       <div class="chat-msg-bubble">
-        <p style="white-space:pre-wrap;">${escapeHtml(msg.message)}</p>
+        <p style="white-space:pre-line; word-break:break-word; text-align:left; margin:0;">${escapeHtml(msg.message.trim())}</p>
         <span class="chat-msg-timestamp">${isVisitor ? 'Anda' : 'ATS Engineer'} • ${msg.time}</span>
       </div>
     `;

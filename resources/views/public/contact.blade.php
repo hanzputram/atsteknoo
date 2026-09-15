@@ -325,8 +325,8 @@
                             </div>
                             <div>
                                 <h3 class="font-extrabold text-slate-900 text-base sm:text-lg leading-snug">
-                                    <span class="ats-lang-en">Head Office &amp; Main Warehouse</span>
-                                    <span class="ats-lang-id">Kantor Pusat &amp; Gudang Utama</span>
+                                    <span class="ats-lang-en">Head Office</span>
+                                    <span class="ats-lang-id">Kantor Pusat</span>
                                 </h3>
                                 <div class="flex items-center gap-1.5 mt-0.5">
                                     <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
@@ -376,7 +376,7 @@
                         </a>
 
                         <!-- Email Address -->
-                        <a href="mailto:{{ $settings['email'] ?? 'sales@anugerahtamasejati.com' }}" class="flex items-center justify-between p-3 rounded-2xl border border-slate-200/70 hover:border-rose-300 hover:bg-rose-50/30 transition group">
+                        <a href="mailto:{{ $settings['email'] ?? 'sales@atstekno.com' }}" class="flex items-center justify-between p-3 rounded-2xl border border-slate-200/70 hover:border-rose-300 hover:bg-rose-50/30 transition group">
                             <div class="flex items-center gap-3 min-w-0">
                                 <div class="w-8 h-8 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center shrink-0 group-hover:scale-105 transition">
                                     <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -390,7 +390,7 @@
                                         <span class="ats-lang-id">Email Penawaran Resmi</span>
                                     </div>
                                     <div class="text-xs font-extrabold text-slate-900 group-hover:text-rose-600 transition truncate font-mono">
-                                        {{ $settings['email'] ?? 'sales@anugerahtamasejati.com' }}
+                                        {{ $settings['email'] ?? 'sales@atstekno.com' }}
                                     </div>
                                 </div>
                             </div>

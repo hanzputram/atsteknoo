@@ -46,12 +46,12 @@
 
         <div>
           <span style="color: #64748B; font-size: 11px; font-weight: 600; text-transform: uppercase; display: block; margin-bottom: 2px;">Sesi Dimulai:</span>
-          <span style="color: #334155;">{{ $session->created_at->format('d M Y, H:i') }}</span>
+          <span style="color: #334155;">{{ $session->created_at->timezone('Asia/Jakarta')->format('d M Y, H:i') }} WIB</span>
         </div>
 
         <div>
           <span style="color: #64748B; font-size: 11px; font-weight: 600; text-transform: uppercase; display: block; margin-bottom: 2px;">Aktivitas Terakhir:</span>
-          <span style="color: #334155;">{{ $session->last_message_at ? $session->last_message_at->format('d M Y, H:i') : '-' }}</span>
+          <span style="color: #334155;">{{ $session->last_message_at ? $session->last_message_at->timezone('Asia/Jakarta')->format('d M Y, H:i') . ' WIB' : '-' }}</span>
         </div>
 
         <div>
@@ -106,11 +106,9 @@
             <div style="display: flex; justify-content: flex-end; align-items: flex-end; gap: 10px;">
               <div style="max-width: 80%; display: flex; flex-direction: column; align-items: flex-end;">
                 <span style="font-size: 10.5px; color: #94A3B8; margin-bottom: 3px; font-weight: 600;">
-                  {{ $msg->admin ? $msg->admin->name : 'Engineer ATS' }} • {{ $msg->created_at->format('H:i') }}
+                  {{ $msg->admin ? $msg->admin->name : 'Engineer ATS' }} • {{ $msg->created_at->timezone('Asia/Jakarta')->format('H:i') }}
                 </span>
-                <div style="background-color: #FC0001; color: #FFFFFF; padding: 12px 16px; border-radius: 14px 14px 2px 14px; font-size: 13.5px; line-height: 1.5; white-space: pre-wrap; box-shadow: 0 2px 6px rgba(252, 0, 1, 0.25);">
-                  {{ $msg->message }}
-                </div>
+                <div style="background-color: #FC0001; color: #FFFFFF; padding: 10px 14px; border-radius: 14px 14px 2px 14px; font-size: 13.5px; line-height: 1.5; white-space: pre-line; word-break: break-word; text-align: left; box-shadow: 0 2px 6px rgba(252, 0, 1, 0.25);">{{ trim($msg->message) }}</div>
               </div>
               <div style="width: 32px; height: 32px; border-radius: 50%; background: #FFFFFF; color: #FC0001; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 10px; border: 1.5px solid #FC0001; box-shadow: 0 1px 4px rgba(252, 0, 1, 0.2); flex-shrink: 0;">
                 ATS
@@ -124,11 +122,9 @@
               </div>
               <div style="max-width: 80%; display: flex; flex-direction: column; align-items: flex-start;">
                 <span style="font-size: 10.5px; color: #94A3B8; margin-bottom: 3px; font-weight: 600;">
-                  {{ $session->visitor_name }} • {{ $msg->created_at->format('H:i') }}
+                  {{ $session->visitor_name }} • {{ $msg->created_at->timezone('Asia/Jakarta')->format('H:i') }}
                 </span>
-                <div style="background-color: #FFFFFF; color: #0F172A; border: 1px solid var(--color-border); padding: 12px 16px; border-radius: 14px 14px 14px 2px; font-size: 13.5px; line-height: 1.5; white-space: pre-wrap; box-shadow: 0 1px 3px rgba(0,0,0,0.04);">
-                  {{ $msg->message }}
-                </div>
+                <div style="background-color: #FFFFFF; color: #0F172A; border: 1px solid var(--color-border); padding: 10px 14px; border-radius: 14px 14px 14px 2px; font-size: 13.5px; line-height: 1.5; white-space: pre-line; word-break: break-word; text-align: left; box-shadow: 0 1px 3px rgba(0,0,0,0.04);">{{ trim($msg->message) }}</div>
               </div>
             </div>
           @endif
@@ -350,9 +346,7 @@
               <span style="font-size: 10.5px; color: #94A3B8; margin-bottom: 3px; font-weight: 600;">
                 ${escapeHtml(msg.admin_name || 'Engineer ATS')} • ${msg.time}
               </span>
-              <div style="background-color: #FC0001; color: #FFFFFF; padding: 12px 16px; border-radius: 14px 14px 2px 14px; font-size: 13.5px; line-height: 1.5; white-space: pre-wrap; box-shadow: 0 2px 6px rgba(252, 0, 1, 0.25);">
-                ${escapeHtml(msg.message)}
-              </div>
+              <div style="background-color: #FC0001; color: #FFFFFF; padding: 10px 14px; border-radius: 14px 14px 2px 14px; font-size: 13.5px; line-height: 1.5; white-space: pre-line; word-break: break-word; text-align: left; box-shadow: 0 2px 6px rgba(252, 0, 1, 0.25);">${escapeHtml(msg.message.trim())}</div>
             </div>
             <div style="width: 32px; height: 32px; border-radius: 50%; background: #FFFFFF; color: #FC0001; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 10px; border: 1.5px solid #FC0001; box-shadow: 0 1px 4px rgba(252, 0, 1, 0.2); flex-shrink: 0;">
               ATS
@@ -369,9 +363,7 @@
               <span style="font-size: 10.5px; color: #94A3B8; margin-bottom: 3px; font-weight: 600;">
                 {{ $session->visitor_name }} • ${msg.time}
               </span>
-              <div style="background-color: #FFFFFF; color: #0F172A; border: 1px solid var(--color-border); padding: 12px 16px; border-radius: 14px 14px 14px 2px; font-size: 13.5px; line-height: 1.5; white-space: pre-wrap; box-shadow: 0 1px 3px rgba(0,0,0,0.04);">
-                ${escapeHtml(msg.message)}
-              </div>
+              <div style="background-color: #FFFFFF; color: #0F172A; border: 1px solid var(--color-border); padding: 10px 14px; border-radius: 14px 14px 14px 2px; font-size: 13.5px; line-height: 1.5; white-space: pre-line; word-break: break-word; text-align: left; box-shadow: 0 1px 3px rgba(0,0,0,0.04);">${escapeHtml(msg.message.trim())}</div>
             </div>
           </div>
         `;
