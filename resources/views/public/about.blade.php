@@ -523,7 +523,7 @@
                     <span class="ats-lang-id">STANDAR INTEGRITAS INDUSTRI</span>
                 </span>
                 <h2 class="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight">
-                    <span class="ats-lang-en">Why Industry Leaders Entrust Their Projects to PT. ATS</span>
+                    <span class="ats-lang-en">Why Industry Leaders Entrust Their Projects to PT. Anugerah Tama Sejati</span>
                     <span class="ats-lang-id">Mengapa Pemimpin Industri Mempercayakan Proyeknya Kepada PT. ATS</span>
                 </h2>
                 <p class="text-sm sm:text-base text-slate-600 mt-3 leading-relaxed">
