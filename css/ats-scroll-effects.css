@@ -1,0 +1,143 @@
+/* ==========================================================================
+   ATS Tekno — Lenis Smooth Scroll & Framer Text Reveal On Scroll Styles
+   Inspired by Framer Marketplace: revealtextonscroll
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Lenis Smooth Scroll Essential Rules
+   -------------------------------------------------------------------------- */
+html {
+  scroll-behavior: auto !important;
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
+/* --------------------------------------------------------------------------
+   2. Framer-style Text Reveal On Scroll (Word Mask & Stagger)
+   -------------------------------------------------------------------------- */
+
+/* Outer mask container for each word — creates the clean clipping line */
+.ats-word-mask {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  line-height: inherit;
+  padding-bottom: 0.14em;
+  margin-bottom: -0.14em;
+}
+
+/* Individual word element */
+.ats-reveal-word {
+  display: inline-block;
+  transform: translate3d(0, 118%, 0) rotate(2.5deg);
+  opacity: 0;
+  filter: blur(5px);
+  will-change: transform, opacity, filter;
+  transition: transform 0.82s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.72s cubic-bezier(0.16, 1, 0.3, 1),
+              filter 0.65s ease;
+  transition-delay: calc(var(--word-index, 0) * 32ms);
+  transform-origin: 0% 100%;
+}
+
+/* In-View active state: silky smooth upward reveal */
+.is-in-view .ats-reveal-word,
+.ats-reveal-active .ats-reveal-word {
+  transform: translate3d(0, 0%, 0) rotate(0deg);
+  opacity: 1;
+  filter: blur(0px);
+}
+
+/* --------------------------------------------------------------------------
+   3. Framer-style Scroll Scrubbing (Word-by-Word Illumination on Scroll)
+   -------------------------------------------------------------------------- */
+[data-reveal-scrub] .ats-word-mask,
+.reveal-text-scrub .ats-word-mask {
+  overflow: visible;
+}
+
+[data-reveal-scrub] .ats-reveal-word,
+.reveal-text-scrub .ats-reveal-word {
+  transform: none;
+  filter: none;
+  opacity: 0.22;
+  transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              color 0.35s ease,
+              text-shadow 0.35s ease;
+}
+
+[data-reveal-scrub] .ats-reveal-word.is-scrubbed,
+.reveal-text-scrub .ats-reveal-word.is-scrubbed {
+  opacity: 1;
+}
+
+/* Dark mode / dark hero scrub accent */
+.hero-dark [data-reveal-scrub] .ats-reveal-word,
+.bg-slate-900 [data-reveal-scrub] .ats-reveal-word {
+  opacity: 0.28;
+}
+
+.hero-dark [data-reveal-scrub] .ats-reveal-word.is-scrubbed,
+.bg-slate-900 [data-reveal-scrub] .ats-reveal-word.is-scrubbed {
+  opacity: 1;
+  text-shadow: 0 0 24px rgba(255, 255, 255, 0.25);
+}
+
+/* --------------------------------------------------------------------------
+   4. Staggered Fade-Slide for Section Subtitles & Badges
+   -------------------------------------------------------------------------- */
+.reveal-fade-up {
+  opacity: 0;
+  transform: translate3d(0, 24px, 0);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.is-in-view.reveal-fade-up,
+.is-in-view .reveal-fade-up {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+/* --------------------------------------------------------------------------
+   5. Accessibility: Respect prefers-reduced-motion
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .ats-word-mask {
+    overflow: visible !important;
+  }
+  .ats-reveal-word {
+    transform: none !important;
+    opacity: 1 !important;
+    filter: none !important;
+    transition: none !important;
+  }
+  .reveal-fade-up {
+    transform: none !important;
+    opacity: 1 !important;
+    transition: none !important;
+  }
+  html.lenis {
+    scroll-behavior: auto !important;
+  }
+}

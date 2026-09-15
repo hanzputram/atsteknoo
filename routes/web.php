@@ -51,6 +51,35 @@ Route::get('/google9133ec987e4d89f7.html', function () {
         ->header('Content-Type', 'text/html; charset=UTF-8');
 });
 
+// Static Asset Delivery Fallback (guarantees assets load on shared hosting / cPanel)
+Route::get('/css/{file}', function ($file) {
+    $path = public_path('css/' . $file);
+    if (!file_exists($path) && file_exists(base_path('css/' . $file))) {
+        $path = base_path('css/' . $file);
+    }
+    if (file_exists($path)) {
+        return response()->file($path, [
+            'Content-Type' => 'text/css; charset=utf-8',
+            'Cache-Control' => 'public, max-age=31536000'
+        ]);
+    }
+    abort(404);
+})->where('file', '.*');
+
+Route::get('/js/{file}', function ($file) {
+    $path = public_path('js/' . $file);
+    if (!file_exists($path) && file_exists(base_path('js/' . $file))) {
+        $path = base_path('js/' . $file);
+    }
+    if (file_exists($path)) {
+        return response()->file($path, [
+            'Content-Type' => 'application/javascript; charset=utf-8',
+            'Cache-Control' => 'public, max-age=31536000'
+        ]);
+    }
+    abort(404);
+})->where('file', '.*');
+
 // Products & Categories
 Route::get('/products', [CatalogProductController::class, 'index'])->name('products.index');
 Route::get('/products/{slug}', [CatalogProductController::class, 'show'])->name('products.show');
