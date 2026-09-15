@@ -34,7 +34,7 @@
       "hero.badge_stock": "Ready Stock Across Indonesia",
       "hero.stat_clients": "1,000+ Industrial Clients",
       "hero.stat_ready": "Thousands of Ready Stock SKUs",
-
+      
       // Trusted By
       "trusted.over": "Trusted By Over",
       "trusted.companies": "Companies",

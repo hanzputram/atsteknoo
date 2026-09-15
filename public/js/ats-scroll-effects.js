@@ -18,32 +18,20 @@
       return;
     }
 
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      document.documentElement.classList.add('lenis-disabled');
-      return;
-    }
-
     try {
       lenisInstance = new Lenis({
-        duration: 1.15,
+        autoRaf: true,
+        smoothWheel: true,
+        duration: 1.25,
         easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
         orientation: 'vertical',
         gestureOrientation: 'vertical',
-        smoothWheel: true,
-        wheelMultiplier: 0.95,
-        touchMultiplier: 1.6,
+        wheelMultiplier: 1.1,
+        touchMultiplier: 2.0,
         infinite: false,
       });
 
       window.atsLenis = lenisInstance;
-
-      function raf(time) {
-        lenisInstance.raf(time);
-        requestAnimationFrame(raf);
-      }
-      requestAnimationFrame(raf);
-
-      // Listen to scroll for scroll-scrub text illumination
       lenisInstance.on('scroll', onScrollUpdate);
     } catch (err) {
       console.error('[ATS Scroll] Error initializing Lenis:', err);
@@ -91,8 +79,10 @@
 
         container.replaceChild(frag, node);
       } else if (node.nodeType === Node.ELEMENT_NODE) {
+        if (node.tagName === 'BR') {
+          return;
+        }
         // Recurse into formatting elements (span, strong, em, b, i, a)
-        // Skip already-masked spans to prevent double wrapping
         if (!node.classList.contains('ats-word-mask') && !node.classList.contains('ats-reveal-word')) {
           wordIndex = splitContainerText(node, wordIndex);
         }
@@ -102,8 +92,8 @@
     return wordIndex;
   }
 
-  function splitElementIntoWords(el) {
-    if (el.dataset.atsSplit === 'true') return;
+  function splitElementIntoWords(el, force = false) {
+    if (!force && el.dataset.atsSplit === 'true' && el.querySelector('.ats-reveal-word')) return;
 
     // Check for bilingual sub-containers
     const enChild = el.querySelector('.ats-lang-en');
@@ -139,38 +129,46 @@
         }
       });
     }, {
-      threshold: 0.12,
+      threshold: 0.1,
       rootMargin: '0px 0px -40px 0px'
     });
   }
 
-  function attachElements() {
+  function attachElements(forceResplit = false) {
     setupObserver();
 
-    // Elements to automatically empower with Framer Reveal on Scroll
+    // Comprehensive selector list matching all section titles across ATS Tekno
     const selectors = [
       '[data-reveal-text]',
       '.reveal-text-on-scroll',
       '.hero-headline',
+      '.figma-products-headline',
+      '.p3d-title',
+      '.articles-main-title',
+      '.feature-title',
+      '.trusted-label-over',
+      '.trusted-company-text',
       '.section-title',
-      '.section-reveal-title'
+      '.section-reveal-title',
+      '.footer-cta-title',
+      '.ats-ft-cta-title'
     ];
 
     const targets = document.querySelectorAll(selectors.join(', '));
     targets.forEach(el => {
-      splitElementIntoWords(el);
+      splitElementIntoWords(el, forceResplit);
       registeredElements.add(el);
 
       if (!el.hasAttribute('data-reveal-scrub')) {
         intersectionObserver.observe(el);
       }
 
-      // If already in top viewport, trigger immediately with smooth delay
+      // Check if already in viewport
       const rect = el.getBoundingClientRect();
-      if (rect.top < window.innerHeight * 0.75 && rect.bottom > 0) {
+      if (rect.top < window.innerHeight * 0.85 && rect.bottom > 0) {
         setTimeout(() => {
           el.classList.add('is-in-view');
-        }, 80);
+        }, el.classList.contains('hero-headline') ? 140 : 40);
       }
     });
   }
@@ -209,18 +207,9 @@
   // 5. Re-synchronize on Language Change or Dynamic DOM Updates
   // --------------------------------------------------------------------------
   window.addEventListener('atsLanguageChanged', () => {
-    // Re-trigger reveal animation on visible language
-    registeredElements.forEach(el => {
-      if (el.classList.contains('is-in-view')) {
-        // Re-apply in-view class to animate newly displayed language
-        const words = el.querySelectorAll('.ats-reveal-word');
-        words.forEach(w => {
-          w.style.transition = 'none';
-          void w.offsetWidth;
-          w.style.transition = '';
-        });
-      }
-    });
+    setTimeout(() => {
+      attachElements(true);
+    }, 20);
   });
 
   // Public API

@@ -7,7 +7,7 @@
   <div class="p3d-container">
     <!-- Section Header (English / Indonesian) -->
     <div class="p3d-header">
-      <h2 class="p3d-title" data-i18n="projects.title">Electrical Engineering Project Portfolio</h2>
+      <h2 class="p3d-title" data-i18n="projects.title" data-reveal-text>Electrical Engineering Project Portfolio</h2>
       <p class="p3d-subtitle" data-i18n="projects.subtitle">
         Proven track record in supplying industrial electrical distribution switchboards, certified automation systems, and critical power infrastructure across Indonesia.
       </p>

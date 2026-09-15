@@ -609,7 +609,7 @@
           <span class="figma-products-pill-text" data-i18n="products.pill">Our Product</span>
           <span class="figma-products-red-bar" aria-hidden="true"></span>
         </div>
-        <h2 class="figma-products-headline" data-i18n="products.headline">
+        <h2 class="figma-products-headline" data-i18n="products.headline" data-reveal-text>
           The right products<br>for every project.
         </h2>
       </div>

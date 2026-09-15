@@ -6,6 +6,10 @@
 /* --------------------------------------------------------------------------
    1. Lenis Smooth Scroll Essential Rules
    -------------------------------------------------------------------------- */
+html {
+  scroll-behavior: auto !important;
+}
+
 html.lenis,
 html.lenis body {
   height: auto;
@@ -35,10 +39,10 @@ html.lenis body {
 .ats-word-mask {
   display: inline-block;
   overflow: hidden;
-  vertical-align: baseline;
+  vertical-align: top;
   line-height: inherit;
-  padding-bottom: 0.12em;
-  margin-bottom: -0.12em;
+  padding-bottom: 0.14em;
+  margin-bottom: -0.14em;
 }
 
 /* Individual word element */

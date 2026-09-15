@@ -13,7 +13,7 @@
           <span class="pulse-dot"></span>
           <span>TECHNICAL INSIGHTS &amp; ENGINEERING STANDARDS</span>
         </div>
-        <h2 class="articles-main-title" itemprop="name">Engineering Whitepapers &amp; Industrial Electrical Insights</h2>
+        <h2 class="articles-main-title" itemprop="name" data-reveal-text>Engineering Whitepapers &amp; Industrial Electrical Insights</h2>
         <p class="articles-sub-title">
           Authoritative guides on IEC 61439 switchboard sizing, harmonic mitigation, power factor correction, and protection coordination from Surabaya's premier electrical distributor.
         </p>

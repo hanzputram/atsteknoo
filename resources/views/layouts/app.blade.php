@@ -75,7 +75,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <!-- ATS Smooth Scroll & Framer Text Reveal Styles -->
-  <link rel="stylesheet" href="{{ asset('css/ats-scroll-effects.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/ats-scroll-effects.css') }}?v={{ filemtime(public_path('css/ats-scroll-effects.css')) }}">
 
   <!-- Tailwind CSS CDN with Typography & Forms Plugins -->
   <script src="https://cdn.tailwindcss.com?plugins=typography,forms,aspect-ratio"></script>
@@ -564,8 +564,8 @@
   @include('components.floating-live-chat')
 
   <!-- Lenis Smooth Scroll & Framer Text Reveal On Scroll Engine -->
-  <script src="{{ asset('js/lenis.min.js') }}"></script>
-  <script src="{{ asset('js/ats-scroll-effects.js') }}"></script>
+  <script src="{{ asset('js/lenis.min.js') }}?v={{ filemtime(public_path('js/lenis.min.js')) }}"></script>
+  <script src="{{ asset('js/ats-scroll-effects.js') }}?v={{ filemtime(public_path('js/ats-scroll-effects.js')) }}"></script>
 
   @stack('scripts')
 </body>

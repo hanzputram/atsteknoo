@@ -41,7 +41,7 @@
     rel="stylesheet">
 
   <!-- ATS Smooth Scroll & Framer Text Reveal Styles -->
-  <link rel="stylesheet" href="{{ asset('css/ats-scroll-effects.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/ats-scroll-effects.css') }}?v={{ filemtime(public_path('css/ats-scroll-effects.css')) }}">
 
   <!-- Swiper CSS CDN -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
@@ -2095,7 +2095,7 @@
     });
   </script>
   <!-- Lenis Smooth Scroll & Framer Text Reveal On Scroll Engine -->
-  <script src="{{ asset('js/lenis.min.js') }}"></script>
-  <script src="{{ asset('js/ats-scroll-effects.js') }}"></script>
+  <script src="{{ asset('js/lenis.min.js') }}?v={{ filemtime(public_path('js/lenis.min.js')) }}"></script>
+  <script src="{{ asset('js/ats-scroll-effects.js') }}?v={{ filemtime(public_path('js/ats-scroll-effects.js')) }}"></script>
 </body>
 </html>
