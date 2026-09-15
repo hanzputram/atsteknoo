@@ -227,8 +227,9 @@
     font-weight: 800;
     color: #0F172A;
     letter-spacing: -0.025em;
-    line-height: 1.18;
+    line-height: 1.28;
     margin: 0;
+    padding: 8px 0;
   }
 
   .p3d-subtitle {

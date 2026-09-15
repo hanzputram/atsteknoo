@@ -35,22 +35,24 @@ html.lenis body {
    2. Framer-style Text Reveal On Scroll (Word Mask & Stagger)
    -------------------------------------------------------------------------- */
 
-/* Outer mask container for each word — creates the clean clipping line */
+/* Outer mask container for each word — creates the clean clipping line with generous breathing room */
 .ats-word-mask {
   display: inline-block;
   overflow: hidden;
   vertical-align: top;
-  line-height: inherit;
-  padding-bottom: 0.14em;
-  margin-bottom: -0.14em;
+  line-height: normal;
+  padding-top: 0.22em;
+  margin-top: -0.22em;
+  padding-bottom: 0.22em;
+  margin-bottom: -0.22em;
 }
 
 /* Individual word element */
 .ats-reveal-word {
   display: inline-block;
-  transform: translate3d(0, 118%, 0) rotate(2.5deg);
+  transform: translate3d(0, 120%, 0) rotate(2deg);
   opacity: 0;
-  filter: blur(5px);
+  filter: blur(4px);
   will-change: transform, opacity, filter;
   transition: transform 0.82s cubic-bezier(0.16, 1, 0.3, 1),
               opacity 0.72s cubic-bezier(0.16, 1, 0.3, 1),

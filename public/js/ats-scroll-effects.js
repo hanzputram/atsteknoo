@@ -38,7 +38,7 @@
       .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
       .lenis.lenis-stopped { overflow: hidden; }
       .lenis.lenis-scrolling iframe { pointer-events: none; }
-      .ats-word-mask { display: inline-block; overflow: hidden; vertical-align: top; line-height: inherit; padding-bottom: 0.14em; margin-bottom: -0.14em; }
+      .ats-word-mask { display: inline-block; overflow: hidden; vertical-align: top; line-height: normal; padding-top: 0.22em; margin-top: -0.22em; padding-bottom: 0.22em; margin-bottom: -0.22em; }
       .ats-reveal-word {
         display: inline-block;
         transform: translate3d(0, 118%, 0) rotate(2.5deg);
@@ -250,14 +250,8 @@
       }
     });
 
-    // 2. Card elements that get smooth staggered fade-slide
-    const cardSelectors = [
-      '.feature-card',
-      '.catalog-item-card',
-      '.p3d-card',
-      '.article-card'
-    ];
-    const cardTargets = document.querySelectorAll(cardSelectors.join(', '));
+    // 2. Feature cards that get smooth staggered fade-slide
+    const cardTargets = document.querySelectorAll('.feature-card, [data-reveal-fade]');
     cardTargets.forEach((card, idx) => {
       if (!card.classList.contains('reveal-fade-up')) {
         card.classList.add('reveal-fade-up');
