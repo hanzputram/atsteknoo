@@ -771,7 +771,7 @@
     }
 
     if (waBtn) {
-      waBtn.href = `https://wa.me/6281234567890?text=${encodeURIComponent(data.waText)}`;
+      waBtn.href = `https://wa.me/6282223332830?text=${encodeURIComponent(data.waText)}`;
     }
 
     if (modal) {

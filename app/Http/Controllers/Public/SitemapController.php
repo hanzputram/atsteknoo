@@ -27,6 +27,7 @@ class SitemapController extends Controller
             ['loc' => route('articles.index'), 'priority' => '0.9', 'changefreq' => 'daily', 'lastmod' => now()->toAtomString()],
             ['loc' => route('about.index'), 'priority' => '0.8', 'changefreq' => 'monthly', 'lastmod' => now()->toAtomString()],
             ['loc' => route('contact.index'), 'priority' => '0.8', 'changefreq' => 'monthly', 'lastmod' => now()->toAtomString()],
+            ['loc' => route('promo.index'), 'priority' => '0.9', 'changefreq' => 'weekly', 'lastmod' => now()->toAtomString()],
         ];
 
         $products = Product::published()

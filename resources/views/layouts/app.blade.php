@@ -8,6 +8,8 @@
   <meta name="description" content="@yield('meta_description', 'Distributor resmi Schneider Electric di Surabaya & Jawa Timur. Supplier terlengkap MCB, MCCB, ACB, Kontaktor TeSys, Inverter Altivar, dan panel maker bersertifikat PT. Anugerah Tama Sejati.')">
   <meta name="robots" content="@yield('robots', 'index, follow')">
   <link rel="canonical" href="@yield('canonical', url()->current())">
+  <link rel="alternate" hreflang="id" href="@yield('canonical', url()->current())">
+  <link rel="alternate" hreflang="x-default" href="@yield('canonical', url()->current())">
 
   <!-- Official ATS Brand Favicon -->
   <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
@@ -34,7 +36,7 @@
   <!-- Schema.org JSON-LD LocalBusiness -->
   <script type="application/ld+json">
   {
-    "{{ '@context' }}": "https://schema.org",
+    "@@context": "https://schema.org",
     "@type": ["LocalBusiness", "ElectricalSupplyStore", "WholesaleStore"],
     "name": "PT. Anugerah Tama Sejati",
     "alternateName": [

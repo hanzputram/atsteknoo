@@ -81,6 +81,12 @@ class LegacyRedirectController extends Controller
             return redirect()->route('products.show', $cleanSlug, 301);
         }
 
+        // 6. Check Product by SKU (case-insensitive for legacy WordPress URLs like /LC1K0910M7)
+        $productBySku = Product::whereRaw('LOWER(sku) = ?', [strtolower($cleanSlug)])->first();
+        if ($productBySku) {
+            return redirect()->route('products.show', $productBySku->slug, 301);
+        }
+
         abort(404);
     }
 }

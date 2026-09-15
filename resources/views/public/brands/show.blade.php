@@ -7,7 +7,7 @@
 @push('schema')
 <script type="application/ld+json">
 {
-  "{{ '@context' }}": "https://schema.org",
+  "@@context": "https://schema.org",
   "@graph": [
     {
       "@type": "BreadcrumbList",
@@ -39,7 +39,7 @@
       @if($brand->logo_url)
       "logo": "{{ $brand->logo_url }}",
       @endif
-      "description": "{{ addslashes($brand->meta_description ?: 'Official products by ' . $brand->name) }}"
+      "description": "{!! str_replace(["\r\n", "\r", "\n", '"'], [' ', ' ', ' ', '\\"'], e(strip_tags($brand->meta_description ?: 'Official products by ' . $brand->name))) !!}"
     }
   ]
 }

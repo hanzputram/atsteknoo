@@ -27,6 +27,7 @@ use App\Http\Controllers\Public\HomeController;
 use App\Http\Controllers\Public\LiveChatApiController;
 use App\Http\Controllers\Public\PortfolioProjectController;
 use App\Http\Controllers\Public\PublicContactController;
+use App\Http\Controllers\Public\PromoController;
 use App\Http\Controllers\Public\SitemapController;
 use App\Http\Controllers\Public\StaticPageController;
 use Illuminate\Support\Facades\Route;
@@ -37,6 +38,10 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 */
 Route::get('/', [HomeController::class, 'index'])->name('home');
+
+// High-Converting Google Ads Promotional Landing Page
+Route::get('/promo', [PromoController::class, 'index'])->name('promo.index');
+Route::post('/promo/inquiry', [PromoController::class, 'submitInquiry'])->name('promo.inquiry');
 
 // Dynamic Sitemap & Robots for Google Search Console & AI Crawlers
 Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap.xml');
