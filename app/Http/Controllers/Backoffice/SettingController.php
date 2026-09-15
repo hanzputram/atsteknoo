@@ -78,13 +78,21 @@ class SettingController extends Controller
             $fileSize = round($file->getSize() / (1024 * 1024), 2) . ' MB';
             $filename = 'master-price-list-' . time() . '.pdf';
             $destinationPath = public_path('uploads/price-lists');
+            $rootDestination = base_path('uploads/price-lists');
 
             if (!file_exists($destinationPath)) {
-                mkdir($destinationPath, 0755, true);
+                @mkdir($destinationPath, 0777, true);
+            }
+            if (!file_exists($rootDestination)) {
+                @mkdir($rootDestination, 0777, true);
             }
 
             $file->move($destinationPath, $filename);
-            SiteSetting::set('master_price_list_pdf', asset('uploads/price-lists/' . $filename));
+            if ($rootDestination !== $destinationPath && file_exists($destinationPath . '/' . $filename)) {
+                @copy($destinationPath . '/' . $filename, $rootDestination . '/' . $filename);
+            }
+
+            SiteSetting::set('master_price_list_pdf', '/uploads/price-lists/' . $filename);
             SiteSetting::set('master_price_list_size', $fileSize);
         }
 
@@ -98,13 +106,21 @@ class SettingController extends Controller
             $fileSize = round($file->getSize() / (1024 * 1024), 2) . ' MB';
             $filename = 'company-profile-ats-' . time() . '.pdf';
             $destinationPath = public_path('uploads/compro');
+            $rootDestination = base_path('uploads/compro');
 
             if (!file_exists($destinationPath)) {
-                mkdir($destinationPath, 0755, true);
+                @mkdir($destinationPath, 0777, true);
+            }
+            if (!file_exists($rootDestination)) {
+                @mkdir($rootDestination, 0777, true);
             }
 
             $file->move($destinationPath, $filename);
-            SiteSetting::set('company_profile_pdf', asset('uploads/compro/' . $filename));
+            if ($rootDestination !== $destinationPath && file_exists($destinationPath . '/' . $filename)) {
+                @copy($destinationPath . '/' . $filename, $rootDestination . '/' . $filename);
+            }
+
+            SiteSetting::set('company_profile_pdf', '/uploads/compro/' . $filename);
             SiteSetting::set('company_profile_size', $fileSize);
 
             // Auto-generate thumbnail from PDF Page 1 if no manual thumbnail uploaded
@@ -112,19 +128,19 @@ class SettingController extends Controller
                 if ($request->filled('company_profile_auto_thumb')) {
                     $thumbName = $this->saveBase64Image($request->input('company_profile_auto_thumb'), public_path('uploads/compro'), 'compro-thumb');
                     if ($thumbName) {
-                        SiteSetting::set('company_profile_thumbnail', asset('uploads/compro/' . $thumbName));
+                        SiteSetting::set('company_profile_thumbnail', '/uploads/compro/' . $thumbName);
                     }
                 } else {
                     $serverThumb = $this->generateThumbnailFromPdfServer($destinationPath . '/' . $filename, public_path('uploads/compro'), 'compro-thumb');
                     if ($serverThumb) {
-                        SiteSetting::set('company_profile_thumbnail', asset('uploads/compro/' . $serverThumb));
+                        SiteSetting::set('company_profile_thumbnail', '/uploads/compro/' . $serverThumb);
                     }
                 }
             }
         } elseif (!$request->hasFile('company_profile_thumb_file') && $request->filled('company_profile_auto_thumb')) {
             $thumbName = $this->saveBase64Image($request->input('company_profile_auto_thumb'), public_path('uploads/compro'), 'compro-thumb');
             if ($thumbName) {
-                SiteSetting::set('company_profile_thumbnail', asset('uploads/compro/' . $thumbName));
+                SiteSetting::set('company_profile_thumbnail', '/uploads/compro/' . $thumbName);
             }
         }
 
@@ -137,13 +153,21 @@ class SettingController extends Controller
             $file = $request->file('company_profile_thumb_file');
             $filename = 'compro-thumb-' . time() . '.' . $file->getClientOriginalExtension();
             $destinationPath = public_path('uploads/compro');
+            $rootDestination = base_path('uploads/compro');
 
             if (!file_exists($destinationPath)) {
-                mkdir($destinationPath, 0755, true);
+                @mkdir($destinationPath, 0777, true);
+            }
+            if (!file_exists($rootDestination)) {
+                @mkdir($rootDestination, 0777, true);
             }
 
             $file->move($destinationPath, $filename);
-            SiteSetting::set('company_profile_thumbnail', asset('uploads/compro/' . $filename));
+            if ($rootDestination !== $destinationPath && file_exists($destinationPath . '/' . $filename)) {
+                @copy($destinationPath . '/' . $filename, $rootDestination . '/' . $filename);
+            }
+
+            SiteSetting::set('company_profile_thumbnail', '/uploads/compro/' . $filename);
         }
 
         // Handle Manual Upload of ATS Panel Project PDF
@@ -156,13 +180,21 @@ class SettingController extends Controller
             $fileSize = round($file->getSize() / (1024 * 1024), 2) . ' MB';
             $filename = 'panel-project-ats-' . time() . '.pdf';
             $destinationPath = public_path('uploads/panel-projects');
+            $rootDestination = base_path('uploads/panel-projects');
 
             if (!file_exists($destinationPath)) {
-                mkdir($destinationPath, 0755, true);
+                @mkdir($destinationPath, 0777, true);
+            }
+            if (!file_exists($rootDestination)) {
+                @mkdir($rootDestination, 0777, true);
             }
 
             $file->move($destinationPath, $filename);
-            SiteSetting::set('panel_project_doc_pdf', asset('uploads/panel-projects/' . $filename));
+            if ($rootDestination !== $destinationPath && file_exists($destinationPath . '/' . $filename)) {
+                @copy($destinationPath . '/' . $filename, $rootDestination . '/' . $filename);
+            }
+
+            SiteSetting::set('panel_project_doc_pdf', '/uploads/panel-projects/' . $filename);
             SiteSetting::set('panel_project_doc_size', $fileSize);
 
             // Auto-generate thumbnail from PDF Page 1 if no manual thumbnail uploaded
@@ -170,19 +202,19 @@ class SettingController extends Controller
                 if ($request->filled('panel_project_doc_auto_thumb')) {
                     $thumbName = $this->saveBase64Image($request->input('panel_project_doc_auto_thumb'), public_path('uploads/panel-projects'), 'panel-project-thumb');
                     if ($thumbName) {
-                        SiteSetting::set('panel_project_doc_thumbnail', asset('uploads/panel-projects/' . $thumbName));
+                        SiteSetting::set('panel_project_doc_thumbnail', '/uploads/panel-projects/' . $thumbName);
                     }
                 } else {
                     $serverThumb = $this->generateThumbnailFromPdfServer($destinationPath . '/' . $filename, public_path('uploads/panel-projects'), 'panel-project-thumb');
                     if ($serverThumb) {
-                        SiteSetting::set('panel_project_doc_thumbnail', asset('uploads/panel-projects/' . $serverThumb));
+                        SiteSetting::set('panel_project_doc_thumbnail', '/uploads/panel-projects/' . $serverThumb);
                     }
                 }
             }
         } elseif (!$request->hasFile('panel_project_doc_thumb_file') && $request->filled('panel_project_doc_auto_thumb')) {
             $thumbName = $this->saveBase64Image($request->input('panel_project_doc_auto_thumb'), public_path('uploads/panel-projects'), 'panel-project-thumb');
             if ($thumbName) {
-                SiteSetting::set('panel_project_doc_thumbnail', asset('uploads/panel-projects/' . $thumbName));
+                SiteSetting::set('panel_project_doc_thumbnail', '/uploads/panel-projects/' . $thumbName);
             }
         }
 
@@ -195,13 +227,21 @@ class SettingController extends Controller
             $file = $request->file('panel_project_doc_thumb_file');
             $filename = 'panel-project-thumb-' . time() . '.' . $file->getClientOriginalExtension();
             $destinationPath = public_path('uploads/panel-projects');
+            $rootDestination = base_path('uploads/panel-projects');
 
             if (!file_exists($destinationPath)) {
-                mkdir($destinationPath, 0755, true);
+                @mkdir($destinationPath, 0777, true);
+            }
+            if (!file_exists($rootDestination)) {
+                @mkdir($rootDestination, 0777, true);
             }
 
             $file->move($destinationPath, $filename);
-            SiteSetting::set('panel_project_doc_thumbnail', asset('uploads/panel-projects/' . $filename));
+            if ($rootDestination !== $destinationPath && file_exists($destinationPath . '/' . $filename)) {
+                @copy($destinationPath . '/' . $filename, $rootDestination . '/' . $filename);
+            }
+
+            SiteSetting::set('panel_project_doc_thumbnail', '/uploads/panel-projects/' . $filename);
         }
 
         AuditLog::log('UPDATE', 'SiteSetting', null, ['keys' => array_keys($request->except('_token'))]);
@@ -219,11 +259,20 @@ class SettingController extends Controller
             $data = base64_decode($data);
             if ($data !== false && strlen($data) > 100) {
                 if (!file_exists($destinationDir)) {
-                    mkdir($destinationDir, 0755, true);
+                    @mkdir($destinationDir, 0777, true);
                 }
                 $ext = strtolower($type[1]) === 'png' ? 'png' : 'jpg';
                 $filename = $prefix . '-' . time() . '.' . $ext;
-                file_put_contents($destinationDir . '/' . $filename, $data);
+                @file_put_contents($destinationDir . '/' . $filename, $data);
+
+                $rootDestination = str_replace(public_path('uploads'), base_path('uploads'), $destinationDir);
+                if ($rootDestination !== $destinationDir) {
+                    if (!file_exists($rootDestination)) {
+                        @mkdir($rootDestination, 0777, true);
+                    }
+                    @file_put_contents($rootDestination . '/' . $filename, $data);
+                }
+
                 return $filename;
             }
         }
