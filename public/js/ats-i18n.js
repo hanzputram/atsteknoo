@@ -111,13 +111,13 @@
       "pricelist.cta_btn_contact": "Contact Head Office",
 
       // Live Chat Widget
-      "chat.toast_app": "ATS Tekno Support",
+      "chat.toast_app": "ATS Support",
       "chat.toast_time": "Just now",
-      "chat.toast_title": "Live Engineering Consultation Online",
-      "chat.toast_desc": "Need BoQ quotation, Schneider/Siemens switchboards, or FAT/SAT certification? Consult our engineers now.",
-      "chat.btn_chat": "Chat with Engineer",
+      "chat.toast_title": "ATS Support Online",
+      "chat.toast_desc": "Need BoQ quotation, Schneider/Siemens switchboards, or component pricing? Chat with ATS Support now.",
+      "chat.btn_chat": "Chat with ATS Support",
       "chat.btn_later": "Later",
-      "chat.drawer_title": "ATS Engineering Support",
+      "chat.drawer_title": "ATS Support",
       "chat.drawer_sub": "PT Anugerah Tama Sejati • Live Online",
       "chat.welcome_p1": "Hello! 👋 Welcome to <strong>PT Anugerah Tama Sejati</strong>.",
       "chat.welcome_p2": "How can we assist you with electrical switchboard specifications, Motor Control Centers (MCC), SCADA, or BoQ component quotations for Schneider, Siemens, and Mitsubishi?",
@@ -125,9 +125,9 @@
       "chat.identity_req": "(Required)",
       "chat.name_placeholder": "Your Name / Company Name *",
       "chat.contact_placeholder": "WhatsApp Number / Email *",
-      "chat.msg_placeholder": "Type your consultation inquiry here...",
+      "chat.msg_placeholder": "Type your inquiry here...",
       "chat.btn_send": "Send",
-      "chat.typing_indicator": "ATS Engineer is typing...",
+      "chat.typing_indicator": "ATS Support is typing...",
 
       // About Us Publications
       "about.compro_badge": "INDONESIA • OFFICIAL PUBLICATION",
@@ -268,13 +268,13 @@
       "pricelist.cta_btn_contact": "Hubungi Kantor Pusat",
 
       // Live Chat Widget
-      "chat.toast_app": "ATS Tekno Support",
+      "chat.toast_app": "ATS Support",
       "chat.toast_time": "Baru saja",
-      "chat.toast_title": "Konsultasi Teknik & Panel Listrik Online",
-      "chat.toast_desc": "Butuh penawaran BoQ, switchboard Schneider/Siemens, atau sertifikasi FAT/SAT? Hubungi engineer kami sekarang.",
-      "chat.btn_chat": "Chat dengan Engineer",
+      "chat.toast_title": "ATS Support Online",
+      "chat.toast_desc": "Butuh penawaran BoQ, panel listrik Schneider/Siemens, atau harga komponen? Hubungi ATS Support sekarang.",
+      "chat.btn_chat": "Chat dengan ATS Support",
       "chat.btn_later": "Nanti",
-      "chat.drawer_title": "Dukungan Teknik ATS",
+      "chat.drawer_title": "ATS Support",
       "chat.drawer_sub": "PT Anugerah Tama Sejati • Online Langsung",
       "chat.welcome_p1": "Halo! 👋 Selamat datang di <strong>PT Anugerah Tama Sejati</strong>.",
       "chat.welcome_p2": "Ada yang bisa kami bantu seputar spesifikasi panel listrik, motor control center (MCC), SCADA, atau penawaran BoQ komponen Schneider, Siemens, dan Mitsubishi?",
@@ -282,9 +282,9 @@
       "chat.identity_req": "(Wajib diisi)",
       "chat.name_placeholder": "Nama Anda / Nama PT *",
       "chat.contact_placeholder": "No. WhatsApp / Email *",
-      "chat.msg_placeholder": "Ketik pesan konsultasi Anda di sini...",
+      "chat.msg_placeholder": "Ketik pesan konsultasi ke ATS Support...",
       "chat.btn_send": "Kirim",
-      "chat.typing_indicator": "ATS Engineer sedang mengetik...",
+      "chat.typing_indicator": "ATS Support sedang mengetik...",
 
       // About Us Publications
       "about.compro_badge": "INDONESIA • PUBLIKASI RESMI",

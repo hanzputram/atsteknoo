@@ -24,12 +24,14 @@ class LiveChatApiController extends Controller
         }
 
         $messages = $session->messages()
-            ->select(['id', 'sender', 'message', 'created_at'])
+            ->select(['id', 'sender', 'message', 'is_ai', 'created_at'])
             ->get()
             ->map(function ($msg) {
                 return [
                     'id' => $msg->id,
                     'sender' => $msg->sender,
+                    'is_ai' => (bool) $msg->is_ai,
+                    'sender_name' => ($msg->sender === 'admin') ? 'ATS Support' : 'Anda',
                     'message' => $msg->message,
                     'time' => $msg->created_at->timezone('Asia/Jakarta')->format('H:i'),
                 ];
@@ -82,6 +84,8 @@ class LiveChatApiController extends Controller
                     'messages' => $s->messages->map(fn ($m) => [
                         'id' => $m->id,
                         'sender' => $m->sender,
+                        'is_ai' => (bool) $m->is_ai,
+                        'sender_name' => ($m->sender === 'admin') ? 'ATS Support' : 'Anda',
                         'message' => $m->message,
                         'time' => $m->created_at->timezone('Asia/Jakarta')->format('H:i'),
                     ]),
@@ -147,6 +151,9 @@ class LiveChatApiController extends Controller
                 'ip_address' => $request->ip(),
                 'last_message_at' => now(),
                 'visitor_typing_at' => null,
+                'ai_enabled' => true,
+                'is_archived' => false,
+                'needs_human_takeover' => false,
             ]);
         } else {
             // Update name / contact if provided
@@ -167,15 +174,66 @@ class LiveChatApiController extends Controller
             'is_read' => false,
         ]);
 
+        $aiReplyData = null;
+
+        // Anti-collision & AI reply check:
+        // 1. Session must not be archived
+        // 2. Session must have ai_enabled = true
+        // 3. Admin must NOT be currently typing (isAdminTyping == false)
+        // 4. Admin has not actively engaged within the last 3 minutes
+        if ($session->canAiReply()) {
+            $gemini = app(\App\Services\GeminiChatService::class);
+            if ($gemini->isConfigured()) {
+                $aiResult = $gemini->generateReply($session, $request->input('message'));
+                if ($aiResult && !empty($aiResult['reply'])) {
+                    // Anti-collision: re-verify session in case admin intervened during Gemini generation
+                    $session->refresh();
+                    $adminIntervened = $session->isAdminTyping() || 
+                        $session->messages()
+                            ->where('sender', 'admin')
+                            ->where('is_ai', false)
+                            ->where('created_at', '>=', $chatMsg->created_at)
+                            ->exists();
+
+                    if (!$adminIntervened) {
+                        $aiMsg = LiveChatMessage::create([
+                            'session_id' => $session->id,
+                            'sender' => 'admin',
+                            'message' => $aiResult['reply'],
+                            'is_read' => true,
+                            'is_ai' => true,
+                        ]);
+
+                        $session->update([
+                            'last_message_at' => now(),
+                            'needs_human_takeover' => (bool) $aiResult['needs_human_takeover'],
+                        ]);
+
+                        $aiReplyData = [
+                            'id' => $aiMsg->id,
+                            'sender' => 'admin',
+                            'is_ai' => true,
+                            'sender_name' => 'ATS Support',
+                            'message' => $aiMsg->message,
+                            'time' => $aiMsg->created_at->timezone('Asia/Jakarta')->format('H:i'),
+                        ];
+                    }
+                }
+            }
+        }
+
         return response()->json([
             'success' => true,
             'session_token' => $session->session_token,
             'message' => [
                 'id' => $chatMsg->id,
                 'sender' => $chatMsg->sender,
+                'is_ai' => false,
+                'sender_name' => 'Anda',
                 'message' => $chatMsg->message,
                 'time' => $chatMsg->created_at->timezone('Asia/Jakarta')->format('H:i'),
             ],
+            'ai_reply' => $aiReplyData,
         ]);
     }
 }

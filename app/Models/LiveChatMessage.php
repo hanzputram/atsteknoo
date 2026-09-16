@@ -15,11 +15,13 @@ class LiveChatMessage extends Model
         'sender',
         'message',
         'is_read',
+        'is_ai',
         'admin_id',
     ];
 
     protected $casts = [
         'is_read' => 'boolean',
+        'is_ai'   => 'boolean',
     ];
 
     public function session(): BelongsTo

@@ -1113,7 +1113,7 @@
         </span>
         <span style="flex:1;">Live Chat</span>
         @php
-          $sidebarLiveChatUnread = \App\Models\LiveChatSession::where('status', 'unread')->count();
+          $sidebarLiveChatUnread = \App\Models\LiveChatSession::where('is_archived', false)->where('status', 'unread')->count();
         @endphp
         <span id="sidebarLiveChatBadge" style="{{ $sidebarLiveChatUnread > 0 ? '' : 'display: none;' }} background-color: #FC0001; color: #FFFFFF; font-size: 10px; font-weight: 800; padding: 2px 7px; border-radius: 9999px;">{{ $sidebarLiveChatUnread }}</span>
       </a>
@@ -1121,7 +1121,11 @@
         <span class="nav-icon">
           <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
         </span>
-        <span>Pesan Masuk</span>
+        <span style="flex:1;">Pesan Masuk</span>
+        @php
+          $sidebarInquiryUnread = \App\Models\ContactInquiry::where('status', 'unread')->count();
+        @endphp
+        <span id="sidebarInquiryBadge" style="{{ $sidebarInquiryUnread > 0 ? '' : 'display: none;' }} background-color: #2563EB; color: #FFFFFF; font-size: 10px; font-weight: 800; padding: 2px 7px; border-radius: 9999px;">{{ $sidebarInquiryUnread }}</span>
       </a>
 
       @if(auth()->user()->isAdmin())
@@ -1191,16 +1195,16 @@
       </div>
     </header>
 
-    <!-- Global Sticky Live Chat Alert Banner -->
+    <!-- Global Sticky Alert Banner (Live Chat / Takeover / Inquiries) -->
     <div id="liveChatGlobalAlert" class="livechat-floating-banner" style="display: none;">
       <div class="banner-inner">
-        <div class="banner-glow-icon">
-          <span class="pulse-wave"></span>
-          <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.3" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+        <div class="banner-glow-icon" id="globalAlertGlowIcon">
+          <span class="pulse-wave" id="globalAlertPulseWave"></span>
+          <svg id="globalAlertSvgIcon" width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.3" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
         </div>
         <div class="banner-info">
           <div class="banner-headline">
-            <span class="badge-live-chat">CHAT MASUK</span>
+            <span id="globalAlertBadge" class="badge-live-chat">CHAT MASUK</span>
             <span id="liveChatVisitorName" class="visitor-name"></span>
             <span id="liveChatVisitorTime" class="chat-time"></span>
           </div>
@@ -1208,7 +1212,7 @@
         </div>
         <div class="banner-cta">
           <a id="liveChatDirectLink" href="#" class="btn-open-chat">
-            <span>Buka Chat</span>
+            <span id="globalAlertBtnText">Buka Chat</span>
             <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
           </a>
           <button type="button" onclick="dismissLiveChatAlert()" class="btn-close-banner" aria-label="Tutup Banner">&times;</button>
@@ -1277,21 +1281,49 @@
     });
   </script>
 
-  <!-- Live Chat Real-Time Notification Engine (Laptop Desktop Notification & Audio Alert) -->
+  <!-- Real-Time Notification Engine (Live Chat, AI Takeover Alerts, & Pesan Masuk Inquiries) -->
   <script>
   (function() {
     const notifToggleBtn = document.getElementById('btnEnableDesktopNotif');
     const notifBellIcon = document.getElementById('notifBellIcon');
     const notifBellLabel = document.getElementById('notifBellLabel');
     const globalAlert = document.getElementById('liveChatGlobalAlert');
+    const globalAlertBadge = document.getElementById('globalAlertBadge');
+    const globalAlertGlowIcon = document.getElementById('globalAlertGlowIcon');
+    const globalAlertPulseWave = document.getElementById('globalAlertPulseWave');
+    const globalAlertBtnText = document.getElementById('globalAlertBtnText');
     const visitorNameEl = document.getElementById('liveChatVisitorName');
     const visitorTimeEl = document.getElementById('liveChatVisitorTime');
     const messageSnippetEl = document.getElementById('liveChatMessageSnippet');
     const directLinkEl = document.getElementById('liveChatDirectLink');
-    const sidebarBadge = document.getElementById('sidebarLiveChatBadge');
+    const sidebarLiveChatBadge = document.getElementById('sidebarLiveChatBadge');
+    const sidebarInquiryBadge = document.getElementById('sidebarInquiryBadge');
 
     let lastSeenMessageId = 0;
+    let lastSeenInquiryId = 0;
+    let lastAlertedTakeoverId = 0;
     let audioCtx = null;
+    let titleFlashInterval = null;
+    const originalDocTitle = document.title;
+
+    // Document Title Flashing on Inactive Tab
+    function triggerTitleFlash(text) {
+      if (!document.hidden) return; // Only flash if tab is in background
+      if (titleFlashInterval) clearInterval(titleFlashInterval);
+      let toggle = false;
+      titleFlashInterval = setInterval(() => {
+        document.title = toggle ? text : originalDocTitle;
+        toggle = !toggle;
+      }, 1100);
+    }
+
+    window.addEventListener('focus', () => {
+      if (titleFlashInterval) {
+        clearInterval(titleFlashInterval);
+        titleFlashInterval = null;
+        document.title = originalDocTitle;
+      }
+    });
 
     // Initialize Audio Context on user interaction to abide by browser autoplay policies
     function initAudio() {
@@ -1306,7 +1338,7 @@
       }
     }
 
-    // Dual tone force chime sound (rich & attention-grabbing)
+    // Standard chime sound (pleasant & noticeable)
     function playNotificationChime() {
       try {
         initAudio();
@@ -1328,7 +1360,7 @@
         osc1.start(now);
         osc1.stop(now + 0.4);
 
-        // Tone 2: D6 (1174.66 Hz) ramping to E6 (1318.51 Hz) - crystal ringing chime
+        // Tone 2: D6 (1174.66 Hz) ramping to E6 (1318.51 Hz)
         const osc2 = audioCtx.createOscillator();
         const gain2 = audioCtx.createGain();
         osc2.type = 'triangle';
@@ -1343,6 +1375,34 @@
         osc2.stop(now + 0.75);
       } catch(e) {
         console.warn('Audio alert failed:', e);
+      }
+    }
+
+    // Urgent chime sound for AI Human Takeover
+    function playUrgentChime() {
+      try {
+        initAudio();
+        if (!audioCtx) return;
+
+        const now = audioCtx.currentTime;
+
+        // Triple pulse alert (C6 - E6 - G6)
+        [0, 0.16, 0.32].forEach((offset, idx) => {
+          const freqs = [1046.50, 1318.51, 1567.98];
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.type = 'square';
+          osc.frequency.setValueAtTime(freqs[idx], now + offset);
+          gain.gain.setValueAtTime(0.001, now + offset);
+          gain.gain.linearRampToValueAtTime(0.25, now + offset + 0.02);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + offset + 0.14);
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          osc.start(now + offset);
+          osc.stop(now + offset + 0.14);
+        });
+      } catch(e) {
+        console.warn('Urgent chime failed:', e);
       }
     }
 
@@ -1384,7 +1444,7 @@
       }
       if (Notification.permission === 'granted') {
         playNotificationChime();
-        triggerLaptopNotification('🔔 Notifikasi Live Chat ATS Aktif', 'Notifikasi banner laptop telah aktif dan siap menerima pesan dari pengunjung!', null);
+        triggerLaptopNotification('🔔 Notifikasi ATS Aktif', 'Notifikasi banner laptop telah aktif untuk Live Chat & Pesan Masuk!', null);
         return;
       }
       try {
@@ -1392,7 +1452,7 @@
         updateNotifBtnUI();
         if (permission === 'granted') {
           playNotificationChime();
-          triggerLaptopNotification('✅ Notifikasi Laptop Berhasil Diaktifkan!', 'Setiap pengunjung yang mengirim pesan live chat akan memunculkan banner di laptop Anda.', null);
+          triggerLaptopNotification('✅ Notifikasi Laptop Berhasil Diaktifkan!', 'Setiap chat atau pesan form masuk akan memunculkan banner di laptop Anda.', null);
         }
       } catch(err) {
         console.error(err);
@@ -1404,9 +1464,9 @@
       try {
         const notif = new Notification(title, {
           body: body,
-          icon: '{{ asset("favicon.svg") }}',
-          badge: '{{ asset("favicon-32x32.png") }}',
-          tag: 'ats-live-chat-' + Date.now(),
+          icon: '{{ asset("images/ats-logo.png") }}',
+          badge: '{{ asset("images/ats-logo.png") }}',
+          tag: 'ats-alert-' + Date.now(),
           renotify: true,
           requireInteraction: true // Keeps the banner on laptop screen until interacted!
         });
@@ -1427,56 +1487,152 @@
       if (globalAlert) globalAlert.style.display = 'none';
     };
 
-    function showInAppAlert(data) {
+    function showInAppAlert(opts) {
       if (!globalAlert) return;
-      if (visitorNameEl) visitorNameEl.textContent = data.visitor_name + (data.visitor_contact ? ` (${data.visitor_contact})` : '');
-      if (visitorTimeEl) visitorTimeEl.textContent = '• ' + data.time;
-      if (messageSnippetEl) messageSnippetEl.textContent = `"${data.message}"`;
-      if (directLinkEl) directLinkEl.href = `/backoffice/live-chats/${data.session_id}`;
+      
+      // Update badge & styling
+      if (globalAlertBadge) {
+        globalAlertBadge.textContent = opts.badge || 'CHAT MASUK';
+        if (opts.type === 'takeover') {
+          globalAlertBadge.style.backgroundColor = '#D97706';
+        } else if (opts.type === 'inquiry') {
+          globalAlertBadge.style.backgroundColor = '#2563EB';
+        } else {
+          globalAlertBadge.style.backgroundColor = '#FC0001';
+        }
+      }
+
+      if (globalAlertGlowIcon && globalAlertPulseWave) {
+        const color = opts.type === 'takeover' ? '#D97706' : (opts.type === 'inquiry' ? '#2563EB' : '#FC0001');
+        globalAlertGlowIcon.style.backgroundColor = color;
+        globalAlertGlowIcon.style.boxShadow = `0 0 15px ${color}99`;
+        globalAlertPulseWave.style.borderColor = color;
+      }
+
+      if (globalAlertBtnText) {
+        globalAlertBtnText.textContent = opts.btnText || 'Buka Chat';
+      }
+
+      if (visitorNameEl) visitorNameEl.textContent = opts.title || 'Pengunjung';
+      if (visitorTimeEl) visitorTimeEl.textContent = opts.time ? '• ' + opts.time : '';
+      if (messageSnippetEl) messageSnippetEl.textContent = opts.snippet ? `"${opts.snippet}"` : '';
+      if (directLinkEl) directLinkEl.href = opts.url || '#';
+
       globalAlert.style.display = 'block';
     }
 
-    // Poll for new live chat messages every 3.5 seconds
-    async function checkLiveChatNotifications() {
+    // Poll for new live chat messages, AI takeovers, and contact inquiries every 3.5s
+    async function checkNotificationsEngine() {
       try {
-        const res = await fetch(`{{ route('backoffice.live-chats.notifications') }}?last_seen_id=${lastSeenMessageId}`);
+        const url = `{{ route('backoffice.live-chats.notifications') }}?last_seen_id=${lastSeenMessageId}&last_seen_inquiry_id=${lastSeenInquiryId}`;
+        const res = await fetch(url);
         if (!res.ok) return;
         const data = await res.json();
 
-        // Update sidebar badge count
-        if (sidebarBadge) {
+        // 1. Update live chat unread badge count
+        if (sidebarLiveChatBadge) {
           if (data.unread_count > 0) {
-            sidebarBadge.textContent = data.unread_count;
-            sidebarBadge.style.display = 'inline-block';
+            sidebarLiveChatBadge.textContent = data.unread_count;
+            sidebarLiveChatBadge.style.display = 'inline-block';
           } else {
-            sidebarBadge.style.display = 'none';
+            sidebarLiveChatBadge.style.display = 'none';
           }
         }
 
-        // Initial pass: seed lastSeenMessageId so past messages don't falsely sound alarm on first visit
-        if (lastSeenMessageId === 0) {
+        // 2. Update inquiries unread badge count
+        if (sidebarInquiryBadge) {
+          if (data.unread_inquiries_count > 0) {
+            sidebarInquiryBadge.textContent = data.unread_inquiries_count;
+            sidebarInquiryBadge.style.display = 'inline-block';
+          } else {
+            sidebarInquiryBadge.style.display = 'none';
+          }
+        }
+
+        // Initial pass: seed IDs so existing past records don't falsely ring alarms on page load
+        if (lastSeenMessageId === 0 && lastSeenInquiryId === 0) {
           lastSeenMessageId = data.latest_id || 1;
+          lastSeenInquiryId = data.latest_inquiry_id || 1;
           return;
         }
 
-        // If new visitor message arrived
+        // 3. Urgent AI Human Takeover Alert
+        if (data.needs_urgent_takeover && data.takeover_sessions && data.takeover_sessions.length > 0) {
+          const firstTakeover = data.takeover_sessions[0];
+          if (firstTakeover.id !== lastAlertedTakeoverId) {
+            lastAlertedTakeoverId = firstTakeover.id;
+
+            playUrgentChime();
+            triggerTitleFlash('⚠️ [BUTUH ADMIN] AI Perlu Bantuan!');
+
+            triggerLaptopNotification(
+              `⚠️ BUTUH BANTUAN ADMIN: ${firstTakeover.visitor_name}`,
+              `AI mengalihkan sesi chat ini karena butuh konfirmasi harga/teknis dari engineer.`,
+              `/backoffice/live-chats/${firstTakeover.id}`
+            );
+
+            showInAppAlert({
+              type: 'takeover',
+              badge: '⚠️ BUTUH ADMIN SEGERA',
+              title: `${firstTakeover.visitor_name} (${firstTakeover.visitor_contact || 'Online'})`,
+              time: 'Sekarang',
+              snippet: 'AI menyarankan pengunjung ke WhatsApp & memerlukan balasan langsung dari engineer ATS.',
+              btnText: 'Ambil Alih Chat',
+              url: `/backoffice/live-chats/${firstTakeover.id}`
+            });
+          }
+        }
+
+        // 4. New Live Chat Visitor Message
         if (data.has_new && data.latest_message) {
           lastSeenMessageId = data.latest_id;
 
-          // 1. Force audio alert
           playNotificationChime();
+          triggerTitleFlash(`(1) 💬 Chat: ${data.latest_message.visitor_name}`);
 
-          // 2. Native laptop desktop notification banner
           triggerLaptopNotification(
-            `💬 Pesan Chat Baru: ${data.latest_message.visitor_name}`,
+            `💬 Live Chat: ${data.latest_message.visitor_name}`,
             data.latest_message.message,
             `/backoffice/live-chats/${data.latest_message.session_id}`
           );
 
-          // 3. In-App glowing top banner
-          showInAppAlert(data.latest_message);
+          showInAppAlert({
+            type: 'chat',
+            badge: 'CHAT MASUK',
+            title: `${data.latest_message.visitor_name} ${data.latest_message.visitor_contact ? '(' + data.latest_message.visitor_contact + ')' : ''}`,
+            time: data.latest_message.time,
+            snippet: data.latest_message.message,
+            btnText: 'Buka Chat',
+            url: `/backoffice/live-chats/${data.latest_message.session_id}`
+          });
         } else if (data.latest_id > lastSeenMessageId) {
           lastSeenMessageId = data.latest_id;
+        }
+
+        // 5. New Contact Form Inquiry (Pesan Masuk)
+        if (data.has_new_inquiry && data.latest_inquiry) {
+          lastSeenInquiryId = data.latest_inquiry_id;
+
+          playNotificationChime();
+          triggerTitleFlash(`(1) 📩 Pesan: ${data.latest_inquiry.name}`);
+
+          triggerLaptopNotification(
+            `📩 Pesan Form Kontak: ${data.latest_inquiry.name}`,
+            `${data.latest_inquiry.subject} - ${data.latest_inquiry.message}`,
+            `/backoffice/inquiries/${data.latest_inquiry.id}`
+          );
+
+          showInAppAlert({
+            type: 'inquiry',
+            badge: 'PESAN FORM MASUK',
+            title: `${data.latest_inquiry.name} (${data.latest_inquiry.email || data.latest_inquiry.phone || 'Form'})`,
+            time: data.latest_inquiry.time,
+            snippet: `${data.latest_inquiry.subject}: ${data.latest_inquiry.message}`,
+            btnText: 'Buka Pesan',
+            url: `/backoffice/inquiries/${data.latest_inquiry.id}`
+          });
+        } else if (data.latest_inquiry_id > lastSeenInquiryId) {
+          lastSeenInquiryId = data.latest_inquiry_id;
         }
       } catch(err) {
         // silent network retry
@@ -1486,8 +1642,8 @@
     // Init UI & start polling
     document.addEventListener('DOMContentLoaded', () => {
       updateNotifBtnUI();
-      checkLiveChatNotifications();
-      setInterval(checkLiveChatNotifications, 3500);
+      checkNotificationsEngine();
+      setInterval(checkNotificationsEngine, 3500);
 
       // Warm up audio context on first user click anywhere in the page
       document.addEventListener('click', () => {

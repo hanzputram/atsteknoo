@@ -15,6 +15,11 @@ class LiveChatSession extends Model
         'visitor_name',
         'visitor_contact',
         'status',
+        'is_archived',
+        'archived_at',
+        'ai_enabled',
+        'needs_human_takeover',
+        'admin_engaged_at',
         'ip_address',
         'last_message_at',
         'visitor_typing_at',
@@ -22,9 +27,20 @@ class LiveChatSession extends Model
     ];
 
     protected $casts = [
+        'is_archived' => 'boolean',
+        'archived_at' => 'datetime',
+        'ai_enabled' => 'boolean',
+        'needs_human_takeover' => 'boolean',
+        'admin_engaged_at' => 'datetime',
         'last_message_at' => 'datetime',
         'visitor_typing_at' => 'datetime',
         'admin_typing_at' => 'datetime',
+    ];
+
+    protected $attributes = [
+        'ai_enabled' => true,
+        'is_archived' => false,
+        'needs_human_takeover' => false,
     ];
 
     public function isVisitorTyping(): bool
@@ -34,7 +50,30 @@ class LiveChatSession extends Model
 
     public function isAdminTyping(): bool
     {
-        return $this->admin_typing_at !== null && $this->admin_typing_at->diffInSeconds(now()) < 5;
+        // Admin considered typing if typed within the last 15 seconds
+        return $this->admin_typing_at !== null && $this->admin_typing_at->diffInSeconds(now()) < 15;
+    }
+
+    public function canAiReply(): bool
+    {
+        $isArchived = (bool) ($this->is_archived ?? false);
+        $aiEnabled = (bool) ($this->ai_enabled ?? true);
+
+        if ($isArchived || !$aiEnabled) {
+            return false;
+        }
+
+        // Do not collide if admin is actively typing in backoffice right now
+        if ($this->isAdminTyping()) {
+            return false;
+        }
+
+        // Do not collide if admin just sent a reply within the last 15 seconds
+        if ($this->admin_engaged_at && $this->admin_engaged_at->diffInSeconds(now()) < 15) {
+            return false;
+        }
+
+        return true;
     }
 
     public function messages(): HasMany

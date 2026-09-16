@@ -214,6 +214,9 @@ Route::prefix('backoffice')->name('backoffice.')->group(function () {
         Route::get('live-chats/{id}', [LiveChatController::class, 'show'])->name('live-chats.show');
         Route::post('live-chats/{id}/reply', [LiveChatController::class, 'reply'])->name('live-chats.reply');
         Route::post('live-chats/{id}/close', [LiveChatController::class, 'close'])->name('live-chats.close');
+        Route::post('live-chats/{id}/archive', [LiveChatController::class, 'archive'])->name('live-chats.archive');
+        Route::post('live-chats/{id}/unarchive', [LiveChatController::class, 'unarchive'])->name('live-chats.unarchive');
+        Route::post('live-chats/{id}/toggle-ai', [LiveChatController::class, 'toggleAi'])->name('live-chats.toggle-ai');
         Route::delete('live-chats/{id}', [LiveChatController::class, 'destroy'])->name('live-chats.destroy');
         Route::get('live-chats/{id}/poll', [LiveChatController::class, 'poll'])->name('live-chats.poll');
         Route::post('live-chats/{id}/typing', [LiveChatController::class, 'updateTyping'])->name('live-chats.typing');

@@ -5,7 +5,7 @@
     <div class="win-toast-header">
       <div class="win-toast-brand">
         <img src="/images/ats-logo.png" alt="ATS" onerror="this.src='/favicon.ico'" class="win-toast-app-icon">
-        <span class="win-toast-app-name" data-i18n="chat.toast_app">ATS Tekno Support</span>
+        <span class="win-toast-app-name" data-i18n="chat.toast_app">ATS Support</span>
         <span class="win-toast-dot">•</span>
         <span class="win-toast-time" data-i18n="chat.toast_time">Just now</span>
       </div>
@@ -18,14 +18,14 @@
         </div>
       </div>
       <div class="win-toast-text">
-        <div class="win-toast-title" data-i18n="chat.toast_title">Live Engineering Consultation Online</div>
-        <div class="win-toast-desc" data-i18n="chat.toast_desc">Need BoQ quotation, Schneider/Siemens switchboards, or FAT/SAT certification? Consult our engineers now.</div>
+        <div class="win-toast-title" data-i18n="chat.toast_title">ATS Support Online</div>
+        <div class="win-toast-desc" data-i18n="chat.toast_desc">Need BoQ quotation, Schneider/Siemens switchboards, or component pricing? Chat with ATS Support now.</div>
       </div>
     </div>
     <div class="win-toast-actions">
       <button type="button" class="win-toast-btn win-toast-btn-primary" id="winToastOpenChat">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px;"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
-        <span data-i18n="chat.btn_chat">Chat with Engineer</span>
+        <span data-i18n="chat.btn_chat">Chat with ATS Support</span>
       </button>
       <button type="button" class="win-toast-btn win-toast-btn-ghost" id="winToastDismiss" data-i18n="chat.btn_later">Later</button>
     </div>
@@ -43,7 +43,7 @@
           <span class="chat-online-indicator"></span>
         </div>
         <div>
-          <h4 class="chat-drawer-title" data-i18n="chat.drawer_title">ATS Engineering Support</h4>
+          <h4 class="chat-drawer-title" data-i18n="chat.drawer_title">ATS Support</h4>
           <p class="chat-drawer-subtitle" data-i18n="chat.drawer_sub">PT Anugerah Tama Sejati • Live Online</p>
         </div>
       </div>
@@ -86,7 +86,7 @@
             <p>Halo! 👋 Selamat datang di <strong>PT Anugerah Tama Sejati</strong>.</p>
             <p style="margin-top:6px;">Ada yang bisa kami bantu seputar spesifikasi panel listrik, motor control center (MCC), SCADA, atau penawaran BoQ komponen Schneider, Siemens, dan Mitsubishi?</p>
           </div>
-          <span class="chat-msg-timestamp">Official ATS Support</span>
+          <span class="chat-msg-timestamp">ATS Support</span>
         </div>
       </div>
 
@@ -118,7 +118,7 @@
             <span class="typing-dot"></span>
             <span class="typing-dot"></span>
           </div>
-          <span class="typing-label" id="visitorTypingLabel" data-i18n="chat.typing_indicator">ATS Engineer sedang mengetik...</span>
+          <span class="typing-label" id="visitorTypingLabel" data-i18n="chat.typing_indicator">ATS Support sedang mengetik...</span>
         </div>
       </div>
     </div>
@@ -156,7 +156,7 @@
 
       <!-- Main Input Form -->
       <form id="visitorLiveChatForm" onsubmit="handleVisitorSubmit(event)" class="chat-form-row">
-        <input type="text" id="visitorLiveMessageInput" placeholder="Type your technical inquiry here..." data-i18n-placeholder-en="Type your technical inquiry here..." data-i18n-placeholder-id="Ketik pesan konsultasi ke Engineer..." required autocomplete="off" class="chat-message-field">
+        <input type="text" id="visitorLiveMessageInput" placeholder="Type your technical inquiry here..." data-i18n-placeholder-en="Type your technical inquiry here..." data-i18n-placeholder-id="Ketik pesan konsultasi ke ATS Support..." required autocomplete="off" class="chat-message-field">
         <button type="submit" id="visitorLiveSendBtn" class="chat-send-btn" aria-label="Send Message" title="Send Message" data-i18n-title-en="Send Message" data-i18n-title-id="Kirim Pesan">
           <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
         </button>
@@ -595,7 +595,9 @@
 .chat-drawer-user {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
 }
 
 .chat-avatar-wrap {
@@ -630,16 +632,22 @@
 
 .chat-drawer-title {
   margin: 0;
-  font-size: 14.5px;
-  font-weight: 700;
+  font-size: 14px;
+  font-weight: 800;
   color: #0F172A;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .chat-drawer-subtitle {
   margin: 2px 0 0;
-  font-size: 11.5px;
+  font-size: 11px;
   color: #FC0001;
   font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .chat-drawer-close {
@@ -768,7 +776,17 @@
 }
 
 .chat-msg-bubble strong {
-  color: #FC0001;
+  font-weight: 800;
+}
+
+.chat-msg-visitor .chat-msg-bubble strong {
+  color: #0F172A !important;
+}
+
+.chat-msg-admin .chat-msg-bubble strong,
+.chat-msg-ai .chat-msg-bubble strong {
+  color: #FFFFFF !important;
+  font-weight: 800;
 }
 
 .chat-msg-visitor .chat-msg-bubble {
@@ -779,8 +797,9 @@
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
 }
 
-/* Admin Replies (Solid Red #FC0001) */
-.chat-msg-admin .chat-msg-bubble {
+/* Admin & Support Replies (Solid Red #FC0001) */
+.chat-msg-admin .chat-msg-bubble,
+.chat-msg-ai .chat-msg-bubble {
   background-color: #FC0001;
   border-radius: 14px 14px 14px 2px;
   color: #FFFFFF;
@@ -788,15 +807,8 @@
   box-shadow: 0 3px 10px rgba(252, 0, 1, 0.25);
 }
 
-.chat-msg-timestamp {
-  display: block;
-  font-size: 9.5px;
-  color: #94A3B8;
-  margin-top: 4px;
-  text-align: right;
-}
-
-.chat-msg-admin .chat-msg-timestamp {
+.chat-msg-admin .chat-msg-timestamp,
+.chat-msg-ai .chat-msg-timestamp {
   color: #FEE2E2;
 }
 
@@ -1054,31 +1066,41 @@
   display: flex;
   align-items: center;
   gap: 8px;
+  flex-shrink: 0;
 }
 .chat-history-toggle-btn {
-  background: rgba(255, 255, 255, 0.12);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: #FFFFFF;
-  font-size: 11px;
+  background: #F1F5F9;
+  border: 1px solid #CBD5E1;
+  color: #1E293B;
+  font-size: 11.5px;
   font-weight: 700;
-  padding: 4px 10px;
+  padding: 5px 11px;
   border-radius: 9999px;
   display: inline-flex;
   align-items: center;
   gap: 5px;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
 }
 .chat-history-toggle-btn:hover {
-  background: rgba(255, 255, 255, 0.22);
-  border-color: rgba(255, 255, 255, 0.35);
+  background: #E2E8F0;
+  border-color: #94A3B8;
+  color: #FC0001;
+}
+.chat-history-toggle-btn svg {
+  color: #475569;
+  flex-shrink: 0;
+}
+.chat-history-toggle-btn:hover svg {
+  color: #FC0001;
 }
 .history-badge-pill {
   background: #FC0001;
   color: #FFFFFF;
-  font-size: 9.5px;
+  font-size: 10px;
   font-weight: 800;
-  padding: 1px 5px;
+  padding: 1px 6px;
   border-radius: 9999px;
   line-height: 1.2;
 }
@@ -1520,11 +1542,12 @@
       } else {
         transcriptStream.innerHTML = session.messages.map(m => {
           const isVisitor = m.sender === 'visitor';
+          const senderLabel = isVisitor ? 'Anda' : (m.admin_name || 'ATS Support');
           return `
             <div class="chat-msg ${isVisitor ? 'chat-msg-visitor' : 'chat-msg-admin'}">
               <div class="chat-msg-bubble">
-                <p style="white-space:pre-line; word-break:break-word; text-align:left; margin:0;">${escapeHtml(m.message.trim())}</p>
-                <span class="chat-msg-timestamp">${isVisitor ? 'Anda' : 'ATS Engineer'} • ${m.time}</span>
+                <p style="white-space:pre-line; word-break:break-word; text-align:left; margin:0;">${formatMessageText(m.message)}</p>
+                <span class="chat-msg-timestamp">${senderLabel} • ${m.time}</span>
               </div>
             </div>
           `;
@@ -1730,6 +1753,12 @@
         if (sessionResetBanner) sessionResetBanner.style.display = 'none';
         msgInput.value = '';
         appendSingleMessage(data.message);
+        if (data.ai_reply) {
+          setTimeout(() => {
+            appendSingleMessage(data.ai_reply);
+            playNotificationChime();
+          }, 450);
+        }
         scrollToBottom();
       } else {
         const errorText = (data.errors && Object.values(data.errors).flat().join(' ')) || data.message || 'Gagal mengirim pesan.';
@@ -1810,6 +1839,25 @@
     }
   }
 
+  function formatMessageText(text) {
+    if (!text) return '';
+    let formatted = escapeHtml(text.trim());
+
+    // 1. Convert bullet points: lines starting with "* " or "- " -> "• "
+    formatted = formatted.replace(/(^|[\r\n]+)[ \t]*[\*\-][ \t]+/g, '$1• ');
+
+    // 2. Convert Bold: **text** -> <strong>text</strong>
+    formatted = formatted.replace(/\*\*(.+?)\*\*/gs, '<strong>$1</strong>');
+
+    // 3. Linkify URLs
+    const urlRegex = /(https?:\/\/[^\s<]+)/g;
+    formatted = formatted.replace(urlRegex, function(url) {
+      return `<a href="${url}" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: underline; font-weight: 700;">${url}</a>`;
+    });
+
+    return formatted;
+  }
+
   function appendSingleMessage(msg) {
     if (knownMessageIds.has(msg.id)) return;
     knownMessageIds.add(msg.id);
@@ -1818,10 +1866,25 @@
     const msgEl = document.createElement('div');
     msgEl.className = `chat-msg ${isVisitor ? 'chat-msg-visitor' : 'chat-msg-admin'}`;
     
+    const senderName = isVisitor ? 'Anda' : (msg.sender_name || msg.admin_name || 'ATS Support');
+
+    let waActionHtml = '';
+    if (!isVisitor && (msg.message.includes('wa.me') || msg.message.includes('082223332830') || msg.message.toLowerCase().includes('whatsapp'))) {
+      waActionHtml = `
+        <div style="margin-top: 8px;">
+          <a href="https://wa.me/6282223332830?text=Halo%20ATS%20Tekno,%20saya%20ingin%20konsultasi%20lanjutan" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 6px; background-color: #25D366; color: #FFFFFF; font-size: 11.5px; font-weight: 700; padding: 6px 12px; border-radius: 8px; text-decoration: none; box-shadow: 0 2px 6px rgba(37, 211, 102, 0.3);">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+            <span>Hubungi WhatsApp ATS</span>
+          </a>
+        </div>
+      `;
+    }
+
     msgEl.innerHTML = `
       <div class="chat-msg-bubble">
-        <p style="white-space:pre-line; word-break:break-word; text-align:left; margin:0;">${escapeHtml(msg.message.trim())}</p>
-        <span class="chat-msg-timestamp">${isVisitor ? 'Anda' : 'ATS Engineer'} • ${msg.time}</span>
+        <p style="white-space:pre-line; word-break:break-word; text-align:left; margin:0;">${formatMessageText(msg.message)}</p>
+        ${waActionHtml}
+        <span class="chat-msg-timestamp">${senderName} • ${msg.time}</span>
       </div>
     `;
     dynamicContainer.appendChild(msgEl);
@@ -1857,7 +1920,7 @@
 
         data.messages.forEach(msg => {
           if (!knownMessageIds.has(msg.id)) {
-            if (msg.sender === 'admin') {
+            if (msg.sender === 'admin' || msg.is_ai) {
               hasNewAdminMessage = true;
             }
             appendSingleMessage(msg);
