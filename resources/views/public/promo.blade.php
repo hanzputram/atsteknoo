@@ -10,12 +10,12 @@
   <meta name="keywords"
     content="promo schneider surabaya, distributor schneider surabaya, diskon mcb schneider, harga mccb schneider, inverter altivar surabaya, panel maker surabaya, pt anugerah tama sejati">
 
-  <!-- Official ATS Brand Favicon -->
-  <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
-  <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon-32x32.png') }}">
-  <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicon-16x16.png') }}">
-  <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
-  <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('apple-touch-icon.png') }}">
+  <!-- Official ATS Brand Favicon (ats2.png master) -->
+  <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon-32x32.png') }}?v=ats2">
+  <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicon-16x16.png') }}?v=ats2">
+  <link rel="shortcut icon" type="image/x-icon" href="{{ asset('favicon.ico') }}?v=ats2">
+  <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('apple-touch-icon.png') }}?v=ats2">
+  <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}?v=ats2">
 
   <!-- GEO Meta Tags (Location & AI Crawlability) -->
   <meta name="geo.region" content="ID-JI">
@@ -1320,7 +1320,7 @@
           <a href="{{ route('home') }}" class="brand-group">
             <div class="brand-logo-wrap">
               <img class="brand-logo-img"
-                src="{{ asset('favicon.svg') }}"
+                src="{{ asset('images/ats-logo.png') }}"
                 onerror="this.src='{{ asset('favicon.ico') }}'"
                 alt="PT. Anugerah Tama Sejati Logo">
             </div>

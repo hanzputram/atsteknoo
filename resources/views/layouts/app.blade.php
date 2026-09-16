@@ -11,12 +11,12 @@
   <link rel="alternate" hreflang="id" href="@yield('canonical', url()->current())">
   <link rel="alternate" hreflang="x-default" href="@yield('canonical', url()->current())">
 
-  <!-- Official ATS Brand Favicon -->
-  <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
-  <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon-32x32.png') }}">
-  <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicon-16x16.png') }}">
-  <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
-  <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('apple-touch-icon.png') }}">
+  <!-- Official ATS Brand Favicon (ats2.png master) -->
+  <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon-32x32.png') }}?v=ats2">
+  <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicon-16x16.png') }}?v=ats2">
+  <link rel="shortcut icon" type="image/x-icon" href="{{ asset('favicon.ico') }}?v=ats2">
+  <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('apple-touch-icon.png') }}?v=ats2">
+  <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}?v=ats2">
 
   <!-- GEO Meta Tags (Surabaya, East Java & AI Crawlability) -->
   <meta name="geo.region" content="ID-JI">

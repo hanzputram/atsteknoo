@@ -6,12 +6,12 @@
   <title>@yield('title', 'Dashboard') — ATS Tekno Backoffice</title>
   <meta name="robots" content="noindex, nofollow">
 
-  <!-- Official ATS Brand Favicon -->
-  <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
-  <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon-32x32.png') }}">
-  <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicon-16x16.png') }}">
-  <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
-  <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('apple-touch-icon.png') }}">
+  <!-- Official ATS Brand Favicon (ats2.png master) -->
+  <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon-32x32.png') }}?v=ats2">
+  <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicon-16x16.png') }}?v=ats2">
+  <link rel="shortcut icon" type="image/x-icon" href="{{ asset('favicon.ico') }}?v=ats2">
+  <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('apple-touch-icon.png') }}?v=ats2">
+  <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}?v=ats2">
 
   <!-- Google Fonts: Outfit & Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
