@@ -48,7 +48,7 @@ class GeminiChatService
         $contents = $this->buildConversationContents($session, $visitorMessage);
 
         try {
-            $modelsToTry = array_unique([$this->model, 'gemini-3.5-flash', 'gemini-2.5-flash']);
+            $modelsToTry = array_unique([$this->model, 'gemini-3.5-flash', 'gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-1.5-flash']);
             $response = null;
 
             foreach ($modelsToTry as $modelCandidate) {
@@ -78,9 +78,10 @@ class GeminiChatService
                     break;
                 }
 
-                // If quota exhausted or service temporary unavailable, try next candidate
+                // If quota exhausted or service temporary unavailable, try next candidate with short backoff
                 if (in_array($res->status(), [429, 503])) {
                     Log::info("Gemini {$modelCandidate} returned HTTP {$res->status()}, attempting fallback model.");
+                    usleep(300000); // 300ms pause to clear transient rate-limit windows
                     continue;
                 }
 
@@ -244,7 +245,8 @@ Lawan bicara Anda bernama: "{$name}".
 3. **ATURAN PEMBELIAN CEPAT VIA LISTRIKONLINE (SOP WAJIB)**:
    - Jika pengunjung ingin **membeli dengan cepat** / order langsung tanpa proses penawaran BoQ yang panjang, dan produknya ADA di katalog atstekno.com:
    - Langsung arahkan pengunjung untuk checkout di toko resmi online kami yaitu **ListrikOnline.com**:
-     Format link: `https://listrikonline.com/products/{sku}` (atau `https://listrikonline.com/{produk-yang-diinginkan}`).
+     Format link: `https://listrikonline.com/products/{sku}` (atau `[Beli di ListrikOnline](https://listrikonline.com/products/{sku})`).
+   - PENTING: Tuliskan tautan dengan bersih tanpa menempelkan tanda kurung penutup pada akhir URL agar tautan mudah diklik.
    - Jelaskan bahwa di ListrikOnline transaksi cepat, aman, stok terupdate, dan 100% original bergaransi resmi.
 4. **ATURAN JIKA PRODUK TIDAK ADA DI WEBSITE ATSTEKNO.COM (SOP WAJIB)**:
    - Jika pengunjung menanyakan produk yang TIDAK ADA / belum terdaftar di katalog atstekno.com:
@@ -407,7 +409,7 @@ PROMPT;
         ];
 
         try {
-            $modelsToTry = array_unique([$this->model, 'gemini-3.5-flash', 'gemini-2.5-flash']);
+            $modelsToTry = array_unique([$this->model, 'gemini-3.5-flash', 'gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-1.5-flash']);
             $response = null;
 
             foreach ($modelsToTry as $modelCandidate) {
@@ -439,6 +441,7 @@ PROMPT;
 
                 $lastFailedResponse = $res;
                 if (in_array($res->status(), [429, 503])) {
+                    usleep(300000);
                     continue;
                 }
 

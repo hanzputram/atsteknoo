@@ -210,10 +210,23 @@ function formatSimulatorText(text) {
   // 4. Single asterisk bold
   formatted = formatted.replace(/(^|[^\*])\*\s*([^\s\*](?:.*?[^\s\*])?)\s*\*(?!\*)/gs, '$1<strong>$2</strong>');
 
-  // 5. Linkify URLs
-  const urlRegex = /(https?:\/\/[^\s<]+)/g;
-  formatted = formatted.replace(urlRegex, function(url) {
-    return `<a href="${url}" target="_blank" rel="noopener noreferrer" style="color: #2563EB; text-decoration: underline; font-weight: 700;">${url}</a>`;
+  // 5. Convert Markdown links: [label](url) -> <a href="cleanUrl">label</a>
+  formatted = formatted.replace(/\[([^\]]+)\]\((https?:\/\/[^\s\)\<\>]+)\)/g, function(match, label, url) {
+    let cleanUrl = url.trim();
+    return `<a href="${cleanUrl}" target="_blank" rel="noopener noreferrer" style="color: #2563EB; text-decoration: underline; font-weight: 700;">${label}</a>`;
+  });
+
+  // 6. Linkify remaining bare URLs (without swallowing trailing punctuation like . , ! ? ) ] )
+  const bareUrlRegex = /(^|[^"'>])(https?:\/\/[^\s<"'>]+)/g;
+  formatted = formatted.replace(bareUrlRegex, function(match, prefix, rawUrl) {
+    let cleanUrl = rawUrl;
+    let trailingPunct = '';
+    const punctMatch = cleanUrl.match(/[.,;:!?\)\]]+$/);
+    if (punctMatch) {
+      trailingPunct = punctMatch[0];
+      cleanUrl = cleanUrl.slice(0, -trailingPunct.length);
+    }
+    return `${prefix}<a href="${cleanUrl}" target="_blank" rel="noopener noreferrer" style="color: #2563EB; text-decoration: underline; font-weight: 700;">${cleanUrl}</a>${trailingPunct}`;
   });
 
   return formatted;

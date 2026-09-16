@@ -92,3 +92,26 @@ test('Follow-up message from visitor does not get blocked by anti-collision chec
     $res2->assertOk();
     expect($res2->json('ai_reply'))->not->toBeNull();
 });
+
+test('ChatFormatter correctly formats markdown links and strips trailing parentheses from URLs', function () {
+    // 1. Markdown link syntax
+    $text1 = '👉 [Beli Langsung di ListrikOnline](https://listrikonline.com/products/NYAF-0.75-MM-BLUE)';
+    $html1 = \App\Services\ChatFormatter::format($text1);
+    expect($html1)->toContain('<a href="https://listrikonline.com/products/NYAF-0.75-MM-BLUE"');
+    expect($html1)->toContain('>Beli Langsung di ListrikOnline</a>');
+    expect($html1)->not->toContain('href="https://listrikonline.com/products/NYAF-0.75-MM-BLUE)"');
+    expect($html1)->not->toContain('](');
+
+    // 2. URL wrapped in parentheses
+    $text2 = 'Cek stok di (https://listrikonline.com/products/NYAF-0.75-MM-BLUE) ya kak.';
+    $html2 = \App\Services\ChatFormatter::format($text2);
+    expect($html2)->toContain('<a href="https://listrikonline.com/products/NYAF-0.75-MM-BLUE"');
+    expect($html2)->toContain('</a>) ya kak.');
+    expect($html2)->not->toContain('href="https://listrikonline.com/products/NYAF-0.75-MM-BLUE)"');
+
+    // 3. WhatsApp link in brackets
+    $text3 = 'Hubungi [https://wa.me/6282223332830].';
+    $html3 = \App\Services\ChatFormatter::format($text3);
+    expect($html3)->toContain('<a href="https://wa.me/6282223332830"');
+    expect($html3)->toContain('</a>].');
+});

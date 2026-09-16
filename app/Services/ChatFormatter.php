@@ -31,11 +31,30 @@ class ChatFormatter
         // 4. Convert Single asterisk (WhatsApp-style bold): *text* -> <strong>$2</strong>
         $escaped = preg_replace('/(^|[^\*])\*\s*([^\s\*](?:.*?[^\s\*])?)\s*\*(?!\*)/s', '$1<strong>$2</strong>', $escaped);
 
-        // 3. Linkify URLs
-        $urlPattern = '/(https?:\/\/[^\s<]+)/';
-        $escaped = preg_replace(
-            $urlPattern,
-            '<a href="$1" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: underline; font-weight: 700;">$1</a>',
+        // 5. Convert Markdown links: [label](url) -> <a href="cleanUrl">label</a>
+        $escaped = preg_replace_callback(
+            '/\[([^\]]+)\]\((https?:\/\/[^\s\)<>]+)\)/',
+            function ($matches) {
+                $label = $matches[1];
+                $url = rtrim($matches[2], '.,;:!?)');
+                return '<a href="' . $url . '" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: underline; font-weight: 700;">' . $label . '</a>';
+            },
+            $escaped
+        );
+
+        // 6. Linkify remaining bare URLs (without swallowing trailing punctuation like . , ! ? ) ] )
+        $escaped = preg_replace_callback(
+            '/(^|[^"\'=])(https?:\/\/[^\s<"\'<>]+)/',
+            function ($matches) {
+                $prefix = $matches[1];
+                $rawUrl = $matches[2];
+                $trailing = '';
+                if (preg_match('/[.,;:!?\)\]]+$/', $rawUrl, $pMatches)) {
+                    $trailing = $pMatches[0];
+                    $rawUrl = substr($rawUrl, 0, -strlen($trailing));
+                }
+                return $prefix . '<a href="' . $rawUrl . '" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: underline; font-weight: 700;">' . $rawUrl . '</a>' . $trailing;
+            },
             $escaped
         );
 
