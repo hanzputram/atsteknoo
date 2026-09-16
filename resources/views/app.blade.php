@@ -72,10 +72,10 @@
     },
     "geo": {
       "@type": "GeoCoordinates",
-      "latitude": -7.250445,
-      "longitude": 112.768845
+      "latitude": -7.301972,
+      "longitude": 112.784336
     },
-    "hasMap": "https://maps.google.com/?q=-7.250445,112.768845",
+    "hasMap": "https://maps.google.com/?cid=13502184121040894586",
     "areaServed": [
       { "@type": "Country", "name": "Indonesia" },
       { "@type": "State", "name": "Jawa Timur" },
@@ -2128,7 +2128,7 @@
             </div>
           </div>
 
-          <a href="mailto:sales@anugerahtamasejati.com" class="contact-channel-card">
+          <a href="mailto:sales@atstekno.com" class="contact-channel-card">
             <div class="channel-icon-wrap" style="background: #FDF4FF; color: #C026D3;">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                 <rect width="20" height="16" x="2" y="4" rx="2" />
@@ -2136,7 +2136,7 @@
               </svg>
             </div>
             <div class="channel-info">
-              <h4>Email: sales@anugerahtamasejati.com</h4>
+              <h4>Email: sales@atstekno.com</h4>
               <p>Submit your BoQ (Bill of Quantity) or single-line diagram for component estimations</p>
             </div>
           </a>

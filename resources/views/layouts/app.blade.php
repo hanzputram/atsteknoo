@@ -60,10 +60,10 @@
     },
     "geo": {
       "@type": "GeoCoordinates",
-      "latitude": -7.250445,
-      "longitude": 112.768845
+      "latitude": -7.301972,
+      "longitude": 112.784336
     },
-    "hasMap": "https://maps.google.com/?q=-7.250445,112.768845"
+    "hasMap": "https://maps.google.com/?cid=13502184121040894586"
   }
   </script>
 

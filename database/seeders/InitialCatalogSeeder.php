@@ -39,7 +39,7 @@ class InitialCatalogSeeder extends Seeder
             'company_tagline' => 'Best Electrical Supplier',
             'phone' => '(031) 59178887',
             'whatsapp' => '081234567890',
-            'email' => 'sales@anugerahtamasejati.com',
+            'email' => 'sales@atstekno.com',
             'address' => 'Ruko Galaxi Bumi Permai J-1 No. 23, Surabaya, East Java, Indonesia',
             'city' => 'Surabaya',
             'postal_code' => '60134',

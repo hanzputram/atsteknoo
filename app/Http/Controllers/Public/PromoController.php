@@ -225,7 +225,7 @@ class PromoController extends Controller
         $company = !empty($validated['company']) ? trim($validated['company']) : '-';
         $category = !empty($validated['category']) ? trim($validated['category']) : 'Umum / Beragam Komponen';
         $notes = !empty($validated['notes']) ? trim($validated['notes']) : 'Minta penawaran harga dan diskon promo proyek.';
-        $email = !empty($validated['email']) ? strtolower(trim($validated['email'])) : 'sales@anugerahtamasejati.com';
+        $email = !empty($validated['email']) ? strtolower(trim($validated['email'])) : 'sales@atstekno.com';
 
         // Format detailed inquiry message
         $messageBody = "=== PERMINTAAN DISKON PROMO GOOGLE ADS ===\n\n"

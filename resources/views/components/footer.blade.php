@@ -709,9 +709,9 @@
           </p>
 
           <div class="ats-ft-badges-wrap">
-            <span class="ats-ft-badge"><span class="ats-ft-badge-dot"></span>Schneider Authorized</span>
-            <span class="ats-ft-badge"><span class="ats-ft-badge-dot"></span>Legrand Partner</span>
-            <span class="ats-ft-badge"><span class="ats-ft-badge-dot"></span>GAE Group</span>
+            <span class="ats-ft-badge"><span class="ats-ft-badge-dot"></span>Schneider Authorized Dealer</span>
+            <span class="ats-ft-badge"><span class="ats-ft-badge-dot"></span>GAE Authorized Dealer</span>
+            <span class="ats-ft-badge"><span class="ats-ft-badge-dot"></span>Legrand Authorized Dealer</span>
             <span class="ats-ft-badge"><span class="ats-ft-badge-dot"></span>Certified Panel Maker</span>
           </div>
 
@@ -859,15 +859,15 @@
                 <a href="tel:03159178887" class="ats-ft-loc-tel-link">Tel: (031) 59178887</a>
               </div>
               <div class="ats-ft-map-container">
-                <a href="https://maps.google.com/?q=PT.+Anugerah+Tama+Sejati+Ruko+Galaxi+Bumi+Permai+J-1+No.+23+Surabaya" target="_blank" class="ats-ft-map-overlay-btn" title="Open in Google Maps">
+                <a href="https://maps.google.com/?cid=13502184121040894586" target="_blank" class="ats-ft-map-overlay-btn" title="Open in Google Maps">
                   Maps ↗
                 </a>
                 <iframe 
                   class="ats-ft-map-iframe"
-                  src="https://maps.google.com/maps?q=PT.+Anugerah+Tama+Sejati+Ruko+Galaxi+Bumi+Permai+J-1+No.+23+Surabaya&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3957.4611678914266!2d112.78433609999999!3d-7.301971999999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd7fb1cc2393627%3A0xbb6164eba28ffa7a!2sPT.%20Anugerah%20Tama%20Sejati!5e0!3m2!1sid!2sid!4v1789524195132!5m2!1sid!2sid"
                   loading="lazy" 
-                  referrerpolicy="no-referrer-when-downgrade"
-                  title="Head Quarter Location Map"
+                  referrerpolicy="strict-origin-when-cross-origin"
+                  title="PT. Anugerah Tama Sejati Headquarters Map"
                 ></iframe>
               </div>
             </div>

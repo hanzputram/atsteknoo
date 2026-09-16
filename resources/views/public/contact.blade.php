@@ -336,7 +336,7 @@
                         </div>
 
                         <!-- Open in Maps Button -->
-                        <a href="https://maps.google.com/?q=PT.+Anugerah+Tama+Sejati+Ruko+Galaxi+Bumi+Permai+J-1+No.+23+Surabaya" target="_blank" class="shrink-0 p-2 rounded-xl bg-slate-50 hover:bg-rose-50 text-slate-500 hover:text-rose-600 border border-slate-200/80 transition" title="Buka di Google Maps">
+                        <a href="https://maps.google.com/?cid=13502184121040894586" target="_blank" class="shrink-0 p-2 rounded-xl bg-slate-50 hover:bg-rose-50 text-slate-500 hover:text-rose-600 border border-slate-200/80 transition" title="Buka di Google Maps">
                             <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M15 3h6v6"/>
                                 <path d="M10 14 21 3"/>
@@ -566,7 +566,7 @@
                 </div>
 
                 <div class="flex items-center gap-3 shrink-0">
-                    <a href="https://maps.google.com/?q=PT.+Anugerah+Tama+Sejati+Ruko+Galaxi+Bumi+Permai+J-1+No.+23+Surabaya" target="_blank" class="px-5 py-3 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs sm:text-sm shadow-sm transition flex items-center gap-2">
+                    <a href="https://maps.google.com/?cid=13502184121040894586" target="_blank" class="px-5 py-3 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs sm:text-sm shadow-sm transition flex items-center gap-2">
                         <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M15 3h6v6"/>
                             <path d="M10 14 21 3"/>
@@ -583,13 +583,13 @@
             <!-- Full-width Google Maps Embed Iframe -->
             <div class="w-full h-80 sm:h-96 bg-slate-100 relative">
                 <iframe
-                    src="https://maps.google.com/maps?q=Ruko+Galaxi+Bumi+Permai+J-1+No.+23,+Surabaya,+East+Java,+Indonesia&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3957.4611678914266!2d112.78433609999999!3d-7.301971999999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd7fb1cc2393627%3A0xbb6164eba28ffa7a!2sPT.%20Anugerah%20Tama%20Sejati!5e0!3m2!1sid!2sid!4v1789524195132!5m2!1sid!2sid"
                     width="100%"
                     height="100%"
                     style="border:0;"
                     allowfullscreen=""
                     loading="lazy"
-                    referrerpolicy="no-referrer-when-downgrade"
+                    referrerpolicy="strict-origin-when-cross-origin"
                     title="Peta Lokasi PT. Anugerah Tama Sejati Surabaya">
                 </iframe>
             </div>
@@ -604,7 +604,7 @@
                     </span>
                 </div>
                 <div class="text-[11px] text-slate-400 font-mono">
-                    <span class="ats-lang-en">GEO Coordinates:</span><span class="ats-lang-id">Koordinat GEO:</span> -7.250445, 112.768845
+                    <span class="ats-lang-en">GEO Coordinates:</span><span class="ats-lang-id">Koordinat GEO:</span> -7.301972, 112.784336
                 </div>
             </div>
         </div>
