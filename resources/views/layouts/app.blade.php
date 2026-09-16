@@ -11,12 +11,12 @@
   <link rel="alternate" hreflang="id" href="@yield('canonical', url()->current())">
   <link rel="alternate" hreflang="x-default" href="@yield('canonical', url()->current())">
 
-  <!-- Official ATS Brand Favicon (ats2.png master) -->
-  <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon-32x32.png') }}?v=ats2">
-  <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicon-16x16.png') }}?v=ats2">
-  <link rel="shortcut icon" type="image/x-icon" href="{{ asset('favicon.ico') }}?v=ats2">
-  <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('apple-touch-icon.png') }}?v=ats2">
-  <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}?v=ats2">
+  <!-- Official ATS Brand Favicon (Base64 Instant Data URI + Root-Relative Fallbacks) -->
+  <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAFAklEQVR42r2XX4hUVRzHP797rs3uzpqzWv7BWKgtNAR9MFy1UDMtFrElZPAx7KUe8rVI0KFESZAgKqKXEhKDrYeQzKAyzSwxi6j2QTStlFIZc3fWNWfvPefXw/zuOq3ruOLWgcude+fe8/uez/n9u3DzQwDHOI2xTBQBCjwJ3AGctGtX999/OgTIAfuA34D9wPLxIuLG8H8AFgOrgduBucBU4D4TdsIoZELGlUhs583A98AQkAAlwJuxT4DH6omUalszbvibgI+Bn8zgMWC7kUnsngJfAI9nL2rt3XFx0GXAEeCMGdoBfGa/UzsyGirw9cyrPhKNB/4twLe2Wg9sBCp1K8+OVIzI+8gFhUIJolsl0QzsBX4wI73AtrrVDwuI7DwDqoqoIttsK9yNYrwR/kVAGzDFrg8B8xtNtBomACGB9Qr3AEEbbEXUwPkAHrXzdMN/EugcLYSDndcgAugEaE6RrXI1RG9KQArkgXnAbeYPvZYHWk3MvyYJwEzQB0EDOA8+grVDsEjAX28rogb4FwOTgDvt+iCwoNEk3SB5kCw2I0CQ7TfrAxmulTbPDCNyQ/wtsAn429XC0aXgY1icQrERhdGMt5r3HzURRy0bXuP9WQ5w8EfN6+UtRXQISRPEKxJS5IRCk44SltF1iDwETLScD/ClRcRoIwPwkQBn0M1epOKiKAIkheCgI4FnpfasG0vy2W57nlr+Xw9cGiX5aF0WXBkDOMcQPK+giYvTJHLBIz5F/hqAqUYhaoT/dsN/xCY+DLzYCD9wZu7cuXlVdQCnli5tSjvu/TOAJhCSyCXqYk2Q1xslp+zmKkP+u03+8ojcXy8gATSO47eHi5DqCq/6lVarVb9zp08XLtQEQgo+lWjoyuTJ96uqjEYhw/+KNR0pUAWeAQYb4A/AA6o6K03TD7RuhOzYs0fTrq5EQYfgw9EoZPgnWX0/bAYOUgstHVF6VUSCiGg+nz9//PjxN7z3g6qq3nuvqmnwXkOSaPBeQ02P94cOVXXdOk2WLHkCEbRYdPX4xer5fmu9FHjpevidcwpod3e39vf369mzZ7VaraaqGkIIOnx4r5okiYaQgflR9+17RFVFVaP6fVDr9TxwF3DFhCweLfmo1jqvzs5OTp8+nfb19emlS5dcCEFEJHsmKATiOEakn2p1Azt2LJDlyz8HEJEQ28q94Z9lJTgCvrEs2Gyrj4f3S4QQAoVCgfb2ds6dOxcXCgVyuRxxHNPa2qpRFHkRyd55D9goTU2/mLBIRELmeJEJWGVN5nR7aR/w8AgfGRagqsyePRsR0YsXL4pzjjiO1Tnnc7lcnMvlYusjNojIXjMcAz4zXp/5xAikwN2G/xSwsBH+jo4O+vr6GBgYoFKp+EqlokA8ODh4MUmS54BOEdmrqs5WnYqIjgw9bwLetFVvtUZ0Xq2+UKXWZET1q29ubqZQKFAul2lra0vz+XxcrVYpl8vvDg4ObpoyZcqvJtaJiL9R6s2ahmPAGqsDTwHn6+pBJjQCmDZtGkmSpJVKJW5tbY37+/u/A15YsWLFpyNw+7HkfupKOMAA8Cqwy4Q8bVuTCaFQKMjly5djEblQLpe37N69+7UDBw6kPT09rre3V0UkvdXvgfoQnWgZ8WdLvTp//nzt6up6p1gstmcP9fT0jNtHa72QeASxtS0tLbvmzJmzLLtZKpXi/+MD9RojxWLRlUqlW/oM+wfnQXGspT2xvgAAAABJRU5ErkJggg==">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=ats4">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=ats4">
+  <link rel="shortcut icon" href="/favicon.ico?v=ats4">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=ats4">
 
   <!-- GEO Meta Tags (Surabaya, East Java & AI Crawlability) -->
   <meta name="geo.region" content="ID-JI">
