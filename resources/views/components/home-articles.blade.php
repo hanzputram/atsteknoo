@@ -11,17 +11,23 @@
       <div class="articles-title-block">
         <div class="articles-badge-tag">
           <span class="pulse-dot"></span>
-          <span>TECHNICAL INSIGHTS &amp; ENGINEERING STANDARDS</span>
+          <span class="ats-lang-en">BLOG &amp; TECHNICAL ARTICLES</span>
+          <span class="ats-lang-id">BLOG &amp; ARTIKEL KELISTRIKAN</span>
         </div>
-        <h2 class="articles-main-title" itemprop="name" data-reveal-text>Engineering Whitepapers &amp; Industrial Electrical Insights</h2>
+        <h2 class="articles-main-title" itemprop="name" data-reveal-text>
+          <span class="ats-lang-en">Blog, Articles &amp; Industrial Electrical Insights</span>
+          <span class="ats-lang-id">Blog, Artikel &amp; Wawasan Rekayasa Kelistrikan</span>
+        </h2>
         <p class="articles-sub-title">
-          Authoritative guides on IEC 61439 switchboard sizing, harmonic mitigation, power factor correction, and protection coordination from Surabaya's premier electrical distributor.
+          <span class="ats-lang-en">Authoritative blog guides, technical articles on IEC 61439 switchboard standards, component selection, and industrial electrical insights from Surabaya's premier distributor.</span>
+          <span class="ats-lang-id">Kumpulan artikel blog dan panduan teknis seputar standar panel listrik IEC 61439, pemilihan komponen proteksi, serta wawasan rekayasa kelistrikan dari distributor resmi terpercaya.</span>
         </p>
       </div>
 
       <div class="articles-header-cta">
         <a href="{{ route('articles.index') }}" class="btn-all-articles">
-          <span>Explore All Articles</span>
+          <span class="ats-lang-en">Explore All Blog Articles</span>
+          <span class="ats-lang-id">Lihat Semua Blog &amp; Artikel</span>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </a>
       </div>
@@ -68,10 +74,14 @@
 
             <div class="lead-footer-row">
               <a href="{{ route('articles.show', $featuredArticle->slug) }}" class="lead-read-btn">
-                <span>Read Full Engineering Paper</span>
+                <span class="ats-lang-en">Read Full Article</span>
+                <span class="ats-lang-id">Baca Artikel Lengkap</span>
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
               </a>
-              <span class="verified-badge">✓ Peer-Reviewed Industrial Guide</span>
+              <span class="verified-badge">
+                <span class="ats-lang-en">✓ Industrial Electrical Blog</span>
+                <span class="ats-lang-id">✓ Artikel Edukasi Industri</span>
+              </span>
             </div>
           </div>
         </article>
@@ -113,7 +123,8 @@
 
                 <div class="card-action-wrap">
                   <a href="{{ route('articles.show', $art->slug) }}" class="card-read-link">
-                    <span>Read Article</span>
+                    <span class="ats-lang-en">Read Article</span>
+                    <span class="ats-lang-id">Baca Artikel</span>
                     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                   </a>
                 </div>
