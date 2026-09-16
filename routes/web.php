@@ -169,40 +169,57 @@ Route::prefix('backoffice')->name('backoffice.')->group(function () {
         Route::get('/password', [BackofficeAuthController::class, 'showPasswordForm'])->name('password');
         Route::post('/password', [BackofficeAuthController::class, 'updatePassword'])->name('password.update');
 
-        // Products
-        Route::resource('products', ProductController::class);
+        // Catalog & Content Management (Admin & Editor Only)
+        Route::middleware(['backoffice:admin,editor'])->group(function () {
+            // Products
+            Route::resource('products', ProductController::class);
 
-        // Product Categories
-        Route::resource('product-categories', ProductCategoryController::class);
+            // Product Categories
+            Route::resource('product-categories', ProductCategoryController::class);
 
-        // Brands
-        Route::resource('brands', BrandController::class);
+            // Brands
+            Route::resource('brands', BrandController::class);
 
-        // Certificates & Accreditations
-        Route::resource('certificates', CertificateController::class);
+            // Certificates & Accreditations
+            Route::resource('certificates', CertificateController::class);
 
-        // Projects
-        Route::get('projects/download-template', [ProjectController::class, 'downloadTemplate'])->name('projects.download-template');
-        Route::post('projects/import-excel', [ProjectController::class, 'importExcel'])->name('projects.import-excel');
-        Route::post('projects/{id}/toggle-status', [ProjectController::class, 'toggleStatus'])->name('projects.toggle-status');
-        Route::resource('projects', ProjectController::class);
+            // Projects
+            Route::get('projects/download-template', [ProjectController::class, 'downloadTemplate'])->name('projects.download-template');
+            Route::post('projects/import-excel', [ProjectController::class, 'importExcel'])->name('projects.import-excel');
+            Route::post('projects/{id}/toggle-status', [ProjectController::class, 'toggleStatus'])->name('projects.toggle-status');
+            Route::resource('projects', ProjectController::class);
 
-        // Project Categories
-        Route::resource('project-categories', ProjectCategoryController::class);
+            // Project Categories
+            Route::resource('project-categories', ProjectCategoryController::class);
 
-        // Articles
-        Route::resource('articles', ArticleController::class);
+            // Articles
+            Route::resource('articles', ArticleController::class);
 
-        // Article Categories & Tags
-        Route::resource('article-categories', ArticleCategoryController::class);
-        Route::get('tags', [TagController::class, 'index'])->name('tags.index');
-        Route::post('tags', [TagController::class, 'store'])->name('tags.store');
-        Route::delete('tags/{id}', [TagController::class, 'destroy'])->name('tags.destroy');
+            // Article Categories & Tags
+            Route::resource('article-categories', ArticleCategoryController::class);
+            Route::get('tags', [TagController::class, 'index'])->name('tags.index');
+            Route::post('tags', [TagController::class, 'store'])->name('tags.store');
+            Route::delete('tags/{id}', [TagController::class, 'destroy'])->name('tags.destroy');
 
-        // Pages
-        Route::resource('pages', PageController::class)->only(['index', 'edit', 'update']);
+            // Pages
+            Route::resource('pages', PageController::class)->only(['index', 'edit', 'update']);
 
-        // Inquiries (Inbox)
+            // Media Library API for WYSIWYG
+            Route::get('media-library', [MediaLibraryController::class, 'index'])->name('media-library.index');
+            Route::post('media-library/upload', [MediaLibraryController::class, 'upload'])->name('media-library.upload');
+
+            // Import Center
+            Route::get('import-products', [ImportCenterController::class, 'index'])->name('import.index');
+            Route::get('import-products/template', [ImportCenterController::class, 'downloadTemplate'])->name('import.template');
+            Route::get('import-products/export', [ImportCenterController::class, 'export'])->name('import.export');
+            Route::post('import-products/upload', [ImportCenterController::class, 'upload'])->name('import.upload');
+            Route::get('import-products/{id}/preview', [ImportCenterController::class, 'preview'])->name('import.preview');
+            Route::post('import-products/{id}/execute', [ImportCenterController::class, 'execute'])->name('import.execute');
+            Route::get('import-products/{id}/errors', [ImportCenterController::class, 'downloadErrorReport'])->name('import.errors');
+            Route::get('import-products/{id}/error-report', [ImportCenterController::class, 'downloadErrorReport'])->name('import.error-report');
+        });
+
+        // Inquiries & Live Chat Operations (Accessible to Admin, Editor, and Customer Support)
         Route::get('inquiries', [ContactInquiryController::class, 'index'])->name('inquiries.index');
         Route::get('inquiries/{id}', [ContactInquiryController::class, 'show'])->name('inquiries.show');
         Route::post('inquiries/{id}/status', [ContactInquiryController::class, 'updateStatus'])->name('inquiries.status');
@@ -220,20 +237,6 @@ Route::prefix('backoffice')->name('backoffice.')->group(function () {
         Route::delete('live-chats/{id}', [LiveChatController::class, 'destroy'])->name('live-chats.destroy');
         Route::get('live-chats/{id}/poll', [LiveChatController::class, 'poll'])->name('live-chats.poll');
         Route::post('live-chats/{id}/typing', [LiveChatController::class, 'updateTyping'])->name('live-chats.typing');
-
-        // Media Library API for WYSIWYG
-        Route::get('media-library', [MediaLibraryController::class, 'index'])->name('media-library.index');
-        Route::post('media-library/upload', [MediaLibraryController::class, 'upload'])->name('media-library.upload');
-
-        // Import Center
-        Route::get('import-products', [ImportCenterController::class, 'index'])->name('import.index');
-        Route::get('import-products/template', [ImportCenterController::class, 'downloadTemplate'])->name('import.template');
-        Route::get('import-products/export', [ImportCenterController::class, 'export'])->name('import.export');
-        Route::post('import-products/upload', [ImportCenterController::class, 'upload'])->name('import.upload');
-        Route::get('import-products/{id}/preview', [ImportCenterController::class, 'preview'])->name('import.preview');
-        Route::post('import-products/{id}/execute', [ImportCenterController::class, 'execute'])->name('import.execute');
-        Route::get('import-products/{id}/errors', [ImportCenterController::class, 'downloadErrorReport'])->name('import.errors');
-        Route::get('import-products/{id}/error-report', [ImportCenterController::class, 'downloadErrorReport'])->name('import.error-report');
 
         // Admin-Only Modules
         Route::middleware(['backoffice:admin'])->group(function () {

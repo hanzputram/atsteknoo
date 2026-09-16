@@ -18,6 +18,10 @@ class DashboardController extends Controller
      */
     public function index()
     {
+        if (auth()->user() && auth()->user()->isCustomerSupport()) {
+            return redirect()->route('backoffice.live-chats.index');
+        }
+
         $stats = [
             'total_products' => Product::count(),
             'published_products' => Product::published()->count(),

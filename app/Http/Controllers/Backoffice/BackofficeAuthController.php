@@ -50,7 +50,7 @@ class BackofficeAuthController extends Controller
         if (Auth::attempt($credentials, $remember)) {
             $user = Auth::user();
 
-            if (!$user->is_active || !in_array($user->role, ['admin', 'editor'])) {
+            if (!$user->is_active || !in_array($user->role, ['admin', 'editor', 'cs', 'support'])) {
                 Auth::logout();
                 $request->session()->invalidate();
                 $request->session()->regenerateToken();
@@ -65,7 +65,11 @@ class BackofficeAuthController extends Controller
             RateLimiter::clear($throttleKey);
             $request->session()->regenerate();
 
-            return redirect()->intended(route('backoffice.dashboard'));
+            $defaultRoute = in_array($user->role, ['cs', 'support']) 
+                ? route('backoffice.live-chats.index') 
+                : route('backoffice.dashboard');
+
+            return redirect()->intended($defaultRoute);
         }
 
         RateLimiter::hit($throttleKey);

@@ -47,7 +47,8 @@
         <div class="form-group" style="margin-bottom: 0;">
           <label class="form-label">Peran Akses (Role) <span style="color: #DC2626;">*</span></label>
           <select name="role" required class="form-control">
-            <option value="editor" {{ old('role') === 'editor' ? 'selected' : '' }}>Editor (Kelola Katalog & Konten)</option>
+            <option value="cs" {{ old('role') === 'cs' ? 'selected' : '' }}>Customer Support (Live Chat & Pesan Masuk)</option>
+            <option value="editor" {{ old('role', 'editor') === 'editor' ? 'selected' : '' }}>Editor (Kelola Katalog & Konten)</option>
             <option value="admin" {{ old('role') === 'admin' ? 'selected' : '' }}>Admin (Hak Penuh & Konfigurasi)</option>
           </select>
         </div>

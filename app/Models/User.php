@@ -59,8 +59,38 @@ class User extends Authenticatable implements PasskeyUser
         return $this->role === 'editor';
     }
 
+    public function isCustomerSupport(): bool
+    {
+        return in_array($this->role, ['cs', 'support']);
+    }
+
+    public function isCs(): bool
+    {
+        return $this->isCustomerSupport();
+    }
+
+    public function canManageCatalog(): bool
+    {
+        return in_array($this->role, ['admin', 'editor']);
+    }
+
+    public function canManageInbox(): bool
+    {
+        return in_array($this->role, ['admin', 'editor', 'cs', 'support']);
+    }
+
+    public function getRoleLabelAttribute(): string
+    {
+        return match($this->role) {
+            'admin' => 'Administrator',
+            'editor' => 'Editor',
+            'cs', 'support' => 'Customer Support',
+            default => ucfirst($this->role ?? 'Staf'),
+        };
+    }
+
     public function canAccessBackoffice(): bool
     {
-        return (bool) $this->is_active && in_array($this->role, ['admin', 'editor']);
+        return (bool) $this->is_active && in_array($this->role, ['admin', 'editor', 'cs', 'support']);
     }
 }

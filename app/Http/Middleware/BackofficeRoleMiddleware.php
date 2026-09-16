@@ -49,7 +49,7 @@ class BackofficeRoleMiddleware
         }
 
         // 3. Check if user has valid backoffice role
-        if (!in_array($user->role, ['admin', 'editor'])) {
+        if (!in_array($user->role, ['admin', 'editor', 'cs', 'support'])) {
             if ($request->expectsJson()) {
                 return response()->json([
                     'error' => 'FORBIDDEN',
@@ -60,16 +60,19 @@ class BackofficeRoleMiddleware
             abort(403, 'Akses ditolak: Anda tidak memiliki izin untuk membuka backoffice.');
         }
 
-        // 4. Check specific role requirement if specified (e.g. 'admin')
-        if ($role === 'admin' && $user->role !== 'admin') {
-            if ($request->expectsJson()) {
-                return response()->json([
-                    'error' => 'FORBIDDEN_ADMIN_ONLY',
-                    'message' => 'Aksi ini hanya dapat dilakukan oleh Administrator.',
-                ], 403);
-            }
+        // 4. Check specific role requirement if specified (e.g. 'admin' or 'admin,editor')
+        if ($role) {
+            $allowedRoles = array_map('trim', explode(',', $role));
+            if (!in_array($user->role, $allowedRoles)) {
+                if ($request->expectsJson()) {
+                    return response()->json([
+                        'error' => 'FORBIDDEN_ROLE',
+                        'message' => 'Aksi ini tidak diizinkan untuk peran Anda.',
+                    ], 403);
+                }
 
-            abort(403, 'Akses ditolak: Fitur ini khusus untuk Administrator.');
+                abort(403, 'Akses ditolak: Peran Anda tidak memiliki izin untuk mengakses fitur ini.');
+            }
         }
 
         return $next($request);

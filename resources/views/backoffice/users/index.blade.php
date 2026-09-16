@@ -50,8 +50,12 @@
             <td>
               @if($u->role === 'admin')
                 <span class="badge badge-danger">Admin</span>
-              @else
+              @elseif($u->role === 'editor')
                 <span class="badge badge-info">Editor</span>
+              @elseif(in_array($u->role, ['cs', 'support']))
+                <span class="badge" style="background-color: #FEF3C7; color: #92400E; border: 1px solid #FCD34D;">Customer Support</span>
+              @else
+                <span class="badge badge-secondary">{{ ucfirst($u->role) }}</span>
               @endif
             </td>
             <td>
