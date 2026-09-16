@@ -7,6 +7,7 @@ use App\Models\LiveChatMessage;
 use App\Models\LiveChatSession;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class LiveChatApiController extends Controller
@@ -156,10 +157,10 @@ class LiveChatApiController extends Controller
                 'needs_human_takeover' => false,
             ]);
         } else {
-            // Update name / contact if provided
+            // Update name / contact if provided (preserve existing if not provided)
             $updates = [
-                'visitor_name' => $request->input('name'),
-                'visitor_contact' => $request->input('contact'),
+                'visitor_name' => $request->input('name') ?: $session->visitor_name,
+                'visitor_contact' => $request->input('contact') ?: $session->visitor_contact,
                 'last_message_at' => now(),
                 'status' => 'unread',
                 'visitor_typing_at' => null,
@@ -180,7 +181,7 @@ class LiveChatApiController extends Controller
         // 1. Session must not be archived
         // 2. Session must have ai_enabled = true
         // 3. Admin must NOT be currently typing (isAdminTyping == false)
-        // 4. Admin has not actively engaged within the last 3 minutes
+        // 4. Admin has not actively replied within the last 15 seconds
         if ($session->canAiReply()) {
             $gemini = app(\App\Services\GeminiChatService::class);
             if ($gemini->isConfigured()) {
@@ -192,7 +193,7 @@ class LiveChatApiController extends Controller
                         $session->messages()
                             ->where('sender', 'admin')
                             ->where('is_ai', false)
-                            ->where('created_at', '>=', $chatMsg->created_at)
+                            ->where('id', '>', $chatMsg->id)
                             ->exists();
 
                     if (!$adminIntervened) {
@@ -217,9 +218,34 @@ class LiveChatApiController extends Controller
                             'message' => $aiMsg->message,
                             'time' => $aiMsg->created_at->timezone('Asia/Jakarta')->format('H:i'),
                         ];
+
+                        Log::info('LiveChatApiController: AI reply successfully sent', [
+                            'session_id' => $session->id,
+                            'ai_msg_id' => $aiMsg->id,
+                            'needs_human_takeover' => (bool) $aiResult['needs_human_takeover'],
+                        ]);
+                    } else {
+                        Log::info('LiveChatApiController: AI reply discarded due to admin intervention during generation', [
+                            'session_id' => $session->id,
+                            'is_admin_typing' => $session->isAdminTyping(),
+                        ]);
                     }
+                } else {
+                    Log::warning('LiveChatApiController: Gemini generated empty or null reply', [
+                        'session_id' => $session->id,
+                    ]);
                 }
+            } else {
+                Log::warning('LiveChatApiController: Gemini is not configured');
             }
+        } else {
+            Log::info('LiveChatApiController: AI reply skipped by canAiReply', [
+                'session_id' => $session->id,
+                'is_archived' => $session->is_archived,
+                'ai_enabled' => $session->ai_enabled,
+                'is_admin_typing' => $session->isAdminTyping(),
+                'admin_engaged_diff_sec' => $session->admin_engaged_at ? $session->admin_engaged_at->diffInSeconds(now()) : null,
+            ]);
         }
 
         return response()->json([

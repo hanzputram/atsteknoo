@@ -97,7 +97,17 @@ class GeminiChatService
             }
 
             $json = $response->json();
-            $rawText = $json['candidates'][0]['content']['parts'][0]['text'] ?? '';
+            $rawText = '';
+            if (!empty($json['candidates'][0]['content']['parts'])) {
+                foreach ($json['candidates'][0]['content']['parts'] as $part) {
+                    if (!empty($part['text'])) {
+                        $rawText .= $part['text'];
+                    }
+                }
+            }
+            if (empty($rawText)) {
+                $rawText = $json['candidates'][0]['content']['parts'][0]['text'] ?? '';
+            }
             $rawText = trim($rawText);
 
             if (empty($rawText)) {
@@ -271,9 +281,10 @@ PROMPT;
         $stopWords = [
             'halo', 'hi', 'helo', 'selamat', 'pagi', 'siang', 'sore', 'malam', 'kak', 'pak', 'bu',
             'min', 'admin', 'saya', 'mau', 'ingin', 'cari', 'butuh', 'apakah', 'ada', 'tidak', 'kah',
-            'ya', 'dong', 'nih', 'tolong', 'info', 'spesifikasi', 'barang', 'produk', 'beli', 'cepat',
+            'ya', 'dong', 'nih', 'tolong', 'info', 'spesifikasi', 'spek', 'barang', 'produk', 'beli', 'cepat',
             'langsung', 'ke', 'di', 'dari', 'dan', 'yang', 'untuk', 'dengan', 'ini', 'itu', 'berapa',
-            'gimana', 'cara', 'nya', 'bisa', 'harga', 'stok', 'toko', 'jual', 'tiga', 'fasa', 'phase'
+            'gimana', 'cara', 'nya', 'bisa', 'harga', 'stok', 'toko', 'jual', 'tiga', 'fasa', 'phase',
+            'anda', 'kamu', 'bapak', 'ibu', 'agan', 'gan', 'bos', 'mas', 'mbak', 'kakak', 'situ', 'om', 'tante', 'pt', 'cv'
         ];
 
         $synonyms = [

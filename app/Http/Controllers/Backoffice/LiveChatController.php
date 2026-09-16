@@ -193,6 +193,7 @@ class LiveChatController extends Controller
         return response()->json([
             'success' => true,
             'is_typing' => $session->isVisitorTyping(),
+            'visitor_name' => $session->visitor_name,
         ]);
     }
 
