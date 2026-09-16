@@ -1675,9 +1675,16 @@
   }
 
   // Handle Visitor Send Message
+  let isVisitorSubmitting = false;
+
   window.handleVisitorSubmit = async function(e) {
-    e.preventDefault();
-    const text = msgInput.value.trim();
+    if (e) {
+      e.preventDefault();
+      if (e.stopPropagation) e.stopPropagation();
+    }
+    if (isVisitorSubmitting) return;
+
+    const text = msgInput ? msgInput.value.trim() : '';
     if (!text) return;
 
     clearIdentityError();
@@ -1711,6 +1718,9 @@
       return;
     }
 
+    // Lock submission immediately to prevent duplicate sends from Enter / clicks
+    isVisitorSubmitting = true;
+
     // Save validated identity
     storedName = name;
     storedContact = contact;
@@ -1732,7 +1742,8 @@
       sender: 'visitor',
       sender_name: 'Anda',
       message: text,
-      time: nowTime
+      time: nowTime,
+      is_optimistic: true
     });
 
     // Show ATS Support typing indicator while server/AI processes
@@ -1771,6 +1782,17 @@
 
         if (data.message && data.message.id) {
           knownMessageIds.add(data.message.id);
+          // Reconcile optimistic element with real ID and server timestamp
+          const optEl = document.getElementById(tempMsgId);
+          if (optEl) {
+            optEl.id = 'msg_' + data.message.id;
+            optEl.removeAttribute('data-opt-pending');
+            optEl.removeAttribute('data-opt-text');
+            const timeSpan = optEl.querySelector('.chat-msg-timestamp');
+            if (timeSpan && data.message.time) {
+              timeSpan.textContent = `Anda • ${data.message.time}`;
+            }
+          }
         }
 
         if (data.ai_reply) {
@@ -1786,6 +1808,8 @@
         scrollToBottom();
       } else {
         updateAdminTypingUI(false);
+        const optEl = document.getElementById(tempMsgId);
+        if (optEl) optEl.remove();
         const errorText = (data.errors && Object.values(data.errors).flat().join(' ')) || data.message || 'Gagal mengirim pesan.';
         showIdentityError(errorText);
       }
@@ -1794,6 +1818,7 @@
       updateAdminTypingUI(false);
       showIdentityError('Terjadi kesalahan jaringan. Silakan coba lagi.');
     } finally {
+      isVisitorSubmitting = false;
       sendBtn.disabled = false;
       msgInput.disabled = false;
       msgInput.focus();
@@ -1825,11 +1850,12 @@
   }
 
   if (msgInput) {
-    // Explicit Enter key handler to guarantee immediate submission
+    // Explicit Enter key handler with submission guard
     msgInput.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' && !e.shiftKey) {
         e.preventDefault();
-        if (typeof window.handleVisitorSubmit === 'function') {
+        e.stopPropagation();
+        if (!isVisitorSubmitting && typeof window.handleVisitorSubmit === 'function') {
           window.handleVisitorSubmit(e);
         }
       }
@@ -1900,6 +1926,11 @@
 
     const isVisitor = msg.sender === 'visitor';
     const msgEl = document.createElement('div');
+    msgEl.id = msg.is_optimistic ? msg.id : ('msg_' + msg.id);
+    if (msg.is_optimistic) {
+      msgEl.setAttribute('data-opt-pending', 'true');
+      msgEl.setAttribute('data-opt-text', msg.message);
+    }
     msgEl.className = `chat-msg ${isVisitor ? 'chat-msg-visitor' : 'chat-msg-admin'}`;
     
     const senderName = isVisitor ? 'Anda' : (msg.sender_name || msg.admin_name || 'ATS Support');
@@ -1955,6 +1986,25 @@
         let hasNewAdminMessage = false;
 
         data.messages.forEach(msg => {
+          // Reconcile optimistic visitor message if polling catches it first
+          if (msg.sender === 'visitor') {
+            const pendingEls = document.querySelectorAll('[data-opt-pending="true"]');
+            for (let i = 0; i < pendingEls.length; i++) {
+              const el = pendingEls[i];
+              if (el.getAttribute('data-opt-text') === msg.message) {
+                el.removeAttribute('data-opt-pending');
+                el.removeAttribute('data-opt-text');
+                el.id = 'msg_' + msg.id;
+                knownMessageIds.add(msg.id);
+                const timeSpan = el.querySelector('.chat-msg-timestamp');
+                if (timeSpan && msg.time) {
+                  timeSpan.textContent = `Anda • ${msg.time}`;
+                }
+                return;
+              }
+            }
+          }
+
           if (!knownMessageIds.has(msg.id)) {
             if (msg.sender === 'admin' || msg.is_ai) {
               hasNewAdminMessage = true;

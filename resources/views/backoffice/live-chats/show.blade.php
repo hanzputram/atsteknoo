@@ -239,7 +239,7 @@
             id="replyMessageInput"
             class="form-control"
             rows="2"
-            placeholder="Ketik balasan Anda di sini... (Mengetik di sini otomatis menjeda AI agar tidak tabrakan)"
+            placeholder="Ketik balasan Anda di sini... (Tekan Enter untuk kirim, Shift + Enter untuk baris baru)"
             style="resize: none; font-size: 13.5px; border-radius: 8px;"
             required
           ></textarea>
@@ -318,7 +318,22 @@
     }).catch(() => {});
   }
 
+  let isAdminSubmitting = false;
+
   if (input) {
+    // Enter sends reply, Shift + Enter creates a newline
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        if (e.shiftKey) {
+          // Shift + Enter: Allow natural newline in textarea
+          return;
+        }
+        // Enter without Shift: Send message immediately
+        e.preventDefault();
+        submitAdminReply(e);
+      }
+    });
+
     input.addEventListener('input', () => {
       const hasText = input.value.trim().length > 0;
       if (!hasText) {
@@ -388,10 +403,13 @@
   };
 
   window.submitAdminReply = async function(e) {
-    e.preventDefault();
+    if (e && e.preventDefault) e.preventDefault();
+    if (isAdminSubmitting) return;
+
     const text = input.value.trim();
     if (!text) return;
 
+    isAdminSubmitting = true;
     clearTimeout(adminTypingTimer);
     sendAdminTyping(false);
 
@@ -419,6 +437,7 @@
     } catch(err) {
       alert('Terjadi kendala jaringan.');
     } finally {
+      isAdminSubmitting = false;
       sendBtn.disabled = false;
       sendBtn.innerHTML = '<span>Kirim Balasan</span>';
       input.focus();
