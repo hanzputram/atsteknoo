@@ -371,3 +371,55 @@ test('T16 & T17: ProductExcelService executeUnit creates, updates, and modifies 
     expect($updatedProd->specifications()->count())->toBe(1);
     expect($updatedProd->specifications()->first()->attribute_code)->toBe('coil_voltage');
 });
+
+test('editor role is restricted to product catalog and portfolio content only', function () {
+    // 1. Editor can access catalog routes
+    $this->actingAs($this->editor)
+        ->get('/backoffice/products')
+        ->assertOk();
+
+    $this->actingAs($this->editor)
+        ->get('/backoffice/projects')
+        ->assertOk();
+
+    $this->actingAs($this->editor)
+        ->get('/backoffice/articles')
+        ->assertOk();
+
+    // 2. Editor visiting /backoffice redirects to /backoffice/products
+    $this->actingAs($this->editor)
+        ->get('/backoffice')
+        ->assertRedirect(route('backoffice.products.index'));
+
+    // 3. Editor is forbidden from inbox & operational
+    $this->actingAs($this->editor)
+        ->get('/backoffice/live-chats')
+        ->assertForbidden();
+
+    $this->actingAs($this->editor)
+        ->get('/backoffice/inquiries')
+        ->assertForbidden();
+
+    $this->actingAs($this->editor)
+        ->get('/backoffice/ai-knowledge')
+        ->assertForbidden();
+
+    // 4. Editor is forbidden from system settings & users
+    $this->actingAs($this->editor)
+        ->get('/backoffice/settings')
+        ->assertForbidden();
+
+    $this->actingAs($this->editor)
+        ->get('/backoffice/users')
+        ->assertForbidden();
+
+    // 5. Sidebar view does not contain Dashboard, Inbox, or Settings for editor
+    $response = $this->actingAs($this->editor)->get('/backoffice/products');
+    $response->assertOk();
+    $response->assertDontSee('<span>Dashboard</span>', false);
+    $response->assertDontSee('Inbox & Operasional', false);
+    $response->assertDontSee('Pengaturan Sistem', false);
+    $response->assertSee('Katalog Produk', false);
+    $response->assertSee('Portofolio & Konten', false);
+});
+

@@ -65,9 +65,11 @@ class BackofficeAuthController extends Controller
             RateLimiter::clear($throttleKey);
             $request->session()->regenerate();
 
-            $defaultRoute = in_array($user->role, ['cs', 'support']) 
-                ? route('backoffice.live-chats.index') 
-                : route('backoffice.dashboard');
+            $defaultRoute = match($user->role) {
+                'cs', 'support' => route('backoffice.live-chats.index'),
+                'editor' => route('backoffice.products.index'),
+                default => route('backoffice.dashboard'),
+            };
 
             return redirect()->intended($defaultRoute);
         }

@@ -18,8 +18,13 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        if (auth()->user() && auth()->user()->isCustomerSupport()) {
-            return redirect()->route('backoffice.live-chats.index');
+        if (auth()->user()) {
+            if (auth()->user()->isCustomerSupport()) {
+                return redirect()->route('backoffice.live-chats.index');
+            }
+            if (auth()->user()->isEditor()) {
+                return redirect()->route('backoffice.products.index');
+            }
         }
 
         $stats = [

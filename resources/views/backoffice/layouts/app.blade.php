@@ -1022,7 +1022,7 @@
   <!-- Admin Sidebar Navigation -->
   <aside class="admin-sidebar" id="adminSidebar">
     <div class="sidebar-header" style="justify-content: space-between;">
-      <a href="{{ route('backoffice.dashboard') }}" style="display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit; min-width: 0;">
+      <a href="{{ auth()->user()->isAdmin() ? route('backoffice.dashboard') : (auth()->user()->isEditor() ? route('backoffice.products.index') : route('backoffice.live-chats.index')) }}" style="display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit; min-width: 0;">
         <div class="sidebar-logo">
           <img src="{{ asset('images/ats-logo.png') }}" alt="PT. Anugerah Tama Sejati Logo">
         </div>
@@ -1035,9 +1035,7 @@
     </div>
 
     <nav class="sidebar-nav">
-      <a href="{{ route('backoffice.dashboard') }}" class="nav-link {{ request()->routeIs('backoffice.dashboard') ? 'active' : '' }}">
-        <span class="nav-icon">
-      @if(!auth()->user()->isCustomerSupport())
+      @if(auth()->user()->isAdmin())
         <a href="{{ route('backoffice.dashboard') }}" class="nav-link {{ request()->routeIs('backoffice.dashboard') ? 'active' : '' }}">
           <span class="nav-icon">
             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
@@ -1186,18 +1184,20 @@
           </svg>
         </button>
         <div class="breadcrumb">
-          <a href="{{ route('backoffice.dashboard') }}">Backoffice</a>
+          <a href="{{ auth()->user()->isAdmin() ? route('backoffice.dashboard') : (auth()->user()->isEditor() ? route('backoffice.products.index') : route('backoffice.live-chats.index')) }}">Backoffice</a>
           <span>/</span>
-          <span>@yield('breadcrumb', 'Dashboard')</span>
+          <span>@yield('breadcrumb', auth()->user()->isAdmin() ? 'Dashboard' : (auth()->user()->isEditor() ? 'Katalog Produk' : 'Live Chat'))</span>
         </div>
       </div>
 
       <div class="topbar-actions">
-        <!-- Desktop Notification Banner Button -->
-        <button type="button" id="btnEnableDesktopNotif" onclick="toggleDesktopNotificationPermission()" class="btn-notif-toggle" title="Notifikasi Banner Laptop untuk Live Chat">
-          <span id="notifBellIcon">🔔</span>
-          <span id="notifBellLabel">Notif Laptop</span>
-        </button>
+        @if(auth()->user()->canManageInbox())
+          <!-- Desktop Notification Banner Button -->
+          <button type="button" id="btnEnableDesktopNotif" onclick="toggleDesktopNotificationPermission()" class="btn-notif-toggle" title="Notifikasi Banner Laptop untuk Live Chat">
+            <span id="notifBellIcon">🔔</span>
+            <span id="notifBellLabel">Notif Laptop</span>
+          </button>
+        @endif
 
         <a href="{{ route('home') }}" target="_blank" class="btn-view-site">
           <span>Website Publik</span>
@@ -1213,30 +1213,32 @@
       </div>
     </header>
 
-    <!-- Global Sticky Alert Banner (Live Chat / Takeover / Inquiries) -->
-    <div id="liveChatGlobalAlert" class="livechat-floating-banner" style="display: none;">
-      <div class="banner-inner">
-        <div class="banner-glow-icon" id="globalAlertGlowIcon">
-          <span class="pulse-wave" id="globalAlertPulseWave"></span>
-          <svg id="globalAlertSvgIcon" width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.3" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
-        </div>
-        <div class="banner-info">
-          <div class="banner-headline">
-            <span id="globalAlertBadge" class="badge-live-chat">CHAT MASUK</span>
-            <span id="liveChatVisitorName" class="visitor-name"></span>
-            <span id="liveChatVisitorTime" class="chat-time"></span>
+    @if(auth()->user()->canManageInbox())
+      <!-- Global Sticky Alert Banner (Live Chat / Takeover / Inquiries) -->
+      <div id="liveChatGlobalAlert" class="livechat-floating-banner" style="display: none;">
+        <div class="banner-inner">
+          <div class="banner-glow-icon" id="globalAlertGlowIcon">
+            <span class="pulse-wave" id="globalAlertPulseWave"></span>
+            <svg id="globalAlertSvgIcon" width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.3" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
           </div>
-          <div id="liveChatMessageSnippet" class="message-snippet"></div>
-        </div>
-        <div class="banner-cta">
-          <a id="liveChatDirectLink" href="#" class="btn-open-chat">
-            <span id="globalAlertBtnText">Buka Chat</span>
-            <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
-          </a>
-          <button type="button" onclick="dismissLiveChatAlert()" class="btn-close-banner" aria-label="Tutup Banner">&times;</button>
+          <div class="banner-info">
+            <div class="banner-headline">
+              <span id="globalAlertBadge" class="badge-live-chat">CHAT MASUK</span>
+              <span id="liveChatVisitorName" class="visitor-name"></span>
+              <span id="liveChatVisitorTime" class="chat-time"></span>
+            </div>
+            <div id="liveChatMessageSnippet" class="message-snippet"></div>
+          </div>
+          <div class="banner-cta">
+            <a id="liveChatDirectLink" href="#" class="btn-open-chat">
+              <span id="globalAlertBtnText">Buka Chat</span>
+              <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </a>
+            <button type="button" onclick="dismissLiveChatAlert()" class="btn-close-banner" aria-label="Tutup Banner">&times;</button>
+          </div>
         </div>
       </div>
-    </div>
+    @endif
 
     <main class="admin-content">
       <!-- Session Feedback Notifications -->
@@ -1299,6 +1301,7 @@
     });
   </script>
 
+  @if(auth()->user()->canManageInbox())
   <!-- Real-Time Notification Engine (Live Chat, AI Takeover Alerts, & Pesan Masuk Inquiries) -->
   <script>
   (function() {
@@ -1670,6 +1673,7 @@
     });
   })();
   </script>
+  @endif
 
   @include('backoffice.partials.wysiwyg')
 

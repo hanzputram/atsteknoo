@@ -76,7 +76,7 @@ class User extends Authenticatable implements PasskeyUser
 
     public function canManageInbox(): bool
     {
-        return in_array($this->role, ['admin', 'editor', 'cs', 'support']);
+        return in_array($this->role, ['admin', 'cs', 'support']);
     }
 
     public function getRoleLabelAttribute(): string

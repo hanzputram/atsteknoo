@@ -220,30 +220,33 @@ Route::prefix('backoffice')->name('backoffice.')->group(function () {
             Route::get('import-products/{id}/error-report', [ImportCenterController::class, 'downloadErrorReport'])->name('import.error-report');
         });
 
-        // Inquiries & Live Chat Operations (Accessible to Admin, Editor, and Customer Support)
-        Route::get('inquiries', [ContactInquiryController::class, 'index'])->name('inquiries.index');
-        Route::get('inquiries/{id}', [ContactInquiryController::class, 'show'])->name('inquiries.show');
-        Route::post('inquiries/{id}/status', [ContactInquiryController::class, 'updateStatus'])->name('inquiries.status');
-        Route::delete('inquiries/{id}', [ContactInquiryController::class, 'destroy'])->name('inquiries.destroy');
+        // Inquiries, Live Chat, and AI Knowledge (Admin & Customer Support Only - Editor excluded)
+        Route::middleware(['backoffice:admin,cs,support'])->group(function () {
+            // Inquiries & Live Chat Operations
+            Route::get('inquiries', [ContactInquiryController::class, 'index'])->name('inquiries.index');
+            Route::get('inquiries/{id}', [ContactInquiryController::class, 'show'])->name('inquiries.show');
+            Route::post('inquiries/{id}/status', [ContactInquiryController::class, 'updateStatus'])->name('inquiries.status');
+            Route::delete('inquiries/{id}', [ContactInquiryController::class, 'destroy'])->name('inquiries.destroy');
 
-        // Live Chat Center (Inbox & Real-time Replies)
-        Route::get('live-chats', [LiveChatController::class, 'index'])->name('live-chats.index');
-        Route::get('live-chats/notifications', [LiveChatController::class, 'checkNotifications'])->name('live-chats.notifications');
-        Route::get('live-chats/{id}', [LiveChatController::class, 'show'])->name('live-chats.show');
-        Route::post('live-chats/{id}/reply', [LiveChatController::class, 'reply'])->name('live-chats.reply');
-        Route::post('live-chats/{id}/close', [LiveChatController::class, 'close'])->name('live-chats.close');
-        Route::post('live-chats/{id}/archive', [LiveChatController::class, 'archive'])->name('live-chats.archive');
-        Route::post('live-chats/{id}/unarchive', [LiveChatController::class, 'unarchive'])->name('live-chats.unarchive');
-        Route::post('live-chats/{id}/toggle-ai', [LiveChatController::class, 'toggleAi'])->name('live-chats.toggle-ai');
-        Route::delete('live-chats/{id}', [LiveChatController::class, 'destroy'])->name('live-chats.destroy');
-        Route::get('live-chats/{id}/poll', [LiveChatController::class, 'poll'])->name('live-chats.poll');
-        Route::post('live-chats/{id}/typing', [LiveChatController::class, 'updateTyping'])->name('live-chats.typing');
+            // Live Chat Center (Inbox & Real-time Replies)
+            Route::get('live-chats', [LiveChatController::class, 'index'])->name('live-chats.index');
+            Route::get('live-chats/notifications', [LiveChatController::class, 'checkNotifications'])->name('live-chats.notifications');
+            Route::get('live-chats/{id}', [LiveChatController::class, 'show'])->name('live-chats.show');
+            Route::post('live-chats/{id}/reply', [LiveChatController::class, 'reply'])->name('live-chats.reply');
+            Route::post('live-chats/{id}/close', [LiveChatController::class, 'close'])->name('live-chats.close');
+            Route::post('live-chats/{id}/archive', [LiveChatController::class, 'archive'])->name('live-chats.archive');
+            Route::post('live-chats/{id}/unarchive', [LiveChatController::class, 'unarchive'])->name('live-chats.unarchive');
+            Route::post('live-chats/{id}/toggle-ai', [LiveChatController::class, 'toggleAi'])->name('live-chats.toggle-ai');
+            Route::delete('live-chats/{id}', [LiveChatController::class, 'destroy'])->name('live-chats.destroy');
+            Route::get('live-chats/{id}/poll', [LiveChatController::class, 'poll'])->name('live-chats.poll');
+            Route::post('live-chats/{id}/typing', [LiveChatController::class, 'updateTyping'])->name('live-chats.typing');
 
-        // AI Knowledge Base & Memory Training (Accessible to Admin, Editor, and Customer Support)
-        Route::resource('ai-knowledge', AiKnowledgeController::class);
-        Route::post('ai-knowledge/{aiKnowledge}/toggle-active', [AiKnowledgeController::class, 'toggleActive'])->name('ai-knowledge.toggle-active');
-        Route::get('ai-knowledge-simulator/test', [AiKnowledgeController::class, 'testPrompt'])->name('ai-knowledge.test');
-        Route::post('ai-knowledge-simulator/ask', [AiKnowledgeController::class, 'askTest'])->name('ai-knowledge.test-ask');
+            // AI Knowledge Base & Memory Training
+            Route::resource('ai-knowledge', AiKnowledgeController::class);
+            Route::post('ai-knowledge/{aiKnowledge}/toggle-active', [AiKnowledgeController::class, 'toggleActive'])->name('ai-knowledge.toggle-active');
+            Route::get('ai-knowledge-simulator/test', [AiKnowledgeController::class, 'testPrompt'])->name('ai-knowledge.test');
+            Route::post('ai-knowledge-simulator/ask', [AiKnowledgeController::class, 'askTest'])->name('ai-knowledge.test-ask');
+        });
 
         // Admin-Only Modules
         Route::middleware(['backoffice:admin'])->group(function () {

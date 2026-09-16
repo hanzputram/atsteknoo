@@ -14,7 +14,7 @@ class BackofficeRoleMiddleware
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      * @param  string|null  $role  Required role (e.g. 'admin')
      */
-    public function handle(Request $request, Closure $next, ?string $role = null): Response
+    public function handle(Request $request, Closure $next, ...$roles): Response
     {
         $user = $request->user();
 
@@ -61,8 +61,17 @@ class BackofficeRoleMiddleware
         }
 
         // 4. Check specific role requirement if specified (e.g. 'admin' or 'admin,editor')
-        if ($role) {
-            $allowedRoles = array_map('trim', explode(',', $role));
+        if (!empty($roles)) {
+            $allowedRoles = [];
+            foreach ($roles as $r) {
+                foreach (explode(',', (string) $r) as $subRole) {
+                    $trimmed = trim($subRole);
+                    if ($trimmed !== '') {
+                        $allowedRoles[] = $trimmed;
+                    }
+                }
+            }
+
             if (!in_array($user->role, $allowedRoles)) {
                 if ($request->expectsJson()) {
                     return response()->json([
