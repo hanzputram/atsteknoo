@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Backoffice\AiKnowledgeController;
 use App\Http\Controllers\Backoffice\ArticleCategoryController;
 use App\Http\Controllers\Backoffice\ArticleController;
 use App\Http\Controllers\Backoffice\BackofficeAuthController;
@@ -237,6 +238,12 @@ Route::prefix('backoffice')->name('backoffice.')->group(function () {
         Route::delete('live-chats/{id}', [LiveChatController::class, 'destroy'])->name('live-chats.destroy');
         Route::get('live-chats/{id}/poll', [LiveChatController::class, 'poll'])->name('live-chats.poll');
         Route::post('live-chats/{id}/typing', [LiveChatController::class, 'updateTyping'])->name('live-chats.typing');
+
+        // AI Knowledge Base & Memory Training (Accessible to Admin, Editor, and Customer Support)
+        Route::resource('ai-knowledge', AiKnowledgeController::class);
+        Route::post('ai-knowledge/{aiKnowledge}/toggle-active', [AiKnowledgeController::class, 'toggleActive'])->name('ai-knowledge.toggle-active');
+        Route::get('ai-knowledge-simulator/test', [AiKnowledgeController::class, 'testPrompt'])->name('ai-knowledge.test');
+        Route::post('ai-knowledge-simulator/ask', [AiKnowledgeController::class, 'askTest'])->name('ai-knowledge.test-ask');
 
         // Admin-Only Modules
         Route::middleware(['backoffice:admin'])->group(function () {
