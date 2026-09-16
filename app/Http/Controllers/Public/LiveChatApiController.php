@@ -206,7 +206,7 @@ class LiveChatApiController extends Controller
 
                         $session->update([
                             'last_message_at' => now(),
-                            'needs_human_takeover' => (bool) $aiResult['needs_human_takeover'],
+                            'needs_human_takeover' => $session->needs_human_takeover || (bool) $aiResult['needs_human_takeover'],
                         ]);
 
                         $aiReplyData = [

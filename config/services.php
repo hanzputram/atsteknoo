@@ -37,7 +37,7 @@ return [
 
     'gemini' => [
         'api_key' => env('GEMINI_API_KEY') ?: base64_decode('QVEuQWI4Uk42Sk9vMVlGNTJyajNyUmpmNHJiTU42RVktZ3UzTk92cGo1OEVvQ1B2Y0RqbXc='),
-        'model'   => env('GEMINI_MODEL', 'gemini-2.5-flash'),
+        'model'   => env('GEMINI_MODEL', 'gemini-3.5-flash'),
     ],
 
 ];
