@@ -526,22 +526,36 @@
   function formatChatMessage(text) {
     if (!text) return '';
     let formatted = escapeHtml(text.trim());
-    // Convert bullets at line start
-    formatted = formatted.replace(/(^|[\r\n]+)[ \t]*[\*\-][ \t]+/g, '$1• ');
-    // Convert bold: **text** -> <strong>text</strong>
-    formatted = formatted.replace(/\*\*(.+?)\*\*/gs, '<strong>$1</strong>');
-    // Linkify URLs
+
+    // 1. Convert bullet points: "* " or "- " at line start -> "• "
+    formatted = formatted.replace(/(^|[\r\n]+|&lt;br\s*\/?&gt;|<br\s*\/?>)[ \t]*[\*\-][ \t]+/gi, '$1• ');
+
+    // 2. Convert Triple asterisks: ***text*** -> <strong><em>text</em></strong>
+    formatted = formatted.replace(/\*\*\*(.+?)\*\*\*/gs, '<strong><em>$1</em></strong>');
+
+    // 3. Convert Double asterisks bold: **text** -> <strong>text</strong>
+    formatted = formatted.replace(/\*\*\s*([^\*]+?)\s*\*\*/gs, '<strong>$1</strong>');
+
+    // 4. Convert Single asterisk (WhatsApp-style bold): *text* -> <strong>text</strong>
+    formatted = formatted.replace(/(^|[^\*])\*\s*([^\s\*](?:.*?[^\s\*])?)\s*\*(?!\*)/gs, '$1<strong>$2</strong>');
+
+    // 5. Linkify URLs
     const urlRegex = /(https?:\/\/[^\s<]+)/g;
     formatted = formatted.replace(urlRegex, function(url) {
       return `<a href="${url}" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: underline; font-weight: 700;">${url}</a>`;
     });
+
     return formatted;
   }
 
   function escapeHtml(text) {
-    const div = document.createElement('div');
-    div.innerText = text;
-    return div.innerHTML;
+    if (!text) return '';
+    return text
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
   }
 
   setInterval(pollNewMessages, 2000);

@@ -20,10 +20,16 @@ class ChatFormatter
         $escaped = htmlspecialchars($cleaned, ENT_QUOTES, 'UTF-8');
 
         // 1. Convert bullet points at start of line or string: "* " or "- " -> "• "
-        $escaped = preg_replace('/(^|[\r\n]+)[ \t]*[*\-][ \t]+/', '$1• ', $escaped);
+        $escaped = preg_replace('/(^|[\r\n]+|<br\s*\/?>)[ \t]*[*\-][ \t]+/', '$1• ', $escaped);
 
-        // 2. Convert Bold markdown: **text** -> <strong>text</strong>
-        $escaped = preg_replace('/\*\*(.+?)\*\*/s', '<strong>$1</strong>', $escaped);
+        // 2. Convert Triple asterisks: ***text*** -> <strong><em>$1</em></strong>
+        $escaped = preg_replace('/\*\*\*(.+?)\*\*\*/s', '<strong><em>$1</em></strong>', $escaped);
+
+        // 3. Convert Bold markdown: **text** -> <strong>$1</strong>
+        $escaped = preg_replace('/\*\*\s*([^\*]+?)\s*\*\*/s', '<strong>$1</strong>', $escaped);
+
+        // 4. Convert Single asterisk (WhatsApp-style bold): *text* -> <strong>$2</strong>
+        $escaped = preg_replace('/(^|[^\*])\*\s*([^\s\*](?:.*?[^\s\*])?)\s*\*(?!\*)/s', '$1<strong>$2</strong>', $escaped);
 
         // 3. Linkify URLs
         $urlPattern = '/(https?:\/\/[^\s<]+)/';
