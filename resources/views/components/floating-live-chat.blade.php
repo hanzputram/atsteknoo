@@ -1722,6 +1722,23 @@
     clearTimeout(visitorTypingTimer);
     sendVisitorTyping(false);
 
+    // Optimistic UI: clear input immediately and show message in chat drawer
+    const tempMsgId = 'opt_' + Date.now();
+    const nowTime = new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', hour12: false });
+
+    msgInput.value = '';
+    appendSingleMessage({
+      id: tempMsgId,
+      sender: 'visitor',
+      sender_name: 'Anda',
+      message: text,
+      time: nowTime
+    });
+
+    // Show ATS Support typing indicator while server/AI processes
+    updateAdminTypingUI(true);
+    scrollToBottom();
+
     sendBtn.disabled = true;
     msgInput.disabled = true;
 
@@ -1751,21 +1768,30 @@
         lastActiveTime = Date.now();
         localStorage.setItem('ats_livechat_last_active', lastActiveTime.toString());
         if (sessionResetBanner) sessionResetBanner.style.display = 'none';
-        msgInput.value = '';
-        appendSingleMessage(data.message);
+
+        if (data.message && data.message.id) {
+          knownMessageIds.add(data.message.id);
+        }
+
         if (data.ai_reply) {
           setTimeout(() => {
+            updateAdminTypingUI(false);
             appendSingleMessage(data.ai_reply);
             playNotificationChime();
-          }, 450);
+            scrollToBottom();
+          }, 350);
+        } else {
+          updateAdminTypingUI(false);
         }
         scrollToBottom();
       } else {
+        updateAdminTypingUI(false);
         const errorText = (data.errors && Object.values(data.errors).flat().join(' ')) || data.message || 'Gagal mengirim pesan.';
         showIdentityError(errorText);
       }
     } catch(err) {
       console.error(err);
+      updateAdminTypingUI(false);
       showIdentityError('Terjadi kesalahan jaringan. Silakan coba lagi.');
     } finally {
       sendBtn.disabled = false;
@@ -1799,6 +1825,16 @@
   }
 
   if (msgInput) {
+    // Explicit Enter key handler to guarantee immediate submission
+    msgInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        if (typeof window.handleVisitorSubmit === 'function') {
+          window.handleVisitorSubmit(e);
+        }
+      }
+    });
+
     msgInput.addEventListener('input', () => {
       const hasText = msgInput.value.trim().length > 0;
       if (!hasText) {

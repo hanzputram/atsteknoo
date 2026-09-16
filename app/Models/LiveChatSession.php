@@ -50,8 +50,8 @@ class LiveChatSession extends Model
 
     public function isAdminTyping(): bool
     {
-        // Admin considered typing if typed within the last 15 seconds
-        return $this->admin_typing_at !== null && $this->admin_typing_at->diffInSeconds(now()) < 15;
+        // Admin considered typing if typed within the last 6 seconds
+        return $this->admin_typing_at !== null && $this->admin_typing_at->diffInSeconds(now()) < 6;
     }
 
     public function canAiReply(): bool

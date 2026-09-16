@@ -188,7 +188,6 @@ class LiveChatController extends Controller
 
         $session->update([
             'admin_typing_at' => $isTyping ? now() : null,
-            'admin_engaged_at' => $isTyping ? now() : $session->admin_engaged_at,
         ]);
 
         return response()->json([
