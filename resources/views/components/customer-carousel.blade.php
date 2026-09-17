@@ -68,6 +68,7 @@
             alt="{{ $client['alt'] }}" 
             loading="lazy"
             class="trusted-logo-img"
+            onerror="if(!this.dataset.tried){this.dataset.tried=1;this.src=this.src.replace(/\.webp$/i,'.png');}else if(!this.dataset.pub){this.dataset.pub=1;this.src=this.src.replace('/images/','/public/images/');}"
           />
         </div>
       @endforeach

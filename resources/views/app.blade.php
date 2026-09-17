@@ -1761,7 +1761,12 @@
 
       <!-- Native Unstretched Photo Background Layer (Clipped to Exact Notch Shape via objectBoundingBox) -->
       <div class="hero-photo-layer" id="heroPhotoLayer">
-        <img src="{{ asset('images/hero-bg.webp') }}" class="hero-photo-img" alt="Electrical Engineer Control Panel" width="1708" height="960" fetchpriority="high" loading="eager" decoding="async">
+        <img src="{{ asset('images/hero-bg.webp') }}" 
+             class="hero-photo-img" 
+             alt="Electrical Engineer Control Panel" 
+             width="1708" height="960" 
+             fetchpriority="high" loading="eager" decoding="async"
+             onerror="if(!this.dataset.fallback){this.dataset.fallback=1;this.src='{{ asset('images/hero-bg.png') }}';}else if(!this.dataset.pub){this.dataset.pub=1;this.src='{{ url('/public/images/hero-bg.png') }}';}">
         <div class="hero-photo-overlay"></div>
       </div>
 
@@ -1807,6 +1812,7 @@
               <!-- 3D Prism Logo (Official ATS2) -->
               <img class="brand-logo-img"
                 src="{{ asset('images/ats-logo.webp') }}"
+                onerror="if(!this.dataset.fallback){this.dataset.fallback=1;this.src='{{ asset('images/ats-logo.png') }}';}else if(!this.dataset.pub){this.dataset.pub=1;this.src='{{ url('/public/images/ats-logo.png') }}';}"
                 alt="PT. Anugerah Tama Sejati Logo">
             </div>
             <div class="brand-text-block">
@@ -1888,11 +1894,11 @@
           <!-- Right Column: Interactive Certificate Carousel (Clean Minimal Cards Stack) -->
           <div class="hero-showcase-column">
             @php
-              // Tampilkan persis 3 sertifikat saja
+              // Tampilkan persis 3 sertifikat resmi
               $photos = [
-                (object)['is_horizontal' => true, 'path' => 'cert/cert-schneider.webp', 'title' => 'Schneider Electric Partner 2026'],
-                (object)['is_horizontal' => false, 'path' => 'cert/cert-gae.webp', 'title' => 'GAE Authorized Distributor'],
-                (object)['is_horizontal' => true, 'path' => 'cert/cert-legrand.webp', 'title' => 'Legrand Official Retailer Partner'],
+                (object)['is_horizontal' => true, 'path' => 'certificates/cert-schneider.webp', 'fallback' => 'certificates/cert-schneider.png', 'title' => 'Schneider Electric Partner 2026'],
+                (object)['is_horizontal' => false, 'path' => 'certificates/cert-gae.webp', 'fallback' => 'certificates/cert-gae.png', 'title' => 'GAE Authorized Distributor'],
+                (object)['is_horizontal' => true, 'path' => 'certificates/cert-legrand.webp', 'fallback' => 'certificates/cert-legrand.jpg', 'title' => 'Legrand Official Retailer Partner'],
               ];
             @endphp
 
@@ -1903,7 +1909,9 @@
                   @foreach($photos as $index => $photo)
                     <div class="swiper-slide {{ $photo->is_horizontal ? 'is-horizontal' : 'is-vertical' }}" data-index="{{ $index }}">
                       <div class="card-inner-frame">
-                        <img src="{{ asset('storage/' . $photo->path) }}" onerror="this.src='{{ asset('certificates/' . basename($photo->path)) }}'" alt="Official Certificate of PT. ATS" loading="lazy">
+                        <img src="{{ asset($photo->path) }}" 
+                             onerror="if(!this.dataset.fallback){this.dataset.fallback=1;this.src='{{ asset($photo->fallback) }}';}else if(!this.dataset.pub){this.dataset.pub=1;this.src='{{ url('/public/' . $photo->fallback) }}';}" 
+                             alt="Official Certificate of PT. ATS" loading="lazy">
                       </div>
                     </div>
                   @endforeach
@@ -1919,20 +1927,20 @@
       <!-- Dynamic Walking Brand Logos in Hero Notch (Marquee Ticker) -->
       <div class="hero-notch-marquee-wrapper" id="notchMarquee" title="Authorized Brands &amp; Official Partners - PT. Anugerah Tama Sejati">
         <div class="marquee-track">
-          <!-- Set 1 (Official Brand Logos) -->
-          <div class="marquee-logo-card"><img src="logos/1.webp" alt="Schneider Electric Authorized Dealer" loading="lazy"></div>
-          <div class="marquee-logo-card"><img src="logos/2.webp" alt="GAE Authorized Dealer" loading="lazy"></div>
-          <div class="marquee-logo-card"><img src="logos/vinsa.webp" alt="VINSA France" loading="lazy"></div>
-          <div class="marquee-logo-card"><img src="logos/Legrand.webp" alt="Legrand" loading="lazy"></div>
-          <div class="marquee-logo-card"><img src="logos/Socomec.webp" alt="Socomec" loading="lazy"></div>
-          <div class="marquee-logo-card"><img src="logos/Autonics.webp" alt="Autonics" loading="lazy"></div>
-          <div class="marquee-logo-card"><img src="logos/Himel.webp" alt="Himel" loading="lazy"></div>
-          <div class="marquee-logo-card"><img src="logos/Panasonic.webp" alt="Panasonic" loading="lazy"></div>
-          <div class="marquee-logo-card"><img src="logos/Philips.webp" alt="Philips" loading="lazy"></div>
-          <div class="marquee-logo-card"><img src="logos/Fluke.webp" alt="Fluke" loading="lazy"></div>
-          <div class="marquee-logo-card"><img src="logos/Boss.webp" alt="Boss" loading="lazy"></div>
-          <div class="marquee-logo-card"><img src="logos/Jembo.webp" alt="Jembo Cable" loading="lazy"></div>
-          <div class="marquee-logo-card"><img src="logos/supremexxx.webp" alt="Supreme Cable" loading="lazy"></div>
+          <!-- Set 1 (Official Brand Logos with Resilient Delivery) -->
+          <div class="marquee-logo-card"><img src="{{ asset('logos/1.webp') }}" alt="Schneider Electric Authorized Dealer" loading="lazy" onerror="if(!this.dataset.tried){this.dataset.tried=1;this.src='{{ asset('logos/1.png') }}';}"></div>
+          <div class="marquee-logo-card"><img src="{{ asset('logos/2.webp') }}" alt="GAE Authorized Dealer" loading="lazy" onerror="if(!this.dataset.tried){this.dataset.tried=1;this.src='{{ asset('logos/2.png') }}';}"></div>
+          <div class="marquee-logo-card"><img src="{{ asset('logos/vinsa.webp') }}" alt="VINSA France" loading="lazy" onerror="if(!this.dataset.tried){this.dataset.tried=1;this.src='{{ asset('logos/vinsa.png') }}';}"></div>
+          <div class="marquee-logo-card"><img src="{{ asset('logos/Legrand.webp') }}" alt="Legrand" loading="lazy" onerror="if(!this.dataset.tried){this.dataset.tried=1;this.src='{{ asset('logos/Legrand.png') }}';}"></div>
+          <div class="marquee-logo-card"><img src="{{ asset('logos/Socomec.webp') }}" alt="Socomec" loading="lazy" onerror="if(!this.dataset.tried){this.dataset.tried=1;this.src='{{ asset('logos/Socomec.png') }}';}"></div>
+          <div class="marquee-logo-card"><img src="{{ asset('logos/Autonics.webp') }}" alt="Autonics" loading="lazy" onerror="if(!this.dataset.tried){this.dataset.tried=1;this.src='{{ asset('logos/Autonics.png') }}';}"></div>
+          <div class="marquee-logo-card"><img src="{{ asset('logos/Himel.webp') }}" alt="Himel" loading="lazy" onerror="if(!this.dataset.tried){this.dataset.tried=1;this.src='{{ asset('logos/Himel.png') }}';}"></div>
+          <div class="marquee-logo-card"><img src="{{ asset('logos/Panasonic.webp') }}" alt="Panasonic" loading="lazy" onerror="if(!this.dataset.tried){this.dataset.tried=1;this.src='{{ asset('logos/Panasonic.png') }}';}"></div>
+          <div class="marquee-logo-card"><img src="{{ asset('logos/Philips.webp') }}" alt="Philips" loading="lazy" onerror="if(!this.dataset.tried){this.dataset.tried=1;this.src='{{ asset('logos/Philips.png') }}';}"></div>
+          <div class="marquee-logo-card"><img src="{{ asset('logos/Fluke.webp') }}" alt="Fluke" loading="lazy" onerror="if(!this.dataset.tried){this.dataset.tried=1;this.src='{{ asset('logos/Fluke.png') }}';}"></div>
+          <div class="marquee-logo-card"><img src="{{ asset('logos/Boss.webp') }}" alt="Boss" loading="lazy" onerror="if(!this.dataset.tried){this.dataset.tried=1;this.src='{{ asset('logos/Boss.png') }}';}"></div>
+          <div class="marquee-logo-card"><img src="{{ asset('logos/Jembo.webp') }}" alt="Jembo Cable" loading="lazy" onerror="if(!this.dataset.tried){this.dataset.tried=1;this.src='{{ asset('logos/Jembo.png') }}';}"></div>
+          <div class="marquee-logo-card"><img src="{{ asset('logos/supremexxx.webp') }}" alt="Supreme Cable" loading="lazy" onerror="if(!this.dataset.tried){this.dataset.tried=1;this.src='{{ asset('logos/supremexxx.png') }}';}"></div>
 
         </div>
       </div>

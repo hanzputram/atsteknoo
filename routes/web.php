@@ -52,62 +52,70 @@ Route::get('/google9133ec987e4d89f7.html', function () {
         ->header('Content-Type', 'text/html; charset=UTF-8');
 });
 
-// Static Asset Delivery Fallback (guarantees assets load on shared hosting / cPanel)
-Route::get('/css/{file}', function ($file) {
-    $path = public_path('css/' . $file);
-    if (!file_exists($path) && file_exists(base_path('css/' . $file))) {
-        $path = base_path('css/' . $file);
+// Universal Static Asset Delivery Fallback (guarantees assets load on shared hosting / cPanel / LiteSpeed)
+$serveStaticAsset = function (string $dir, string $file) {
+    // Prevent directory traversal
+    if (str_contains($file, '..')) {
+        abort(404);
     }
-    if (file_exists($path)) {
-        return response()->file($path, [
-            'Content-Type' => 'text/css; charset=utf-8',
-            'Cache-Control' => 'public, max-age=31536000'
-        ]);
-    }
-    abort(404);
-})->where('file', '.*');
 
-Route::get('/public/css/{file}', function ($file) {
-    $path = public_path('css/' . $file);
-    if (!file_exists($path) && file_exists(base_path('css/' . $file))) {
-        $path = base_path('css/' . $file);
-    }
-    if (file_exists($path)) {
-        return response()->file($path, [
-            'Content-Type' => 'text/css; charset=utf-8',
-            'Cache-Control' => 'public, max-age=31536000'
-        ]);
-    }
-    abort(404);
-})->where('file', '.*');
+    $candidates = [
+        public_path($dir . '/' . $file),
+        base_path($dir . '/' . $file),
+        base_path('public/' . $dir . '/' . $file),
+    ];
 
-Route::get('/js/{file}', function ($file) {
-    $path = public_path('js/' . $file);
-    if (!file_exists($path) && file_exists(base_path('js/' . $file))) {
-        $path = base_path('js/' . $file);
-    }
-    if (file_exists($path)) {
-        return response()->file($path, [
-            'Content-Type' => 'application/javascript; charset=utf-8',
-            'Cache-Control' => 'public, max-age=31536000'
-        ]);
-    }
-    abort(404);
-})->where('file', '.*');
+    $mimes = [
+        'css'   => 'text/css; charset=utf-8',
+        'js'    => 'application/javascript; charset=utf-8',
+        'webp'  => 'image/webp',
+        'png'   => 'image/png',
+        'jpg'   => 'image/jpeg',
+        'jpeg'  => 'image/jpeg',
+        'svg'   => 'image/svg+xml',
+        'gif'   => 'image/gif',
+        'ico'   => 'image/x-icon',
+        'pdf'   => 'application/pdf',
+        'woff2' => 'font/woff2',
+        'woff'  => 'font/woff',
+        'ttf'   => 'font/ttf',
+    ];
 
-Route::get('/public/js/{file}', function ($file) {
-    $path = public_path('js/' . $file);
-    if (!file_exists($path) && file_exists(base_path('js/' . $file))) {
-        $path = base_path('js/' . $file);
+    foreach ($candidates as $path) {
+        if (file_exists($path) && !is_dir($path)) {
+            $ext = strtolower(pathinfo($path, PATHINFO_EXTENSION));
+            $contentType = $mimes[$ext] ?? (mime_content_type($path) ?: 'application/octet-stream');
+            return response()->file($path, [
+                'Content-Type' => $contentType,
+                'Cache-Control' => 'public, max-age=31536000'
+            ]);
+        }
     }
-    if (file_exists($path)) {
-        return response()->file($path, [
-            'Content-Type' => 'application/javascript; charset=utf-8',
-            'Cache-Control' => 'public, max-age=31536000'
-        ]);
+
+    // Fallback: If .webp requested but file not found on disk, try original format (.png, .jpg, .jpeg)
+    if (str_ends_with(strtolower($file), '.webp')) {
+        $baseName = substr($file, 0, -5);
+        foreach (['.png', '.jpg', '.jpeg', '.svg'] as $fallbackExt) {
+            foreach ([public_path($dir . '/' . $baseName . $fallbackExt), base_path($dir . '/' . $baseName . $fallbackExt)] as $candidate) {
+                if (file_exists($candidate) && !is_dir($candidate)) {
+                    $ext = strtolower(pathinfo($candidate, PATHINFO_EXTENSION));
+                    return response()->file($candidate, [
+                        'Content-Type' => $mimes[$ext] ?? 'image/png',
+                        'Cache-Control' => 'public, max-age=86400'
+                    ]);
+                }
+            }
+        }
     }
+
     abort(404);
-})->where('file', '.*');
+};
+
+foreach (['images', 'logos', 'certificates', 'storage', 'uploads', 'css', 'js'] as $assetDir) {
+    Route::get("/{$assetDir}/{file}", fn($file) => $serveStaticAsset($assetDir, $file))->where('file', '.*');
+    Route::get("/public/{$assetDir}/{file}", fn($file) => $serveStaticAsset($assetDir, $file))->where('file', '.*');
+}
+
 
 // Products & Categories
 Route::get('/products', [CatalogProductController::class, 'index'])->name('products.index');

@@ -64,7 +64,7 @@
           @foreach($displayProjects as $index => $item)
             <div class="p3d-card" data-slot="{{ $index }}" data-project-index="{{ $index }}" role="button" tabindex="0">
               <div class="p3d-card-inner">
-                <img src="{{ $item['image'] }}" alt="{{ $item['title'] }}" class="p3d-card-img" width="280" height="380" loading="lazy" decoding="async">
+                <img src="{{ $item['image'] }}" alt="{{ $item['title'] }}" class="p3d-card-img" width="280" height="380" loading="lazy" decoding="async" onerror="if(!this.dataset.tried){this.dataset.tried=1;this.src=this.src.replace(/\.webp$/i,'.jpg');}else if(!this.dataset.pub){this.dataset.pub=1;this.src=this.src.replace('/images/','/public/images/');}">
                 <div class="p3d-card-scrim"></div>
                 <div class="p3d-card-badge" style="background: {{ $item['badge_color'] }};">{{ $item['badge'] }}</div>
                 <div class="p3d-card-content">
