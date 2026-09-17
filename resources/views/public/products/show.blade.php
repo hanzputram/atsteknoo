@@ -86,6 +86,22 @@
         }
     }
 
+    $productOffers = null;
+    if (!empty($product->price) && (float)$product->price > 0) {
+        $productOffers = [
+            '@type' => 'Offer',
+            'url' => route('products.show', $product->slug),
+            'price' => (float)$product->price,
+            'priceCurrency' => 'IDR',
+            'availability' => 'https://schema.org/InStock',
+            'itemCondition' => 'https://schema.org/NewCondition',
+            'seller' => [
+                '@type' => 'Organization',
+                'name' => 'PT. Anugerah Tama Sejati',
+            ],
+        ];
+    }
+
     $productSchemaItem = array_filter([
         '@type' => 'Product',
         '@id' => route('products.show', $product->slug) . '#product',
@@ -100,17 +116,7 @@
             '@type' => 'Brand',
             'name' => $brandName,
         ],
-        'offers' => [
-            '@type' => 'Offer',
-            'url' => route('products.show', $product->slug),
-            'priceCurrency' => 'IDR',
-            'availability' => 'https://schema.org/InStock',
-            'itemCondition' => 'https://schema.org/NewCondition',
-            'seller' => [
-                '@type' => 'Organization',
-                'name' => 'PT. Anugerah Tama Sejati',
-            ],
-        ],
+        'offers' => $productOffers,
     ]);
 
     if (!empty($additionalProperties)) {

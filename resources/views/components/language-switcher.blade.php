@@ -119,6 +119,3 @@
     color: rgba(15, 23, 42, 0.25);
   }
 </style>
-
-<!-- Global i18n Logic Script -->
-<script src="{{ asset('js/ats-i18n.js') }}"></script>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 
 <head>
   <!-- Google tag (gtag.js) -->
@@ -58,7 +58,7 @@
   <script type="application/ld+json">
   {
     "@@context": "https://schema.org",
-    "@type": ["ElectricalStore", "WholesaleStore"],
+    "@type": ["ElectronicsStore", "WholesaleStore"],
     "@id": "{{ url('/#organization') }}",
     "name": "PT. Anugerah Tama Sejati (ATS Tekno)",
     "alternateName": [
@@ -79,7 +79,7 @@
       "streetAddress": "Ruko Galaxi Bumi Permai J-1 No. 23",
       "addressLocality": "Surabaya",
       "addressRegion": "Jawa Timur",
-      "postalCode": "60119",
+      "postalCode": "60134",
       "addressCountry": "ID"
     },
     "geo": {
@@ -90,7 +90,7 @@
     "hasMap": "https://maps.google.com/?cid=13502184121040894586",
     "sameAs": [
       "https://www.instagram.com/ats_tekno/",
-      "https://www.tiktok.com/@atstekno",
+      "https://www.tiktok.com/@ats_tekno",
       "https://linkedin.com/company/anugerah-tama-sejati"
     ],
     "areaServed": [
@@ -160,11 +160,15 @@
     "@@context": "https://schema.org",
     "@type": "WebSite",
     "name": "PT. Anugerah Tama Sejati",
-    "alternateName": "Distributor Schneider Electric Surabaya",
+    "alternateName": [
+      "ATS Tekno",
+      "PT ATS",
+      "PT Anugerah Tama Sejati"
+    ],
     "url": "{{ url('/') }}",
     "potentialAction": {
       "@type": "SearchAction",
-      "target": "{{ url('/products') }}?q={search_term_string}",
+      "target": "{{ url('/products') }}?search={search_term_string}",
       "query-input": "required name=search_term_string"
     }
   }
@@ -1930,20 +1934,20 @@
       <!-- Dynamic Walking Brand Logos in Hero Notch (Marquee Ticker) -->
       <div class="hero-notch-marquee-wrapper" id="notchMarquee" title="Authorized Brands &amp; Official Partners - PT. Anugerah Tama Sejati">
         <div class="marquee-track">
-          <!-- Set 1 (Official Brand Logos with Resilient Delivery) -->
-          <div class="marquee-logo-card"><img src="{{ asset('logos/1.png') }}" alt="Schneider Electric Authorized Dealer" loading="lazy" onerror="this.src='{{ url('/public/logos/1.png') }}';"></div>
-          <div class="marquee-logo-card"><img src="{{ asset('logos/2.png') }}" alt="GAE Authorized Dealer" loading="lazy" onerror="this.src='{{ url('/public/logos/2.png') }}';"></div>
-          <div class="marquee-logo-card"><img src="{{ asset('logos/vinsa.png') }}" alt="VINSA France" loading="lazy" onerror="this.src='{{ url('/public/logos/vinsa.png') }}';"></div>
-          <div class="marquee-logo-card"><img src="{{ asset('logos/Legrand.png') }}" alt="Legrand" loading="lazy" onerror="this.src='{{ url('/public/logos/Legrand.png') }}';"></div>
-          <div class="marquee-logo-card"><img src="{{ asset('logos/Socomec.png') }}" alt="Socomec" loading="lazy" onerror="this.src='{{ url('/public/logos/Socomec.png') }}';"></div>
-          <div class="marquee-logo-card"><img src="{{ asset('logos/Autonics.png') }}" alt="Autonics" loading="lazy" onerror="this.src='{{ url('/public/logos/Autonics.png') }}';"></div>
-          <div class="marquee-logo-card"><img src="{{ asset('logos/Himel.png') }}" alt="Himel" loading="lazy" onerror="this.src='{{ url('/public/logos/Himel.png') }}';"></div>
-          <div class="marquee-logo-card"><img src="{{ asset('logos/Panasonic.png') }}" alt="Panasonic" loading="lazy" onerror="this.src='{{ url('/public/logos/Panasonic.png') }}';"></div>
-          <div class="marquee-logo-card"><img src="{{ asset('logos/Philips.png') }}" alt="Philips" loading="lazy" onerror="this.src='{{ url('/public/logos/Philips.png') }}';"></div>
-          <div class="marquee-logo-card"><img src="{{ asset('logos/Fluke.png') }}" alt="Fluke" loading="lazy" onerror="this.src='{{ url('/public/logos/Fluke.png') }}';"></div>
-          <div class="marquee-logo-card"><img src="{{ asset('logos/Boss.png') }}" alt="Boss" loading="lazy" onerror="this.src='{{ url('/public/logos/Boss.png') }}';"></div>
-          <div class="marquee-logo-card"><img src="{{ asset('logos/Jembo.png') }}" alt="Jembo Cable" loading="lazy" onerror="this.src='{{ url('/public/logos/Jembo.png') }}';"></div>
-          <div class="marquee-logo-card"><img src="{{ asset('logos/supremexxx.png') }}" alt="Supreme Cable" loading="lazy" onerror="this.src='{{ url('/public/logos/supremexxx.png') }}';"></div>
+          <!-- Set 1 (Official Brand Logos with Resilient Delivery & Crawlable Brand Anchor Links) -->
+          <a href="{{ route('brands.show', 'schneider-electric') }}" class="marquee-logo-card" title="Distributor Schneider Electric Surabaya"><img src="{{ asset('logos/1.png') }}" alt="Schneider Electric Authorized Dealer" width="105" height="26" loading="lazy" onerror="this.src='{{ url('/public/logos/1.png') }}';"></a>
+          <a href="{{ route('brands.show', 'gae-group') }}" class="marquee-logo-card" title="Distributor GAE Group Surabaya"><img src="{{ asset('logos/2.png') }}" alt="GAE Authorized Dealer" width="105" height="26" loading="lazy" onerror="this.src='{{ url('/public/logos/2.png') }}';"></a>
+          <a href="{{ route('brands.show', 'vinsa') }}" class="marquee-logo-card" title="Distributor VINSA France Surabaya"><img src="{{ asset('logos/vinsa.png') }}" alt="VINSA France" width="105" height="26" loading="lazy" onerror="this.src='{{ url('/public/logos/vinsa.png') }}';"></a>
+          <a href="{{ route('brands.show', 'legrand-indonesia') }}" class="marquee-logo-card" title="Distributor Legrand Indonesia Surabaya"><img src="{{ asset('logos/Legrand.png') }}" alt="Legrand" width="105" height="26" loading="lazy" onerror="this.src='{{ url('/public/logos/Legrand.png') }}';"></a>
+          <a href="{{ route('brands.show', 'socomec') }}" class="marquee-logo-card" title="Distributor Socomec Surabaya"><img src="{{ asset('logos/Socomec.png') }}" alt="Socomec" width="105" height="26" loading="lazy" onerror="this.src='{{ url('/public/logos/Socomec.png') }}';"></a>
+          <a href="{{ route('brands.show', 'autonics') }}" class="marquee-logo-card" title="Distributor Autonics Surabaya"><img src="{{ asset('logos/Autonics.png') }}" alt="Autonics" width="105" height="26" loading="lazy" onerror="this.src='{{ url('/public/logos/Autonics.png') }}';"></a>
+          <a href="{{ route('brands.show', 'himel') }}" class="marquee-logo-card" title="Distributor Himel Surabaya"><img src="{{ asset('logos/Himel.png') }}" alt="Himel" width="105" height="26" loading="lazy" onerror="this.src='{{ url('/public/logos/Himel.png') }}';"></a>
+          <a href="{{ route('brands.show', 'panasonic') }}" class="marquee-logo-card" title="Distributor Panasonic Surabaya"><img src="{{ asset('logos/Panasonic.png') }}" alt="Panasonic" width="105" height="26" loading="lazy" onerror="this.src='{{ url('/public/logos/Panasonic.png') }}';"></a>
+          <a href="{{ route('brands.show', 'philips-lighting') }}" class="marquee-logo-card" title="Distributor Philips Lighting Surabaya"><img src="{{ asset('logos/Philips.png') }}" alt="Philips" width="105" height="26" loading="lazy" onerror="this.src='{{ url('/public/logos/Philips.png') }}';"></a>
+          <a href="{{ route('brands.show', 'fluke-corporation') }}" class="marquee-logo-card" title="Distributor Fluke Corporation Surabaya"><img src="{{ asset('logos/Fluke.png') }}" alt="Fluke" width="105" height="26" loading="lazy" onerror="this.src='{{ url('/public/logos/Fluke.png') }}';"></a>
+          <a href="{{ route('brands.show', 'boss-electrical') }}" class="marquee-logo-card" title="Distributor Boss Electrical Surabaya"><img src="{{ asset('logos/Boss.png') }}" alt="Boss" width="105" height="26" loading="lazy" onerror="this.src='{{ url('/public/logos/Boss.png') }}';"></a>
+          <a href="{{ route('brands.show', 'jembo-cable') }}" class="marquee-logo-card" title="Distributor Jembo Cable Surabaya"><img src="{{ asset('logos/Jembo.png') }}" alt="Jembo Cable" width="105" height="26" loading="lazy" onerror="this.src='{{ url('/public/logos/Jembo.png') }}';"></a>
+          <a href="{{ route('brands.show', 'supreme-cable') }}" class="marquee-logo-card" title="Distributor Supreme Cable Surabaya"><img src="{{ asset('logos/supremexxx.png') }}" alt="Supreme Cable" width="105" height="26" loading="lazy" onerror="this.src='{{ url('/public/logos/supremexxx.png') }}';"></a>
 
         </div>
       </div>

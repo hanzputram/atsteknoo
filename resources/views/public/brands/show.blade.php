@@ -67,7 +67,7 @@
 
 @section('title', $brandTitle)
 @section('meta_description', $cleanDesc)
-@section('canonical', route('brands.show', $brand->slug))
+@section('canonical', request()->has('page') && (int)request('page') > 1 ? route('brands.show', [$brand->slug, 'page' => request('page')]) : route('brands.show', $brand->slug))
 
 @push('schema')
 <script type="application/ld+json">

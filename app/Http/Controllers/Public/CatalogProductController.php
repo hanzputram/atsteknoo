@@ -20,8 +20,9 @@ class CatalogProductController extends Controller
         // Flagship partner brands prioritized by PT ATS
         $flagshipBrandSlugs = ['schneider-electric', 'vinsa', 'supreme-cable', 'gae-group', 'legrand-indonesia'];
 
-        // Search by name or SKU
-        if ($search = $request->input('search')) {
+        // Search by name or SKU (accepts both 'search' and 'q' parameters seamlessly)
+        $search = trim($request->input('search') ?: $request->input('q') ?: '');
+        if (!empty($search)) {
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
                   ->orWhere('sku', 'like', "%{$search}%")
@@ -37,7 +38,7 @@ class CatalogProductController extends Controller
                     $q->where('slug', $brandSlug);
                 });
             }
-        } elseif (!$request->filled('search')) {
+        } elseif (empty($search)) {
             // Default initial visit: Display flagship products (Schneider, Vinsa, Supreme, GAE, Legrand)
             $query->whereHas('brand', function ($q) use ($flagshipBrandSlugs) {
                 $q->whereIn('slug', $flagshipBrandSlugs);

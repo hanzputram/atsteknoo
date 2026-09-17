@@ -41,7 +41,7 @@
 
 @section('title', $categoryTitle)
 @section('meta_description', $cleanDesc)
-@section('canonical', route('product-categories.show', $category->slug))
+@section('canonical', request()->has('page') && (int)request('page') > 1 ? route('product-categories.show', [$category->slug, 'page' => request('page')]) : route('product-categories.show', $category->slug))
 
 @push('schema')
 <script type="application/ld+json">
@@ -68,25 +68,56 @@
         <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
                 <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold tracking-wider uppercase bg-blue-50 text-blue-700 border border-blue-200 mb-3">
-                    <span class="ats-lang-en">Product Category</span><span class="ats-lang-id">Kategori Produk</span>
+                    <span class="ats-lang-en">Product Category</span><span class="ats-lang-id">Kategori Produk Proteksi & Distribusi</span>
                 </span>
-                <h1 class="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">{{ $category->name }}</h1>
-                <p class="text-sm sm:text-base text-slate-600 mt-2 max-w-2xl">
-                    {{ $category->description ?: 'Rangkaian komponen elektrikal dalam klasifikasi ' . $category->name . '.' }}
+                <h1 class="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
+                    @if($category->slug === 'power-distribution-circuit-breakers')
+                        <span class="ats-lang-en">Power Distribution & Circuit Breakers</span>
+                        <span class="ats-lang-id">Distribusi Tenaga & Sirkuit Pemutus Listrik (Circuit Breakers)</span>
+                    @else
+                        {{ $category->name }}
+                    @endif
+                </h1>
+                <p class="text-sm sm:text-base text-slate-600 mt-2 max-w-2xl leading-relaxed">
+                    @if($category->slug === 'power-distribution-circuit-breakers')
+                        <span class="ats-lang-id">Distributor resmi komponen proteksi dan distribusi tenaga di Surabaya. Tersedia lengkap MCB, MCCB, ACB, RCCB, RCBO, dan Surge Arrester berstandar SNI / IEC dari Schneider Electric, GAE, dan brand terkemuka.</span>
+                        <span class="ats-lang-en">{{ $category->description ?: 'Rangkaian komponen elektrikal dalam klasifikasi ' . $category->name . '.' }}</span>
+                    @else
+                        {{ $category->description ?: 'Rangkaian komponen elektrikal dalam klasifikasi ' . $category->name . '.' }}
+                    @endif
                 </p>
             </div>
 
-            <!-- Subcategories Chips if exist -->
-            @if($category->children->isNotEmpty())
+            <!-- Subcategories Chips & Quick Filters -->
             <div class="flex flex-wrap items-center gap-2">
-                @foreach($category->children as $sub)
-                    <a href="{{ route('product-categories.show', $sub->slug) }}" class="px-3 py-1.5 rounded-xl bg-white border border-slate-200 text-xs font-semibold text-slate-700 hover:border-blue-500 hover:text-blue-600 transition shadow-xs">
-                        {{ $sub->name }}
+                @if($category->slug === 'power-distribution-circuit-breakers')
+                    <a href="{{ route('products.index', ['category' => $category->slug, 'search' => 'MCB']) }}" class="px-3 py-1.5 rounded-xl bg-white border border-slate-200 text-xs font-semibold text-slate-700 hover:border-rose-500 hover:text-rose-600 transition shadow-2xs">
+                        MCB
                     </a>
-                @endforeach
+                    <a href="{{ route('products.index', ['category' => $category->slug, 'search' => 'MCCB']) }}" class="px-3 py-1.5 rounded-xl bg-white border border-slate-200 text-xs font-semibold text-slate-700 hover:border-rose-500 hover:text-rose-600 transition shadow-2xs">
+                        MCCB
+                    </a>
+                    <a href="{{ route('products.index', ['category' => $category->slug, 'search' => 'ACB']) }}" class="px-3 py-1.5 rounded-xl bg-white border border-slate-200 text-xs font-semibold text-slate-700 hover:border-rose-500 hover:text-rose-600 transition shadow-2xs">
+                        ACB
+                    </a>
+                    <a href="{{ route('products.index', ['category' => $category->slug, 'search' => 'RCCB']) }}" class="px-3 py-1.5 rounded-xl bg-white border border-slate-200 text-xs font-semibold text-slate-700 hover:border-rose-500 hover:text-rose-600 transition shadow-2xs">
+                        RCCB / ELCB
+                    </a>
+                    <a href="{{ route('products.index', ['category' => $category->slug, 'search' => 'RCBO']) }}" class="px-3 py-1.5 rounded-xl bg-white border border-slate-200 text-xs font-semibold text-slate-700 hover:border-rose-500 hover:text-rose-600 transition shadow-2xs">
+                        RCBO
+                    </a>
+                    <a href="{{ route('products.index', ['category' => $category->slug, 'search' => 'Surge']) }}" class="px-3 py-1.5 rounded-xl bg-white border border-slate-200 text-xs font-semibold text-slate-700 hover:border-rose-500 hover:text-rose-600 transition shadow-2xs">
+                        SPD / Arrester
+                    </a>
+                @endif
+                @if($category->children->isNotEmpty())
+                    @foreach($category->children as $sub)
+                        <a href="{{ route('product-categories.show', $sub->slug) }}" class="px-3 py-1.5 rounded-xl bg-white border border-slate-200 text-xs font-semibold text-slate-700 hover:border-blue-500 hover:text-blue-600 transition shadow-2xs">
+                            {{ $sub->name }}
+                        </a>
+                    @endforeach
+                @endif
             </div>
-            @endif
-        </div>
     </div>
 </div>
 

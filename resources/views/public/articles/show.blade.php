@@ -38,7 +38,7 @@
                 '@type' => 'Article',
                 'headline' => $article->title,
                 'description' => $cleanDesc,
-                'image' => $article->featured_image_url ?: null,
+                'image' => $article->thumbnail_url ?: asset('images/ats-logo.png'),
                 'datePublished' => optional($article->published_at)->toIso8601String() ?: optional($article->created_at)->toIso8601String(),
                 'dateModified' => optional($article->updated_at)->toIso8601String(),
                 'author' => [
