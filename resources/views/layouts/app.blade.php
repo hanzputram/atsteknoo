@@ -57,8 +57,8 @@
     ],
     "description": "Electrical supplier and certified switchboard panel builder in Surabaya. Authorized dealer for Schneider Electric, GAE, and Legrand, providing industrial electrical components and panel fabrication since 2019.",
     "url": "{{ url('/') }}",
-    "logo": "{{ asset('images/ats-logo.png') }}",
-    "image": "{{ asset('images/ats-logo.png') }}",
+    "logo": "{{ asset('images/ats-logo.webp') }}",
+    "image": "{{ asset('images/ats-logo.webp') }}",
     "foundingDate": "2019",
     "telephone": "+62-31-59178887",
     "email": "sales@atstekno.com",
@@ -550,7 +550,7 @@
         <a href="{{ route('home') }}" class="flex items-center gap-3.5 group text-decoration-none">
           <div class="w-12 h-12 flex items-center justify-center shrink-0 group-hover:scale-105 transition">
             <img class="w-full h-full object-contain"
-                 src="{{ asset('images/ats-logo.png') }}"
+                 src="{{ asset('images/ats-logo.webp') }}"
                  alt="PT. Anugerah Tama Sejati Logo">
           </div>
           <div>

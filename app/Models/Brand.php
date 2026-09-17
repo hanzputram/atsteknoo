@@ -55,10 +55,10 @@ class Brand extends Model
 
         // Direct mapping table for files located in public/logos/
         $logoMap = [
-            'schneider-electric' => 'logos/1.png',
-            'gae-group'          => 'logos/2.png',
+            'schneider-electric' => 'logos/1.webp',
+            'gae-group'          => 'logos/2.webp',
             'legrand-indonesia'  => 'logos/Legrand.webp',
-            'socomec'            => 'logos/Socomec.png',
+            'socomec'            => 'logos/Socomec.webp',
             'autonics'           => 'logos/Autonics.webp',
             'himel'              => 'logos/Himel.webp',
             'panasonic'          => 'logos/Panasonic.webp',
@@ -68,7 +68,7 @@ class Brand extends Model
             'jembo-cable'        => 'logos/Jembo.webp',
             'supreme-cable'      => 'logos/supremexxx.webp',
             'dv-electric'        => 'logos/DV.webp',
-            'vinsa'              => 'logos/vinsa.png',
+            'vinsa'              => 'logos/vinsa.webp',
         ];
 
         if (isset($logoMap[$slug]) && file_exists(public_path($logoMap[$slug]))) {
@@ -85,6 +85,7 @@ class Brand extends Model
             "logos/{$code}.png",
             "logos/" . ucfirst($code) . ".webp",
             "logos/" . ucfirst($code) . ".png",
+            "images/brands/{$slug}.webp",
             "images/brands/{$slug}.svg",
             "images/brands/{$slug}.png",
         ];

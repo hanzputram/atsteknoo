@@ -41,7 +41,7 @@
   <meta property="og:description" content="Diskon proyek dan pengadaan industri komponen Schneider Electric ready stock Surabaya. Konsultasi BoQ & klaim diskon via WhatsApp sekarang.">
   <meta property="og:url" content="{{ url()->current() }}">
   <meta property="og:site_name" content="PT. Anugerah Tama Sejati">
-  <meta property="og:image" content="{{ asset('images/ats-logo-square-256.png') }}">
+  <meta property="og:image" content="{{ asset('images/ats-logo-square-256.webp') }}">
 
   <!-- Google Fonts: Outfit & Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1268,7 +1268,7 @@
 
       <!-- Native Unstretched Photo Background Layer (Clipped by SVG Notch) -->
       <div class="hero-photo-layer">
-        <img class="hero-photo-img" src="{{ asset('images/hero-bg.png') }}"
+        <img class="hero-photo-img" src="{{ asset('images/hero-bg.webp') }}"
           alt="Distributor Resmi Schneider Electric Surabaya - PT. Anugerah Tama Sejati" loading="eager">
         <div class="hero-photo-overlay"></div>
       </div>
@@ -1330,7 +1330,7 @@
           <a href="{{ route('home') }}" class="brand-group">
             <div class="brand-logo-wrap">
               <img class="brand-logo-img"
-                src="{{ asset('images/ats-logo.png') }}"
+                src="{{ asset('images/ats-logo.webp') }}"
                 onerror="this.src='{{ asset('favicon.ico') }}'"
                 alt="PT. Anugerah Tama Sejati Logo">
             </div>
@@ -1529,14 +1529,14 @@
       <div class="hero-notch-marquee-wrapper" id="notchMarquee" title="Authorized Brands &amp; Official Partners - PT. Anugerah Tama Sejati">
         <div class="marquee-track">
           <!-- Set 1 (Official Brand Logos) -->
-          <div class="marquee-logo-card"><img src="{{ asset('logos/1.png') }}" alt="Schneider Electric Authorized Dealer" loading="lazy"></div>
-          <div class="marquee-logo-card"><img src="{{ asset('logos/2.png') }}" alt="GAE Authorized Dealer" loading="lazy"></div>
-          <div class="marquee-logo-card"><img src="{{ asset('logos/vinsa.png') }}" alt="VINSA France" loading="lazy"></div>
+          <div class="marquee-logo-card"><img src="{{ asset('logos/1.webp') }}" alt="Schneider Electric Authorized Dealer" loading="lazy"></div>
+          <div class="marquee-logo-card"><img src="{{ asset('logos/2.webp') }}" alt="GAE Authorized Dealer" loading="lazy"></div>
+          <div class="marquee-logo-card"><img src="{{ asset('logos/vinsa.webp') }}" alt="VINSA France" loading="lazy"></div>
           <div class="marquee-logo-card"><img src="{{ asset('logos/Legrand.webp') }}" alt="Legrand" loading="lazy"></div>
-          <div class="marquee-logo-card"><img src="{{ asset('logos/Socomec.png') }}" alt="Socomec" loading="lazy"></div>
+          <div class="marquee-logo-card"><img src="{{ asset('logos/Socomec.webp') }}" alt="Socomec" loading="lazy"></div>
           <div class="marquee-logo-card"><img src="{{ asset('logos/Autonics.webp') }}" alt="Autonics" loading="lazy"></div>
           <div class="marquee-logo-card"><img src="{{ asset('logos/Himel.webp') }}" alt="Himel" loading="lazy"></div>
-          <div class="marquee-logo-card"><img src="{{ asset('logos/Panasonic.png') }}" alt="Panasonic" loading="lazy"></div>
+          <div class="marquee-logo-card"><img src="{{ asset('logos/Panasonic.webp') }}" alt="Panasonic" loading="lazy"></div>
           <div class="marquee-logo-card"><img src="{{ asset('logos/Philips.webp') }}" alt="Philips" loading="lazy"></div>
           <div class="marquee-logo-card"><img src="{{ asset('logos/Fluke.webp') }}" alt="Fluke" loading="lazy"></div>
           <div class="marquee-logo-card"><img src="{{ asset('logos/Boss.webp') }}" alt="Boss" loading="lazy"></div>
@@ -1544,14 +1544,14 @@
           <div class="marquee-logo-card"><img src="{{ asset('logos/supremexxx.webp') }}" alt="Supreme Cable" loading="lazy"></div>
 
           <!-- Set 2 (Seamless Duplicate for Infinite Loop) -->
-          <div class="marquee-logo-card"><img src="{{ asset('logos/1.png') }}" alt="Schneider Electric Authorized Dealer" loading="lazy"></div>
-          <div class="marquee-logo-card"><img src="{{ asset('logos/2.png') }}" alt="GAE Authorized Dealer" loading="lazy"></div>
-          <div class="marquee-logo-card"><img src="{{ asset('logos/vinsa.png') }}" alt="VINSA France" loading="lazy"></div>
+          <div class="marquee-logo-card"><img src="{{ asset('logos/1.webp') }}" alt="Schneider Electric Authorized Dealer" loading="lazy"></div>
+          <div class="marquee-logo-card"><img src="{{ asset('logos/2.webp') }}" alt="GAE Authorized Dealer" loading="lazy"></div>
+          <div class="marquee-logo-card"><img src="{{ asset('logos/vinsa.webp') }}" alt="VINSA France" loading="lazy"></div>
           <div class="marquee-logo-card"><img src="{{ asset('logos/Legrand.webp') }}" alt="Legrand" loading="lazy"></div>
-          <div class="marquee-logo-card"><img src="{{ asset('logos/Socomec.png') }}" alt="Socomec" loading="lazy"></div>
+          <div class="marquee-logo-card"><img src="{{ asset('logos/Socomec.webp') }}" alt="Socomec" loading="lazy"></div>
           <div class="marquee-logo-card"><img src="{{ asset('logos/Autonics.webp') }}" alt="Autonics" loading="lazy"></div>
           <div class="marquee-logo-card"><img src="{{ asset('logos/Himel.webp') }}" alt="Himel" loading="lazy"></div>
-          <div class="marquee-logo-card"><img src="{{ asset('logos/Panasonic.png') }}" alt="Panasonic" loading="lazy"></div>
+          <div class="marquee-logo-card"><img src="{{ asset('logos/Panasonic.webp') }}" alt="Panasonic" loading="lazy"></div>
           <div class="marquee-logo-card"><img src="{{ asset('logos/Philips.webp') }}" alt="Philips" loading="lazy"></div>
           <div class="marquee-logo-card"><img src="{{ asset('logos/Fluke.webp') }}" alt="Fluke" loading="lazy"></div>
           <div class="marquee-logo-card"><img src="{{ asset('logos/Boss.webp') }}" alt="Boss" loading="lazy"></div>
@@ -1847,7 +1847,7 @@
       <div class="drawer-brand">
         <div class="brand-logo-wrap" style="width: 38px; height: 38px;">
           <img class="brand-logo-img"
-            src="{{ asset('images/ats-logo.png') }}"
+            src="{{ asset('images/ats-logo.webp') }}"
             alt="PT. Anugerah Tama Sejati Logo">
         </div>
         <div>

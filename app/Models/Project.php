@@ -91,21 +91,21 @@ class Project extends Model
         }
 
         $slugImageMap = [
-            'pakuwon-mall-superblock-power-substation' => 'project-1-substation.jpg',
-            'indofood-cbp-motor-control-center-mcc' => 'project-2-indofood-mcc.jpg',
-            'bumi-menara-internusa-cold-chain-scada' => 'project-3-coldstorage.jpg',
-            'teluk-lamong-port-terminal-infrastructure' => 'project-4-scada-control.jpg',
-            'dua-kelinci-packaging-automation' => 'project-5-packaging-vfd.jpg',
-            'freeport-indonesia-smelter-power-distribution' => 'project-6-smelter-heavy.jpg',
-            'surabaya-tier-3-data-center-power-busway' => 'project-7-datacenter-busway.jpg',
-            'maspion-industrial-estate-20kv-substation' => 'project-8-industrial-park.jpg',
+            'pakuwon-mall-superblock-power-substation' => 'project-1-substation.webp',
+            'indofood-cbp-motor-control-center-mcc' => 'project-2-indofood-mcc.webp',
+            'bumi-menara-internusa-cold-chain-scada' => 'project-3-coldstorage.webp',
+            'teluk-lamong-port-terminal-infrastructure' => 'project-4-scada-control.webp',
+            'dua-kelinci-packaging-automation' => 'project-5-packaging-vfd.webp',
+            'freeport-indonesia-smelter-power-distribution' => 'project-6-smelter-heavy.webp',
+            'surabaya-tier-3-data-center-power-busway' => 'project-7-datacenter-busway.webp',
+            'maspion-industrial-estate-20kv-substation' => 'project-8-industrial-park.webp',
         ];
 
         if (isset($slugImageMap[$this->slug]) && file_exists(public_path('images/projects/' . $slugImageMap[$this->slug]))) {
             return asset('images/projects/' . $slugImageMap[$this->slug]);
         }
 
-        return asset('images/projects/project-1-substation.jpg');
+        return asset('images/projects/project-1-substation.webp');
     }
 
     public function getBadgeNameAttribute(): string

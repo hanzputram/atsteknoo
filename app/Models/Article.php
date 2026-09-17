@@ -107,7 +107,7 @@ class Article extends Model
             return route('media.view', $this->thumbnail->id);
         }
 
-        return asset('images/projects/project-1-substation.jpg');
+        return asset('images/projects/project-1-substation.webp');
     }
 
     public function getReadTimeAttribute(): string

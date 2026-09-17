@@ -1024,7 +1024,7 @@
     <div class="sidebar-header" style="justify-content: space-between;">
       <a href="{{ auth()->user()->isAdmin() ? route('backoffice.dashboard') : (auth()->user()->isEditor() ? route('backoffice.products.index') : route('backoffice.live-chats.index')) }}" style="display: flex; align-items: center; gap: 12px; text-decoration: none; color: inherit; min-width: 0;">
         <div class="sidebar-logo">
-          <img src="{{ asset('images/ats-logo.png') }}" alt="PT. Anugerah Tama Sejati Logo">
+          <img src="{{ asset('images/ats-logo.webp') }}" alt="PT. Anugerah Tama Sejati Logo">
         </div>
         <div class="sidebar-title-wrap">
           <h2>ATS TEKNO</h2>
@@ -1485,8 +1485,8 @@
       try {
         const notif = new Notification(title, {
           body: body,
-          icon: '{{ asset("images/ats-logo.png") }}',
-          badge: '{{ asset("images/ats-logo.png") }}',
+          icon: '{{ asset("images/ats-logo.webp") }}',
+          badge: '{{ asset("images/ats-logo.webp") }}',
           tag: 'ats-alert-' + Date.now(),
           renotify: true,
           requireInteraction: true // Keeps the banner on laptop screen until interacted!

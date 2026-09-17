@@ -294,9 +294,9 @@ class SettingController extends Controller
             $imagick = new \Imagick();
             $imagick->setResolution(150, 150);
             $imagick->readImage($pdfPath . '[0]');
-            $imagick->setImageFormat('jpeg');
+            $imagick->setImageFormat('webp');
             $imagick->setImageCompressionQuality(85);
-            $filename = $prefix . '-' . time() . '.jpg';
+            $filename = $prefix . '-' . time() . '.webp';
             $imagick->writeImage($destinationDir . '/' . $filename);
             $imagick->clear();
             $imagick->destroy();

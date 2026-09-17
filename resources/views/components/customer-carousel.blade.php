@@ -6,27 +6,27 @@
     $clientLogos = [
         [
             'name' => 'Bumi Menara Internusa',
-            'logo' => asset('images/customers/bmi.png'),
+            'logo' => asset('images/customers/bmi.webp'),
             'alt'  => 'BMI Bumi Menara Internusa',
         ],
         [
             'name' => 'Charoen Pokphand',
-            'logo' => asset('images/customers/pokphand.png'),
+            'logo' => asset('images/customers/pokphand.webp'),
             'alt'  => 'Pokphand',
         ],
         [
             'name' => 'Indofood Sukses Makmur',
-            'logo' => asset('images/customers/indofood.png'),
+            'logo' => asset('images/customers/indofood.webp'),
             'alt'  => 'Indofood',
         ],
         [
             'name' => 'Pakuwon Group',
-            'logo' => asset('images/customers/pakuwon.png'),
+            'logo' => asset('images/customers/pakuwon.webp'),
             'alt'  => 'Pakuwon Group',
         ],
         [
             'name' => 'Dua Kelinci',
-            'logo' => asset('images/customers/dua-kelinci.png'),
+            'logo' => asset('images/customers/dua-kelinci.webp'),
             'alt'  => 'Dua Kelinci',
         ],
     ];

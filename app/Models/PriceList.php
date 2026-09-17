@@ -39,7 +39,7 @@ class PriceList extends Model
     public function getImageAssetUrlAttribute(): string
     {
         if (empty($this->thumbnail_url)) {
-            return asset('images/pricelists/placeholder.png');
+            return asset('images/pricelists/placeholder.webp');
         }
 
         if (filter_var($this->thumbnail_url, FILTER_VALIDATE_URL)) {

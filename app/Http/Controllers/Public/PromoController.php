@@ -83,31 +83,31 @@ class PromoController extends Controller
             [
                 'name'     => 'Indofood Sukses Makmur',
                 'sector'   => 'FMCG & Industrial Processing',
-                'logo'     => asset('images/customers/indofood.png'),
+                'logo'     => asset('images/customers/indofood.webp'),
                 'supplied' => 'Schneider Altivar Inverters & TeSys Motor Controls',
             ],
             [
                 'name'     => 'Pakuwon Group',
                 'sector'   => 'Superblock & High-Rise Building',
-                'logo'     => asset('images/customers/pakuwon.png'),
+                'logo'     => asset('images/customers/pakuwon.webp'),
                 'supplied' => 'MasterPact MTZ/NW ACB & LVMDP Switchboards',
             ],
             [
                 'name'     => 'Dua Kelinci',
                 'sector'   => 'Food Manufacturing Industry',
-                'logo'     => asset('images/customers/dua-kelinci.png'),
+                'logo'     => asset('images/customers/dua-kelinci.webp'),
                 'supplied' => 'TeSys Magnetic Contactors & MCCB Protection',
             ],
             [
                 'name'     => 'Bumi Menara Internusa',
                 'sector'   => 'Cold Storage & Seafood Export',
-                'logo'     => asset('images/customers/bmi.png'),
+                'logo'     => asset('images/customers/bmi.webp'),
                 'supplied' => 'Heavy-Duty Industrial Switchgear & Enclosures',
             ],
             [
                 'name'     => 'Charoen Pokphand',
                 'sector'   => 'Agro-Industry & Feedmill Plant',
-                'logo'     => asset('images/customers/pokphand.png'),
+                'logo'     => asset('images/customers/pokphand.webp'),
                 'supplied' => 'Integrated Motor Control Centers (MCC) & Breakers',
             ],
         ];
