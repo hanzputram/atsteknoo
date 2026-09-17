@@ -38,8 +38,19 @@
         ];
     })->values()->toArray();
 
-    // Display unique projects without artificial DOM duplication
+    // Repeat project list to ensure a full 16-segment continuous cylinder with tight, elegant card gaps (~24px - 32px)
     $displayProjects = $projectData;
+    if (count($projectData) > 0 && count($projectData) < 16) {
+        $repeats = (int) ceil(16 / count($projectData));
+        $temp = [];
+        for ($r = 0; $r < $repeats; $r++) {
+            foreach ($projectData as $idx => $p) {
+                $p['orig_idx'] = $idx;
+                $temp[] = $p;
+            }
+        }
+        $displayProjects = array_slice($temp, 0, 16);
+    }
   @endphp
 
   @if(count($projectData) === 0)
@@ -62,7 +73,7 @@
         <!-- 3D Cylinder Anchor -->
         <div class="p3d-cylinder" id="p3dCylinder">
           @foreach($displayProjects as $index => $item)
-            <div class="p3d-card" data-slot="{{ $index }}" data-project-index="{{ $index }}" role="button" tabindex="0">
+            <div class="p3d-card" data-slot="{{ $index }}" data-project-index="{{ $item['orig_idx'] ?? ($index % count($projectData)) }}" onclick="openProjectModal({{ $item['orig_idx'] ?? ($index % count($projectData)) }})" role="button" tabindex="0">
               <div class="p3d-card-inner">
                 <img src="{{ $item['image'] }}" alt="{{ $item['title'] }}" class="p3d-card-img" width="280" height="380" loading="lazy" decoding="async" onerror="if(!this.dataset.tried){this.dataset.tried=1;this.src=this.src.replace(/\.webp$/i,'.jpg');}else if(!this.dataset.pub){this.dataset.pub=1;this.src=this.src.replace('/images/','/public/images/');}">
                 <div class="p3d-card-scrim"></div>
@@ -153,7 +164,7 @@
   .p3d-section-wrapper {
     width: 100%;
     position: relative;
-    padding: 56px 0 54px 0;
+    padding: 36px 0 32px 0;
     background: #FFFFFF;
     overflow: hidden;
     box-sizing: border-box;
@@ -173,11 +184,11 @@
   .p3d-header {
     text-align: center;
     max-width: 820px;
-    margin: 0 auto 36px auto;
+    margin: 0 auto 16px auto;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 12px;
+    gap: 8px;
   }
 
   .p3d-badge-pill {
@@ -216,9 +227,9 @@
     font-weight: 800;
     color: #0F172A;
     letter-spacing: -0.025em;
-    line-height: 1.28;
+    line-height: 1.25;
     margin: 0;
-    padding: 8px 0;
+    padding: 0;
   }
 
   .p3d-subtitle {
@@ -235,8 +246,8 @@
   .p3d-stage-wrapper {
     position: relative;
     width: 100%;
-    height: 480px;
-    margin: 10px 0 10px 0;
+    height: 425px;
+    margin: 0;
     overflow: hidden;
     user-select: none;
     cursor: grab;
@@ -801,10 +812,10 @@
     // Dynamic radius tuned so cards have tight, elegant, consistent gaps (~24px - 32px)
     function getRadius() {
       const w = window.innerWidth;
-      if (w < 600) return 560; // Mobile: cards 190px, step 214px, gap ~24px
-      if (w < 900) return 640; // Tablet: cards 230px, step 245px, gap ~15px
-      if (w < 1200) return 710; // Small desktop: cards 260px, step 271px, gap ~11px
-      return 770; // Desktop: cards 260px, step 294px, gap ~34px
+      if (w < 600) return 540; // Mobile: cards 190px, step 212px, gap ~22px
+      if (w < 900) return 620; // Tablet: cards 230px, step 243px, gap ~13px
+      if (w < 1200) return 690; // Small desktop: cards 260px, step 271px, gap ~11px
+      return 740; // Desktop: cards 260px, step 290px, gap ~30px
     }
 
     let radius = getRadius();
@@ -834,8 +845,8 @@
 
         const absAngle = Math.abs(angle);
 
-        // Hide cards past peripheral view (smooth fade across ~5 cards in viewport)
-        if (absAngle > 60) {
+        // Hide cards past peripheral view (smooth fade across ~7 cards in viewport)
+        if (absAngle > 78) {
           card.style.opacity = '0';
           card.style.visibility = 'hidden';
           card.style.pointerEvents = 'none';
@@ -843,10 +854,10 @@
           card.style.visibility = 'visible';
           card.style.pointerEvents = 'auto';
 
-          // Atmospheric fog fade on outer flanks (32deg to 58deg)
+          // Atmospheric fog fade on outer flanks (44deg to 76deg)
           let fogOpacity = 1;
-          if (absAngle > 32) {
-            fogOpacity = 1 - (absAngle - 32) / 26;
+          if (absAngle > 44) {
+            fogOpacity = 1 - (absAngle - 44) / 32;
           }
           card.style.opacity = Math.max(0, Math.min(1, fogOpacity)).toFixed(3);
 
