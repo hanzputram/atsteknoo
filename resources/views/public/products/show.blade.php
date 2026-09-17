@@ -69,6 +69,54 @@
         ];
     }
 
+    $additionalProperties = [];
+    if (!empty($product->specifications)) {
+        foreach ($product->specifications as $spec) {
+            $val = trim($spec->value ?? '');
+            if ($spec->unit) {
+                $val .= ' ' . trim($spec->unit);
+            }
+            if ($val !== '') {
+                $additionalProperties[] = [
+                    '@type' => 'PropertyValue',
+                    'name' => $spec->label ?: $spec->attribute_code,
+                    'value' => $val,
+                ];
+            }
+        }
+    }
+
+    $productSchemaItem = array_filter([
+        '@type' => 'Product',
+        '@id' => route('products.show', $product->slug) . '#product',
+        'url' => route('products.show', $product->slug),
+        'name' => $h1Heading,
+        'sku' => $product->sku ?: null,
+        'mpn' => $product->sku ?: null,
+        'image' => $product->main_image_url ?: null,
+        'description' => $cleanDesc,
+        'category' => $product->primaryCategory ? $product->primaryCategory->name : null,
+        'brand' => [
+            '@type' => 'Brand',
+            'name' => $brandName,
+        ],
+        'offers' => [
+            '@type' => 'Offer',
+            'url' => route('products.show', $product->slug),
+            'priceCurrency' => 'IDR',
+            'availability' => 'https://schema.org/InStock',
+            'itemCondition' => 'https://schema.org/NewCondition',
+            'seller' => [
+                '@type' => 'Organization',
+                'name' => 'PT. Anugerah Tama Sejati',
+            ],
+        ],
+    ]);
+
+    if (!empty($additionalProperties)) {
+        $productSchemaItem['additionalProperty'] = $additionalProperties;
+    }
+
     $productSchema = [
         '@context' => 'https://schema.org',
         '@graph' => [
@@ -76,22 +124,11 @@
                 '@type' => 'BreadcrumbList',
                 'itemListElement' => $breadcrumbItems,
             ],
-            array_filter([
-                '@type' => 'Product',
-                '@id' => route('products.show', $product->slug) . '#product',
-                'url' => route('products.show', $product->slug),
-                'name' => $h1Heading,
-                'sku' => $product->sku ?: null,
-                'mpn' => $product->sku ?: null,
-                'image' => $product->main_image_url ?: null,
-                'description' => $cleanDesc,
-                'brand' => [
-                    '@type' => 'Brand',
-                    'name' => $brandName,
-                ],
-            ])
+            $productSchemaItem
         ]
     ];
+
+    $productFaq = \App\Support\SeoFaqRegistry::getProductFaq($product->slug);
 
     $productSchemaJson = json_encode(
         $productSchema,
@@ -345,6 +382,9 @@
             </div>
         </div>
         @endif
+
+        <!-- AEO: Curated FAQ Accordion & FAQPage Schema -->
+        <x-faq-accordion :faqs="$productFaq" />
     </div>
 
     <!-- Related Products -->

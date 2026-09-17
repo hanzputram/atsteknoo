@@ -43,20 +43,23 @@
   <meta property="og:site_name" content="PT. Anugerah Tama Sejati">
   <meta property="og:locale" content="id_ID">
 
-  <!-- Schema.org JSON-LD LocalBusiness & Organization -->
+  <!-- Schema.org JSON-LD: LocalBusiness, ElectronicsStore & Organization -->
   <script type="application/ld+json">
   {
     "@@context": "https://schema.org",
-    "@type": ["LocalBusiness", "WholesaleStore"],
+    "@type": ["ElectronicsStore", "WholesaleStore"],
     "@id": "{{ url('/#organization') }}",
-    "name": "PT. Anugerah Tama Sejati",
+    "name": "PT. Anugerah Tama Sejati (ATS Tekno)",
     "alternateName": [
       "ATS Tekno",
       "PT ATS",
       "PT Anugerah Tama Sejati"
     ],
-    "description": "Authorized industrial electrical distributor and certified switchboard panel maker in Surabaya, East Java, Indonesia. Official partner of Schneider Electric, Legrand, GAE Group, Socomec, Autonics, and Himel.",
+    "description": "Electrical supplier and certified switchboard panel builder in Surabaya. Authorized dealer for Schneider Electric, GAE, and Legrand, providing industrial electrical components and panel fabrication since 2019.",
     "url": "{{ url('/') }}",
+    "logo": "{{ asset('images/ats-logo.png') }}",
+    "image": "{{ asset('images/ats-logo.png') }}",
+    "foundingDate": "2019",
     "telephone": "+62-31-59178887",
     "email": "sales@atstekno.com",
     "priceRange": "$$",
@@ -65,7 +68,7 @@
       "streetAddress": "Ruko Galaxi Bumi Permai J-1 No. 23",
       "addressLocality": "Surabaya",
       "addressRegion": "Jawa Timur",
-      "postalCode": "60134",
+      "postalCode": "60119",
       "addressCountry": "ID"
     },
     "geo": {
@@ -73,7 +76,48 @@
       "latitude": -7.301972,
       "longitude": 112.784336
     },
-    "hasMap": "https://maps.google.com/?cid=13502184121040894586"
+    "hasMap": "https://maps.google.com/?cid=13502184121040894586",
+    "sameAs": [
+      "https://www.instagram.com/ats_tekno/",
+      "https://www.tiktok.com/@ats_tekno",
+      "https://linkedin.com/company/anugerah-tama-sejati"
+    ],
+    "department": [
+      {
+        "@type": "LocalBusiness",
+        "name": "ATS Tekno — Jagalan Showroom",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Jl. Jagalan No. 38, Bongkaran, Pabean Cantian",
+          "addressLocality": "Surabaya",
+          "addressRegion": "Jawa Timur",
+          "addressCountry": "ID"
+        },
+        "telephone": "+62-31-99909120"
+      },
+      {
+        "@type": "LocalBusiness",
+        "name": "ATS Tekno — Pandaan Showroom",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "The Taman Dayu, Cluster Palazio Boulevard J-1 No. 06",
+          "addressLocality": "Pandaan",
+          "addressRegion": "Pasuruan, Jawa Timur",
+          "addressCountry": "ID"
+        },
+        "telephone": "+62-343-4857758"
+      }
+    ],
+    "brand": [
+      { "@type": "Brand", "name": "Schneider Electric" },
+      { "@type": "Brand", "name": "GAE Group" },
+      { "@type": "Brand", "name": "Legrand" },
+      { "@type": "Brand", "name": "Socomec" },
+      { "@type": "Brand", "name": "Autonics" },
+      { "@type": "Brand", "name": "Himel" },
+      { "@type": "Brand", "name": "Panasonic" },
+      { "@type": "Brand", "name": "Fluke" }
+    ]
   }
   </script>
 

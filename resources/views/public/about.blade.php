@@ -764,6 +764,39 @@
         </div>
     </section>
 
+    @php
+        $aboutFaqs = [
+            [
+                'q_id' => 'Apakah PT. Anugerah Tama Sejati (ATS Tekno) distributor resmi Schneider Electric?',
+                'q_en' => 'Is PT. Anugerah Tama Sejati (ATS Tekno) an official Schneider Electric distributor?',
+                'a_id' => 'Ya, PT. Anugerah Tama Sejati adalah Authorized Dealer resmi Schneider Electric di Surabaya, Jawa Timur, beroperasi sejak 2019 dengan sertifikasi resmi, menyediakan garansi 100% original serta fabrikasi panel listrik standar industri.',
+                'a_en' => 'Yes, PT. Anugerah Tama Sejati is an official Authorized Dealer for Schneider Electric, headquartered in Surabaya, East Java, operating since 2019 with verified certification, supplying 100% genuine components and certified switchboard panels.'
+            ],
+            [
+                'q_id' => 'Brand apa saja yang didistribusikan resmi oleh PT. Anugerah Tama Sejati?',
+                'q_en' => 'Which official brands does PT. Anugerah Tama Sejati distribute?',
+                'a_id' => 'PT. ATS adalah distributor resmi untuk Schneider Electric, GAE Group, Legrand Indonesia, Socomec, Autonics, dan Himel, serta mendistribusikan kabel berkualitas seperti Jembo Cable dan Supreme Cable (SUCACO).',
+                'a_en' => 'PT. ATS officially distributes Schneider Electric, GAE Group, Legrand, Socomec, Autonics, and Himel, alongside leading cable brands such as Jembo Cable and Supreme Cable.'
+            ],
+            [
+                'q_id' => 'Di mana lokasi showroom dan kantor PT. Anugerah Tama Sejati?',
+                'q_en' => 'Where are ATS Tekno headquarters and showrooms located?',
+                'a_id' => 'Kantor pusat berlokasi di Ruko Galaxi Bumi Permai J-1 No. 23 Surabaya, didukung Showroom Jagalan di Jl. Jagalan No. 38 Surabaya dan Showroom Pandaan di The Taman Dayu, Pasuruan.',
+                'a_en' => 'Our headquarters is located at Ruko Galaxi Bumi Permai J-1 No. 23 Surabaya, complemented by our Jagalan Showroom at Jl. Jagalan No. 38 Surabaya and Pandaan Showroom at The Taman Dayu, Pasuruan.'
+            ],
+            [
+                'q_id' => 'Apakah PT. ATS melayani pengadaan proyek dengan faktur pajak PPN 11%?',
+                'q_en' => 'Does PT. ATS provide official tax invoices (Faktur Pajak PPN 11%) for corporate procurement?',
+                'a_id' => 'Ya, seluruh transaksi pengadaan B2B dan proyek industri diterbitkan faktur pajak PPN resmi 11% serta sertifikat keaslian produk (Certificate of Origin / Warranty).',
+                'a_en' => 'Yes, all B2B transactions and corporate procurement include official 11% VAT tax invoices (Faktur Pajak) and manufacturer warranty certificates.'
+            ]
+        ];
+    @endphp
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+        <x-faq-accordion :faqs="$aboutFaqs" />
+    </div>
+
 </div>
 
 <!-- ========================================================

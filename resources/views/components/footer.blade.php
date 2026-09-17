@@ -704,8 +704,9 @@
             </div>
           </div>
           
-          <p class="ats-ft-bio" data-i18n="footer.bio">
-            Trusted nationwide distributor since 2019. Providing certified low-voltage distribution switchboards, industrial automation components, and genuine electrical equipment.
+          <p class="ats-ft-bio">
+            <span class="ats-lang-en">PT. Anugerah Tama Sejati (ATS Tekno) is an Authorized Dealer for Schneider Electric, GAE, and Legrand, headquartered in Surabaya, East Java, Indonesia, operating since 2019. Providing certified low-voltage distribution switchboard panel fabrication and genuine industrial components.</span>
+            <span class="ats-lang-id">PT. Anugerah Tama Sejati (ATS Tekno) adalah Distributor Resmi Schneider Electric, GAE, dan Legrand, berpusat di Surabaya, Jawa Timur sejak 2019. Melayani pengadaan komponen elektrikal industri dan fabrikasi panel listrik bersertifikat.</span>
           </p>
 
           <div class="ats-ft-badges-wrap">

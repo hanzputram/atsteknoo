@@ -54,30 +54,32 @@
   <meta name="twitter:title" content="Supplier Electrical &amp; Panel Listrik Surabaya | ATS Tekno">
   <meta name="twitter:description" content="ATS Tekno menyediakan komponen elektrikal dan jasa pembuatan panel listrik di Surabaya. Lihat katalog produk dan konsultasikan kebutuhan proyek Anda.">
 
-  <!-- Schema.org JSON-LD: LocalBusiness & Organization for Google & AI -->
+  <!-- Schema.org JSON-LD: LocalBusiness, ElectronicsStore & Organization for Google & AI -->
   <script type="application/ld+json">
   {
     "@@context": "https://schema.org",
-    "@type": ["LocalBusiness", "WholesaleStore"],
+    "@type": ["ElectricalStore", "WholesaleStore"],
     "@id": "{{ url('/#organization') }}",
-    "name": "PT. Anugerah Tama Sejati",
+    "name": "PT. Anugerah Tama Sejati (ATS Tekno)",
     "alternateName": [
       "ATS Tekno",
       "PT ATS",
       "PT Anugerah Tama Sejati"
     ],
-    "description": "ATS Tekno menyediakan komponen elektrikal dan jasa pembuatan panel listrik di Surabaya. Distributor resmi Schneider Electric, Legrand, GAE Group, Socomec, Autonics, dan Himel.",
     "url": "{{ url('/') }}",
+    "logo": "{{ asset('images/ats-logo.png') }}",
+    "image": "{{ asset('images/ats-logo.png') }}",
+    "description": "Electrical supplier and certified switchboard panel builder in Surabaya. Authorized dealer for Schneider Electric, GAE, and Legrand, providing industrial electrical components and panel fabrication since 2019.",
+    "foundingDate": "2019",
     "telephone": "+62-31-59178887",
     "email": "sales@atstekno.com",
     "priceRange": "$$",
-    "image": "{{ asset('images/ats-logo.png') }}",
     "address": {
       "@type": "PostalAddress",
       "streetAddress": "Ruko Galaxi Bumi Permai J-1 No. 23",
       "addressLocality": "Surabaya",
       "addressRegion": "Jawa Timur",
-      "postalCode": "60134",
+      "postalCode": "60119",
       "addressCountry": "ID"
     },
     "geo": {
@@ -86,6 +88,11 @@
       "longitude": 112.784336
     },
     "hasMap": "https://maps.google.com/?cid=13502184121040894586",
+    "sameAs": [
+      "https://www.instagram.com/ats_tekno/",
+      "https://www.tiktok.com/@atstekno",
+      "https://linkedin.com/company/anugerah-tama-sejati"
+    ],
     "areaServed": [
       { "@type": "Country", "name": "Indonesia" },
       { "@type": "State", "name": "Jawa Timur" },
@@ -94,18 +101,41 @@
       { "@type": "City", "name": "Sidoarjo" },
       { "@type": "City", "name": "Pasuruan" }
     ],
+    "department": [
+      {
+        "@type": "LocalBusiness",
+        "name": "ATS Tekno — Jagalan Showroom",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Jl. Jagalan No. 38, Bongkaran, Pabean Cantian",
+          "addressLocality": "Surabaya",
+          "addressRegion": "Jawa Timur",
+          "addressCountry": "ID"
+        },
+        "telephone": "+62-31-99909120"
+      },
+      {
+        "@type": "LocalBusiness",
+        "name": "ATS Tekno — Pandaan Showroom",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "The Taman Dayu, Cluster Palazio Boulevard J-1 No. 06",
+          "addressLocality": "Pandaan",
+          "addressRegion": "Pasuruan, Jawa Timur",
+          "addressCountry": "ID"
+        },
+        "telephone": "+62-343-4857758"
+      }
+    ],
     "brand": [
       { "@type": "Brand", "name": "Schneider Electric" },
-      { "@type": "Brand", "name": "Legrand" },
       { "@type": "Brand", "name": "GAE Group" },
+      { "@type": "Brand", "name": "Legrand" },
       { "@type": "Brand", "name": "Socomec" },
       { "@type": "Brand", "name": "Autonics" },
-      { "@type": "Brand", "name": "Himel" }
-    ],
-    "sameAs": [
-      "https://www.instagram.com/ats_tekno/",
-      "https://www.tiktok.com/@ats_tekno",
-      "https://linkedin.com/company/anugerah-tama-sejati"
+      { "@type": "Brand", "name": "Himel" },
+      { "@type": "Brand", "name": "Panasonic" },
+      { "@type": "Brand", "name": "Fluke" }
     ],
     "openingHoursSpecification": [
       {

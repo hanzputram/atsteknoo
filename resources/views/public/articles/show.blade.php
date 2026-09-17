@@ -62,6 +62,8 @@
         ]
     ];
 
+    $articleFaq = \App\Support\SeoFaqRegistry::getArticleFaq($article->slug);
+
     $articleSchemaJson = json_encode(
         $articleSchema,
         JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_THROW_ON_ERROR
@@ -173,6 +175,9 @@
         </div>
     </div>
     @endif
+
+    <!-- AEO: Curated FAQ Accordion & FAQPage Schema -->
+    <x-faq-accordion :faqs="$articleFaq" />
 
     <!-- Engineering Consultation Callout Box -->
     <div class="my-10 p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-slate-900 via-slate-850 to-slate-900 text-white shadow-xl border border-slate-800 relative overflow-hidden">
