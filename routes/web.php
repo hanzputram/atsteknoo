@@ -52,6 +52,19 @@ Route::get('/google9133ec987e4d89f7.html', function () {
         ->header('Content-Type', 'text/html; charset=UTF-8');
 });
 
+// Emergency Cache Clearing for Hostinger / Shared Hosting Deployment
+Route::get('/clear-app-cache/{secret}', function ($secret) {
+    if ($secret !== 'ats-tekno-deploy-2026') {
+        abort(403);
+    }
+    \Illuminate\Support\Facades\Artisan::call('view:clear');
+    \Illuminate\Support\Facades\Artisan::call('route:clear');
+    \Illuminate\Support\Facades\Artisan::call('config:clear');
+    \Illuminate\Support\Facades\Artisan::call('cache:clear');
+    return response("Cache cleared successfully: views, routes, config, cache.\n", 200)
+        ->header('Content-Type', 'text/plain; charset=UTF-8');
+});
+
 // Universal Static Asset Delivery Fallback (guarantees assets load on shared hosting / cPanel / LiteSpeed)
 $serveStaticAsset = function (string $dir, string $file) {
     // Prevent directory traversal
