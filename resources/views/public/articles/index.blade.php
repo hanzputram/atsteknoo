@@ -63,7 +63,7 @@
         @forelse($articles as $art)
         <div class="bg-white rounded-3xl border border-slate-200/80 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col overflow-hidden group">
             <a href="{{ route('articles.show', $art->slug) }}" class="h-52 bg-slate-100 relative overflow-hidden block">
-                <img src="{{ $art->thumbnail_url }}" alt="{{ $art->thumbnail_alt ?: $art->title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" onerror="this.onerror=null; this.src='{{ asset('images/projects/project-1-substation.webp') }}';">
+                <img src="{{ $art->thumbnail_url }}" alt="{{ $art->thumbnail_alt ?: $art->title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" onerror="this.onerror=null; this.src='{{ asset('images/projects/project-1-substation.jpg') }}';">
 
                 @if($art->category)
                     <span class="absolute top-4 left-4 px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-white/95 backdrop-blur-xs text-slate-800 shadow-xs">

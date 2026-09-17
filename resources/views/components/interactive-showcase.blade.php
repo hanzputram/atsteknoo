@@ -976,7 +976,10 @@
           <div class="deck-center-subject">
             <div class="deck-center-circle-bg"></div>
             <div class="deck-center-img-frame">
-              <img src="{{ asset('images/engineer-studio.webp') }}" alt="Chief Electrical Engineer - PT. Anugerah Tama Sejati" loading="lazy">
+              <picture>
+                <source srcset="{{ url('/public/images/engineer-studio.webp') }}" type="image/webp">
+                <img src="{{ asset('images/engineer-studio.jpg') }}" onerror="this.src='{{ url('/public/images/engineer-studio.jpg') }}';" alt="Chief Electrical Engineer - PT. Anugerah Tama Sejati" loading="lazy">
+              </picture>
             </div>
             <!-- Floating Year Milestone Badge -->
             <div class="deck-floating-year-badge">

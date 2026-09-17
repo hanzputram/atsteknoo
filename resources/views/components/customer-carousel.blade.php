@@ -6,51 +6,53 @@
     $clientLogos = [
         [
             'name' => 'Bumi Menara Internusa',
-            'logo' => asset('images/customers/bmi.webp'),
+            'file' => 'bmi.png',
             'alt'  => 'BMI Bumi Menara Internusa',
         ],
         [
             'name' => 'Charoen Pokphand',
-            'logo' => asset('images/customers/pokphand.webp'),
+            'file' => 'pokphand.png',
             'alt'  => 'Pokphand',
         ],
         [
             'name' => 'Indofood Sukses Makmur',
-            'logo' => asset('images/customers/indofood.webp'),
+            'file' => 'indofood.png',
             'alt'  => 'Indofood',
         ],
         [
             'name' => 'Pakuwon Group',
-            'logo' => asset('images/customers/pakuwon.webp'),
+            'file' => 'pakuwon.png',
             'alt'  => 'Pakuwon Group',
         ],
         [
             'name' => 'Dua Kelinci',
-            'logo' => asset('images/customers/dua-kelinci.webp'),
+            'file' => 'dua-kelinci.png',
             'alt'  => 'Dua Kelinci',
         ],
     ];
 @endphp
 
 <!-- ========================================================
-     FIGMA DESIGN: TRUSTED BY OVER 1,000+ COMPANY
-     100% Pixel-Accurate to Figma Screenshot 1
+     TRUSTED BY OVER 1,000+ COMPANY SECTION (FIGMA MATCH)
+     PT. Anugerah Tama Sejati - Industrial Client Logos
      ======================================================== -->
-<section class="trusted-by-section" id="trusted-by">
-  <div class="trusted-by-container">
+
+<section class="trusted-by-section" id="clients">
+  <div class="trusted-container">
     
-    <!-- Top Header Row -->
-    <div class="trusted-header-grid">
-      <!-- Left Column: Title & Counter -->
+    <!-- Section Header Row (Figma: Left Title with Emerald Accent, Right Subtitle) -->
+    <div class="trusted-header-row">
+      <!-- Left Column: Title & Accent Pill -->
       <div class="trusted-title-wrap">
-        <div class="trusted-line-one">
-          <span class="trusted-label-over" data-i18n="trusted.over">Trusted By Over</span>
-          <div class="trusted-red-rule" aria-hidden="true"></div>
+        <div class="trusted-badge">
+          <span class="trusted-badge-dot"></span>
+          <span data-i18n="trusted.badge">Enterprise &amp; Infrastructure</span>
         </div>
-        <div class="trusted-line-two">
-          <span class="trusted-counter-red"><span class="counter-val" data-target="1000">1,000</span>+</span>
-          <span class="trusted-company-text" data-i18n="trusted.companies">Companies</span>
-        </div>
+        <h2 class="trusted-title">
+          <span data-i18n="trusted.title_prefix">Trusted by over</span> 
+          <span class="trusted-title-highlight">1,000+</span> 
+          <span data-i18n="trusted.title_suffix">Company</span>
+        </h2>
       </div>
 
       <!-- Right Column: Subtitle Text -->
@@ -64,11 +66,11 @@
       @foreach($clientLogos as $client)
         <div class="trusted-logo-card" title="{{ $client['name'] }}">
           <img 
-            src="{{ $client['logo'] }}" 
+            src="{{ asset('images/customers/' . $client['file']) }}" 
             alt="{{ $client['alt'] }}" 
             loading="lazy"
             class="trusted-logo-img"
-            onerror="if(!this.dataset.tried){this.dataset.tried=1;this.src=this.src.replace(/\.webp$/i,'.png');}else if(!this.dataset.pub){this.dataset.pub=1;this.src=this.src.replace('/images/','/public/images/');}"
+            onerror="this.src='{{ url('/public/images/customers/' . $client['file']) }}';"
           />
         </div>
       @endforeach

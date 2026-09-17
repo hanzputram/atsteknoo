@@ -41,7 +41,7 @@
   <meta property="og:description" content="Diskon proyek dan pengadaan industri komponen Schneider Electric ready stock Surabaya. Konsultasi BoQ & klaim diskon via WhatsApp sekarang.">
   <meta property="og:url" content="{{ url()->current() }}">
   <meta property="og:site_name" content="PT. Anugerah Tama Sejati">
-  <meta property="og:image" content="{{ asset('images/ats-logo-square-256.webp') }}">
+  <meta property="og:image" content="{{ asset('images/ats-logo-square-256.png') }}">
 
   <!-- Google Fonts: Outfit & Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -51,7 +51,7 @@
     rel="stylesheet">
 
   <!-- Preload Critical LCP Hero Image -->
-  <link rel="preload" as="image" href="{{ asset('images/hero-bg.webp') }}" type="image/webp" fetchpriority="high">
+  <link rel="preload" as="image" href="{{ url('/public/images/hero-bg.webp') }}" type="image/webp" fetchpriority="high">
 
   <!-- ATS Smooth Scroll & Framer Text Reveal Styles -->
   <link rel="stylesheet" href="{{ asset('css/ats-scroll-effects.css') }}?v={{ filemtime(public_path('css/ats-scroll-effects.css')) }}">
@@ -1270,9 +1270,12 @@
 
       <!-- Native Unstretched Photo Background Layer (Clipped by SVG Notch) -->
       <div class="hero-photo-layer">
-        <img class="hero-photo-img" src="{{ asset('images/hero-bg.webp') }}"
-          alt="Distributor Resmi Schneider Electric Surabaya - PT. Anugerah Tama Sejati" width="1708" height="960" fetchpriority="high" loading="eager" decoding="async"
-          onerror="if(!this.dataset.fallback){this.dataset.fallback=1;this.src='{{ asset('images/hero-bg.png') }}';}else if(!this.dataset.pub){this.dataset.pub=1;this.src='{{ url('/public/images/hero-bg.png') }}';}">
+        <picture>
+          <source srcset="{{ url('/public/images/hero-bg.webp') }}" type="image/webp">
+          <img class="hero-photo-img" src="{{ asset('images/hero-bg.png') }}"
+            alt="Distributor Resmi Schneider Electric Surabaya - PT. Anugerah Tama Sejati" width="1708" height="960" fetchpriority="high" loading="eager" decoding="async"
+            onerror="this.src='{{ asset('images/hero-bg.png') }}';">
+        </picture>
         <div class="hero-photo-overlay"></div>
       </div>
 
@@ -1333,8 +1336,8 @@
           <a href="{{ route('home') }}" class="brand-group">
             <div class="brand-logo-wrap">
               <img class="brand-logo-img"
-                src="{{ asset('images/ats-logo.webp') }}"
-                onerror="if(!this.dataset.fallback){this.dataset.fallback=1;this.src='{{ asset('images/ats-logo.png') }}';}else if(!this.dataset.pub){this.dataset.pub=1;this.src='{{ url('/public/images/ats-logo.png') }}';}"
+                src="{{ asset('images/ats-logo.png') }}"
+                onerror="this.src='{{ url('/public/images/ats-logo.png') }}';"
                 alt="PT. Anugerah Tama Sejati Logo">
             </div>
             <div class="brand-text-block">
@@ -1532,19 +1535,19 @@
       <div class="hero-notch-marquee-wrapper" id="notchMarquee" title="Authorized Brands &amp; Official Partners - PT. Anugerah Tama Sejati">
         <div class="marquee-track">
           <!-- Set 1 (Official Brand Logos with Resilient Delivery) -->
-          <div class="marquee-logo-card"><img src="{{ asset('logos/1.webp') }}" alt="Schneider Electric Authorized Dealer" loading="lazy" onerror="if(!this.dataset.tried){this.dataset.tried=1;this.src='{{ asset('logos/1.png') }}';}"></div>
-          <div class="marquee-logo-card"><img src="{{ asset('logos/2.webp') }}" alt="GAE Authorized Dealer" loading="lazy" onerror="if(!this.dataset.tried){this.dataset.tried=1;this.src='{{ asset('logos/2.png') }}';}"></div>
-          <div class="marquee-logo-card"><img src="{{ asset('logos/vinsa.webp') }}" alt="VINSA France" loading="lazy" onerror="if(!this.dataset.tried){this.dataset.tried=1;this.src='{{ asset('logos/vinsa.png') }}';}"></div>
-          <div class="marquee-logo-card"><img src="{{ asset('logos/Legrand.webp') }}" alt="Legrand" loading="lazy" onerror="if(!this.dataset.tried){this.dataset.tried=1;this.src='{{ asset('logos/Legrand.png') }}';}"></div>
-          <div class="marquee-logo-card"><img src="{{ asset('logos/Socomec.webp') }}" alt="Socomec" loading="lazy" onerror="if(!this.dataset.tried){this.dataset.tried=1;this.src='{{ asset('logos/Socomec.png') }}';}"></div>
-          <div class="marquee-logo-card"><img src="{{ asset('logos/Autonics.webp') }}" alt="Autonics" loading="lazy" onerror="if(!this.dataset.tried){this.dataset.tried=1;this.src='{{ asset('logos/Autonics.png') }}';}"></div>
-          <div class="marquee-logo-card"><img src="{{ asset('logos/Himel.webp') }}" alt="Himel" loading="lazy" onerror="if(!this.dataset.tried){this.dataset.tried=1;this.src='{{ asset('logos/Himel.png') }}';}"></div>
-          <div class="marquee-logo-card"><img src="{{ asset('logos/Panasonic.webp') }}" alt="Panasonic" loading="lazy" onerror="if(!this.dataset.tried){this.dataset.tried=1;this.src='{{ asset('logos/Panasonic.png') }}';}"></div>
-          <div class="marquee-logo-card"><img src="{{ asset('logos/Philips.webp') }}" alt="Philips" loading="lazy" onerror="if(!this.dataset.tried){this.dataset.tried=1;this.src='{{ asset('logos/Philips.png') }}';}"></div>
-          <div class="marquee-logo-card"><img src="{{ asset('logos/Fluke.webp') }}" alt="Fluke" loading="lazy" onerror="if(!this.dataset.tried){this.dataset.tried=1;this.src='{{ asset('logos/Fluke.png') }}';}"></div>
-          <div class="marquee-logo-card"><img src="{{ asset('logos/Boss.webp') }}" alt="Boss" loading="lazy" onerror="if(!this.dataset.tried){this.dataset.tried=1;this.src='{{ asset('logos/Boss.png') }}';}"></div>
-          <div class="marquee-logo-card"><img src="{{ asset('logos/Jembo.webp') }}" alt="Jembo Cable" loading="lazy" onerror="if(!this.dataset.tried){this.dataset.tried=1;this.src='{{ asset('logos/Jembo.png') }}';}"></div>
-          <div class="marquee-logo-card"><img src="{{ asset('logos/supremexxx.webp') }}" alt="Supreme Cable" loading="lazy" onerror="if(!this.dataset.tried){this.dataset.tried=1;this.src='{{ asset('logos/supremexxx.png') }}';}"></div>
+          <div class="marquee-logo-card"><img src="{{ asset('logos/1.png') }}" alt="Schneider Electric Authorized Dealer" loading="lazy" onerror="this.src='{{ url('/public/logos/1.png') }}';"></div>
+          <div class="marquee-logo-card"><img src="{{ asset('logos/2.png') }}" alt="GAE Authorized Dealer" loading="lazy" onerror="this.src='{{ url('/public/logos/2.png') }}';"></div>
+          <div class="marquee-logo-card"><img src="{{ asset('logos/vinsa.png') }}" alt="VINSA France" loading="lazy" onerror="this.src='{{ url('/public/logos/vinsa.png') }}';"></div>
+          <div class="marquee-logo-card"><img src="{{ asset('logos/Legrand.png') }}" alt="Legrand" loading="lazy" onerror="this.src='{{ url('/public/logos/Legrand.png') }}';"></div>
+          <div class="marquee-logo-card"><img src="{{ asset('logos/Socomec.png') }}" alt="Socomec" loading="lazy" onerror="this.src='{{ url('/public/logos/Socomec.png') }}';"></div>
+          <div class="marquee-logo-card"><img src="{{ asset('logos/Autonics.png') }}" alt="Autonics" loading="lazy" onerror="this.src='{{ url('/public/logos/Autonics.png') }}';"></div>
+          <div class="marquee-logo-card"><img src="{{ asset('logos/Himel.png') }}" alt="Himel" loading="lazy" onerror="this.src='{{ url('/public/logos/Himel.png') }}';"></div>
+          <div class="marquee-logo-card"><img src="{{ asset('logos/Panasonic.png') }}" alt="Panasonic" loading="lazy" onerror="this.src='{{ url('/public/logos/Panasonic.png') }}';"></div>
+          <div class="marquee-logo-card"><img src="{{ asset('logos/Philips.png') }}" alt="Philips" loading="lazy" onerror="this.src='{{ url('/public/logos/Philips.png') }}';"></div>
+          <div class="marquee-logo-card"><img src="{{ asset('logos/Fluke.png') }}" alt="Fluke" loading="lazy" onerror="this.src='{{ url('/public/logos/Fluke.png') }}';"></div>
+          <div class="marquee-logo-card"><img src="{{ asset('logos/Boss.png') }}" alt="Boss" loading="lazy" onerror="this.src='{{ url('/public/logos/Boss.png') }}';"></div>
+          <div class="marquee-logo-card"><img src="{{ asset('logos/Jembo.png') }}" alt="Jembo Cable" loading="lazy" onerror="this.src='{{ url('/public/logos/Jembo.png') }}';"></div>
+          <div class="marquee-logo-card"><img src="{{ asset('logos/supremexxx.png') }}" alt="Supreme Cable" loading="lazy" onerror="this.src='{{ url('/public/logos/supremexxx.png') }}';"></div>
 
         </div>
       </div>
@@ -1836,7 +1839,8 @@
       <div class="drawer-brand">
         <div class="brand-logo-wrap" style="width: 38px; height: 38px;">
           <img class="brand-logo-img"
-            src="{{ asset('images/ats-logo.webp') }}"
+            src="{{ asset('images/ats-logo.png') }}"
+            onerror="this.src='{{ url('/public/images/ats-logo.png') }}';"
             alt="PT. Anugerah Tama Sejati Logo">
         </div>
         <div>

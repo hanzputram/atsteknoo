@@ -651,7 +651,8 @@
   <!-- 1. Sleek Horizon Silhouette Transition -->
   <div class="ats-footer-skyline-banner">
     <img 
-      src="{{ asset('images/footer-skyline.webp') }}" 
+      src="{{ asset('images/footer-skyline.png') }}" 
+      onerror="this.src='{{ url('/public/images/footer-skyline.png') }}';"
       alt="ATS TEKNO Industrial Electrical Infrastructure Skyline" 
       class="ats-footer-skyline-img"
       loading="lazy"
@@ -696,7 +697,7 @@
           
           <div class="ats-ft-brand-identity">
             <div class="ats-ft-logo-wrap">
-              <img src="{{ asset('images/ats-logo.webp') }}" alt="PT. Anugerah Tama Sejati Logo" class="ats-ft-logo-img">
+              <img src="{{ asset('images/ats-logo.png') }}" onerror="this.src='{{ url('/public/images/ats-logo.png') }}';" alt="PT. Anugerah Tama Sejati Logo" class="ats-ft-logo-img">
             </div>
             <div class="ats-ft-brand-text">
               <h2 class="ats-ft-brand-title">PT. Anugerah Tama Sejati</h2>

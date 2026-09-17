@@ -124,7 +124,7 @@
                          height="500"
                          loading="lazy"
                          decoding="async"
-                         onerror="this.onerror=null;this.src='{{ asset('images/pricelists/placeholder.webp') }}';"
+                         onerror="this.onerror=null;this.src='{{ asset('images/pricelists/placeholder.png') }}';"
                          class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
 
                     <!-- Floating Badges -->

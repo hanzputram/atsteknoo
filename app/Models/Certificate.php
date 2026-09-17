@@ -45,7 +45,19 @@ class Certificate extends Model
             return $this->image_path;
         }
 
-        return asset($this->image_path);
+        $path = $this->image_path;
+        if (str_ends_with(strtolower($path), '.webp')) {
+            $pngPath = preg_replace('/\.webp$/i', '.png', $path);
+            if (file_exists(public_path($pngPath))) {
+                return asset($pngPath);
+            }
+            $jpgPath = preg_replace('/\.webp$/i', '.jpg', $path);
+            if (file_exists(public_path($jpgPath))) {
+                return asset($jpgPath);
+            }
+        }
+
+        return asset($path);
     }
 
     public function creator(): BelongsTo

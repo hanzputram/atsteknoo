@@ -4,7 +4,7 @@
   <div id="win-toast-notification" class="win-toast" role="alert" aria-live="polite">
     <div class="win-toast-header">
       <div class="win-toast-brand">
-        <img src="/images/ats-logo.webp" alt="ATS" onerror="this.src='/favicon.ico'" class="win-toast-app-icon">
+        <img src="{{ asset('images/ats-logo.png') }}" onerror="this.src='{{ url('/public/images/ats-logo.png') }}';" alt="ATS" class="win-toast-app-icon">
         <span class="win-toast-app-name" data-i18n="chat.toast_app">ATS Support</span>
         <span class="win-toast-dot">•</span>
         <span class="win-toast-time" data-i18n="chat.toast_time">Just now</span>

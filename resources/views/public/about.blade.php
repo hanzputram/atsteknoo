@@ -306,8 +306,8 @@
                 <div class="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200/90 shadow-sm hover:shadow-xl hover:border-emerald-300 transition-all duration-300 flex flex-col justify-between group h-full">
                     <div>
                         <div class="relative bg-slate-100/90 rounded-2xl overflow-hidden mb-6 aspect-[4/3] sm:aspect-[1.42/1] border border-slate-200/80 cursor-pointer group-hover:border-emerald-400 transition flex items-center justify-center"
-                             onclick="openCertModal('{{ asset('certificates/cert-schneider.webp') }}', 'Schneider Electric Authorized Partner Certificate', 'Official Distributor License for Low Voltage Electrical Components & Industrial Systems.')">
-                            <img src="{{ asset('certificates/cert-schneider.webp') }}" alt="Schneider Electric Certificate" class="w-full h-full object-contain p-2 transition duration-500 group-hover:scale-105 drop-shadow-xs">
+                             onclick="openCertModal('{{ asset('certificates/cert-schneider.png') }}', 'Schneider Electric Authorized Partner Certificate', 'Official Distributor License for Low Voltage Electrical Components & Industrial Systems.')">
+                            <img src="{{ asset('certificates/cert-schneider.png') }}" onerror="this.src='{{ url('/public/certificates/cert-schneider.png') }}';" alt="Schneider Electric Certificate" class="w-full h-full object-contain p-2 transition duration-500 group-hover:scale-105 drop-shadow-xs">
                             <div class="absolute top-3 right-3 bg-emerald-600 text-white text-[10px] font-black px-2.5 py-1 rounded-full uppercase tracking-wider shadow">
                                 VERIFIED PARTNER
                             </div>
@@ -377,7 +377,7 @@
 
             <!-- ================= DOCUMENT 1: OUR COMPANY PROFILE ================= -->
             @php
-                $comproThumb = !empty($settings['company_profile_thumbnail']) ? $settings['company_profile_thumbnail'] : asset('images/documents/compro-cover.webp');
+                $comproThumb = !empty($settings['company_profile_thumbnail']) ? $settings['company_profile_thumbnail'] : asset('images/documents/compro-cover.jpg');
                 $comproPdf   = !empty($settings['company_profile_pdf']) ? $settings['company_profile_pdf'] : asset('documents/ATS_Company_Profile.pdf');
                 $comproDrive = $settings['company_profile_drive_url'] ?? null;
                 $comproTitle = $settings['company_profile_title'] ?? 'Official Corporate Profile PT. Anugerah Tama Sejati';
@@ -445,7 +445,7 @@
 
             <!-- ================= DOCUMENT 2: ATS PANEL MAKER & PROJECT REFERENCE ================= -->
             @php
-                $panelThumb = !empty($settings['panel_project_doc_thumbnail']) ? $settings['panel_project_doc_thumbnail'] : asset('images/documents/panel-project-cover.webp');
+                $panelThumb = !empty($settings['panel_project_doc_thumbnail']) ? $settings['panel_project_doc_thumbnail'] : asset('images/documents/panel-project-cover.jpg');
                 $panelPdf   = !empty($settings['panel_project_doc_pdf']) ? $settings['panel_project_doc_pdf'] : asset('documents/ATS_Panel_Project_Reference.pdf');
                 $panelDrive = $settings['panel_project_doc_drive_url'] ?? null;
                 $panelTitle = $settings['panel_project_doc_title'] ?? 'ATS Panel Maker & Engineering Project Reference';

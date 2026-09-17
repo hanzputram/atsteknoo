@@ -171,7 +171,7 @@
   <div class="login-card">
     <div class="login-brand-header">
       <div class="login-logo-box">
-        <img src="{{ asset('images/ats-logo.webp') }}" alt="PT. Anugerah Tama Sejati Logo">
+        <img src="{{ asset('images/ats-logo.png') }}" onerror="this.src='{{ url('/public/images/ats-logo.png') }}';" alt="PT. Anugerah Tama Sejati Logo">
       </div>
       <h1 class="login-brand-title">PT. ANUGERAH TAMA SEJATI</h1>
       <p class="login-brand-subtitle">Masuk ke Backoffice Pengelolaan Katalog</p>
