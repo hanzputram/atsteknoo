@@ -54,11 +54,12 @@
   <meta name="twitter:title" content="Supplier Electrical &amp; Panel Listrik Surabaya | ATS Tekno">
   <meta name="twitter:description" content="ATS Tekno menyediakan komponen elektrikal dan jasa pembuatan panel listrik di Surabaya. Lihat katalog produk dan konsultasikan kebutuhan proyek Anda.">
 
-  <!-- Schema.org JSON-LD: LocalBusiness, ElectronicsStore & Organization for Google & AI -->
+  <!-- Schema.org JSON-LD: LocalBusiness, Electrical Wholesale Supplier & Certified Panel Maker -->
   <script type="application/ld+json">
   {
     "@@context": "https://schema.org",
-    "@type": ["ElectronicsStore", "WholesaleStore"],
+    "@type": ["WholesaleStore", "Electrician"],
+    "additionalType": "https://en.wikipedia.org/wiki/Electrical_supplies",
     "@id": "{{ url('/#organization') }}",
     "name": "PT. Anugerah Tama Sejati (ATS Tekno)",
     "alternateName": [

@@ -61,11 +61,12 @@
   <meta property="og:site_name" content="PT. Anugerah Tama Sejati">
   <meta property="og:locale" content="id_ID">
 
-  <!-- Schema.org JSON-LD: LocalBusiness, ElectronicsStore & Organization -->
+  <!-- Schema.org JSON-LD: LocalBusiness, Electrical Wholesale Supplier & Certified Panel Maker -->
   <script type="application/ld+json">
   {
     "@@context": "https://schema.org",
-    "@type": ["ElectronicsStore", "WholesaleStore"],
+    "@type": ["WholesaleStore", "Electrician"],
+    "additionalType": "https://en.wikipedia.org/wiki/Electrical_supplies",
     "@id": "{{ url('/#organization') }}",
     "name": "PT. Anugerah Tama Sejati (ATS Tekno)",
     "alternateName": [
