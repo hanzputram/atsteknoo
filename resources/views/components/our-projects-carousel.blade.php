@@ -38,19 +38,8 @@
         ];
     })->values()->toArray();
 
-    // Duplicate project list to ensure a full 16-segment continuous cylinder with tight, elegant card gaps
+    // Display unique projects without artificial DOM duplication
     $displayProjects = $projectData;
-    if (count($projectData) > 0 && count($projectData) < 16) {
-        $repeats = ceil(16 / count($projectData));
-        $temp = [];
-        for ($r = 0; $r < $repeats; $r++) {
-            foreach ($projectData as $idx => $p) {
-                $p['orig_idx'] = $idx;
-                $temp[] = $p;
-            }
-        }
-        $displayProjects = array_slice($temp, 0, 16);
-    }
   @endphp
 
   @if(count($projectData) === 0)
@@ -73,9 +62,9 @@
         <!-- 3D Cylinder Anchor -->
         <div class="p3d-cylinder" id="p3dCylinder">
           @foreach($displayProjects as $index => $item)
-            <div class="p3d-card" data-slot="{{ $index }}" data-project-index="{{ $item['orig_idx'] ?? ($index % count($projectData)) }}" role="button" tabindex="0">
+            <div class="p3d-card" data-slot="{{ $index }}" data-project-index="{{ $index }}" role="button" tabindex="0">
               <div class="p3d-card-inner">
-                <img src="{{ $item['image'] }}" alt="{{ $item['title'] }}" class="p3d-card-img" loading="eager">
+                <img src="{{ $item['image'] }}" alt="{{ $item['title'] }}" class="p3d-card-img" width="280" height="380" loading="lazy" decoding="async">
                 <div class="p3d-card-scrim"></div>
                 <div class="p3d-card-badge" style="background: {{ $item['badge_color'] }};">{{ $item['badge'] }}</div>
                 <div class="p3d-card-content">
@@ -876,8 +865,28 @@
       });
     }
 
-    // Animation loop
+    let isVisible = false;
+    let rafId = null;
+
+    function startAnimation() {
+      if (rafId) return;
+      lastTime = performance.now();
+      rafId = requestAnimationFrame(animate);
+    }
+
+    function stopAnimation() {
+      if (rafId) {
+        cancelAnimationFrame(rafId);
+        rafId = null;
+      }
+    }
+
+    // Animation loop (pauses when off-screen to preserve CPU & INP)
     function animate(currentTime) {
+      if (!isVisible) {
+        rafId = null;
+        return;
+      }
       const now = currentTime || performance.now();
       const deltaMs = Math.min(now - lastTime, 100);
       lastTime = now;
@@ -896,7 +905,7 @@
       }
 
       updateCards();
-      requestAnimationFrame(animate);
+      rafId = requestAnimationFrame(animate);
     }
 
     // Mouse Drag Mechanics
@@ -1004,7 +1013,22 @@
       }
     });
 
-    // Start loop
-    animate();
+    // Observe visibility: only run animation when stage is visible on screen
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          isVisible = entry.isIntersecting;
+          if (isVisible) {
+            startAnimation();
+          } else {
+            stopAnimation();
+          }
+        });
+      }, { rootMargin: '150px 0px' });
+      observer.observe(stage);
+    } else {
+      isVisible = true;
+      startAnimation();
+    }
   })();
 </script>

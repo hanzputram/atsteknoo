@@ -96,16 +96,28 @@
       return;
     }
 
+    // Always prefer 100% native hardware-accelerated scrolling on mobile/touch screens.
+    // Virtualizing touch scroll on mobile causes severe INP regressions, touch lag, and battery drain.
+    const isTouchDevice = window.matchMedia('(pointer: coarse)').matches || 
+                          ('ontouchstart' in window) || 
+                          window.innerWidth < 1024;
+
+    if (isTouchDevice) {
+      // Retain native hardware-accelerated scroll on touch devices; do not initialize Lenis
+      return;
+    }
+
     try {
       lenisInstance = new Lenis({
         autoRaf: true,
         smoothWheel: true,
-        duration: 1.35,
+        duration: 1.2,
         easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
         orientation: 'vertical',
         gestureOrientation: 'vertical',
-        wheelMultiplier: 1.25,
-        touchMultiplier: 2.2,
+        wheelMultiplier: 1.15,
+        touchMultiplier: 0,
+        syncTouch: false,
         infinite: false,
       });
 
@@ -321,14 +333,41 @@
     }
   };
 
+  // --------------------------------------------------------------------------
+  // Dynamic Marquee Track Cloning (Eliminates raw HTML DOM duplication for LCP/DOM size)
+  // --------------------------------------------------------------------------
+  function initMarqueeClones() {
+    const tracks = document.querySelectorAll('.marquee-track');
+    tracks.forEach(track => {
+      if (track.dataset.cloned === 'true') return;
+      track.dataset.cloned = 'true';
+      const items = Array.from(track.children);
+      if (items.length === 0) return;
+      const frag = document.createDocumentFragment();
+      items.forEach(item => {
+        const clone = item.cloneNode(true);
+        clone.setAttribute('aria-hidden', 'true');
+        const img = clone.querySelector('img');
+        if (img) {
+          img.setAttribute('loading', 'lazy');
+          img.setAttribute('decoding', 'async');
+        }
+        frag.appendChild(clone);
+      });
+      track.appendChild(frag);
+    });
+  }
+
   // Bootstrap on DOM Ready
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
       initLenis();
       attachElements();
+      initMarqueeClones();
     });
   } else {
     initLenis();
     attachElements();
+    initMarqueeClones();
   }
 })();

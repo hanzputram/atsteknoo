@@ -50,9 +50,11 @@
     href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
     rel="stylesheet">
 
-  <!-- ATS Smooth Scroll & Framer Text Reveal Styles (Dual-path delivery for localhost & shared hosting) -->
+  <!-- Preload Critical LCP Hero Image -->
+  <link rel="preload" as="image" href="{{ asset('images/hero-bg.webp') }}" type="image/webp" fetchpriority="high">
+
+  <!-- ATS Smooth Scroll & Framer Text Reveal Styles -->
   <link rel="stylesheet" href="{{ asset('css/ats-scroll-effects.css') }}?v={{ filemtime(public_path('css/ats-scroll-effects.css')) }}">
-  <link rel="stylesheet" href="{{ url('/public/css/ats-scroll-effects.css') }}?v={{ filemtime(public_path('css/ats-scroll-effects.css')) }}">
 
   <!-- Swiper CSS CDN -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
@@ -1269,7 +1271,7 @@
       <!-- Native Unstretched Photo Background Layer (Clipped by SVG Notch) -->
       <div class="hero-photo-layer">
         <img class="hero-photo-img" src="{{ asset('images/hero-bg.webp') }}"
-          alt="Distributor Resmi Schneider Electric Surabaya - PT. Anugerah Tama Sejati" loading="eager">
+          alt="Distributor Resmi Schneider Electric Surabaya - PT. Anugerah Tama Sejati" width="1708" height="960" fetchpriority="high" loading="eager" decoding="async">
         <div class="hero-photo-overlay"></div>
       </div>
 
@@ -1543,20 +1545,6 @@
           <div class="marquee-logo-card"><img src="{{ asset('logos/Jembo.webp') }}" alt="Jembo Cable" loading="lazy"></div>
           <div class="marquee-logo-card"><img src="{{ asset('logos/supremexxx.webp') }}" alt="Supreme Cable" loading="lazy"></div>
 
-          <!-- Set 2 (Seamless Duplicate for Infinite Loop) -->
-          <div class="marquee-logo-card"><img src="{{ asset('logos/1.webp') }}" alt="Schneider Electric Authorized Dealer" loading="lazy"></div>
-          <div class="marquee-logo-card"><img src="{{ asset('logos/2.webp') }}" alt="GAE Authorized Dealer" loading="lazy"></div>
-          <div class="marquee-logo-card"><img src="{{ asset('logos/vinsa.webp') }}" alt="VINSA France" loading="lazy"></div>
-          <div class="marquee-logo-card"><img src="{{ asset('logos/Legrand.webp') }}" alt="Legrand" loading="lazy"></div>
-          <div class="marquee-logo-card"><img src="{{ asset('logos/Socomec.webp') }}" alt="Socomec" loading="lazy"></div>
-          <div class="marquee-logo-card"><img src="{{ asset('logos/Autonics.webp') }}" alt="Autonics" loading="lazy"></div>
-          <div class="marquee-logo-card"><img src="{{ asset('logos/Himel.webp') }}" alt="Himel" loading="lazy"></div>
-          <div class="marquee-logo-card"><img src="{{ asset('logos/Panasonic.webp') }}" alt="Panasonic" loading="lazy"></div>
-          <div class="marquee-logo-card"><img src="{{ asset('logos/Philips.webp') }}" alt="Philips" loading="lazy"></div>
-          <div class="marquee-logo-card"><img src="{{ asset('logos/Fluke.webp') }}" alt="Fluke" loading="lazy"></div>
-          <div class="marquee-logo-card"><img src="{{ asset('logos/Boss.webp') }}" alt="Boss" loading="lazy"></div>
-          <div class="marquee-logo-card"><img src="{{ asset('logos/Jembo.webp') }}" alt="Jembo Cable" loading="lazy"></div>
-          <div class="marquee-logo-card"><img src="{{ asset('logos/supremexxx.webp') }}" alt="Supreme Cable" loading="lazy"></div>
         </div>
       </div>
     </main>

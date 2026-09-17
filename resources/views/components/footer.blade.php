@@ -865,7 +865,7 @@
                 </a>
                 <iframe 
                   class="ats-ft-map-iframe"
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3957.4611678914266!2d112.78433609999999!3d-7.301971999999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd7fb1cc2393627%3A0xbb6164eba28ffa7a!2sPT.%20Anugerah%20Tama%20Sejati!5e0!3m2!1sid!2sid!4v1789524195132!5m2!1sid!2sid"
+                  data-src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3957.4611678914266!2d112.78433609999999!3d-7.301971999999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd7fb1cc2393627%3A0xbb6164eba28ffa7a!2sPT.%20Anugerah%20Tama%20Sejati!5e0!3m2!1sid!2sid!4v1789524195132!5m2!1sid!2sid"
                   loading="lazy" 
                   referrerpolicy="strict-origin-when-cross-origin"
                   title="PT. Anugerah Tama Sejati Headquarters Map"
@@ -895,7 +895,7 @@
                 </a>
                 <iframe 
                   class="ats-ft-map-iframe"
-                  src="https://maps.google.com/maps?q=ATStekno+Jl.+Jagalan+No.+38+Bongkaran+Surabaya&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                  data-src="https://maps.google.com/maps?q=ATStekno+Jl.+Jagalan+No.+38+Bongkaran+Surabaya&t=&z=15&ie=UTF8&iwloc=&output=embed"
                   loading="lazy" 
                   referrerpolicy="no-referrer-when-downgrade"
                   title="Surabaya Showroom Map"
@@ -925,7 +925,7 @@
                 </a>
                 <iframe 
                   class="ats-ft-map-iframe"
-                  src="https://maps.google.com/maps?q=The+Taman+Dayu+Cluster+Palazio+Boulevard+Pandaan+Pasuruan&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                  data-src="https://maps.google.com/maps?q=The+Taman+Dayu+Cluster+Palazio+Boulevard+Pandaan+Pasuruan&t=&z=15&ie=UTF8&iwloc=&output=embed"
                   loading="lazy" 
                   referrerpolicy="no-referrer-when-downgrade"
                   title="Pandaan Showroom Map"
@@ -986,6 +986,15 @@
 </footer>
 
 <script>
+  // High-Performance On-Demand Google Maps Loader (Prevents initial render blocking)
+  function atsLoadMapIframe(panel) {
+    if (!panel) return;
+    const iframe = panel.querySelector('iframe.ats-ft-map-iframe');
+    if (iframe && !iframe.getAttribute('src') && iframe.getAttribute('data-src')) {
+      iframe.setAttribute('src', iframe.getAttribute('data-src'));
+    }
+  }
+
   // Interactive Showroom Switcher Logic
   function atsSwitchLocation(locId) {
     document.querySelectorAll('.ats-ft-tab-btn').forEach(btn => {
@@ -1006,6 +1015,30 @@
     }
     if (targetPanel) {
       targetPanel.classList.add('active');
+      atsLoadMapIframe(targetPanel);
     }
+  }
+
+  // Only load the active showroom map when footer approaches viewport
+  if ('IntersectionObserver' in window) {
+    const atsFooterMapObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const activePanel = document.querySelector('.ats-ft-panel-item.active') || document.getElementById('loc-panel-hq');
+          atsLoadMapIframe(activePanel);
+          observer.disconnect();
+        }
+      });
+    }, { rootMargin: '250px 0px' });
+
+    const atsFooterSection = document.querySelector('.ats-footer-main-section');
+    if (atsFooterSection) {
+      atsFooterMapObserver.observe(atsFooterSection);
+    }
+  } else {
+    window.addEventListener('load', () => {
+      const activePanel = document.querySelector('.ats-ft-panel-item.active') || document.getElementById('loc-panel-hq');
+      atsLoadMapIframe(activePanel);
+    });
   }
 </script>

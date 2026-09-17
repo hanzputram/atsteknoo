@@ -1434,7 +1434,7 @@
 
   updateHistoryBadgeUI();
   checkSessionInactivity();
-  setInterval(checkSessionInactivity, 15000); // Check every 15s
+
 
   if (historyToggleBtn) {
     historyToggleBtn.addEventListener('click', () => {
@@ -1608,9 +1608,12 @@
       }, 150);
 
       // Fetch fresh messages
+      checkSessionInactivity();
       pollLiveMessages();
+      if (typeof setAdaptivePolling === 'function') setAdaptivePolling();
     } else {
       scope.classList.remove('is-open');
+      if (typeof setAdaptivePolling === 'function') setAdaptivePolling();
     }
   }
 
@@ -1619,9 +1622,13 @@
 
   function hideWinToast() {
     winToast.classList.remove('show');
+    try { sessionStorage.setItem('ats_win_toast_shown', '1'); } catch(e) {}
   }
 
   function showWinToast() {
+    try {
+      if (sessionStorage.getItem('ats_win_toast_shown') === '1') return;
+    } catch(e) {}
     if (!isChatOpen) {
       winToast.classList.add('show');
       playNotificationChime();
@@ -1775,6 +1782,7 @@
         if (data.session_token) {
           sessionToken = data.session_token;
           localStorage.setItem('ats_livechat_token', sessionToken);
+          if (typeof setAdaptivePolling === 'function') setAdaptivePolling();
         }
         lastActiveTime = Date.now();
         localStorage.setItem('ats_livechat_last_active', lastActiveTime.toString());
@@ -2054,19 +2062,59 @@
       .replace(/'/g, '&#039;');
   }
 
-  // Polling every 2 seconds for real-time messaging & typing sync
-  setInterval(pollLiveMessages, 2000);
+  // Adaptive polling controller: only polls fast (3s) when chat is open;
+  // polls lightly (35s) if user has an active session token; never polls when closed with no token.
+  let livePollTimer = null;
+  function setAdaptivePolling() {
+    if (livePollTimer) {
+      clearInterval(livePollTimer);
+      livePollTimer = null;
+    }
+    if (document.visibilityState === 'hidden') {
+      return; // pause polling when tab is inactive/background
+    }
+    if (isChatOpen) {
+      livePollTimer = setInterval(pollLiveMessages, 3000);
+    } else if (sessionToken) {
+      livePollTimer = setInterval(pollLiveMessages, 35000);
+    }
+  }
 
-  // Initial load if token exists
+  // Initial load only if active token exists
   if (sessionToken) {
     pollLiveMessages();
   }
+  setAdaptivePolling();
 
-  // Trigger Windows Notification flow 3.5s after load
-  window.addEventListener('DOMContentLoaded', () => {
-    setTimeout(() => {
-      showWinToast();
-    }, 3500);
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') {
+      checkSessionInactivity();
+      if (isChatOpen || sessionToken) {
+        pollLiveMessages();
+      }
+      setAdaptivePolling();
+    } else {
+      setAdaptivePolling();
+    }
   });
+
+  // Non-intrusive Toast: trigger on scroll or 12s idle (once per session)
+  let winToastTriggered = false;
+  function triggerWinToastOnce() {
+    if (winToastTriggered) return;
+    try {
+      if (sessionStorage.getItem('ats_win_toast_shown') === '1') return;
+    } catch(e) {}
+    winToastTriggered = true;
+    showWinToast();
+  }
+
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 350) {
+      triggerWinToastOnce();
+    }
+  }, { passive: true, once: true });
+
+  setTimeout(triggerWinToastOnce, 12000);
 })();
 </script>

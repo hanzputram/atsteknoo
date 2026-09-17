@@ -177,12 +177,14 @@
     href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
     rel="stylesheet">
 
+  <!-- Preload Critical LCP Hero Image -->
+  <link rel="preload" as="image" href="{{ asset('images/hero-bg.webp') }}" type="image/webp" fetchpriority="high">
+
   <!-- Swiper CSS CDN -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
-  <!-- ATS Smooth Scroll & Framer Text Reveal Styles (Dual-path delivery for localhost & shared hosting) -->
+  <!-- ATS Smooth Scroll & Framer Text Reveal Styles -->
   <link rel="stylesheet" href="{{ asset('css/ats-scroll-effects.css') }}?v={{ filemtime(public_path('css/ats-scroll-effects.css')) }}">
-  <link rel="stylesheet" href="{{ url('/public/css/ats-scroll-effects.css') }}?v={{ filemtime(public_path('css/ats-scroll-effects.css')) }}">
 
   <style>
     :root {
@@ -1759,7 +1761,7 @@
 
       <!-- Native Unstretched Photo Background Layer (Clipped to Exact Notch Shape via objectBoundingBox) -->
       <div class="hero-photo-layer" id="heroPhotoLayer">
-        <img src="{{ asset('images/hero-bg.webp') }}" class="hero-photo-img" alt="Electrical Engineer Control Panel">
+        <img src="{{ asset('images/hero-bg.webp') }}" class="hero-photo-img" alt="Electrical Engineer Control Panel" width="1708" height="960" fetchpriority="high" loading="eager" decoding="async">
         <div class="hero-photo-overlay"></div>
       </div>
 
@@ -1932,20 +1934,6 @@
           <div class="marquee-logo-card"><img src="logos/Jembo.webp" alt="Jembo Cable" loading="lazy"></div>
           <div class="marquee-logo-card"><img src="logos/supremexxx.webp" alt="Supreme Cable" loading="lazy"></div>
 
-          <!-- Set 2 (Seamless Duplicate for Infinite Loop) -->
-          <div class="marquee-logo-card"><img src="logos/1.webp" alt="Schneider Electric Authorized Dealer" loading="lazy"></div>
-          <div class="marquee-logo-card"><img src="logos/2.webp" alt="GAE Authorized Dealer" loading="lazy"></div>
-          <div class="marquee-logo-card"><img src="logos/vinsa.webp" alt="VINSA France" loading="lazy"></div>
-          <div class="marquee-logo-card"><img src="logos/Legrand.webp" alt="Legrand" loading="lazy"></div>
-          <div class="marquee-logo-card"><img src="logos/Socomec.webp" alt="Socomec" loading="lazy"></div>
-          <div class="marquee-logo-card"><img src="logos/Autonics.webp" alt="Autonics" loading="lazy"></div>
-          <div class="marquee-logo-card"><img src="logos/Himel.webp" alt="Himel" loading="lazy"></div>
-          <div class="marquee-logo-card"><img src="logos/Panasonic.webp" alt="Panasonic" loading="lazy"></div>
-          <div class="marquee-logo-card"><img src="logos/Philips.webp" alt="Philips" loading="lazy"></div>
-          <div class="marquee-logo-card"><img src="logos/Fluke.webp" alt="Fluke" loading="lazy"></div>
-          <div class="marquee-logo-card"><img src="logos/Boss.webp" alt="Boss" loading="lazy"></div>
-          <div class="marquee-logo-card"><img src="logos/Jembo.webp" alt="Jembo Cable" loading="lazy"></div>
-          <div class="marquee-logo-card"><img src="logos/supremexxx.webp" alt="Supreme Cable" loading="lazy"></div>
         </div>
       </div>
     </main>
