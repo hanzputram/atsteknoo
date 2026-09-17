@@ -141,28 +141,51 @@ class SitemapController extends Controller
         $content .= "Disallow: /backoffice\n";
         $content .= "Disallow: /backoffice/*\n\n";
 
-        $content .= "# Allow Search & Generative AI Web Crawlers\n";
+        $content .= "# Google Search & Google AI\n";
         $content .= "User-agent: Googlebot\n";
         $content .= "Allow: /\n\n";
 
         $content .= "User-agent: Google-Extended\n";
         $content .= "Allow: /\n\n";
 
+        $content .= "# Anthropic / Claude AI\n";
+        $content .= "User-agent: ClaudeBot\n";
+        $content .= "Allow: /\n\n";
+
+        $content .= "User-agent: Claude-User\n";
+        $content .= "Allow: /\n\n";
+
+        $content .= "User-agent: Claude-SearchBot\n";
+        $content .= "Allow: /\n\n";
+
+        $content .= "User-agent: anthropic-ai\n";
+        $content .= "Allow: /\n\n";
+
+        $content .= "User-agent: Claude-Web\n";
+        $content .= "Allow: /\n\n";
+
+        $content .= "# OpenAI / ChatGPT\n";
         $content .= "User-agent: GPTBot\n";
         $content .= "Allow: /\n\n";
 
         $content .= "User-agent: ChatGPT-User\n";
         $content .= "Allow: /\n\n";
 
-        $content .= "User-agent: ClaudeBot\n";
+        $content .= "User-agent: OAI-SearchBot\n";
         $content .= "Allow: /\n\n";
 
+        $content .= "# Perplexity AI\n";
         $content .= "User-agent: PerplexityBot\n";
+        $content .= "Allow: /\n\n";
+
+        $content .= "# Apple Intelligence\n";
+        $content .= "User-agent: Applebot\n";
         $content .= "Allow: /\n\n";
 
         $content .= "User-agent: Applebot-Extended\n";
         $content .= "Allow: /\n\n";
 
+        $content .= "# Microsoft Bing & Copilot\n";
         $content .= "User-agent: Bingbot\n";
         $content .= "Allow: /\n\n";
 

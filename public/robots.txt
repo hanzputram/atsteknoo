@@ -3,30 +3,52 @@ Allow: /
 Disallow: /backoffice
 Disallow: /backoffice/*
 
-# Allow Search & Generative AI Web Crawlers
+# Google Search & Google AI (Gemini / AI Overviews)
 User-agent: Googlebot
 Allow: /
 
 User-agent: Google-Extended
 Allow: /
 
+# Anthropic / Claude AI (Realtime browsing & crawlers)
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+# OpenAI / ChatGPT
 User-agent: GPTBot
 Allow: /
 
 User-agent: ChatGPT-User
 Allow: /
 
-User-agent: ClaudeBot
+User-agent: OAI-SearchBot
 Allow: /
 
+# Perplexity AI
 User-agent: PerplexityBot
+Allow: /
+
+# Apple Intelligence
+User-agent: Applebot
 Allow: /
 
 User-agent: Applebot-Extended
 Allow: /
 
+# Microsoft Bing & Copilot
 User-agent: Bingbot
 Allow: /
 
 Sitemap: https://atstekno.com/sitemap.xml
-Sitemap: http://localhost:8000/sitemap.xml
