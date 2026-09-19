@@ -126,7 +126,7 @@ test('T01: All public catalog and content pages load with 200 OK', function () {
     $this->get(route('products.index'))->assertOk();
     $this->get(route('products.show', $this->product->slug))->assertOk();
     $this->get(route('product-categories.show', $this->category->slug))->assertOk();
-    $this->get(route('brands.index'))->assertOk();
+    $this->get(route('brands.index'))->assertRedirect(route('price-list.index'));
     $this->get(route('brands.show', $this->brand->slug))->assertOk();
     $this->get(route('projects.index'))->assertOk();
     $this->get(route('projects.show', $this->project->slug))->assertOk();

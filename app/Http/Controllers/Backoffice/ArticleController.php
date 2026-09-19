@@ -90,6 +90,7 @@ class ArticleController extends Controller
             'content_html' => $cleanContent,
             'thumbnail_id' => $thumbnailId,
             'thumbnail_alt' => $request->thumbnail_alt ?: $request->title,
+            'image_url' => null,
             'category_id' => $request->category_id,
             'author_id' => auth()->id(),
             'author_display_name' => $request->author_display_name ?: 'ATS Engineering Team',
@@ -131,9 +132,13 @@ class ArticleController extends Controller
         ]);
 
         $thumbnailId = $article->thumbnail_id;
+        $imageUrl = $article->image_url;
         if ($request->hasFile('thumbnail')) {
             $media = MediaService::storeUpload($request->file('thumbnail'), 'image');
             $thumbnailId = $media->id;
+            $imageUrl = null;
+        } elseif ($thumbnailId) {
+            $imageUrl = null;
         }
 
         $cleanContent = HtmlSanitizerService::clean($request->input('content_html'));
@@ -160,6 +165,7 @@ class ArticleController extends Controller
             'content_html' => $cleanContent,
             'thumbnail_id' => $thumbnailId,
             'thumbnail_alt' => $request->thumbnail_alt ?: $request->title,
+            'image_url' => $imageUrl,
             'category_id' => $request->category_id,
             'author_display_name' => $request->author_display_name ?: 'ATS Engineering Team',
             'meta_title' => $request->meta_title,

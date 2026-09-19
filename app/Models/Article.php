@@ -99,14 +99,26 @@ class Article extends Model
 
     public function getThumbnailUrlAttribute(): string
     {
-        if (!empty($this->image_url)) {
-            return $this->image_url;
-        }
-
-        if ($this->thumbnail) {
+        // 1. First Priority: Uploaded MediaAsset in backoffice
+        if ($this->thumbnail_id && $this->thumbnail) {
             return route('media.view', $this->thumbnail->id);
         }
 
+        // 2. Second Priority: Explicit image_url (fallback for external/CDN URLs)
+        if (!empty($this->image_url)) {
+            // Guard against legacy 404 wp-content paths that do not exist on disk
+            if (str_contains($this->image_url, 'wp-content/uploads/')) {
+                $relativePath = parse_url($this->image_url, PHP_URL_PATH) ?? $this->image_url;
+                $relativePath = ltrim($relativePath, '/');
+                if (!file_exists(public_path($relativePath))) {
+                    return asset('images/projects/project-1-substation.webp');
+                }
+            }
+
+            return $this->image_url;
+        }
+
+        // 3. Final Default Fallback Image
         return asset('images/projects/project-1-substation.webp');
     }
 

@@ -34,6 +34,8 @@
               <div style="width: 52px; height: 38px; border-radius: 6px; border: 1px solid #E2E8F0; background: #F8FAFC; display: flex; align-items: center; justify-content: center; overflow: hidden;">
                 @if($art->thumbnail)
                   <img src="{{ route('media.view', $art->thumbnail->id) }}" alt="{{ $art->title }}" style="width: 100%; height: 100%; object-fit: cover;">
+                @elseif(!empty($art->image_url))
+                  <img src="{{ $art->image_url }}" alt="{{ $art->title }}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.onerror=null; this.parentElement.innerHTML='<span style=\'font-size: 14px; color: #CBD5E1;\'>📰</span>';">
                 @else
                   <span style="font-size: 14px; color: #CBD5E1;">📰</span>
                 @endif

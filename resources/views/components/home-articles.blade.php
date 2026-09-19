@@ -45,7 +45,7 @@
           <meta itemprop="position" content="1">
           <div class="lead-media-wrap">
             <a href="{{ route('articles.show', $featuredArticle->slug) }}" class="lead-img-link" tabindex="-1">
-              <img src="{{ $featuredArticle->thumbnail_url }}" alt="{{ $featuredArticle->title }}" class="lead-img" loading="eager" itemprop="image">
+              <img src="{{ $featuredArticle->thumbnail_url }}" alt="{{ $featuredArticle->title }}" class="lead-img" loading="eager" itemprop="image" onerror="this.onerror=null; this.src='{{ asset('images/projects/project-1-substation.webp') }}';">
               <div class="lead-scrim"></div>
             </a>
             <span class="lead-category-chip" itemprop="articleSection">{{ $featuredArticle->category ? $featuredArticle->category->name : 'Switchboard Engineering' }}</span>
@@ -96,7 +96,7 @@
               
               <div class="card-thumb-wrap">
                 <a href="{{ route('articles.show', $art->slug) }}" class="card-thumb-link" tabindex="-1">
-                  <img src="{{ $art->thumbnail_url }}" alt="{{ $art->title }}" class="card-thumb-img" loading="lazy" itemprop="image">
+                  <img src="{{ $art->thumbnail_url }}" alt="{{ $art->title }}" class="card-thumb-img" loading="lazy" itemprop="image" onerror="this.onerror=null; this.src='{{ asset('images/projects/project-1-substation.webp') }}';">
                   <div class="card-thumb-overlay"></div>
                 </a>
                 <span class="card-cat-badge">{{ $art->category ? $art->category->name : 'Technical Insight' }}</span>

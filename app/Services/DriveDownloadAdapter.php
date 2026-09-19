@@ -577,6 +577,23 @@ class DriveDownloadAdapter
 
         $host = strtolower($parsed['host']);
 
+        // Directly block IP addresses that are loopback, private, or metadata
+        if (filter_var($host, FILTER_VALIDATE_IP) && static::isPrivateOrReservedIp($host)) {
+            return ['safe' => false, 'reason' => "Target IP {$host} adalah alamat privat / loopback yang diblokir"];
+        }
+
+        // Domain allowlist check for Google Drive adapter
+        $isAllowedDomain = false;
+        foreach (static::$allowedHosts as $allowed) {
+            if ($host === $allowed || str_ends_with($host, '.' . $allowed)) {
+                $isAllowedDomain = true;
+                break;
+            }
+        }
+        if (!$isAllowedDomain) {
+            return ['safe' => false, 'reason' => "Domain '{$host}' bukan domain Google Drive yang diizinkan"];
+        }
+
         // Block localhost and internal/private hostnames
         if (in_array($host, ['localhost', '127.0.0.1', '::1', '0.0.0.0'], true)
             || str_ends_with($host, '.local')

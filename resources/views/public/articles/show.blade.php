@@ -149,7 +149,7 @@
     <!-- Featured Thumbnail -->
     @if($article->thumbnail_url)
     <div class="rounded-3xl overflow-hidden shadow-sm border border-slate-200 mb-10 h-72 sm:h-96">
-        <img src="{{ $article->thumbnail_url }}" alt="{{ $article->thumbnail_alt ?: $article->title }}" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='{{ asset('images/projects/project-1-substation.jpg') }}';">
+        <img src="{{ $article->thumbnail_url }}" alt="{{ $article->thumbnail_alt ?: $article->title }}" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='{{ asset('images/projects/project-1-substation.webp') }}';">
     </div>
     @endif
 
