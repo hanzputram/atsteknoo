@@ -97,3 +97,40 @@ test('backoffice update with new thumbnail clears legacy image_url', function ()
     expect($article->image_url)->toBeNull();
     expect($article->thumbnail_url)->toBe(route('media.view', $article->thumbnail_id));
 });
+
+test('rendered_content_html gracefully strips dead wp-content images while preserving valid content', function () {
+    $legacyHtml = '<hr><p><a href="https://atstekno.com/wp-content/uploads/2021/07/MCB.jpg"><img src="../../../wp-content/uploads/2021/07/MCB-DOMF01332.jpg" alt="MCB DOMF01332" /></a></p><hr><h2>Cara Memasang MCB Tambahan di Rumah</h2><p>Paragraf penjelasan teknis.</p>';
+
+    $article = Article::create([
+        'title' => 'Cara Memasang MCB',
+        'slug' => 'cara-memasang-mcb',
+        'content_html' => $legacyHtml,
+        'category_id' => $this->category->id,
+        'status' => 'published',
+        'published_at' => now(),
+    ]);
+
+    expect($article->rendered_content_html)->not->toContain('MCB-DOMF01332.jpg');
+    expect($article->rendered_content_html)->not->toContain('wp-content/uploads');
+    expect($article->rendered_content_html)->toContain('<h2>Cara Memasang MCB Tambahan di Rumah</h2>');
+    expect($article->rendered_content_html)->toContain('<p>Paragraf penjelasan teknis.</p>');
+});
+
+test('guest can access media asset embedded in article content_html', function () {
+    $file = UploadedFile::fake()->image('diagram.png', 800, 600);
+    $media = App\Services\MediaService::storeUpload($file, 'image');
+
+    $article = Article::create([
+        'title' => 'Article With Embedded Media',
+        'slug' => 'article-with-embedded-media',
+        'content_html' => '<p>Diagram sistem:</p><figure><img src="/media/' . $media->id . '/view" alt="Diagram" /></figure>',
+        'category_id' => $this->category->id,
+        'status' => 'published',
+        'published_at' => now(),
+    ]);
+
+    // Guest accessing media view should be allowed (HTTP 200)
+    $response = $this->get(route('media.view', $media->id));
+    $response->assertOk();
+});
+

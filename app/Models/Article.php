@@ -129,6 +129,36 @@ class Article extends Model
         return $minutes . ' min read';
     }
 
+    public function getRenderedContentHtmlAttribute(): string
+    {
+        $html = $this->content_html ?? '';
+        if (empty($html)) {
+            return '';
+        }
+
+        // Clean dead legacy wp-content images that do not exist on disk
+        if (str_contains($html, 'wp-content/uploads/')) {
+            $html = preg_replace_callback(
+                '/(<(?:p|figure|div)[^>]*>\s*)?(<a[^>]+href=[\'"][^\'"]*wp-content\/uploads[^\'"]*[\'"][^>]*>\s*)?<img[^>]+src=[\'"]([^\'"]*wp-content\/uploads[^\'"]*)[\'"][^>]*>(\s*<\/a>)?(\s*<\/(?:p|figure|div)>)?/i',
+                function ($matches) {
+                    $src = $matches[3];
+                    $parsed = parse_url($src, PHP_URL_PATH) ?? $src;
+                    $relativePath = ltrim(preg_replace('/^.*?wp-content\//', 'wp-content/', $parsed), '/');
+                    if (file_exists(public_path($relativePath))) {
+                        return $matches[0];
+                    }
+                    return '';
+                },
+                $html
+            );
+
+            $html = preg_replace('/(<hr[^>]*>\s*){2,}/i', '$1', $html);
+            $html = preg_replace('/<p[^>]*>\s*(?:&nbsp;|\s)*<\/p>/i', '', $html);
+        }
+
+        return trim($html);
+    }
+
     /**
      * Generate a guaranteed unique slug for articles.
      */
