@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\Project;
 use App\Models\Article;
 use App\Models\Brand;
+use App\Models\Page;
 use App\Models\ProductCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -72,9 +73,26 @@ class MediaDeliveryController extends Controller
             return true;
         }
 
-        // Check Article thumbnail
-        $isArticlePublished = Article::published()->where('thumbnail_id', $media->id)->exists();
+        // Check Article thumbnail or embedded in Article content_html
+        $isArticlePublished = Article::published()
+            ->where(function ($q) use ($media) {
+                $q->where('thumbnail_id', $media->id)
+                  ->orWhere('content_html', 'like', "%/media/{$media->id}/%")
+                  ->orWhere('content_html', 'like', "%{$media->file_path}%");
+            })->exists();
+
         if ($isArticlePublished) {
+            return true;
+        }
+
+        // Check Page content
+        $isPagePublished = Page::where('is_active', true)
+            ->where(function ($q) use ($media) {
+                $q->where('content_html', 'like', "%/media/{$media->id}/%")
+                  ->orWhere('content_html', 'like', "%{$media->file_path}%");
+            })->exists();
+
+        if ($isPagePublished) {
             return true;
         }
 

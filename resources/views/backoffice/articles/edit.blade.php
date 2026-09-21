@@ -138,6 +138,8 @@
             <div style="width: 100%; height: 160px; border-radius: 10px; border: 1px solid var(--color-border); background: #F8FAFC; overflow: hidden; display: flex; align-items: center; justify-content: center; margin-bottom: 8px;">
               @if($article->thumbnail)
                 <img src="{{ route('media.view', $article->thumbnail->id) }}" alt="{{ $article->title }}" style="width: 100%; height: 100%; object-fit: cover;">
+              @elseif(!empty($article->image_url))
+                <img src="{{ $article->image_url }}" alt="{{ $article->title }}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.onerror=null; this.parentElement.innerHTML='<span style=\'color: #EF4444; font-size: 11.5px; text-align: center; padding: 12px; line-height: 1.4;\'>⚠️ URL gambar lama rusak (404).<br>Silakan unggah file gambar baru di bawah.</span>';">
               @else
                 <span style="color: #94A3B8; font-size: 13px;">Belum ada thumbnail</span>
               @endif

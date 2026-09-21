@@ -149,13 +149,13 @@
     <!-- Featured Thumbnail -->
     @if($article->thumbnail_url)
     <div class="rounded-3xl overflow-hidden shadow-sm border border-slate-200 mb-10 h-72 sm:h-96">
-        <img src="{{ $article->thumbnail_url }}" alt="{{ $article->thumbnail_alt ?: $article->title }}" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='{{ asset('images/projects/project-1-substation.jpg') }}';">
+        <img src="{{ $article->thumbnail_url }}" alt="{{ $article->thumbnail_alt ?: $article->title }}" class="w-full h-full object-cover" onerror="this.onerror=null; this.src='{{ asset('images/projects/project-1-substation.webp') }}';">
     </div>
     @endif
 
     <!-- Main Content Body (Sanitized WYSIWYG) -->
     <div class="wysiwyg-content prose prose-slate prose-lg max-w-none text-slate-700 leading-relaxed">
-        {!! $article->content_html !!}
+        {!! $article->rendered_content_html !!}
     </div>
 
     <!-- Tags List -->
@@ -266,4 +266,52 @@
     </div>
 </div>
 @endif
+
+<script>
+    (function() {
+        function cleanBrokenImage(img) {
+            if (!img) return;
+            const figure = img.closest('figure');
+            const link = img.closest('a');
+            const parentP = img.closest('p');
+
+            if (figure) {
+                figure.remove();
+            } else if (link) {
+                const container = link.closest('p, div') || link;
+                link.remove();
+                if (container && !container.textContent.trim() && !container.querySelector('img')) {
+                    container.remove();
+                }
+            } else {
+                img.remove();
+                if (parentP && !parentP.textContent.trim() && !parentP.querySelector('img')) {
+                    parentP.remove();
+                }
+            }
+        }
+
+        // 1. Capture image load errors in the capturing phase immediately
+        window.addEventListener('error', function(e) {
+            if (e.target && e.target.tagName === 'IMG' && e.target.closest('.wysiwyg-content')) {
+                cleanBrokenImage(e.target);
+            }
+        }, true);
+
+        // 2. Sweep any already completed images that failed to load
+        function sweepBrokenImages() {
+            document.querySelectorAll('.wysiwyg-content img').forEach(function(img) {
+                if (img.complete && (img.naturalWidth === 0 || img.naturalHeight === 0)) {
+                    cleanBrokenImage(img);
+                }
+            });
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', sweepBrokenImages);
+        } else {
+            sweepBrokenImages();
+        }
+    })();
+</script>
 @endsection

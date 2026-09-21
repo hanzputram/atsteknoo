@@ -99,14 +99,26 @@ class Article extends Model
 
     public function getThumbnailUrlAttribute(): string
     {
-        if (!empty($this->image_url)) {
-            return $this->image_url;
-        }
-
-        if ($this->thumbnail) {
+        // 1. First Priority: Uploaded MediaAsset in backoffice
+        if ($this->thumbnail_id && $this->thumbnail) {
             return route('media.view', $this->thumbnail->id);
         }
 
+        // 2. Second Priority: Explicit image_url (fallback for external/CDN URLs)
+        if (!empty($this->image_url)) {
+            // Guard against legacy 404 wp-content paths that do not exist on disk
+            if (str_contains($this->image_url, 'wp-content/uploads/')) {
+                $relativePath = parse_url($this->image_url, PHP_URL_PATH) ?? $this->image_url;
+                $relativePath = ltrim($relativePath, '/');
+                if (!file_exists(public_path($relativePath))) {
+                    return asset('images/projects/project-1-substation.webp');
+                }
+            }
+
+            return $this->image_url;
+        }
+
+        // 3. Final Default Fallback Image
         return asset('images/projects/project-1-substation.webp');
     }
 
@@ -115,6 +127,36 @@ class Article extends Model
         $wordCount = str_word_count(strip_tags($this->content_html ?? ''));
         $minutes = max(4, ceil($wordCount / 180));
         return $minutes . ' min read';
+    }
+
+    public function getRenderedContentHtmlAttribute(): string
+    {
+        $html = $this->content_html ?? '';
+        if (empty($html)) {
+            return '';
+        }
+
+        // Clean dead legacy wp-content images that do not exist on disk
+        if (str_contains($html, 'wp-content/uploads/')) {
+            $html = preg_replace_callback(
+                '/(<(?:p|figure|div)[^>]*>\s*)?(<a[^>]+href=[\'"][^\'"]*wp-content\/uploads[^\'"]*[\'"][^>]*>\s*)?<img[^>]+src=[\'"]([^\'"]*wp-content\/uploads[^\'"]*)[\'"][^>]*>(\s*<\/a>)?(\s*<\/(?:p|figure|div)>)?/i',
+                function ($matches) {
+                    $src = $matches[3];
+                    $parsed = parse_url($src, PHP_URL_PATH) ?? $src;
+                    $relativePath = ltrim(preg_replace('/^.*?wp-content\//', 'wp-content/', $parsed), '/');
+                    if (file_exists(public_path($relativePath))) {
+                        return $matches[0];
+                    }
+                    return '';
+                },
+                $html
+            );
+
+            $html = preg_replace('/(<hr[^>]*>\s*){2,}/i', '$1', $html);
+            $html = preg_replace('/<p[^>]*>\s*(?:&nbsp;|\s)*<\/p>/i', '', $html);
+        }
+
+        return trim($html);
     }
 
     /**

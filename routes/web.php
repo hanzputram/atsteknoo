@@ -78,6 +78,8 @@ $serveStaticAsset = function (string $dir, string $file) {
         public_path($dir . '/' . $file),
         base_path($dir . '/' . $file),
         base_path('public/' . $dir . '/' . $file),
+        storage_path('app/public/' . $file),
+        storage_path('app/' . $file),
     ];
 
     $mimes = [
