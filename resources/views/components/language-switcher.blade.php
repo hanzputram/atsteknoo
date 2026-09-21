@@ -4,11 +4,17 @@
      Seamlessly integrated into Navbar (Floating pill omitted)
      ======================================================== -->
 
+@php
+  $activeLang = request()->cookie('ats_lang', 'en');
+  if ($activeLang !== 'id' && $activeLang !== 'en') {
+    $activeLang = 'en';
+  }
+@endphp
 <!-- Inline Navigation Switcher (Segmented Glass Pill) -->
 <div class="ats-lang-switcher" role="group" aria-label="Language Selector">
   <button 
     type="button" 
-    class="ats-lang-btn active" 
+    class="ats-lang-btn {{ $activeLang === 'en' ? 'active' : '' }}" 
     data-lang="en" 
     onclick="atsSetLanguage('en')" 
     aria-label="Switch to English"
@@ -19,7 +25,7 @@
   <span class="ats-lang-sep" aria-hidden="true">/</span>
   <button 
     type="button" 
-    class="ats-lang-btn" 
+    class="ats-lang-btn {{ $activeLang === 'id' ? 'active' : '' }}" 
     data-lang="id" 
     onclick="atsSetLanguage('id')" 
     aria-label="Ganti ke Bahasa Indonesia"
@@ -29,19 +35,46 @@
   </button>
 </div>
 
+<script>
+  if (typeof window.atsSetLanguage !== 'function') {
+    window.atsSetLanguage = function(lang) {
+      if (lang !== 'en' && lang !== 'id') lang = 'en';
+      try { localStorage.setItem('ats_lang', lang); } catch (e) {}
+      document.cookie = "ats_lang=" + lang + ";path=/;max-age=31536000;SameSite=Lax";
+      document.documentElement.setAttribute('lang', lang);
+      document.documentElement.setAttribute('data-lang', lang);
+      document.querySelectorAll('.ats-lang-btn').forEach(function(btn) {
+        if (btn.getAttribute('data-lang') === lang) {
+          btn.classList.add('active');
+          btn.setAttribute('aria-pressed', 'true');
+        } else {
+          btn.classList.remove('active');
+          btn.setAttribute('aria-pressed', 'false');
+        }
+      });
+      window.dispatchEvent(new CustomEvent('atsLanguageChanged', { detail: { lang: lang } }));
+    };
+  }
+</script>
+
 <style>
   /* ========================================================
      CSS RULES FOR DUAL-LANGUAGE TOGGLING
      ======================================================== */
-  html[lang="en"] .ats-lang-id { display: none !important; }
-  html[lang="en"] .ats-lang-en { display: inline !important; }
+  html[lang="en"] .ats-lang-id,
+  html:not([lang="id"]) .ats-lang-id { display: none !important; }
+  html[lang="en"] .ats-lang-en,
+  html:not([lang="id"]) .ats-lang-en { display: inline !important; }
   html[lang="id"] .ats-lang-en { display: none !important; }
   html[lang="id"] .ats-lang-id { display: inline !important; }
 
-  html[lang="en"] .ats-lang-block-id { display: none !important; }
-  html[lang="en"] .ats-lang-block-en { display: block !important; }
+  html[lang="en"] .ats-lang-block-id,
+  html:not([lang="id"]) .ats-lang-block-id { display: none !important; }
+  html[lang="en"] .ats-lang-block-en,
+  html:not([lang="id"]) .ats-lang-block-en { display: block !important; }
   html[lang="id"] .ats-lang-block-en { display: none !important; }
   html[lang="id"] .ats-lang-block-id { display: block !important; }
+
 
   /* 1. Inline Navbar Switcher Styling (Dark Glass for Hero Navbar) */
   .ats-lang-switcher {

@@ -331,4 +331,11 @@
     initLenis();
     attachElements();
   }
+
+  // Re-check elements if language was switched dynamically
+  window.addEventListener('atsLanguageChanged', () => {
+    setTimeout(() => {
+      attachElements(false);
+    }, 50);
+  });
 })();

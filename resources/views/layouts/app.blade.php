@@ -1,7 +1,26 @@
+@php
+  $currentLocale = request()->cookie('ats_lang', 'en');
+  if ($currentLocale !== 'id' && $currentLocale !== 'en') {
+    $currentLocale = 'en';
+  }
+@endphp
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ $currentLocale }}" data-lang="{{ $currentLocale }}">
 
 <head>
+  <!-- Synchronous Client-Side Language Hydration (Zero FOLC / Zero Layout Shift) -->
+  <script>
+    (function() {
+      try {
+        var l = localStorage.getItem('ats_lang') || (document.cookie.match(/(?:^|;\s*)ats_lang=([^;]+)/) || [])[1] || 'en';
+        if (l === 'id' || l === 'en') {
+          document.documentElement.setAttribute('lang', l);
+          document.documentElement.setAttribute('data-lang', l);
+        }
+      } catch(e) {}
+    })();
+  </script>
+
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-FW0ZT8JVCQ"></script>
   <script>
@@ -630,7 +649,10 @@
   @include('components.footer')
 
   <!-- ATS Multilingual i18n Logic -->
-  <script src="{{ asset('js/ats-i18n.js') }}"></script>
+  <script src="{{ asset('js/ats-i18n.js') }}?v={{ filemtime(public_path('js/ats-i18n.js')) }}"
+          onerror="if(!this.dataset.fallback){this.dataset.fallback='1';this.src='{{ url('/public/js/ats-i18n.js') }}?v={{ filemtime(public_path('js/ats-i18n.js')) }}';}">
+  </script>
+
 
   <!-- Floating Sidebar Button: Buy at Listrikonline (All Pages) -->
   @include('components.floating-listrikonline-btn')

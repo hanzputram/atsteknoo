@@ -36,6 +36,9 @@
       "hero.stat_ready": "Thousands of Ready Stock SKUs",
       
       // Trusted By
+      "trusted.badge": "Enterprise & Infrastructure",
+      "trusted.title_prefix": "Trusted by over",
+      "trusted.title_suffix": "Company",
       "trusted.over": "Trusted By Over",
       "trusted.companies": "Companies",
       "trusted.subtitle": "Support electrical needs across industries.",
@@ -81,6 +84,12 @@
       "projects.subtitle": "Proven track record in supplying industrial electrical distribution switchboards, certified automation systems, and critical power infrastructure across Indonesia.",
       "projects.drag_hint": "Drag or use arrows to rotate • Click card to view details",
       "projects.empty_notice": "Portfolio is not yet available.",
+
+      // Home Technical Articles
+      "articles.badge": "BLOG & TECHNICAL ARTICLES",
+      "articles.title": "Blog, Articles & Industrial Electrical Insights",
+      "articles.subtitle": "Authoritative blog guides, technical articles on IEC 61439 switchboard standards, component selection, and industrial electrical insights from Surabaya's premier distributor.",
+      "articles.btn_all": "Explore All Blog Articles",
 
       // Price List Page
       "pricelist.breadcrumb_home": "Home",
@@ -193,6 +202,9 @@
       "hero.stat_ready": "Ribuan SKU Siap Kirim",
 
       // Trusted By
+      "trusted.badge": "Perusahaan & Infrastruktur",
+      "trusted.title_prefix": "Dipercaya lebih dari",
+      "trusted.title_suffix": "Perusahaan",
       "trusted.over": "Dipercaya Oleh Lebih Dari",
       "trusted.companies": "Perusahaan",
       "trusted.subtitle": "Mendukung kebutuhan kelistrikan di berbagai sektor industri.",
@@ -238,6 +250,12 @@
       "projects.subtitle": "Rekam jejak terbukti dalam menyuplai panel distribusi tegangan rendah, sistem otomasi industri, dan infrastruktur daya krusial di seluruh Indonesia.",
       "projects.drag_hint": "Geser atau gunakan panah untuk memutar • Klik kartu untuk detail",
       "projects.empty_notice": "Portofolio belum tersedia.",
+
+      // Home Technical Articles
+      "articles.badge": "BLOG & ARTIKEL KELISTRIKAN",
+      "articles.title": "Blog, Artikel & Wawasan Rekayasa Kelistrikan",
+      "articles.subtitle": "Kumpulan artikel blog dan panduan teknis seputar standar panel listrik IEC 61439, pemilihan komponen proteksi, serta wawasan rekayasa kelistrikan dari distributor resmi terpercaya.",
+      "articles.btn_all": "Lihat Semua Blog & Artikel",
 
       // Price List Page
       "pricelist.breadcrumb_home": "Beranda",

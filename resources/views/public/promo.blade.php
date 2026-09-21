@@ -1,7 +1,43 @@
+@php
+  $currentLocale = request()->cookie('ats_lang', 'en');
+  if ($currentLocale !== 'id' && $currentLocale !== 'en') {
+    $currentLocale = 'en';
+  }
+@endphp
 <!DOCTYPE html>
-<html lang="id">
+<html lang="{{ $currentLocale }}" data-lang="{{ $currentLocale }}">
 
 <head>
+  <!-- Synchronous Client-Side Language Hydration (Zero FOLC / Zero Layout Shift) -->
+  <script>
+    (function() {
+      try {
+        var l = localStorage.getItem('ats_lang') || (document.cookie.match(/(?:^|;\s*)ats_lang=([^;]+)/) || [])[1] || 'en';
+        if (l === 'id' || l === 'en') {
+          document.documentElement.setAttribute('lang', l);
+          document.documentElement.setAttribute('data-lang', l);
+        }
+      } catch(e) {}
+    })();
+  </script>
+
+  <!-- Global Multilingual CSS Display Rules -->
+  <style>
+    html[lang="en"] .ats-lang-id,
+    html:not([lang="id"]) .ats-lang-id { display: none !important; }
+    html[lang="en"] .ats-lang-en,
+    html:not([lang="id"]) .ats-lang-en { display: inline !important; }
+    html[lang="id"] .ats-lang-en { display: none !important; }
+    html[lang="id"] .ats-lang-id { display: inline !important; }
+
+    html[lang="en"] .ats-lang-block-id,
+    html:not([lang="id"]) .ats-lang-block-id { display: none !important; }
+    html[lang="en"] .ats-lang-block-en,
+    html:not([lang="id"]) .ats-lang-block-en { display: block !important; }
+    html[lang="id"] .ats-lang-block-en { display: none !important; }
+    html[lang="id"] .ats-lang-block-id { display: block !important; }
+  </style>
+
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-FW0ZT8JVCQ"></script>
   <script>
@@ -2096,6 +2132,11 @@
 
     });
   </script>
+  <!-- ATS Multilingual i18n System (Global Translation & Switcher Engine) -->
+  <script src="{{ asset('js/ats-i18n.js') }}?v={{ filemtime(public_path('js/ats-i18n.js')) }}"
+          onerror="if(!this.dataset.fallback){this.dataset.fallback='1';this.src='{{ url('/public/js/ats-i18n.js') }}?v={{ filemtime(public_path('js/ats-i18n.js')) }}';}">
+  </script>
+
   <!-- Lenis Smooth Scroll & Framer Text Reveal On Scroll Engine (Resilient Dual-Path Delivery) -->
   <script src="{{ asset('js/ats-scroll-effects.js') }}?v={{ filemtime(public_path('js/ats-scroll-effects.js')) }}"
           onerror="if(!this.dataset.fallback){this.dataset.fallback='1';this.src='{{ url('/public/js/ats-scroll-effects.js') }}?v={{ filemtime(public_path('js/ats-scroll-effects.js')) }}';}">

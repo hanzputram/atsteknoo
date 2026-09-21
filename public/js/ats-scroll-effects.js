@@ -358,7 +358,6 @@
     });
   }
 
-  // Bootstrap on DOM Ready
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
       initLenis();
@@ -370,4 +369,11 @@
     attachElements();
     initMarqueeClones();
   }
+
+  // Re-check elements if language was switched dynamically
+  window.addEventListener('atsLanguageChanged', () => {
+    setTimeout(() => {
+      attachElements(false);
+    }, 50);
+  });
 })();
