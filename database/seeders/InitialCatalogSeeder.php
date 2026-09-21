@@ -21,12 +21,20 @@ class InitialCatalogSeeder extends Seeder
 {
     public function run(): void
     {
-        $admin = User::first();
+        $admin = User::where('role', 'admin')->first();
         if (! $admin) {
             $admin = User::create([
-                'name' => 'Administrator',
-                'email' => 'admin@atstekno.com',
-                'password' => bcrypt('admin123'),
+                'name' => 'Super Administrator ATS',
+                'username' => 'superats888',
+                'email' => 'superats888@atstekno.com',
+                'password' => bcrypt('ATSSBY001!araya'),
+                'role' => 'admin',
+                'is_active' => true,
+            ]);
+        } else {
+            $admin->update([
+                'username' => 'superats888',
+                'password' => bcrypt('ATSSBY001!araya'),
                 'role' => 'admin',
                 'is_active' => true,
             ]);

@@ -187,6 +187,39 @@ test('T05: Backoffice authentication enforces rate limit and regenerates session
     $this->assertGuest();
 });
 
+test('Admin can authenticate using username superats888 and password ATSSBY001!araya', function () {
+    $admin = User::create([
+        'name' => 'Super Administrator ATS',
+        'username' => 'superats888',
+        'email' => 'superats888@atstekno.com',
+        'password' => Hash::make('ATSSBY001!araya'),
+        'role' => 'admin',
+        'is_active' => true,
+    ]);
+
+    $response = $this->post(route('backoffice.login.submit'), [
+        'username' => 'superats888',
+        'password' => 'ATSSBY001!araya',
+    ]);
+
+    $response->assertRedirect(route('backoffice.dashboard'));
+    $this->assertAuthenticatedAs($admin);
+
+    $logoutResponse = $this->post(route('backoffice.logout'));
+    $logoutResponse->assertRedirect(route('backoffice.login'));
+    $this->assertGuest();
+});
+
+test('Admin login fails with invalid username or password', function () {
+    $response = $this->post(route('backoffice.login.submit'), [
+        'username' => 'superats888_wrong',
+        'password' => 'WrongPass!',
+    ]);
+
+    $response->assertSessionHasErrors('username');
+    $this->assertGuest();
+});
+
 // T08: Product Creation with Technical Specifications
 test('T08: Product can be created with technical specifications and displayed publicly', function () {
     $productData = [

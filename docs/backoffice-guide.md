@@ -8,9 +8,9 @@ Dokumen panduan resmi pengelolaan konten katalog elektrikal, portofolio proyek, 
 
 ### 1.1 URL Masuk (Login)
 - **URL Backoffice:** `http://localhost:8000/backoffice/login` (atau `/backoffice` yang otomatis mengarahkan ke halaman login).
-- **Format Kredensial:** Alamat email staf dan kata sandi (minimal 12 karakter).
+- **Format Kredensial:** Username staf (misal: `superats888`) atau email, dan kata sandi (minimal 12 karakter).
 - **Proteksi Akses:** 
-  - Percobaan login dibatasi maksimal 5 kali per menit per kombinasi email/IP.
+  - Percobaan login dibatasi maksimal 5 kali per menit per kombinasi username/IP.
   - Session login otomatis diregenerasi setelah login berhasil untuk mencegah *session fixation*.
   - Logout wajib menggunakan metode HTTP POST dan otomatis membatalkan token sesi.
 
@@ -19,7 +19,7 @@ Gunakan perintah Artisan CLI untuk membuat akun Admin awal:
 ```bash
 php artisan app:create-admin
 ```
-Perintah ini interaktif dan meminta Nama, Email, dan Password aman tanpa menyimpan password default di repositori publik. Jika akun dengan email tersebut sudah ada, sistem tidak akan menimpa password yang sudah ada tanpa konfirmasi.
+Perintah ini interaktif dan meminta Username (default: `superats888`), Email, Nama, dan Password aman tanpa menyimpan password default di repositori publik. Jika akun dengan email atau username tersebut sudah ada, sistem tidak akan menimpa password yang sudah ada tanpa konfirmasi.
 
 ---
 

@@ -29,25 +29,39 @@ class BackofficeAuthController extends Controller
      */
     public function login(Request $request)
     {
+        $loginInput = $request->input('username') ?? $request->input('email');
+
         $request->validate([
-            'email' => ['required', 'string', 'email'],
+            'username' => ['required_without:email', 'nullable', 'string'],
+            'email' => ['required_without:username', 'nullable', 'string'],
             'password' => ['required', 'string'],
+        ], [
+            'username.required_without' => 'Username wajib diisi.',
+            'email.required_without' => 'Username wajib diisi.',
+            'password.required' => 'Password wajib diisi.',
         ]);
 
-        $throttleKey = Str::transliterate(Str::lower($request->input('email')) . '|' . $request->ip());
+        $errorField = $request->filled('username') ? 'username' : 'email';
+        $throttleKey = Str::transliterate(Str::lower($loginInput) . '|' . $request->ip());
 
         // Max 5 attempts per minute
         if (RateLimiter::tooManyAttempts($throttleKey, 5)) {
             $seconds = RateLimiter::availableIn($throttleKey);
             throw ValidationException::withMessages([
-                'email' => ["Terlalu banyak percobaan login. Silakan coba kembali dalam {$seconds} detik."],
+                $errorField => ["Terlalu banyak percobaan login. Silakan coba kembali dalam {$seconds} detik."],
             ]);
         }
 
-        $credentials = $request->only('email', 'password');
         $remember = $request->boolean('remember');
+        $password = (string) $request->input('password');
 
-        if (Auth::attempt($credentials, $remember)) {
+        // Attempt login via username first, then fallback to email
+        $authenticated = Auth::attempt(['username' => $loginInput, 'password' => $password], $remember);
+        if (!$authenticated) {
+            $authenticated = Auth::attempt(['email' => $loginInput, 'password' => $password], $remember);
+        }
+
+        if ($authenticated) {
             $user = Auth::user();
 
             if (!$user->is_active || !in_array($user->role, ['admin', 'editor', 'cs', 'support'])) {
@@ -58,7 +72,7 @@ class BackofficeAuthController extends Controller
                 RateLimiter::hit($throttleKey);
 
                 throw ValidationException::withMessages([
-                    'email' => ['Akun Anda tidak memiliki izin untuk mengakses backoffice.'],
+                    $errorField => ['Akun Anda tidak memiliki izin untuk mengakses backoffice.'],
                 ]);
             }
 
@@ -77,7 +91,7 @@ class BackofficeAuthController extends Controller
         RateLimiter::hit($throttleKey);
 
         throw ValidationException::withMessages([
-            'email' => ['Email atau password yang Anda masukkan salah.'],
+            $errorField => ['Username atau password yang Anda masukkan salah.'],
         ]);
     }
 

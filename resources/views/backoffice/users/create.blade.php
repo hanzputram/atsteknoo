@@ -26,9 +26,16 @@
         <input type="text" name="name" value="{{ old('name') }}" required placeholder="Contoh: Budi Santoso" class="form-control">
       </div>
 
-      <div class="form-group">
-        <label class="form-label">Alamat Email <span style="color: #DC2626;">*</span></label>
-        <input type="email" name="email" value="{{ old('email') }}" required placeholder="staf@anugerahtamasejati.com" class="form-control">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px;">
+        <div class="form-group">
+          <label class="form-label">Username (Opsional)</label>
+          <input type="text" name="username" value="{{ old('username') }}" placeholder="Contoh: superats888" class="form-control">
+          <span class="form-hint">Digunakan untuk login staf. Huruf, angka, dash, underscore.</span>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Alamat Email <span style="color: #DC2626;">*</span></label>
+          <input type="email" name="email" value="{{ old('email') }}" required placeholder="staf@anugerahtamasejati.com" class="form-control">
+        </div>
       </div>
 
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px;">

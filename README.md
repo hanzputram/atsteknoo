@@ -46,7 +46,7 @@ Gunakan command CLI interaktif untuk membuat akun staf Admin:
 ```bash
 php artisan app:create-admin
 ```
-Masukkan nama, email (misal: `admin@anugerahtamasejati.com`), dan kata sandi aman (minimal 12 karakter).
+Masukkan username (misal: `superats888`), email, nama, dan kata sandi aman (minimal 12 karakter).
 
 ### Langkah 6: Jalankan Server Lokal
 ```bash

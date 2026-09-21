@@ -27,6 +27,7 @@ class UserController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
+            'username' => ['nullable', 'string', 'max:50', 'alpha_dash', 'unique:users,username'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
             'password' => ['required', 'string', 'min:12', 'confirmed'],
             'role' => ['required', 'in:admin,editor,cs,support'],
@@ -35,6 +36,7 @@ class UserController extends Controller
 
         $user = User::create([
             'name' => trim($request->name),
+            'username' => $request->filled('username') ? trim($request->username) : null,
             'email' => strtolower(trim($request->email)),
             'password' => Hash::make($request->password),
             'role' => $request->role,
@@ -42,9 +44,9 @@ class UserController extends Controller
             'email_verified_at' => now(),
         ]);
 
-        AuditLog::log('CREATE', 'User', $user->id, ['email' => $user->email, 'role' => $user->role]);
+        AuditLog::log('CREATE', 'User', $user->id, ['username' => $user->username, 'email' => $user->email, 'role' => $user->role]);
 
-        return redirect()->route('backoffice.users.index')->with('success', "Pengguna '{$user->email}' berhasil ditambahkan.");
+        return redirect()->route('backoffice.users.index')->with('success', "Pengguna '{$user->name}' berhasil ditambahkan.");
     }
 
     public function edit(int $id)
@@ -60,6 +62,7 @@ class UserController extends Controller
 
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
+            'username' => ['nullable', 'string', 'max:50', 'alpha_dash', Rule::unique('users', 'username')->ignore($user->id)],
             'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users', 'email')->ignore($user->id)],
             'password' => ['nullable', 'string', 'min:12', 'confirmed'],
             'role' => ['required', 'in:admin,editor,cs,support'],
@@ -85,6 +88,7 @@ class UserController extends Controller
 
         $payload = [
             'name' => trim($request->name),
+            'username' => $request->filled('username') ? trim($request->username) : null,
             'email' => strtolower(trim($request->email)),
             'role' => $newRole,
             'is_active' => $newActive,
@@ -96,9 +100,9 @@ class UserController extends Controller
 
         $user->update($payload);
 
-        AuditLog::log('UPDATE', 'User', $user->id, ['email' => $user->email, 'role' => $user->role, 'is_active' => $user->is_active]);
+        AuditLog::log('UPDATE', 'User', $user->id, ['username' => $user->username, 'email' => $user->email, 'role' => $user->role, 'is_active' => $user->is_active]);
 
-        return redirect()->route('backoffice.users.index')->with('success', "Data pengguna '{$user->email}' berhasil diperbarui.");
+        return redirect()->route('backoffice.users.index')->with('success', "Data pengguna '{$user->name}' berhasil diperbarui.");
     }
 
     public function destroy(int $id)

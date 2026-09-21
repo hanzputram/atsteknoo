@@ -21,7 +21,8 @@
       <thead>
         <tr>
           <th>Nama Staf</th>
-          <th>Email Login</th>
+          <th>Username</th>
+          <th>Email</th>
           <th style="width: 120px;">Peran (Role)</th>
           <th style="width: 120px;">Status</th>
           <th style="width: 150px;">Dibuat Pada</th>
@@ -43,6 +44,9 @@
                   @endif
                 </div>
               </div>
+            </td>
+            <td>
+              <span style="font-family: monospace; font-size: 13px; font-weight: 600; color: #0F172A;">{{ $u->username ?? '-' }}</span>
             </td>
             <td>
               <span style="font-family: monospace; font-size: 13px; color: #334155;">{{ $u->email }}</span>

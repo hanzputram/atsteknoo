@@ -15,6 +15,7 @@ class CreateAdminCommand extends Command
      * @var string
      */
     protected $signature = 'app:create-admin 
+                            {--username= : Admin username}
                             {--email= : Admin email address}
                             {--password= : Admin password (min 12 characters)}
                             {--name= : Admin full name}';
@@ -33,29 +34,41 @@ class CreateAdminCommand extends Command
     {
         $this->info('=== PT. Anugerah Tama Sejati - Backoffice Administrator Setup ===');
 
+        $username = $this->option('username') ?: $this->ask('Username Administrator', 'superats888');
         $email = $this->option('email') ?: $this->ask('Email Administrator');
         $name = $this->option('name') ?: $this->ask('Nama Administrator', 'Administrator ATS');
 
-        $emailValidator = Validator::make(['email' => $email], [
+        $validator = Validator::make([
+            'username' => $username,
+            'email' => $email,
+        ], [
+            'username' => ['nullable', 'string', 'max:50', 'alpha_dash'],
             'email' => ['required', 'string', 'email', 'max:255'],
         ]);
 
-        if ($emailValidator->fails()) {
-            $this->error('Email tidak valid: ' . $emailValidator->errors()->first('email'));
+        if ($validator->fails()) {
+            $this->error('Validasi gagal: ' . $validator->errors()->first());
             return 1;
         }
 
-        $existingUser = User::where('email', $email)->first();
+        $existingUser = User::where('email', $email)
+            ->when($username, fn($q) => $q->orWhere('username', $username))
+            ->first();
 
         if ($existingUser) {
-            $this->warn("Pengguna dengan email '{$email}' sudah terdaftar.");
+            $this->warn("Pengguna dengan email '{$existingUser->email}' atau username '{$existingUser->username}' sudah terdaftar.");
             if ($existingUser->role === 'admin' && $existingUser->is_active) {
+                if ($username && $existingUser->username !== $username) {
+                    $existingUser->update(['username' => $username]);
+                    $this->info("Username akun diperbarui menjadi '{$username}'.");
+                }
                 $this->info("Akun sudah aktif sebagai Admin. Password tidak ditimpa.");
                 return 0;
             }
 
             if ($this->confirm("Jadikan pengguna ini sebagai Admin aktif tanpa mereset password?")) {
                 $existingUser->update([
+                    'username' => $username ?: $existingUser->username,
                     'role' => 'admin',
                     'is_active' => true,
                 ]);
@@ -88,6 +101,7 @@ class CreateAdminCommand extends Command
 
         $user = User::create([
             'name' => $name,
+            'username' => $username,
             'email' => $email,
             'password' => Hash::make($password),
             'role' => 'admin',
@@ -95,7 +109,7 @@ class CreateAdminCommand extends Command
             'email_verified_at' => now(),
         ]);
 
-        $this->info("Akun Admin '{$user->email}' berhasil dibuat dan aktif.");
+        $this->info("Akun Admin '{$user->username}' ({$user->email}) berhasil dibuat dan aktif.");
         return 0;
     }
 }

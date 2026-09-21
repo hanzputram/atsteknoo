@@ -192,8 +192,8 @@
     <form action="{{ route('backoffice.login.submit') }}" method="POST">
       @csrf
       <div class="form-group">
-        <label class="form-label" for="email">Email Administrator / Editor</label>
-        <input type="email" name="email" id="email" class="form-control" value="{{ old('email') }}" required autofocus autocomplete="username" placeholder="nama@anugerahtamasejati.com">
+        <label class="form-label" for="username">Username Administrator</label>
+        <input type="text" name="username" id="username" class="form-control" value="{{ old('username') }}" required autofocus autocomplete="username" placeholder="superats888">
       </div>
 
       <div class="form-group">
