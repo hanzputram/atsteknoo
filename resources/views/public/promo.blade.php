@@ -1528,7 +1528,7 @@
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;" class="rfq-form-group">
                   <div>
                     <label class="rfq-label">No. WhatsApp / HP <span style="color: #E11D48;">*</span></label>
-                    <input type="tel" name="phone" required placeholder="08123456789" class="rfq-input">
+                    <input type="tel" name="phone" required placeholder="082223332830" class="rfq-input">
                   </div>
                   <div>
                     <label class="rfq-label">Perusahaan / Instansi</label>

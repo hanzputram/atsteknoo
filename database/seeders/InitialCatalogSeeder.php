@@ -46,7 +46,7 @@ class InitialCatalogSeeder extends Seeder
             'company_name' => 'PT. ANUGERAH TAMA SEJATI',
             'company_tagline' => 'Best Electrical Supplier',
             'phone' => '(031) 59178887',
-            'whatsapp' => '081234567890',
+            'whatsapp' => '082223332830',
             'email' => 'sales@atstekno.com',
             'address' => 'Ruko Galaxi Bumi Permai J-1 No. 23, Surabaya, East Java, Indonesia',
             'city' => 'Surabaya',
@@ -135,99 +135,8 @@ class InitialCatalogSeeder extends Seeder
             );
         }
 
-        // 5. Products (Sample genuine electrical catalog without sales/price fields)
-        $productsData = [
-            [
-                'sku' => 'SE-MTZ1-08H1',
-                'name' => 'Schneider MasterPact MTZ1 08 H1 Air Circuit Breaker (ACB)',
-                'slug' => 'schneider-masterpact-mtz1-08h1-acb',
-                'short_description' => 'Air Circuit Breaker (ACB) 800A 3-Pole 42kA with Micrologic 2.0X trip unit.',
-                'description_html' => '<p>MasterPact MTZ1 embeds advanced class 1 metering and digital connectivity into standard low-voltage main switchboard applications. Designed to optimize uptime and electrical safety.</p>',
-                'brand_code' => 'SE',
-                'category_code' => 'DISTRIBUTION',
-                'specs' => [
-                    ['attribute_code' => 'rated_current', 'label' => 'Rated Current (In)', 'value' => '800', 'unit' => 'A', 'group' => 'Electrical'],
-                    ['attribute_code' => 'number_of_poles', 'label' => 'Number of Poles', 'value' => '3P', 'unit' => null, 'group' => 'Mechanical'],
-                    ['attribute_code' => 'breaking_capacity', 'label' => 'Breaking Capacity (Icu)', 'value' => '42', 'unit' => 'kA at 415V', 'group' => 'Electrical'],
-                    ['attribute_code' => 'trip_unit', 'label' => 'Trip Unit Model', 'value' => 'Micrologic 2.0X', 'unit' => null, 'group' => 'Protection'],
-                    ['attribute_code' => 'standard', 'label' => 'Standard Certification', 'value' => 'IEC 60947-2', 'unit' => null, 'group' => 'Compliance'],
-                ],
-            ],
-            [
-                'sku' => 'SE-NSX100F-TM80D',
-                'name' => 'Schneider ComPact NSX100F 80A 3P 36kA MCCB',
-                'slug' => 'schneider-compact-nsx100f-80a-3p-36ka-mccb',
-                'short_description' => 'Molded Case Circuit Breaker (MCCB) 80A 3-Pole 36kA with TM-D thermal-magnetic trip unit.',
-                'description_html' => '<p>ComPact NSX100F is a complete circuit breaker optimized for industrial feeder protection, switchboard sub-distribution, and motor feeders.</p>',
-                'brand_code' => 'SE',
-                'category_code' => 'DISTRIBUTION',
-                'specs' => [
-                    ['attribute_code' => 'rated_current', 'label' => 'Rated Current (In)', 'value' => '80', 'unit' => 'A', 'group' => 'Electrical'],
-                    ['attribute_code' => 'number_of_poles', 'label' => 'Number of Poles', 'value' => '3P 3D', 'unit' => null, 'group' => 'Mechanical'],
-                    ['attribute_code' => 'breaking_capacity', 'label' => 'Breaking Capacity (Icu)', 'value' => '36', 'unit' => 'kA at 415V', 'group' => 'Electrical'],
-                    ['attribute_code' => 'trip_unit', 'label' => 'Trip Unit', 'value' => 'TM-D Thermal Magnetic', 'unit' => null, 'group' => 'Protection'],
-                ],
-            ],
-            [
-                'sku' => 'SE-ATV630U55N4',
-                'name' => 'Schneider Altivar Process ATV630 5.5kW Variable Speed Drive',
-                'slug' => 'schneider-altivar-process-atv630-5kw-vfd',
-                'short_description' => 'Variable Speed Drive (VFD/Inverter) 5.5kW / 7.5HP 380-480V 3-Phase for pumps and fans.',
-                'description_html' => '<p>Altivar Process ATV630 variable speed drive focuses on fluid management processing and energy efficiency. Built-in Ethernet dual port and embedded web server.</p>',
-                'brand_code' => 'SE',
-                'category_code' => 'AUTOMATION',
-                'specs' => [
-                    ['attribute_code' => 'motor_power', 'label' => 'Motor Power', 'value' => '5.5', 'unit' => 'kW', 'group' => 'Rating'],
-                    ['attribute_code' => 'supply_voltage', 'label' => 'Supply Voltage', 'value' => '380 - 480', 'unit' => 'V AC', 'group' => 'Electrical'],
-                    ['attribute_code' => 'nominal_output_current', 'label' => 'Nominal Output Current', 'value' => '12.7', 'unit' => 'A', 'group' => 'Electrical'],
-                    ['attribute_code' => 'ip_degree', 'label' => 'IP Degree of Protection', 'value' => 'IP21', 'unit' => null, 'group' => 'Physical'],
-                ],
-            ],
-            [
-                'sku' => 'SE-LC1D25M7',
-                'name' => 'Schneider TeSys D Contactor LC1D25 25A 220V AC',
-                'slug' => 'schneider-tesys-d-contactor-lc1d25m7',
-                'short_description' => '3-Pole Magnetic Contactor 25A AC-3 11kW with 220V AC 50/60Hz control coil.',
-                'description_html' => '<p>TeSys D contactor combines high reliability with mechanical robustness, offering 1 NO + 1 NC auxiliary contacts built-in.</p>',
-                'brand_code' => 'SE',
-                'category_code' => 'MOTOR-CTRL',
-                'specs' => [
-                    ['attribute_code' => 'rated_current_ac3', 'label' => 'Rated Current (AC-3)', 'value' => '25', 'unit' => 'A', 'group' => 'Electrical'],
-                    ['attribute_code' => 'coil_voltage', 'label' => 'Control Coil Voltage', 'value' => '220', 'unit' => 'V AC 50/60Hz', 'group' => 'Control'],
-                    ['attribute_code' => 'motor_power_kw', 'label' => 'Motor Power at 400V', 'value' => '11', 'unit' => 'kW', 'group' => 'Rating'],
-                    ['attribute_code' => 'aux_contacts', 'label' => 'Auxiliary Contacts', 'value' => '1 NO + 1 NC', 'unit' => null, 'group' => 'Mechanical'],
-                ],
-            ],
-            [
-                'sku' => 'LEG-001924',
-                'name' => 'Legrand Plexo™ Weatherproof Enclosure IP66 12 Modules',
-                'slug' => 'legrand-plexo-weatherproof-enclosure-ip66-12-modules',
-                'short_description' => 'Surface mounting industrial IP66 weatherproof enclosure box for 12 DIN rail modules.',
-                'description_html' => '<p>Plexo modular industrial enclosure boxes withstand tough weather, dust, and humid atmospheres with self-extinguishing polystyrene construction.</p>',
-                'brand_code' => 'LEGRAND',
-                'category_code' => 'CABLE-MGMT',
-                'specs' => [
-                    ['attribute_code' => 'ip_rating', 'label' => 'Ingress Protection', 'value' => 'IP66', 'unit' => null, 'group' => 'Enclosure'],
-                    ['attribute_code' => 'ik_rating', 'label' => 'Impact Resistance', 'value' => 'IK09', 'unit' => null, 'group' => 'Enclosure'],
-                    ['attribute_code' => 'capacity', 'label' => 'Module Capacity', 'value' => '12', 'unit' => 'Modules (1 Row)', 'group' => 'Dimensions'],
-                    ['attribute_code' => 'material', 'label' => 'Body Material', 'value' => 'Self-extinguishing Polystyrene', 'unit' => null, 'group' => 'Material'],
-                ],
-            ],
-            [
-                'sku' => 'GAE-EM-3000',
-                'name' => 'GAE Digital Power Meter EM-3000 Multifunction Analyzer',
-                'slug' => 'gae-digital-power-meter-em3000',
-                'short_description' => 'Class 0.5S digital 3-phase multifunction energy meter with RS485 Modbus RTU.',
-                'description_html' => '<p>GAE EM-3000 delivers true RMS measurement of voltage, current, active power, reactive power, power factor, frequency, and total harmonic distortion (THD).</p>',
-                'brand_code' => 'GAE',
-                'category_code' => 'MONITORING',
-                'specs' => [
-                    ['attribute_code' => 'accuracy_class', 'label' => 'Active Energy Accuracy', 'value' => 'Class 0.5S', 'unit' => null, 'group' => 'Metering'],
-                    ['attribute_code' => 'communication', 'label' => 'Communication Interface', 'value' => 'RS-485 Modbus RTU', 'unit' => null, 'group' => 'Connectivity'],
-                    ['attribute_code' => 'measurement_range', 'label' => 'Input Voltage Range', 'value' => '50 - 480', 'unit' => 'V AC (L-L)', 'group' => 'Electrical'],
-                ],
-            ],
-        ];
+        // 5. Products (Managed via Backoffice / Importer)
+        $productsData = [];
 
         foreach ($productsData as $pData) {
             $brand = $brandModels[$pData['brand_code']] ?? null;
@@ -268,48 +177,10 @@ class InitialCatalogSeeder extends Seeder
             }
         }
 
-        // 6. Project Categories & Projects
-        $projCat1 = ProjectCategory::updateOrCreate(['code' => 'SUBSTATION'], ['name' => 'Substation & Main Switchboard', 'slug' => 'substation-main-switchboard']);
-        $projCat2 = ProjectCategory::updateOrCreate(['code' => 'COLDSTORAGE'], ['name' => 'Cold Storage & HVAC Automation', 'slug' => 'cold-storage-hvac-automation']);
-        $projCat3 = ProjectCategory::updateOrCreate(['code' => 'FACTORY'], ['name' => 'Industrial Manufacturing Plant', 'slug' => 'industrial-manufacturing-plant']);
-
-        Project::updateOrCreate(
-            ['project_code' => 'PRJ-SUB-2500A'],
-            [
-                'title' => '2500A Low Voltage Main Distribution Panel (LVMDP) Substation',
-                'slug' => '2500a-low-voltage-main-distribution-panel-substation',
-                'summary' => 'Engineering assembly and component supply of dual-incomer 2500A Schneider MasterPact MTZ Air Circuit Breakers.',
-                'content_html' => '<p>Supply and integration of primary distribution switchboard for a heavy industrial plant in East Java. Fitted with Schneider MasterPact MTZ ACB, busbar sizing, and GAE power quality analyzer metering.</p>',
-                'category_id' => $projCat1->id,
-                'location' => 'Gresik, East Java',
-                'completion_year' => '2024',
-                'scope_of_work' => 'Component Supply, Technical BoQ Consultation, Busbar Coordination',
-                'status' => 'published',
-                'published_at' => now(),
-                'is_featured' => true,
-                'created_by' => $adminId,
-                'updated_by' => $adminId,
-            ]
-        );
-
-        Project::updateOrCreate(
-            ['project_code' => 'PRJ-COLD-01'],
-            [
-                'title' => 'Cold Storage Precision Temperature & Motor Control Center (MCC)',
-                'slug' => 'cold-storage-precision-temperature-motor-control-center',
-                'summary' => 'Multi-compressor motor control center utilizing Schneider Altivar ATV630 VFDs and TeSys D contactors.',
-                'content_html' => '<p>Turnkey motor management system for seafood cold storage facility in Surabaya. Ensured seamless inverter speed modulation, energy conservation, and automated backup switching.</p>',
-                'category_id' => $projCat2->id,
-                'location' => 'Surabaya, East Java',
-                'completion_year' => '2025',
-                'scope_of_work' => 'MCC Panel Supply, VFD Inverter Tuning, Harmonics Filtration',
-                'status' => 'published',
-                'published_at' => now(),
-                'is_featured' => true,
-                'created_by' => $adminId,
-                'updated_by' => $adminId,
-            ]
-        );
+        // 6. Project Categories
+        ProjectCategory::updateOrCreate(['code' => 'SUBSTATION'], ['name' => 'Substation & Main Switchboard', 'slug' => 'substation-main-switchboard']);
+        ProjectCategory::updateOrCreate(['code' => 'COLDSTORAGE'], ['name' => 'Cold Storage & HVAC Automation', 'slug' => 'cold-storage-hvac-automation']);
+        ProjectCategory::updateOrCreate(['code' => 'FACTORY'], ['name' => 'Industrial Manufacturing Plant', 'slug' => 'industrial-manufacturing-plant']);
 
         // 7. Article Categories & Articles
         $artCat = ArticleCategory::updateOrCreate(['code' => 'TECH-GUIDE'], ['name' => 'Technical Engineering Guides', 'slug' => 'technical-engineering-guides']);

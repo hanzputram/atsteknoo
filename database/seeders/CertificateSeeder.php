@@ -53,7 +53,7 @@ class CertificateSeeder extends Seeder
             'company_profile_pdf'         => asset('uploads/compro/ats-company-profile-2026.pdf'),
             'company_profile_size'        => '1.8 MB',
             'company_profile_thumbnail'   => asset('images/documents/compro-cover.jpg'),
-            'company_profile_drive_url'   => 'https://drive.google.com/file/d/1ats_corporate_profile_2026_demo/view',
+            'company_profile_drive_url'   => null,
             'company_profile_description' => 'Dokumen profil resmi mencakup legalitas lengkap, otorisasi distributor resmi global (Schneider Electric, Legrand, GAE, Socomec), rekam jejak suplai proyek industri, dan kesiapan persediaan gudang Surabaya.',
             
             // ATS Panel Project Reference Document
@@ -62,7 +62,7 @@ class CertificateSeeder extends Seeder
             'panel_project_doc_pdf'         => asset('documents/ATS_Panel_Project_Reference.pdf'),
             'panel_project_doc_size'        => '2.4 MB',
             'panel_project_doc_thumbnail'   => asset('images/documents/panel-project-cover.jpg'),
-            'panel_project_doc_drive_url'   => 'https://drive.google.com/file/d/1ats_panel_project_reference_2026_demo/view',
+            'panel_project_doc_drive_url'   => null,
             'panel_project_doc_description' => 'Dokumen portofolio fabrikasi Low Voltage Main Distribution Panel (LVMDP), Motor Control Center (MCC), Capacitor Bank, Synchronizing Panel, serta instalasi proteksi elektrikal industri terkemuka.',
 
             'company_vision'              => 'PT. Anugerah Tama Sejati is a creative, innovative, trusted and to be a mainstay for our customer. And to become a healthy and growing company for our employees.',

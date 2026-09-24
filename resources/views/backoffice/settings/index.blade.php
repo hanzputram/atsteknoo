@@ -47,7 +47,7 @@
                 </div>
                 <div class="form-group" style="margin-bottom: 0;">
                     <label class="form-label">WhatsApp Konsultasi Cepat</label>
-                    <input type="text" name="whatsapp" value="{{ old('whatsapp', $settings['whatsapp'] ?? '081234567890') }}" class="form-control" style="font-family: monospace;">
+                    <input type="text" name="whatsapp" value="{{ old('whatsapp', $settings['whatsapp'] ?? '082223332830') }}" class="form-control" style="font-family: monospace;">
                 </div>
                 <div class="form-group" style="margin-bottom: 0;">
                     <label class="form-label">Email Resmi Perusahaan</label>

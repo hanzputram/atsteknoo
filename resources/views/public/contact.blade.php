@@ -234,9 +234,9 @@
                                         </svg>
                                     </div>
                                     <input type="text" name="phone" value="{{ old('phone') }}"
-                                           data-i18n-placeholder-en="+62 812 3456 7890"
-                                           data-i18n-placeholder-id="Contoh: 0812 3456 7890"
-                                           placeholder="+62 812 3456 7890"
+                                           data-i18n-placeholder-en="+62 822 2333 2830"
+                                           data-i18n-placeholder-id="Contoh: 0822 2333 2830"
+                                           placeholder="+62 822 2333 2830"
                                            class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200/90 focus:ring-4 focus:ring-rose-500/10 focus:border-rose-500 text-sm font-mono text-slate-800 transition bg-slate-50/50 hover:bg-white focus:bg-white">
                                 </div>
                             </div>

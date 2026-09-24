@@ -22,6 +22,9 @@ class PromoController extends Controller
 
         // Formatted WhatsApp number for api.whatsapp.com (e.g. 6282223332830)
         $rawWa = $settings['whatsapp'] ?? '082223332830';
+        if (in_array(trim((string)$rawWa), ['081234567890', '6281234567890', '+6281234567890', ''])) {
+            $rawWa = '082223332830';
+        }
         $cleanWa = preg_replace('/[^0-9]/', '', $rawWa);
         if (str_starts_with($cleanWa, '0')) {
             $cleanWa = '62' . substr($cleanWa, 1);
@@ -256,6 +259,9 @@ class PromoController extends Controller
 
         // Pre-build WhatsApp URL for optional instant transition
         $rawWa = SiteSetting::where('key', 'whatsapp')->value('value') ?? '082223332830';
+        if (in_array(trim((string)$rawWa), ['081234567890', '6281234567890', '+6281234567890', ''])) {
+            $rawWa = '082223332830';
+        }
         $cleanWa = preg_replace('/[^0-9]/', '', $rawWa);
         if (str_starts_with($cleanWa, '0')) {
             $cleanWa = '62' . substr($cleanWa, 1);

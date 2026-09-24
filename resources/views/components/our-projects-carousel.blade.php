@@ -112,10 +112,10 @@
     <div class="p3d-modal-hero">
       <img src="" alt="Project Preview" id="p3dModalImg" class="p3d-modal-hero-img">
       <div class="p3d-modal-hero-scrim"></div>
-      <div class="p3d-modal-hero-badge" id="p3dModalBadge">Commercial Substation</div>
+      <div class="p3d-modal-hero-badge" id="p3dModalBadge">Panel Maker Project</div>
       <div class="p3d-modal-hero-titles">
-        <div class="p3d-modal-hero-meta" id="p3dModalMeta">📍 Surabaya • 2024</div>
-        <h2 class="p3d-modal-hero-h2" id="p3dModalTitle">Project Name</h2>
+        <div class="p3d-modal-hero-meta" id="p3dModalMeta">📍 Surabaya</div>
+        <h2 class="p3d-modal-hero-h2" id="p3dModalTitle">Portofolio Fabrikasi Panel Listrik</h2>
       </div>
     </div>
 
@@ -125,7 +125,7 @@
         <!-- Left Column: Scope & Solution -->
         <div class="p3d-modal-info-col">
           <div class="p3d-modal-sec-title">Project Overview &amp; Technical Scope</div>
-          <p class="p3d-modal-desc" id="p3dModalDesc">Project details...</p>
+          <p class="p3d-modal-desc" id="p3dModalDesc">Rincian spesifikasi teknis dan lingkup pekerjaan perakitan panel listrik PT. Anugerah Tama Sejati.</p>
 
           <div class="p3d-modal-highlight-box">
             <div class="p3d-highlight-icon">⚡</div>

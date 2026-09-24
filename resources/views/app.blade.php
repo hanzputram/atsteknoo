@@ -2000,7 +2000,7 @@
       @include('components.curved-walking-text')
 
       <!-- ================= OUR PRODUCT SECTION (SESUAI MOCKUP FIGMA) ================= -->
-      @include('components.our-products', ['bestSellerProducts' => $featuredProducts])
+      @include('components.our-products', ['bestSellerProducts' => $featuredProducts ?? []])
 
       <!-- 4-Column Feature Highlights (Upgraded State of the Art) -->
       <section class="features-grid">
@@ -2125,7 +2125,7 @@
       </div>
       <div class="modal-body">
         <div class="product-catalog-grid">
-          @forelse($featuredProducts as $item)
+          @forelse(($featuredProducts ?? []) as $item)
             @php
               $brandName = $item->brand ? $item->brand->name : 'ATS Tekno';
               $badgeStyle = '';
