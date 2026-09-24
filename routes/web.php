@@ -57,13 +57,19 @@ Route::get('/clear-app-cache/{secret}', function ($secret) {
     if ($secret !== 'ats-tekno-deploy-2026') {
         abort(403);
     }
+    
+    $gitOutput = 'shell_exec not available';
+    if (function_exists('shell_exec')) {
+        $gitOutput = shell_exec('git pull origin main 2>&1') ?: 'git pull ran (empty output)';
+    }
+
     \Illuminate\Support\Facades\Artisan::call('view:clear');
     \Illuminate\Support\Facades\Artisan::call('route:clear');
     \Illuminate\Support\Facades\Artisan::call('config:clear');
     \Illuminate\Support\Facades\Artisan::call('cache:clear');
     \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
     $migrateOutput = \Illuminate\Support\Facades\Artisan::output();
-    return response("Deployment sync successful:\n- Cache cleared: views, routes, config, cache\n- Migrations:\n" . $migrateOutput, 200)
+    return response("Deployment sync successful:\n- Git:\n" . $gitOutput . "\n- Cache cleared: views, routes, config, cache\n- Migrations:\n" . $migrateOutput, 200)
         ->header('Content-Type', 'text/plain; charset=UTF-8');
 });
 
