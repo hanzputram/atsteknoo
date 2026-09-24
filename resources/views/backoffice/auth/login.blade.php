@@ -193,12 +193,12 @@
       @csrf
       <div class="form-group">
         <label class="form-label" for="username">Username Administrator</label>
-        <input type="text" name="username" id="username" class="form-control" value="{{ old('username') }}" required autofocus autocomplete="username" placeholder="superats888">
+        <input type="text" name="username" id="username" class="form-control" value="{{ old('username') }}" required autofocus autocomplete="username" placeholder="username">
       </div>
 
       <div class="form-group">
         <label class="form-label" for="password">Password</label>
-        <input type="password" name="password" id="password" class="form-control" required autocomplete="current-password" placeholder="••••••••••••">
+        <input type="password" name="password" id="password" class="form-control" required autocomplete="current-password" placeholder="password">
       </div>
 
       <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; font-size: 13px;">
