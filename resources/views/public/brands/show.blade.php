@@ -5,22 +5,26 @@
 
     // Page Title
     if ($isSchneider) {
-        $brandTitle = 'Supplier Schneider Electric Surabaya | ATS Tekno';
+        $brandTitle = 'Distributor Schneider Electric Surabaya Resmi | ATS Tekno';
     } elseif ($brand->meta_title) {
         $brandTitle = preg_replace('/\s*\|\s*(PT\.?\s*Anugerah\s*Tama\s*Sejati|ATS\s*Tekno).*$/i', '', $brand->meta_title);
         $brandTitle = trim($brandTitle) . ' | ATS Tekno';
     } else {
-        $brandTitle = "Supplier {$brand->name} Surabaya | ATS Tekno";
+        $brandTitle = "Distributor {$brand->name} Surabaya | ATS Tekno";
     }
 
     // H1 Heading
     if ($isSchneider) {
-        $brandH1 = 'Supplier Schneider Electric di Surabaya';
+        $brandH1 = 'Distributor Resmi Schneider Electric di Surabaya';
     } else {
-        $brandH1 = "Supplier {$brand->name} di Surabaya";
+        $brandH1 = "Distributor Resmi {$brand->name} di Surabaya";
     }
 
-    $rawDesc = $brand->meta_description ?: ('Katalog resmi dan spesifikasi teknis komponen elektrikal industri ' . $brand->name . ' dari distributor resmi PT. Anugerah Tama Sejati di Surabaya.');
+    if ($isSchneider) {
+        $rawDesc = 'Distributor resmi Schneider Electric di Surabaya & Jawa Timur. Ready stock MCB, MCCB, ACB MasterPact, Kontaktor TeSys, Inverter Altivar, dan perakitan panel listrik bergaransi resmi PT. ATS.';
+    } else {
+        $rawDesc = $brand->meta_description ?: ('Katalog resmi dan spesifikasi teknis komponen elektrikal industri ' . $brand->name . ' dari distributor resmi PT. Anugerah Tama Sejati di Surabaya.');
+    }
     $cleanDesc = \App\Support\TextSanitizer::cleanDescription($rawDesc);
 
     $brandSchema = [

@@ -740,6 +740,12 @@
           <div class="ats-ft-col-header" data-i18n="footer.col2_header">Product Catalog</div>
           <ul class="ats-ft-nav-list">
             <li class="ats-ft-nav-item">
+              <a href="{{ route('brands.show', 'schneider-electric') }}">
+                <span class="ats-lang-en">Schneider Electric Distributor</span>
+                <span class="ats-lang-id">Distributor Schneider Electric Surabaya</span>
+              </a>
+            </li>
+            <li class="ats-ft-nav-item">
               <a href="{{ route('products.index') }}">
                 <span class="ats-lang-en">All Products &amp; Catalog</span>
                 <span class="ats-lang-id">Semua Produk &amp; Katalog</span>

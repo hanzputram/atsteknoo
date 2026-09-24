@@ -24,8 +24,8 @@
       // Hero
       "hero.brand_tag": "ELECTRICAL SUPPLIER",
       "hero.eyebrow": "AUTHORIZED SCHNEIDER ELECTRIC DISTRIBUTOR SURABAYA",
-      "hero.headline": "Electrical Supplier & Switchboard Panel Builder in Surabaya",
-      "hero.subheadline": "Reliable industrial electrical components and certified switchboard manufacturing with ready stock and engineering support.",
+      "hero.headline": "Authorized Schneider Electric Distributor & Switchboard Panel Builder in Surabaya",
+      "hero.subheadline": "Official Schneider Electric, GAE, and Legrand distributor in Surabaya. Supplying genuine electrical components with ready stock warehouse & certified panel manufacturing.",
       "hero.btn_products": "Product Catalog",
       "hero.btn_panel": "Contact Us",
       "hero.btn_product_list": "Product Catalog",
@@ -188,10 +188,10 @@
       "nav.contact": "HUBUNGI KAMI",
 
       // Hero
-      "hero.brand_tag": "SUPPLIER ELEKTRIKAL",
+      "hero.brand_tag": "DISTRIBUTOR RESMI",
       "hero.eyebrow": "DISTRIBUTOR RESMI SCHNEIDER ELECTRIC SURABAYA",
-      "hero.headline": "Supplier Electrical dan Jasa Panel Listrik di Surabaya",
-      "hero.subheadline": "Pengadaan komponen elektrikal original dan perakitan panel listrik bersertifikat dengan ready stock serta dukungan teknis berpengalaman.",
+      "hero.headline": "Distributor Resmi Schneider Electric & Panel Maker di Surabaya",
+      "hero.subheadline": "Distributor resmi Schneider Electric, GAE, dan Legrand di Surabaya. Menyediakan komponen elektrikal original ready stock gudang & perakitan panel listrik bergaransi.",
       "hero.btn_products": "Lihat Katalog Produk",
       "hero.btn_panel": "Konsultasi Panel Listrik",
       "hero.btn_product_list": "Lihat Katalog Produk",

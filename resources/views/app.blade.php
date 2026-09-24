@@ -50,11 +50,11 @@
 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Supplier Electrical &amp; Panel Listrik Surabaya | ATS Tekno</title>
+  <title>Distributor Schneider Electric Surabaya Resmi | ATS Tekno</title>
   <meta name="description"
-    content="ATS Tekno menyediakan komponen elektrikal dan jasa pembuatan panel listrik di Surabaya. Lihat katalog produk dan konsultasikan kebutuhan proyek Anda.">
+    content="Distributor Resmi Schneider Electric di Surabaya &amp; Jawa Timur. Ready stock MCB, MCCB, ACB MasterPact, Kontaktor TeSys, Inverter Altivar, dan panel maker resmi PT. ATS.">
   <meta name="keywords"
-    content="supplier electrical surabaya, jasa pembuatan panel listrik surabaya, distributor schneider surabaya, panel maker surabaya, pt anugerah tama sejati">
+    content="distributor schneider surabaya, distributor schneider electric surabaya, distributor resmi schneider surabaya, supplier schneider surabaya, supplier electrical surabaya, panel maker surabaya, pt anugerah tama sejati">
 
   <!-- Official ATS Brand Favicon (Base64 Instant Data URI + Root-Relative Fallbacks) -->
   <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAFAklEQVR42r2XX4hUVRzHP797rs3uzpqzWv7BWKgtNAR9MFy1UDMtFrElZPAx7KUe8rVI0KFESZAgKqKXEhKDrYeQzKAyzSwxi6j2QTStlFIZc3fWNWfvPefXw/zuOq3ruOLWgcude+fe8/uez/n9u3DzQwDHOI2xTBQBCjwJ3AGctGtX999/OgTIAfuA34D9wPLxIuLG8H8AFgOrgduBucBU4D4TdsIoZELGlUhs583A98AQkAAlwJuxT4DH6omUalszbvibgI+Bn8zgMWC7kUnsngJfAI9nL2rt3XFx0GXAEeCMGdoBfGa/UzsyGirw9cyrPhKNB/4twLe2Wg9sBCp1K8+OVIzI+8gFhUIJolsl0QzsBX4wI73AtrrVDwuI7DwDqoqoIttsK9yNYrwR/kVAGzDFrg8B8xtNtBomACGB9Qr3AEEbbEXUwPkAHrXzdMN/EugcLYSDndcgAugEaE6RrXI1RG9KQArkgXnAbeYPvZYHWk3MvyYJwEzQB0EDOA8+grVDsEjAX28rogb4FwOTgDvt+iCwoNEk3SB5kCw2I0CQ7TfrAxmulTbPDCNyQ/wtsAn429XC0aXgY1icQrERhdGMt5r3HzURRy0bXuP9WQ5w8EfN6+UtRXQISRPEKxJS5IRCk44SltF1iDwETLScD/ClRcRoIwPwkQBn0M1epOKiKAIkheCgI4FnpfasG0vy2W57nlr+Xw9cGiX5aF0WXBkDOMcQPK+giYvTJHLBIz5F/hqAqUYhaoT/dsN/xCY+DLzYCD9wZu7cuXlVdQCnli5tSjvu/TOAJhCSyCXqYk2Q1xslp+zmKkP+u03+8ojcXy8gATSO47eHi5DqCq/6lVarVb9zp08XLtQEQgo+lWjoyuTJ96uqjEYhw/+KNR0pUAWeAQYb4A/AA6o6K03TD7RuhOzYs0fTrq5EQYfgw9EoZPgnWX0/bAYOUgstHVF6VUSCiGg+nz9//PjxN7z3g6qq3nuvqmnwXkOSaPBeQ02P94cOVXXdOk2WLHkCEbRYdPX4xer5fmu9FHjpevidcwpod3e39vf369mzZ7VaraaqGkIIOnx4r5okiYaQgflR9+17RFVFVaP6fVDr9TxwF3DFhCweLfmo1jqvzs5OTp8+nfb19emlS5dcCEFEJHsmKATiOEakn2p1Azt2LJDlyz8HEJEQ28q94Z9lJTgCvrEs2Gyrj4f3S4QQAoVCgfb2ds6dOxcXCgVyuRxxHNPa2qpRFHkRyd55D9goTU2/mLBIRELmeJEJWGVN5nR7aR/w8AgfGRagqsyePRsR0YsXL4pzjjiO1Tnnc7lcnMvlYusjNojIXjMcAz4zXp/5xAikwN2G/xSwsBH+jo4O+vr6GBgYoFKp+EqlokA8ODh4MUmS54BOEdmrqs5WnYqIjgw9bwLetFVvtUZ0Xq2+UKXWZET1q29ubqZQKFAul2lra0vz+XxcrVYpl8vvDg4ObpoyZcqvJtaJiL9R6s2ahmPAGqsDTwHn6+pBJjQCmDZtGkmSpJVKJW5tbY37+/u/A15YsWLFpyNw+7HkfupKOMAA8Cqwy4Q8bVuTCaFQKMjly5djEblQLpe37N69+7UDBw6kPT09rre3V0UkvdXvgfoQnWgZ8WdLvTp//nzt6up6p1gstmcP9fT0jNtHa72QeASxtS0tLbvmzJmzLLtZKpXi/+MD9RojxWLRlUqlW/oM+wfnQXGspT2xvgAAAABJRU5ErkJggg==">
@@ -78,8 +78,8 @@
   <link rel="alternate" hreflang="id" href="{{ url('/') }}">
   <link rel="alternate" hreflang="x-default" href="{{ url('/') }}">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Supplier Electrical &amp; Panel Listrik Surabaya | ATS Tekno">
-  <meta property="og:description" content="ATS Tekno menyediakan komponen elektrikal dan jasa pembuatan panel listrik di Surabaya. Lihat katalog produk dan konsultasikan kebutuhan proyek Anda.">
+  <meta property="og:title" content="Distributor Schneider Electric Surabaya Resmi | ATS Tekno">
+  <meta property="og:description" content="Distributor Resmi Schneider Electric di Surabaya &amp; Jawa Timur. Ready stock MCB, MCCB, ACB MasterPact, Kontaktor TeSys, Inverter Altivar, dan panel maker resmi PT. ATS.">
   <meta property="og:url" content="{{ url('/') }}">
   <meta property="og:site_name" content="PT. Anugerah Tama Sejati">
   <meta property="og:locale" content="id_ID">
@@ -87,8 +87,8 @@
 
   <!-- Twitter Card SEO -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Supplier Electrical &amp; Panel Listrik Surabaya | ATS Tekno">
-  <meta name="twitter:description" content="ATS Tekno menyediakan komponen elektrikal dan jasa pembuatan panel listrik di Surabaya. Lihat katalog produk dan konsultasikan kebutuhan proyek Anda.">
+  <meta name="twitter:title" content="Distributor Schneider Electric Surabaya Resmi | ATS Tekno">
+  <meta name="twitter:description" content="Distributor Resmi Schneider Electric di Surabaya &amp; Jawa Timur. Ready stock MCB, MCCB, ACB MasterPact, Kontaktor TeSys, Inverter Altivar, dan panel maker resmi PT. ATS.">
 
   <!-- Schema.org JSON-LD: LocalBusiness, Electrical Wholesale Supplier & Certified Panel Maker -->
   <script type="application/ld+json">
@@ -99,6 +99,9 @@
     "@id": "{{ url('/#organization') }}",
     "name": "PT. Anugerah Tama Sejati (ATS Tekno)",
     "alternateName": [
+      "Distributor Schneider Electric Surabaya",
+      "Distributor Resmi Schneider Surabaya",
+      "Schneider Electric Authorized Partner Surabaya",
       "ATS Tekno",
       "PT ATS",
       "PT Anugerah Tama Sejati"
@@ -106,7 +109,7 @@
     "url": "{{ url('/') }}",
     "logo": "{{ asset('images/ats-logo.png') }}",
     "image": "{{ asset('images/ats-logo.png') }}",
-    "description": "Electrical supplier and certified switchboard panel builder in Surabaya. Authorized dealer for Schneider Electric, GAE, and Legrand, providing industrial electrical components and panel fabrication since 2019.",
+    "description": "Distributor Resmi Schneider Electric, GAE, dan Legrand di Surabaya. Menyediakan komponen elektrikal industri original ready stock ribuan SKU dan fabrikasi perakitan panel switchboard bersertifikat sejak 2019.",
     "foundingDate": "2019",
     "telephone": "+62-31-59178887",
     "email": "sales@atstekno.com",
@@ -208,6 +211,48 @@
       "target": "{{ url('/products') }}?search={search_term_string}",
       "query-input": "required name=search_term_string"
     }
+  }
+  </script>
+
+  <!-- Schema.org JSON-LD: FAQPage for Google Rich Snippets & SERP Authority -->
+  <script type="application/ld+json">
+  {
+    "@@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Apakah PT Anugerah Tama Sejati (ATS Tekno) distributor resmi Schneider Electric di Surabaya?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Ya, PT. Anugerah Tama Sejati (ATS Tekno) adalah Distributor Resmi dan Authorized Partner Schneider Electric di Surabaya, Jawa Timur. Seluruh produk bergaransi resmi pabrikan dan dilengkapi Certificate of Origin (COO)."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Produk Schneider Electric apa saja yang ready stock di ATS Tekno Surabaya?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "ATS Tekno memiliki warehouse ready stock ribuan SKU Schneider Electric di Surabaya, meliputi MCB Domae/Acti9, MCCB Compact NSX/CVS, ACB MasterPact MTZ/NT/NW, Kontaktor & Thermal Overload TeSys, Inverter Altivar ATV310/ATV630, Power Meter PM5000, Push Button & Pilot Light Harmony, serta Box Panel Pragma/Kaedra."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Di mana alamat kantor dan showroom distributor Schneider ATS Tekno di Surabaya?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Head Office ATS Tekno berlokasi di Ruko Galaxi Bumi Permai J-1 No. 23, Surabaya (Telp: 031-59178887). Kami juga memiliki Showroom Surabaya di Jl. Jagalan No. 38 (Telp: 031-99909120) dan Cabang Showroom Pandaan di The Taman Dayu Palazio Boulevard J-1 No. 06, Pasuruan."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Apakah ATS Tekno juga melayani perakitan panel listrik Schneider (Certified Panel Maker)?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Ya, ATS Tekno adalah Certified Panel Builder di Surabaya yang melayani perakitan panel LVMDP, Cap Bank, ATS-AMF, MCC, VFD Inverter, dan Synchronizing menggunakan komponen original Schneider Electric dengan pengujian ketat berstandar IEC 61439."
+        }
+      }
+    ]
   }
   </script>
 
@@ -1900,14 +1945,20 @@
 
           <!-- Left Text Column -->
           <div class="hero-left-column">
+            <div class="hero-eyebrow">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 14 14"/></svg>
+              <span class="ats-lang-en" data-i18n="hero.eyebrow">AUTHORIZED SCHNEIDER ELECTRIC DISTRIBUTOR SURABAYA</span>
+              <span class="ats-lang-id" data-i18n="hero.eyebrow">DISTRIBUTOR RESMI SCHNEIDER ELECTRIC SURABAYA</span>
+            </div>
+
             <h1 class="hero-headline">
-              <span class="ats-lang-en" data-i18n="hero.headline">Electrical Supplier &amp; Switchboard Panel Builder in Surabaya</span>
-              <span class="ats-lang-id" data-i18n="hero.headline">Supplier Electrical dan Jasa Panel Listrik di Surabaya</span>
+              <span class="ats-lang-en" data-i18n="hero.headline">Authorized Schneider Electric Distributor &amp; Panel Builder Surabaya</span>
+              <span class="ats-lang-id" data-i18n="hero.headline">Distributor Resmi Schneider Electric &amp; Panel Maker Surabaya</span>
             </h1>
 
             <p class="hero-subheadline">
-              <span class="ats-lang-en" data-i18n="hero.subheadline">Reliable industrial electrical components and certified switchboard manufacturing with ready stock and engineering support.</span>
-              <span class="ats-lang-id" data-i18n="hero.subheadline">Pengadaan komponen elektrikal original dan perakitan panel listrik bersertifikat dengan ready stock serta dukungan teknis berpengalaman.</span>
+              <span class="ats-lang-en" data-i18n="hero.subheadline">Official Schneider Electric, GAE, and Legrand distributor in Surabaya. Supplying genuine electrical components with ready stock warehouse &amp; certified panel manufacturing.</span>
+              <span class="ats-lang-id" data-i18n="hero.subheadline">Distributor resmi Schneider Electric, GAE, dan Legrand di Surabaya. Menyediakan komponen elektrikal original ready stock gudang &amp; perakitan panel listrik bergaransi.</span>
             </p>
 
             <!-- Action Buttons: Lihat Katalog Produk & Konsultasi Panel Listrik -->
