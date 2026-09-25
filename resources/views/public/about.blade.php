@@ -697,9 +697,31 @@
             <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
                 @foreach($brands as $b)
                 @if(strtolower($b->slug ?? '') !== 'fort' && strtolower($b->name ?? '') !== 'fort')
+                @php
+                    $bLogo = $b->logo_url;
+                    if (!$bLogo) {
+                        $bSlug = strtolower($b->slug ?? '');
+                        $bName = strtolower($b->name ?? '');
+                        $quickLogos = [
+                            '3m'        => 'logos/3m.svg',
+                            'abb'       => 'logos/abb.png',
+                            'broco'     => 'logos/broco.png',
+                            'matsuyama' => 'logos/matsuyama.png',
+                            'omron'     => 'logos/omron.svg',
+                            'puma'      => 'logos/puma.png',
+                        ];
+                        foreach ($quickLogos as $qk => $qPath) {
+                            if (str_contains($bSlug, $qk) || str_contains($bName, $qk)) {
+                                $bLogo = asset($qPath);
+                                break;
+                            }
+                        }
+                    }
+                @endphp
                 <a href="{{ route('price-list.show', $b->slug) }}" class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/80 hover:border-rose-300 shadow-xs hover:shadow-md transition flex items-center justify-center h-24 group">
-                    @if($b->logo_url)
-                        <img src="{{ $b->logo_url }}" alt="{{ $b->name }}" class="max-h-12 max-w-[85%] object-contain group-hover:scale-105 transition duration-300">
+                    @if($bLogo)
+                        <img src="{{ $bLogo }}" alt="{{ $b->name }}" class="max-h-12 max-w-[85%] object-contain group-hover:scale-105 transition duration-300" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                        <span class="text-xs font-black text-slate-700 tracking-tight group-hover:text-rose-600 transition" style="display:none;">{{ $b->name }}</span>
                     @else
                         <span class="text-xs font-black text-slate-700 tracking-tight group-hover:text-rose-600 transition">{{ $b->name }}</span>
                     @endif
