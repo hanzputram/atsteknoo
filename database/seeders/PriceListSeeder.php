@@ -95,22 +95,6 @@ class PriceListSeeder extends Seeder
                 'sort_order' => 5,
             ],
             [
-                'title' => 'Fort Pricelist - 2026',
-                'slug' => 'fort-pricelist-2026',
-                'brand_name' => 'Fort',
-                'edition_year' => '2026',
-                'category' => 'Industrial Automation & Panel Controls',
-                'tax_note' => 'Termasuk PPN 11%',
-                'thumbnail_url' => 'images/pricelists/12.jpg',
-                'view_url' => 'https://drive.google.com/file/d/1M75aHBKXoZJzW840ckIsstTx2r6ApOF8/view?usp=drive_link',
-                'download_url' => 'https://drive.google.com/uc?export=download&id=1M75aHBKXoZJzW840ckIsstTx2r6ApOF8',
-                'file_size' => 'PDF Document • 2026 Edition',
-                'description' => 'Price List Fort resmi tahun 2026. Harga tercantum pada katalog termasuk PPN 11%. Meliputi Pilot Lamp, Push Button Switch, Limit Switch, Terminal Block Din Rail, Cable Ducting PVC, dan Industrial Sirene.',
-                'is_featured' => true,
-                'is_active' => true,
-                'sort_order' => 6,
-            ],
-            [
                 'title' => 'DV Electric Pricelist - 2026',
                 'slug' => 'dv-electric-pricelist-2026',
                 'brand_name' => 'DV Electric',
@@ -124,7 +108,7 @@ class PriceListSeeder extends Seeder
                 'description' => 'Price List DV Electric resmi tahun 2026. Harga tercantum pada katalog termasuk PPN 11%. Meliputi Digital Timer, Industrial Power Relay, Voltage Protection Relay, Magnetic Contactor, dan Thermal Overload Relay.',
                 'is_featured' => false,
                 'is_active' => true,
-                'sort_order' => 7,
+                'sort_order' => 6,
             ],
         ];
 

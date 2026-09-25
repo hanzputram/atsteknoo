@@ -1813,7 +1813,7 @@
               <svg class="faq-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="transition: transform 0.25s;"><polyline points="6 9 12 15 18 9"/></svg>
             </button>
             <div class="faq-body">
-              Ya, 100% original, baru dalam kemasan segel pabrik, dan bergaransi resmi. Kami adalah distributor resmi rekanan pabrikan Schneider Electric, Legrand, GAE, dan Socomec. Untuk kebutuhan tender/proyek, kami siap melampirkan Certificate of Origin (COO) dan surat otorisasi distributor.
+              Ya, 100% original, baru dalam kemasan segel pabrik, dan bergaransi resmi. Kami adalah distributor resmi rekanan pabrikan Schneider Electric, Vinsa, Legrand, dan GAE, serta supplier resmi komponen Socomec. Untuk kebutuhan tender/proyek, kami siap melampirkan Certificate of Origin (COO) dan surat otorisasi distributor.
             </div>
           </div>
 

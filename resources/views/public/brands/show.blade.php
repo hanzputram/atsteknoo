@@ -1,31 +1,74 @@
 @extends('layouts.app')
 
 @php
-    $isSchneider = ($brand->slug === 'schneider-electric' || $brand->slug === 'schneider');
+    $distributorSlugs = [
+        'schneider-electric',
+        'schneider',
+        'gae-group',
+        'gae',
+        'vinsa',
+        'legrand-indonesia',
+        'legrand',
+    ];
+    $slugLower = strtolower($brand->slug ?? '');
+    $nameLower = strtolower($brand->name ?? '');
+
+    $isDistributor = in_array($slugLower, $distributorSlugs)
+        || str_contains($slugLower, 'schneider')
+        || str_contains($slugLower, 'gae')
+        || str_contains($slugLower, 'vinsa')
+        || str_contains($slugLower, 'legrand')
+        || in_array($nameLower, ['schneider electric', 'schneider', 'gae', 'gae group', 'vinsa', 'legrand', 'legrand indonesia']);
+
+    $isSchneider = ($slugLower === 'schneider-electric' || $slugLower === 'schneider');
 
     // Page Title
     if ($isSchneider) {
         $brandTitle = 'Distributor Schneider Electric Surabaya Resmi | ATS Tekno';
+    } elseif ($isDistributor) {
+        $brandTitle = "Distributor Resmi {$brand->name} Surabaya | ATS Tekno";
     } elseif ($brand->meta_title) {
         $brandTitle = preg_replace('/\s*\|\s*(PT\.?\s*Anugerah\s*Tama\s*Sejati|ATS\s*Tekno).*$/i', '', $brand->meta_title);
+        $brandTitle = preg_replace('/\bDistributor\s+Resmi\b/i', 'Supplier', $brandTitle);
+        $brandTitle = preg_replace('/\bDistributor\b/i', 'Supplier', $brandTitle);
         $brandTitle = trim($brandTitle) . ' | ATS Tekno';
     } else {
-        $brandTitle = "Distributor {$brand->name} Surabaya | ATS Tekno";
+        $brandTitle = "Supplier {$brand->name} Surabaya | ATS Tekno";
     }
 
-    // H1 Heading
+    // H1 Headings (Bilingual)
     if ($isSchneider) {
-        $brandH1 = 'Distributor Resmi Schneider Electric di Surabaya';
+        $brandH1Id = 'Distributor Resmi Schneider Electric di Surabaya';
+        $brandH1En = 'Official Schneider Electric Distributor in Surabaya';
+    } elseif ($isDistributor) {
+        $brandH1Id = "Distributor Resmi {$brand->name} di Surabaya";
+        $brandH1En = "Official {$brand->name} Distributor in Surabaya";
     } else {
-        $brandH1 = "Distributor Resmi {$brand->name} di Surabaya";
+        $brandH1Id = "Supplier {$brand->name} di Surabaya";
+        $brandH1En = "Official {$brand->name} Supplier in Surabaya";
     }
 
     if ($isSchneider) {
         $rawDesc = 'Distributor resmi Schneider Electric di Surabaya & Jawa Timur. Ready stock MCB, MCCB, ACB MasterPact, Kontaktor TeSys, Inverter Altivar, dan perakitan panel listrik bergaransi resmi PT. ATS.';
-    } else {
+    } elseif ($isDistributor) {
         $rawDesc = $brand->meta_description ?: ('Katalog resmi dan spesifikasi teknis komponen elektrikal industri ' . $brand->name . ' dari distributor resmi PT. Anugerah Tama Sejati di Surabaya.');
+    } else {
+        $rawDesc = $brand->meta_description ? preg_replace('/\bdistributor(\s+resmi)?\b/i', 'supplier', $brand->meta_description) : ('Katalog resmi dan spesifikasi teknis komponen elektrikal industri ' . $brand->name . ' dari supplier PT. Anugerah Tama Sejati di Surabaya.');
     }
     $cleanDesc = \App\Support\TextSanitizer::cleanDescription($rawDesc);
+
+    // Sanitize description_html so only Schneider, GAE, Vinsa, Legrand are distributors
+    $displayDescriptionHtml = $brand->description_html;
+    if (!$isDistributor && $displayDescriptionHtml) {
+        $displayDescriptionHtml = preg_replace('/\bDistributor\s+Resmi\b/iu', 'Supplier Resmi', $displayDescriptionHtml);
+        $displayDescriptionHtml = preg_replace('/\bdistributor\s+resmi\b/iu', 'supplier resmi', $displayDescriptionHtml);
+        $displayDescriptionHtml = preg_replace('/\bDISTRIBUTOR\s+RESMI\b/iu', 'SUPPLIER RESMI', $displayDescriptionHtml);
+        $displayDescriptionHtml = preg_replace('/\bAuthorized\s+Distributor\b/iu', 'Authorized Supplier', $displayDescriptionHtml);
+        $displayDescriptionHtml = preg_replace('/\bOfficial\s+Distributor\b/iu', 'Official Supplier', $displayDescriptionHtml);
+        $displayDescriptionHtml = preg_replace('/\bDistributor\b/u', 'Supplier', $displayDescriptionHtml);
+        $displayDescriptionHtml = preg_replace('/\bdistributor\b/u', 'supplier', $displayDescriptionHtml);
+        $displayDescriptionHtml = preg_replace('/\bDISTRIBUTOR\b/u', 'SUPPLIER', $displayDescriptionHtml);
+    }
 
     $brandSchema = [
         '@context' => 'https://schema.org',
@@ -105,10 +148,13 @@
                 @endif
                 <div>
                     <div class="flex items-center gap-2.5 flex-wrap">
-                        <h1 class="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">{{ $brandH1 }}</h1>
+                        <h1 class="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
+                            <span class="ats-lang-en">{{ $brandH1En }}</span>
+                            <span class="ats-lang-id">{{ $brandH1Id }}</span>
+                        </h1>
                         <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider bg-rose-50 text-rose-600 border border-rose-200">
-                            <span class="ats-lang-en">Authorized Partner</span>
-                            <span class="ats-lang-id">Mitra Resmi</span>
+                            <span class="ats-lang-en">{{ $isDistributor ? 'Authorized Partner' : 'Official Supplier' }}</span>
+                            <span class="ats-lang-id">{{ $isDistributor ? 'Mitra Resmi' : 'Supplier Resmi' }}</span>
                         </span>
                     </div>
                     <p class="text-sm text-slate-600 mt-1.5 max-w-2xl">
@@ -137,10 +183,10 @@
         </div>
 
         <!-- Full Width Separator and Rich Description Section -->
-        @if($brand->description_html)
+        @if($displayDescriptionHtml)
         <div class="mt-8 pt-8 border-t border-slate-200/80">
             <div class="wysiwyg-content prose prose-slate max-w-none text-sm text-slate-700 leading-relaxed">
-                {!! $brand->description_html !!}
+                {!! $displayDescriptionHtml !!}
             </div>
         </div>
         @endif

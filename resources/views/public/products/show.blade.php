@@ -29,7 +29,18 @@
     }
 
     // Clean plain text description preserving symbols (<, >, &, etc.) without tag truncation
-    $rawDesc = $product->meta_description ?: ($product->short_description ?: ('Spesifikasi teknis ' . $h1Heading . ' dari distributor resmi PT. Anugerah Tama Sejati di Surabaya.'));
+    $prodBrandSlug = strtolower($product->brand->slug ?? '');
+    $prodBrandName = strtolower($product->brand->name ?? '');
+    $distributorSlugs = ['schneider-electric', 'schneider', 'gae-group', 'gae', 'vinsa', 'legrand-indonesia', 'legrand'];
+    $isProdDistributor = in_array($prodBrandSlug, $distributorSlugs)
+        || str_contains($prodBrandSlug, 'schneider')
+        || str_contains($prodBrandSlug, 'gae')
+        || str_contains($prodBrandSlug, 'vinsa')
+        || str_contains($prodBrandSlug, 'legrand')
+        || in_array($prodBrandName, ['schneider electric', 'schneider', 'gae', 'gae group', 'vinsa', 'legrand', 'legrand indonesia']);
+    $roleWord = $isProdDistributor ? 'distributor resmi' : 'supplier resmi';
+
+    $rawDesc = $product->meta_description ?: ($product->short_description ?: ('Spesifikasi teknis ' . $h1Heading . ' dari ' . $roleWord . ' PT. Anugerah Tama Sejati di Surabaya.'));
     $cleanDesc = \App\Support\TextSanitizer::cleanDescription($rawDesc);
 
     // Prepare JSON-LD Product schema (Strictly NO offers block per audit guidelines)

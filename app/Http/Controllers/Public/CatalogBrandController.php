@@ -15,8 +15,19 @@ class CatalogBrandController extends Controller
      */
     public function index()
     {
-        $brands = Brand::active()->with('logo')->withCount('products')->orderBy('sort_order')->orderBy('name')->get();
-        $priceLists = PriceList::active()->orderBy('sort_order')->get();
+        $brands = Brand::active()
+            ->whereNotIn('slug', ['fort'])
+            ->where('name', 'not like', 'fort')
+            ->with('logo')
+            ->withCount('products')
+            ->orderBy('sort_order')
+            ->orderBy('name')
+            ->get();
+        $priceLists = PriceList::active()
+            ->whereNotIn('slug', ['fort-pricelist-2026'])
+            ->where('brand_name', 'not like', 'fort')
+            ->orderBy('sort_order')
+            ->get();
 
         $masterPriceList = [
             'title' => SiteSetting::get('master_price_list_title', 'Master Price List Resmi PT. Anugerah Tama Sejati'),
@@ -35,7 +46,16 @@ class CatalogBrandController extends Controller
      */
     public function show(Request $request, string $slug)
     {
-        $brand = Brand::active()->with('logo')->where('slug', $slug)->firstOrFail();
+        if (in_array(strtolower($slug), ['fort'])) {
+            abort(404);
+        }
+
+        $brand = Brand::active()
+            ->with('logo')
+            ->where('slug', $slug)
+            ->whereNotIn('slug', ['fort'])
+            ->where('name', 'not like', 'fort')
+            ->firstOrFail();
 
         $perPage = (int) $request->input('per_page', 25);
         if ($perPage < 1 || $perPage > 100) {

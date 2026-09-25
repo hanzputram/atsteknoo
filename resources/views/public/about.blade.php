@@ -696,6 +696,7 @@
             <!-- Brands Grid: 6 columns across large screens matching Photo 1 -->
             <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
                 @foreach($brands as $b)
+                @if(strtolower($b->slug ?? '') !== 'fort' && strtolower($b->name ?? '') !== 'fort')
                 <a href="{{ route('price-list.show', $b->slug) }}" class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/80 hover:border-rose-300 shadow-xs hover:shadow-md transition flex items-center justify-center h-24 group">
                     @if($b->logo_url)
                         <img src="{{ $b->logo_url }}" alt="{{ $b->name }}" class="max-h-12 max-w-[85%] object-contain group-hover:scale-105 transition duration-300">
@@ -703,6 +704,7 @@
                         <span class="text-xs font-black text-slate-700 tracking-tight group-hover:text-rose-600 transition">{{ $b->name }}</span>
                     @endif
                 </a>
+                @endif
                 @endforeach
             </div>
 
@@ -766,8 +768,8 @@
             [
                 'q_id' => 'Brand apa saja yang didistribusikan resmi oleh PT. Anugerah Tama Sejati?',
                 'q_en' => 'Which official brands does PT. Anugerah Tama Sejati distribute?',
-                'a_id' => 'PT. ATS adalah distributor resmi untuk Schneider Electric, Vinsa, GAE Group, Legrand Indonesia, Socomec, Autonics, dan Himel, serta mendistribusikan kabel berkualitas seperti Jembo Cable dan Supreme Cable (SUCACO).',
-                'a_en' => 'PT. ATS officially distributes Schneider Electric, Vinsa, GAE Group, Legrand, Socomec, Autonics, and Himel, alongside leading cable brands such as Jembo Cable and Supreme Cable.'
+                'a_id' => 'PT. ATS adalah distributor resmi untuk Schneider Electric, Vinsa, GAE Group, dan Legrand Indonesia, serta supplier resmi komponen elektrikal untuk Socomec, Autonics, Himel, Panasonic, Uticon, dan kabel berkualitas seperti Jembo Cable dan Supreme Cable (SUCACO).',
+                'a_en' => 'PT. ATS is the official distributor for Schneider Electric, Vinsa, GAE Group, and Legrand Indonesia, as well as an official supplier for Socomec, Autonics, Himel, Panasonic, Uticon, alongside leading cable brands such as Jembo Cable and Supreme Cable.'
             ],
             [
                 'q_id' => 'Di mana lokasi showroom dan kantor PT. Anugerah Tama Sejati?',

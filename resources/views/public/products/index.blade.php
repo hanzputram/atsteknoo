@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Katalog Komponen Listrik Industri | ATS Tekno')
-@section('meta_description', 'Katalog lengkap komponen listrik industri dan aksesoris panel dari distributor resmi Schneider Electric, Legrand, Socomec, GAE: MCB, MCCB, ACB, Inverter, Kontaktor di Surabaya.')
+@section('meta_description', 'Katalog lengkap komponen listrik industri dan aksesoris panel dari distributor resmi Schneider Electric, Vinsa, Legrand, GAE: MCB, MCCB, ACB, Inverter, Kontaktor di Surabaya.')
 @section('canonical', request()->has('page') && (int)request('page') > 1 ? route('products.index', ['page' => request('page')]) : route('products.index'))
 
 @section('content')

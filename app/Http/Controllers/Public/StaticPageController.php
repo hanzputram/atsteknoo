@@ -60,7 +60,12 @@ class StaticPageController extends Controller
             ],
         ];
 
-        $brands = Brand::active()->with('logo')->orderBy('sort_order')->get();
+        $brands = Brand::active()
+            ->whereNotIn('slug', ['fort'])
+            ->where('name', 'not like', 'fort')
+            ->with('logo')
+            ->orderBy('sort_order')
+            ->get();
         $certificates = Certificate::active()->orderBy('sort_order')->get();
         $settings = SiteSetting::all()->pluck('value', 'key');
 
@@ -74,7 +79,11 @@ class StaticPageController extends Controller
     {
         $projects = Project::published()->with(['coverImage', 'category'])->latest()->take(6)->get();
         $certificates = Certificate::active()->orderBy('sort_order')->get();
-        $brands = Brand::active()->orderBy('sort_order')->get();
+        $brands = Brand::active()
+            ->whereNotIn('slug', ['fort'])
+            ->where('name', 'not like', 'fort')
+            ->orderBy('sort_order')
+            ->get();
         $settings = SiteSetting::all()->pluck('value', 'key');
 
         return view('public.panel-maker', compact('projects', 'certificates', 'brands', 'settings'));

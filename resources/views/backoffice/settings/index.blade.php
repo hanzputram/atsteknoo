@@ -424,7 +424,7 @@
 
             <div class="form-group" style="margin-bottom: 0;">
                 <label class="form-label">Default Meta Description SEO</label>
-                <textarea name="default_meta_description" rows="2" class="form-control">{{ old('default_meta_description', $settings['default_meta_description'] ?? 'Distributor resmi komponen elektrikal terkemuka: Schneider Electric, Legrand, GAE Group, Socomec, Autonics.') }}</textarea>
+                <textarea name="default_meta_description" rows="2" class="form-control">{{ old('default_meta_description', $settings['default_meta_description'] ?? 'Distributor resmi komponen elektrikal: Schneider Electric, Vinsa, GAE Group, Legrand.') }}</textarea>
             </div>
         </div>
     </div>

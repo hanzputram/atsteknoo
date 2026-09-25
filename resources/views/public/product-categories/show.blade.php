@@ -5,7 +5,7 @@
     $categoryTitle = preg_replace('/\s*[-|]\s*(PT\.?\s*Anugerah\s*Tama\s*Sejati|ATS\s*Tekno).*$/i', '', $rawTitle);
     $categoryTitle = trim($categoryTitle) . ' | ATS Tekno';
 
-    $rawDesc = $category->meta_description ?: ($category->description ?: ('Lihat katalog produk ' . $category->name . ' dari distributor resmi PT. Anugerah Tama Sejati Surabaya.'));
+    $rawDesc = $category->meta_description ?: ($category->description ?: ('Lihat katalog produk ' . $category->name . ' dari PT. Anugerah Tama Sejati Surabaya.'));
     $cleanDesc = \App\Support\TextSanitizer::cleanDescription($rawDesc);
 
     $categorySchema = [
@@ -80,7 +80,7 @@
                 </h1>
                 <p class="text-sm sm:text-base text-slate-600 mt-2 max-w-2xl leading-relaxed">
                     @if($category->slug === 'power-distribution-circuit-breakers')
-                        <span class="ats-lang-id">Distributor resmi komponen proteksi dan distribusi tenaga di Surabaya. Tersedia lengkap MCB, MCCB, ACB, RCCB, RCBO, dan Surge Arrester berstandar SNI / IEC dari Schneider Electric, GAE, dan brand terkemuka.</span>
+                        <span class="ats-lang-id">Distributor resmi komponen proteksi dan distribusi tenaga di Surabaya. Tersedia lengkap MCB, MCCB, ACB, RCCB, RCBO, dan Surge Arrester berstandar SNI / IEC dari Schneider Electric, GAE, Vinsa, Legrand, dan brand terkemuka.</span>
                         <span class="ats-lang-en">{{ $category->description ?: 'Rangkaian komponen elektrikal dalam klasifikasi ' . $category->name . '.' }}</span>
                     @else
                         {{ $category->description ?: 'Rangkaian komponen elektrikal dalam klasifikasi ' . $category->name . '.' }}

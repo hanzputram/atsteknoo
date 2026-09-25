@@ -674,8 +674,8 @@
                     <span class="ats-lang-id">Apakah seluruh komponen yang digunakan bergaransi resmi?</span>
                 </h4>
                 <p class="text-sm text-slate-600 leading-relaxed">
-                    <span class="ats-lang-en">Yes. As an authorized distributor for Schneider Electric, Legrand, GAE, and Socomec in Surabaya, we only use 100% genuine components with official factory warranty certificates and Certificates of Origin (CoO).</span>
-                    <span class="ats-lang-id">Ya. Sebagai distributor resmi Schneider Electric, Legrand, GAE, dan Socomec di Surabaya, kami hanya menggunakan komponen 100% original dengan sertifikat garansi resmi pabrikan.</span>
+                    <span class="ats-lang-en">Yes. As an authorized distributor for Schneider Electric, Vinsa, Legrand, and GAE in Surabaya, we only use 100% genuine components with official factory warranty certificates and Certificates of Origin (CoO).</span>
+                    <span class="ats-lang-id">Ya. Sebagai distributor resmi Schneider Electric, Vinsa, Legrand, dan GAE di Surabaya, kami hanya menggunakan komponen 100% original dengan sertifikat garansi resmi pabrikan.</span>
                 </p>
             </div>
 

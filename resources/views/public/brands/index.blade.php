@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Official Price List & Brand Catalogs 2026 - PT. Anugerah Tama Sejati')
-@section('meta_description', 'Browse and download official electrical price lists and product catalogs from authorized global principals: Schneider Electric, GAE, Fort, Vinsa, DV Electric, Legrand, Socomec, and Autonics.')
+@section('meta_description', 'Browse and download official electrical price lists and product catalogs from authorized global principals: Schneider Electric, GAE, Vinsa, DV Electric, Legrand, Socomec, and Autonics.')
 
 @section('content')
 <!-- ========================================================
@@ -27,7 +27,7 @@
                     Official Price List &amp; Catalogs
                 </h1>
                 <p class="text-sm sm:text-base text-slate-600 mt-3 leading-relaxed" data-i18n="pricelist.subtitle">
-                    Browse and download the latest official price lists directly from principal manufacturers (Schneider Electric, GAE, Fort, Vinsa, DV Electric). Download complete PDF catalogs for project tender estimation, BoQ budgeting, and industrial electrical component procurement.
+                    Browse and download the latest official price lists directly from principal manufacturers (Schneider Electric, GAE, Vinsa, DV Electric). Download complete PDF catalogs for project tender estimation, BoQ budgeting, and industrial electrical component procurement.
                 </p>
             </div>
 
@@ -86,11 +86,7 @@
                     class="brand-filter-btn px-4 py-2 rounded-xl text-xs font-bold transition shadow-xs whitespace-nowrap">
                 GAE
             </button>
-            <button type="button"
-                    onclick="filterByBrand('Fort', this)"
-                    class="brand-filter-btn px-4 py-2 rounded-xl text-xs font-bold transition shadow-xs whitespace-nowrap">
-                Fort
-            </button>
+
             <button type="button"
                     onclick="filterByBrand('Vinsa', this)"
                     class="brand-filter-btn px-4 py-2 rounded-xl text-xs font-bold transition shadow-xs whitespace-nowrap">
@@ -252,6 +248,7 @@
 
         <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
             @forelse($brands as $b)
+            @if(strtolower($b->slug ?? '') !== 'fort' && strtolower($b->name ?? '') !== 'fort')
             <a href="{{ route('price-list.show', $b->slug) }}" class="bg-white rounded-3xl border border-slate-200/80 p-6 flex flex-col items-center justify-between text-center shadow-xs hover:shadow-xl hover:border-rose-300 transition-all duration-300 group min-h-[220px]">
                 
                 <!-- Brand Official Logo Container -->
@@ -281,6 +278,7 @@
                 </div>
 
             </a>
+            @endif
             @empty
             <div class="col-span-full py-16 text-center text-slate-400">
                 <span class="ats-lang-en">No active brand catalogs found.</span>
