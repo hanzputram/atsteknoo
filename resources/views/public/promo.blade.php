@@ -1584,6 +1584,14 @@
           <div class="marquee-logo-card"><img src="{{ asset('logos/Boss.png') }}" alt="Boss" loading="lazy" onerror="this.src='{{ url('/public/logos/Boss.png') }}';"></div>
           <div class="marquee-logo-card"><img src="{{ asset('logos/Jembo.png') }}" alt="Jembo Cable" loading="lazy" onerror="this.src='{{ url('/public/logos/Jembo.png') }}';"></div>
           <div class="marquee-logo-card"><img src="{{ asset('logos/supremexxx.png') }}" alt="Supreme Cable" loading="lazy" onerror="this.src='{{ url('/public/logos/supremexxx.png') }}';"></div>
+          <div class="marquee-logo-card"><img src="{{ asset('logos/3m.svg') }}" alt="3M" loading="lazy" onerror="this.src='{{ url('/public/logos/3m.svg') }}';"></div>
+          <div class="marquee-logo-card"><img src="{{ asset('logos/abb.png') }}" alt="ABB" loading="lazy" onerror="this.src='{{ url('/public/logos/abb.png') }}';"></div>
+          <div class="marquee-logo-card"><img src="{{ asset('logos/broco.png') }}" alt="Broco" loading="lazy" onerror="this.src='{{ url('/public/logos/broco.png') }}';"></div>
+          <div class="marquee-logo-card"><img src="{{ asset('logos/matsuyama.png') }}" alt="Matsuyama" loading="lazy" onerror="this.src='{{ url('/public/logos/matsuyama.png') }}';"></div>
+          <div class="marquee-logo-card"><img src="{{ asset('logos/omron.svg') }}" alt="Omron" loading="lazy" onerror="this.src='{{ url('/public/logos/omron.svg') }}';"></div>
+          <div class="marquee-logo-card"><img src="{{ asset('logos/puma.png') }}" alt="Puma" loading="lazy" onerror="this.src='{{ url('/public/logos/puma.png') }}';"></div>
+          <div class="marquee-logo-card"><img src="{{ asset('logos/theben.png') }}" alt="Theben" loading="lazy" onerror="this.src='{{ url('/public/logos/theben.png') }}';"></div>
+          <div class="marquee-logo-card"><img src="{{ asset('logos/uticon.png') }}" alt="Uticon" loading="lazy" onerror="this.src='{{ url('/public/logos/uticon.png') }}';"></div>
 
         </div>
       </div>

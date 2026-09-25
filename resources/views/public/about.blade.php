@@ -694,14 +694,125 @@
             </div>
 
             <!-- Brands Grid: 6 columns across large screens matching Photo 1 -->
+            <style>
+                .brand-grid-card {
+                    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+                }
+                .brand-grid-card:hover {
+                    transform: translateY(-3px);
+                    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+                }
+                .brand-img-default {
+                    max-height: 3.5rem; /* 56px */
+                    max-width: 88%;
+                    width: auto;
+                    object-fit: contain;
+                    transition: transform 0.3s ease;
+                }
+                .brand-grid-card:hover .brand-img-default {
+                    transform: scale(1.08);
+                }
+                /* Optical balancing for brands to look large, solid, and harmonious with Broco */
+                .brand-img-matsuyama {
+                    height: 4.5rem !important; /* 72px */
+                    max-height: 4.75rem !important;
+                    width: auto !important;
+                    max-width: 90% !important;
+                    object-fit: contain;
+                    transform: scale(1.42) !important;
+                    transform-origin: center center;
+                    transition: transform 0.3s ease;
+                }
+                .brand-grid-card:hover .brand-img-matsuyama {
+                    transform: scale(1.52) !important;
+                }
+                .brand-img-3m {
+                    height: 3.35rem !important; /* 54px */
+                    max-height: 3.6rem !important;
+                    width: auto !important;
+                    max-width: 86% !important;
+                    object-fit: contain;
+                    transform: scale(1.36) !important;
+                    transform-origin: center center;
+                    transition: transform 0.3s ease;
+                }
+                .brand-grid-card:hover .brand-img-3m {
+                    transform: scale(1.46) !important;
+                }
+                .brand-img-abb {
+                    height: 3.25rem !important; /* 52px */
+                    max-height: 3.5rem !important;
+                    width: auto !important;
+                    max-width: 88% !important;
+                    object-fit: contain;
+                    transform: scale(1.30) !important;
+                    transform-origin: center center;
+                    transition: transform 0.3s ease;
+                }
+                .brand-grid-card:hover .brand-img-abb {
+                    transform: scale(1.40) !important;
+                }
+                .brand-img-puma {
+                    height: 3.35rem !important; /* 54px */
+                    max-height: 3.6rem !important;
+                    width: auto !important;
+                    max-width: 88% !important;
+                    object-fit: contain;
+                    transform: scale(1.30) !important;
+                    transform-origin: center center;
+                    transition: transform 0.3s ease;
+                }
+                .brand-grid-card:hover .brand-img-puma {
+                    transform: scale(1.40) !important;
+                }
+                .brand-img-omron {
+                    width: 88% !important;
+                    max-width: 92% !important;
+                    height: auto !important;
+                    max-height: 3.1rem !important;
+                    object-fit: contain;
+                    transform: scale(1.30) !important;
+                    transform-origin: center center;
+                    transition: transform 0.3s ease;
+                }
+                .brand-grid-card:hover .brand-img-omron {
+                    transform: scale(1.40) !important;
+                }
+                .brand-img-theben {
+                    width: 88% !important;
+                    max-width: 90% !important;
+                    height: auto !important;
+                    max-height: 3rem !important;
+                    object-fit: contain;
+                    transform: scale(1.15) !important;
+                    transform-origin: center center;
+                    transition: transform 0.3s ease;
+                }
+                .brand-grid-card:hover .brand-img-theben {
+                    transform: scale(1.25) !important;
+                }
+                .brand-img-uticon {
+                    width: 88% !important;
+                    max-width: 90% !important;
+                    height: auto !important;
+                    max-height: 3rem !important;
+                    object-fit: contain;
+                    transform: scale(1.20) !important;
+                    transform-origin: center center;
+                    transition: transform 0.3s ease;
+                }
+                .brand-grid-card:hover .brand-img-uticon {
+                    transform: scale(1.30) !important;
+                }
+            </style>
             <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
                 @foreach($brands as $b)
                 @if(strtolower($b->slug ?? '') !== 'fort' && strtolower($b->name ?? '') !== 'fort')
                 @php
+                    $bSlug = strtolower($b->slug ?? '');
+                    $bName = strtolower($b->name ?? '');
                     $bLogo = $b->logo_url;
                     if (!$bLogo) {
-                        $bSlug = strtolower($b->slug ?? '');
-                        $bName = strtolower($b->name ?? '');
                         $quickLogos = [
                             '3m'        => 'logos/3m.svg',
                             'abb'       => 'logos/abb.png',
@@ -709,6 +820,8 @@
                             'matsuyama' => 'logos/matsuyama.png',
                             'omron'     => 'logos/omron.svg',
                             'puma'      => 'logos/puma.png',
+                            'theben'    => 'logos/theben.png',
+                            'uticon'    => 'logos/uticon.png',
                         ];
                         foreach ($quickLogos as $qk => $qPath) {
                             if (str_contains($bSlug, $qk) || str_contains($bName, $qk)) {
@@ -717,10 +830,28 @@
                             }
                         }
                     }
+
+                    // Optical sizing class per brand
+                    $customLogoClass = 'brand-img-default';
+                    if (str_contains($bSlug, 'matsuyama') || str_contains($bName, 'matsuyama')) {
+                        $customLogoClass = 'brand-img-matsuyama';
+                    } elseif (str_contains($bSlug, '3m') || str_contains($bName, '3m')) {
+                        $customLogoClass = 'brand-img-3m';
+                    } elseif (str_contains($bSlug, 'abb') || str_contains($bName, 'abb')) {
+                        $customLogoClass = 'brand-img-abb';
+                    } elseif (str_contains($bSlug, 'puma') || str_contains($bName, 'puma')) {
+                        $customLogoClass = 'brand-img-puma';
+                    } elseif (str_contains($bSlug, 'omron') || str_contains($bName, 'omron')) {
+                        $customLogoClass = 'brand-img-omron';
+                    } elseif (str_contains($bSlug, 'theben') || str_contains($bName, 'theben')) {
+                        $customLogoClass = 'brand-img-theben';
+                    } elseif (str_contains($bSlug, 'uticon') || str_contains($bName, 'uticon')) {
+                        $customLogoClass = 'brand-img-uticon';
+                    }
                 @endphp
-                <a href="{{ route('price-list.show', $b->slug) }}" class="bg-white p-4 sm:p-5 rounded-2xl border border-slate-200/80 hover:border-rose-300 shadow-xs hover:shadow-md transition flex items-center justify-center h-24 group">
+                <a href="{{ route('price-list.show', $b->slug) }}" class="brand-grid-card bg-white px-3 sm:px-4 py-2 sm:py-2.5 rounded-2xl border border-slate-200/80 hover:border-rose-300 shadow-xs flex items-center justify-center h-24 group overflow-hidden">
                     @if($bLogo)
-                        <img src="{{ $bLogo }}" alt="{{ $b->name }}" class="max-h-12 max-w-[85%] object-contain group-hover:scale-105 transition duration-300" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                        <img src="{{ $bLogo }}" alt="{{ $b->name }}" class="{{ $customLogoClass }}" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
                         <span class="text-xs font-black text-slate-700 tracking-tight group-hover:text-rose-600 transition" style="display:none;">{{ $b->name }}</span>
                     @else
                         <span class="text-xs font-black text-slate-700 tracking-tight group-hover:text-rose-600 transition">{{ $b->name }}</span>

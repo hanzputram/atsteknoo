@@ -2043,6 +2043,8 @@
           <a href="{{ route('brands.show', 'matsuyama') }}" class="marquee-logo-card" title="Supplier Matsuyama Surabaya"><img src="{{ asset('logos/matsuyama.png') }}" alt="Matsuyama" width="105" height="26" loading="lazy" onerror="this.src='{{ url('/public/logos/matsuyama.png') }}';"></a>
           <a href="{{ route('brands.show', 'omron') }}" class="marquee-logo-card" title="Supplier Omron Surabaya"><img src="{{ asset('logos/omron.svg') }}" alt="Omron" width="105" height="26" loading="lazy" onerror="this.src='{{ url('/public/logos/omron.svg') }}';"></a>
           <a href="{{ route('brands.show', 'puma') }}" class="marquee-logo-card" title="Supplier Puma Surabaya"><img src="{{ asset('logos/puma.png') }}" alt="Puma" width="105" height="26" loading="lazy" onerror="this.src='{{ url('/public/logos/puma.png') }}';"></a>
+          <a href="{{ route('brands.show', 'theben') }}" class="marquee-logo-card" title="Supplier Theben Surabaya"><img src="{{ asset('logos/theben.png') }}" alt="Theben" width="105" height="26" loading="lazy" onerror="this.src='{{ url('/public/logos/theben.png') }}';"></a>
+          <a href="{{ route('brands.show', 'uticon') }}" class="marquee-logo-card" title="Supplier Uticon Surabaya"><img src="{{ asset('logos/uticon.png') }}" alt="Uticon" width="105" height="26" loading="lazy" onerror="this.src='{{ url('/public/logos/uticon.png') }}';"></a>
 
         </div>
       </div>

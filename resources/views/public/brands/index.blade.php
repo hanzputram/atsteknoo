@@ -254,7 +254,23 @@
                 <!-- Brand Official Logo Container -->
                 <div class="h-20 w-full flex items-center justify-center p-2 mb-2">
                     @if($b->logo_url)
-                        <img src="{{ $b->logo_url }}" alt="{{ $b->name }} Logo" class="max-h-full max-w-[85%] object-contain group-hover:scale-110 transition-transform duration-300">
+                        @php
+                            $bSlugLower = strtolower($b->slug ?? '');
+                            $bNameLower = strtolower($b->name ?? '');
+                            $scaleStyle = '';
+                            if (str_contains($bSlugLower, 'matsuyama') || str_contains($bNameLower, 'matsuyama')) {
+                                $scaleStyle = 'transform: scale(1.35);';
+                            } elseif (str_contains($bSlugLower, '3m') || str_contains($bNameLower, '3m')) {
+                                $scaleStyle = 'transform: scale(1.3);';
+                            } elseif (str_contains($bSlugLower, 'abb') || str_contains($bNameLower, 'abb')) {
+                                $scaleStyle = 'transform: scale(1.25);';
+                            } elseif (str_contains($bSlugLower, 'puma') || str_contains($bNameLower, 'puma')) {
+                                $scaleStyle = 'transform: scale(1.25);';
+                            } elseif (str_contains($bSlugLower, 'omron') || str_contains($bNameLower, 'omron')) {
+                                $scaleStyle = 'transform: scale(1.25);';
+                            }
+                        @endphp
+                        <img src="{{ $b->logo_url }}" alt="{{ $b->name }} Logo" style="{{ $scaleStyle }}" class="max-h-full max-w-[85%] object-contain group-hover:scale-110 transition-transform duration-300">
                     @else
                         <span class="text-lg font-black text-slate-800 tracking-tight font-mono group-hover:text-rose-600 transition">{{ $b->name }}</span>
                     @endif
