@@ -93,7 +93,7 @@
       "PT ATS",
       "PT Anugerah Tama Sejati"
     ],
-    "description": "Electrical supplier and certified switchboard panel builder in Surabaya. Authorized dealer for Schneider Electric, GAE, and Legrand, providing industrial electrical components and panel fabrication since 2019.",
+    "description": "Electrical supplier and certified switchboard panel builder in Surabaya. Authorized dealer for Schneider Electric, Vinsa, GAE, and Legrand, providing industrial electrical components and panel fabrication since 2019.",
     "url": "{{ url('/') }}",
     "logo": "{{ asset('images/ats-logo.png') }}",
     "image": "{{ asset('images/ats-logo.png') }}",
@@ -148,6 +148,7 @@
     ],
     "brand": [
       { "@type": "Brand", "name": "Schneider Electric" },
+      { "@type": "Brand", "name": "Vinsa" },
       { "@type": "Brand", "name": "GAE Group" },
       { "@type": "Brand", "name": "Legrand" },
       { "@type": "Brand", "name": "Socomec" },

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'About Us - PT. Anugerah Tama Sejati | Best Electrical Supplier')
-@section('meta_description', 'Official profile of PT. Anugerah Tama Sejati (PT ATS), established 1st August 2019 in Surabaya. Authorized distributor for Schneider Electric, Legrand, GAE, and Socomec.')
+@section('meta_description', 'Official profile of PT. Anugerah Tama Sejati (PT ATS), established 1st August 2019 in Surabaya. Authorized distributor for Schneider Electric, Vinsa, Legrand, and GAE.')
 
 @section('content')
 <div class="bg-white text-slate-800">
@@ -65,18 +65,10 @@
 
                     <!-- Paragraph 3: Comprehensive Industrial Scope & Principal Authorization -->
                     <div class="ats-lang-block-en text-sm sm:text-base text-slate-600 leading-relaxed font-normal">
-                        {{ $settings['company_story_p3'] ?? 'Over the years, we have established ourselves as a vital supply chain partner for prominent manufacturing plants, EPC contractors, certified panel builders, and infrastructure developers across Indonesia. As an authorized distributor for leading global brands—including Schneider Electric, Legrand, GAE Group, and Socomec—we deliver genuine low-voltage power distribution switchgear, motor controls, VFD inverters, and digital metering systems backed by full manufacturer warranties and verified Certificates of Origin (COO).' }}
+                        {{ $settings['company_story_p3'] ?? 'Over the years, we have established ourselves as a trusted supply chain partner for leading manufacturing plants, EPC contractors, certified panel builders, and infrastructure developers across Indonesia. As an authorized distributor for leading global brands including Schneider Electric, Vinsa, Legrand, and GAE, we deliver genuine low-voltage electrical distribution components such as MCBs, MCCBs, Contactors, Overloads, VSD / Inverters, Push Buttons, Digital Metering, and more, backed by official factory warranties and Certificates of Origin (COO).' }}
                     </div>
                     <div class="ats-lang-block-id text-sm sm:text-base text-slate-600 leading-relaxed font-normal">
-                        {{ $settings['company_story_p3_id'] ?? 'Selama bertahun-tahun, kami telah menjadi mitra rantai pasok terpercaya bagi berbagai pabrik manufaktur terkemuka, kontraktor EPC, perakit panel bersertifikat, dan pengembang infrastruktur di seluruh Indonesia. Sebagai distributor resmi untuk merek global terkemuka—termasuk Schneider Electric, Legrand, GAE Group, dan Socomec—kami menghadirkan komponen distribusi listrik tegangan rendah, kontrol motor, inverter VFD, dan sistem meteran digital original yang didukung garansi resmi pabrikan serta Sertifikat Keaslian (COO).' }}
-                    </div>
-
-                    <!-- Paragraph 4: Engineering Consultation & Warehouse Readiness -->
-                    <div class="ats-lang-block-en text-sm sm:text-base text-slate-600 leading-relaxed font-normal">
-                        {{ $settings['company_story_p4'] ?? 'We understand that operational uptime and personnel safety require absolute precision. Beyond component distribution, our certified sales engineers provide dedicated technical consultation, Bill of Quantities (BoQ) optimization, and protection coordination support. Supported by extensive ready-stock warehousing in Surabaya and reliable nationwide freight logistics, PT ATS is committed to preventing project downtime, safeguarding critical assets, and driving sustainable industrial growth for all stakeholders.' }}
-                    </div>
-                    <div class="ats-lang-block-id text-sm sm:text-base text-slate-600 leading-relaxed font-normal">
-                        {{ $settings['company_story_p4_id'] ?? 'Kami memahami bahwa kelancaran operasional dan keselamatan personel memerlukan presisi mutlak. Lebih dari sekadar distribusi komponen, tim sales engineer kami yang berpengalaman memberikan konsultasi teknis khusus, optimasi Bill of Quantities (BoQ), serta penentuan kapasitas proteksi. Didukung persediaan gudang ready-stock yang melimpah di Surabaya dan ekspedisi kargo nasional yang handal, PT ATS berkomitmen mencegah downtime proyek, melindungi aset penting, dan mendorong pertumbuhan industri berkelanjutan.' }}
+                        {{ $settings['company_story_p3_id'] ?? 'Selama bertahun-tahun, kami telah menjadi mitra rantai pasok terpercaya bagi berbagai pabrik manufaktur terkemuka, kontraktor EPC, perakit panel bersertifikat, dan pengembang infrastruktur di seluruh Indonesia. Sebagai distributor resmi untuk merek global terkemuka termasuk Schneider Electric, Vinsa, Legrand dan GAE, kami menghadirkan komponen distribusi listrik tegangan rendah seperti MCB, MCCB, Kontaktor, Overload, VSD / Inverter, Push Button, Metering Digital dan lainnya, original yang didukung garansi resmi dari pabrik dan Sertifikat Keaslian (COO).' }}
                     </div>
 
                     <!-- 3 Horizontal Metrics/Stats -->
@@ -140,11 +132,10 @@
                         <div class="group relative bg-[#001D34] rounded-[2rem] p-7 sm:p-8 text-white shadow-xl shadow-slate-900/10 border border-slate-800 flex flex-col justify-between min-h-[220px] sm:min-h-[250px] transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:border-slate-700 overflow-hidden">
                             <div class="absolute -right-10 -bottom-10 w-32 h-32 bg-rose-600/20 rounded-full blur-2xl group-hover:scale-125 transition duration-500"></div>
 
-                            <div class="w-14 h-14 rounded-2xl bg-white/10 border border-white/15 flex items-center justify-center text-emerald-400 group-hover:scale-110 transition duration-300">
+                            <div class="w-14 h-14 rounded-2xl bg-emerald-500/15 border border-emerald-400/30 flex items-center justify-center text-emerald-400 group-hover:scale-110 transition duration-300">
                                 <svg class="w-8 h-8 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
-                                    <line x1="12" y1="9" x2="12" y2="13"></line>
-                                    <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                                    <path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76z"></path>
+                                    <polyline points="9 12 11 14 15 10"></polyline>
                                 </svg>
                             </div>
 
@@ -158,8 +149,8 @@
                                     <span class="ats-lang-id">Distributor Resmi</span>
                                 </h3>
                                 <p class="text-xs sm:text-sm text-slate-300 mt-1 leading-relaxed">
-                                    <span class="ats-lang-en">Direct certified partnership for Schneider Electric, Legrand, GAE, &amp; Socomec.</span>
-                                    <span class="ats-lang-id">Kemitraan distributor resmi langsung untuk Schneider Electric, Legrand, GAE, &amp; Socomec.</span>
+                                    <span class="ats-lang-en">Direct certified partnership for Schneider Electric, Vinsa, Legrand, &amp; GAE.</span>
+                                    <span class="ats-lang-id">Kemitraan distributor resmi langsung untuk Schneider Electric, Vinsa, GAE, &amp; Legrand.</span>
                                 </p>
                             </div>
                         </div>
@@ -775,8 +766,8 @@
             [
                 'q_id' => 'Brand apa saja yang didistribusikan resmi oleh PT. Anugerah Tama Sejati?',
                 'q_en' => 'Which official brands does PT. Anugerah Tama Sejati distribute?',
-                'a_id' => 'PT. ATS adalah distributor resmi untuk Schneider Electric, GAE Group, Legrand Indonesia, Socomec, Autonics, dan Himel, serta mendistribusikan kabel berkualitas seperti Jembo Cable dan Supreme Cable (SUCACO).',
-                'a_en' => 'PT. ATS officially distributes Schneider Electric, GAE Group, Legrand, Socomec, Autonics, and Himel, alongside leading cable brands such as Jembo Cable and Supreme Cable.'
+                'a_id' => 'PT. ATS adalah distributor resmi untuk Schneider Electric, Vinsa, GAE Group, Legrand Indonesia, Socomec, Autonics, dan Himel, serta mendistribusikan kabel berkualitas seperti Jembo Cable dan Supreme Cable (SUCACO).',
+                'a_en' => 'PT. ATS officially distributes Schneider Electric, Vinsa, GAE Group, Legrand, Socomec, Autonics, and Himel, alongside leading cable brands such as Jembo Cable and Supreme Cable.'
             ],
             [
                 'q_id' => 'Di mana lokasi showroom dan kantor PT. Anugerah Tama Sejati?',

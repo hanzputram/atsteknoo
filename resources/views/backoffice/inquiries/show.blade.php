@@ -63,7 +63,7 @@
 
       <div>
         <div style="font-size: 11px; text-transform: uppercase; font-weight: 700; color: #64748B; margin-bottom: 4px;">Kontak Email</div>
-        <a href="mailto:{{ $inquiry->email }}" style="font-size: 13.5px; color: #E11D48; font-weight: 600; text-decoration: none;">
+        <a href="https://mail.google.com/mail/?view=cm&fs=1&to={{ urlencode($inquiry->email) }}" target="_blank" rel="noopener noreferrer" title="Buka di Gmail" style="font-size: 13.5px; color: #E11D48; font-weight: 600; text-decoration: none;">
           {{ $inquiry->email }}
         </a>
       </div>
@@ -94,9 +94,9 @@
     <!-- Actions -->
     <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; padding-top: 18px; border-top: 1px solid var(--color-border);">
       <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
-        <a href="mailto:{{ $inquiry->email }}?subject=Re: {{ urlencode($inquiry->subject) }}" class="btn btn-primary btn-sm">
+        <a href="https://mail.google.com/mail/?view=cm&fs=1&to={{ urlencode($inquiry->email) }}&su={{ urlencode('Re: ' . $inquiry->subject) }}" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm" title="Balas via Gmail">
           <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-          Balas via Email
+          Balas via Email (Gmail)
         </a>
         @if($inquiry->phone)
           <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $inquiry->phone) }}?text={{ urlencode('Halo Bapak/Ibu ' . $inquiry->name . ', terima kasih telah menghubungi PT. Anugerah Tama Sejati.') }}" target="_blank" class="btn btn-secondary btn-sm" style="color: #059669; font-weight: 700;">

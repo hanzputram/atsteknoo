@@ -706,12 +706,13 @@
           </div>
           
           <p class="ats-ft-bio">
-            <span class="ats-lang-en">PT. Anugerah Tama Sejati (ATS Tekno) is an Authorized Dealer for Schneider Electric, GAE, and Legrand, headquartered in Surabaya, East Java, Indonesia, operating since 2019. Providing certified low-voltage distribution switchboard panel fabrication and genuine industrial components.</span>
-            <span class="ats-lang-id">PT. Anugerah Tama Sejati (ATS Tekno) adalah Distributor Resmi Schneider Electric, GAE, dan Legrand, berpusat di Surabaya, Jawa Timur sejak 2019. Melayani pengadaan komponen elektrikal industri dan fabrikasi panel listrik bersertifikat.</span>
+            <span class="ats-lang-en">PT. Anugerah Tama Sejati (ATS Tekno) is an Authorized Dealer for Schneider Electric, Vinsa, GAE, and Legrand, headquartered in Surabaya, East Java, Indonesia, operating since 2019. Providing certified low-voltage distribution switchboard panel fabrication and genuine industrial components.</span>
+            <span class="ats-lang-id">PT. Anugerah Tama Sejati (ATS Tekno) adalah Distributor Resmi Schneider Electric, Vinsa, GAE, dan Legrand, berpusat di Surabaya, Jawa Timur sejak 2019. Melayani pengadaan komponen elektrikal industri dan fabrikasi panel listrik bersertifikat.</span>
           </p>
 
           <div class="ats-ft-badges-wrap">
             <span class="ats-ft-badge"><span class="ats-ft-badge-dot"></span>Schneider Authorized Dealer</span>
+            <span class="ats-ft-badge"><span class="ats-ft-badge-dot"></span>Vinsa Authorized Dealer</span>
             <span class="ats-ft-badge"><span class="ats-ft-badge-dot"></span>GAE Authorized Dealer</span>
             <span class="ats-ft-badge"><span class="ats-ft-badge-dot"></span>Legrand Authorized Dealer</span>
             <span class="ats-ft-badge"><span class="ats-ft-badge-dot"></span>Certified Panel Maker</span>
@@ -725,7 +726,7 @@
 
             <div class="ats-ft-contact-item">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-              <span><strong>Email:</strong> <a href="mailto:sales@atstekno.com">sales@atstekno.com</a></span>
+              <span><strong>Email:</strong> <a href="https://mail.google.com/mail/?view=cm&fs=1&to=sales@atstekno.com&su={{ urlencode('Pertanyaan & Informasi Produk - PT Anugerah Tama Sejati') }}" target="_blank" rel="noopener noreferrer" title="Buka di Gmail (sales@atstekno.com)">sales@atstekno.com</a></span>
             </div>
 
             <div class="ats-ft-contact-item">
@@ -972,8 +973,8 @@
           <span>@ats_tekno</span>
         </a>
 
-        <!-- Email Link -->
-        <a href="mailto:sales@atstekno.com" class="ats-ft-social-link ats-social-email" title="Email: sales@atstekno.com">
+        <!-- Email Link (Redirect ke Gmail) -->
+        <a href="https://mail.google.com/mail/?view=cm&fs=1&to=sales@atstekno.com&su={{ urlencode('Pertanyaan & Informasi Produk - PT Anugerah Tama Sejati') }}" target="_blank" rel="noopener noreferrer" class="ats-ft-social-link ats-social-email" title="Kirim Email via Gmail: sales@atstekno.com">
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
             <polyline points="22,6 12,13 2,6"></polyline>

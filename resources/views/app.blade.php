@@ -109,7 +109,7 @@
     "url": "{{ url('/') }}",
     "logo": "{{ asset('images/ats-logo.png') }}",
     "image": "{{ asset('images/ats-logo.png') }}",
-    "description": "Distributor Resmi Schneider Electric, GAE, dan Legrand di Surabaya. Menyediakan komponen elektrikal industri original ready stock ribuan SKU dan fabrikasi perakitan panel switchboard bersertifikat sejak 2019.",
+    "description": "Distributor Resmi Schneider Electric, Vinsa, GAE, dan Legrand di Surabaya. Menyediakan komponen elektrikal industri original ready stock ribuan SKU dan fabrikasi perakitan panel switchboard bersertifikat sejak 2019.",
     "foundingDate": "2019",
     "telephone": "+62-31-59178887",
     "email": "sales@atstekno.com",
@@ -169,6 +169,7 @@
     ],
     "brand": [
       { "@type": "Brand", "name": "Schneider Electric" },
+      { "@type": "Brand", "name": "Vinsa" },
       { "@type": "Brand", "name": "GAE Group" },
       { "@type": "Brand", "name": "Legrand" },
       { "@type": "Brand", "name": "Socomec" },
@@ -1957,8 +1958,8 @@
             </h1>
 
             <p class="hero-subheadline">
-              <span class="ats-lang-en" data-i18n="hero.subheadline">Official Schneider Electric, GAE, and Legrand distributor in Surabaya. Supplying genuine electrical components with ready stock warehouse &amp; certified panel manufacturing.</span>
-              <span class="ats-lang-id" data-i18n="hero.subheadline">Distributor resmi Schneider Electric, GAE, dan Legrand di Surabaya. Menyediakan komponen elektrikal original ready stock gudang &amp; perakitan panel listrik bergaransi.</span>
+              <span class="ats-lang-en" data-i18n="hero.subheadline">Official Schneider Electric, Vinsa, GAE, and Legrand distributor in Surabaya. Supplying genuine electrical components with ready stock warehouse &amp; certified panel manufacturing.</span>
+              <span class="ats-lang-id" data-i18n="hero.subheadline">Distributor resmi Schneider Electric, Vinsa, GAE, dan Legrand di Surabaya. Menyediakan komponen elektrikal original ready stock gudang &amp; perakitan panel listrik bergaransi.</span>
             </p>
 
             <!-- Action Buttons: Lihat Katalog Produk & Konsultasi Panel Listrik -->
@@ -2259,7 +2260,7 @@
             </div>
           </div>
 
-          <a href="mailto:sales@atstekno.com" class="contact-channel-card">
+          <a href="https://mail.google.com/mail/?view=cm&fs=1&to=sales@atstekno.com&su={{ urlencode('Permintaan Estimasi BoQ & Penawaran Harga - PT Anugerah Tama Sejati') }}&body={{ urlencode("Halo Tim Sales PT Anugerah Tama Sejati,\n\nSaya ingin mengirimkan BoQ / Single Line Diagram untuk estimasi harga komponen:\n\nNama:\nPerusahaan:\nNomor WhatsApp:\nLampiran BoQ / Catatan:\n\nTerima kasih.") }}" target="_blank" rel="noopener noreferrer" class="contact-channel-card" title="Kirim Email via Gmail (sales@atstekno.com)">
             <div class="channel-icon-wrap" style="background: #FDF4FF; color: #C026D3;">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                 <rect width="20" height="16" x="2" y="4" rx="2" />

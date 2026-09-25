@@ -25,7 +25,7 @@
       "hero.brand_tag": "ELECTRICAL SUPPLIER",
       "hero.eyebrow": "AUTHORIZED SCHNEIDER ELECTRIC DISTRIBUTOR SURABAYA",
       "hero.headline": "Authorized Schneider Electric Distributor & Switchboard Panel Builder in Surabaya",
-      "hero.subheadline": "Official Schneider Electric, GAE, and Legrand distributor in Surabaya. Supplying genuine electrical components with ready stock warehouse & certified panel manufacturing.",
+      "hero.subheadline": "Official Schneider Electric, Vinsa, GAE, and Legrand distributor in Surabaya. Supplying genuine electrical components with ready stock warehouse & certified panel manufacturing.",
       "hero.btn_products": "Product Catalog",
       "hero.btn_panel": "Contact Us",
       "hero.btn_product_list": "Product Catalog",
@@ -45,7 +45,7 @@
 
       // Walking Ribbon
       "ribbon.text1": "Certified Industrial Electrical Supplier",
-      "ribbon.text2": "Authorized Distributor Schneider Electric • Legrand • GAE",
+      "ribbon.text2": "Authorized Distributor Schneider Electric • Vinsa • Legrand • GAE",
       "ribbon.text3": "Nationwide Delivery Across Indonesia",
 
       // Products Section
@@ -191,7 +191,7 @@
       "hero.brand_tag": "DISTRIBUTOR RESMI",
       "hero.eyebrow": "DISTRIBUTOR RESMI SCHNEIDER ELECTRIC SURABAYA",
       "hero.headline": "Distributor Resmi Schneider Electric & Panel Maker di Surabaya",
-      "hero.subheadline": "Distributor resmi Schneider Electric, GAE, dan Legrand di Surabaya. Menyediakan komponen elektrikal original ready stock gudang & perakitan panel listrik bergaransi.",
+      "hero.subheadline": "Distributor resmi Schneider Electric, Vinsa, GAE, dan Legrand di Surabaya. Menyediakan komponen elektrikal original ready stock gudang & perakitan panel listrik bergaransi.",
       "hero.btn_products": "Lihat Katalog Produk",
       "hero.btn_panel": "Konsultasi Panel Listrik",
       "hero.btn_product_list": "Lihat Katalog Produk",
@@ -211,7 +211,7 @@
 
       // Walking Ribbon
       "ribbon.text1": "Supplier Elektrikal Industri Bersertifikat",
-      "ribbon.text2": "Distributor Resmi Schneider Electric • Legrand • GAE",
+      "ribbon.text2": "Distributor Resmi Schneider Electric • Vinsa • Legrand • GAE",
       "ribbon.text3": "Pengiriman Cepat ke Seluruh Pelosok Indonesia",
 
       // Products Section
@@ -471,10 +471,28 @@
     window.atsSetLanguage(initialLang);
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
-  }
+  // 8. Global Email Redirect: Automatically redirect any mailto: clicks directly to Gmail Web Compose
+  document.addEventListener('click', function(e) {
+    var mailLink = e.target.closest && e.target.closest('a[href^="mailto:"]');
+    if (!mailLink) return;
+
+    var rawHref = mailLink.getAttribute('href') || '';
+    var mailtoData = rawHref.replace(/^mailto:/i, '');
+    var parts = mailtoData.split('?');
+    var recipient = decodeURIComponent(parts[0] || 'sales@atstekno.com');
+    var query = parts[1] || '';
+    
+    var params = new URLSearchParams(query);
+    var subject = params.get('subject') || 'Konsultasi & Penawaran Panel Listrik - PT Anugerah Tama Sejati';
+    var body = params.get('body') || 'Halo Tim Sales PT Anugerah Tama Sejati,\n\nSaya ingin berkonsultasi mengenai kebutuhan panel listrik dan komponen industri.\n\nTerima kasih.';
+
+    var gmailUrl = 'https://mail.google.com/mail/?view=cm&fs=1' +
+      '&to=' + encodeURIComponent(recipient) +
+      '&su=' + encodeURIComponent(subject) +
+      '&body=' + encodeURIComponent(body);
+
+    e.preventDefault();
+    window.open(gmailUrl, '_blank', 'noopener,noreferrer');
+  });
 
 })();

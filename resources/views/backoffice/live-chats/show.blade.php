@@ -228,7 +228,7 @@
         <button type="button" class="btn btn-secondary btn-sm" style="font-size: 11px; padding: 3px 8px; white-space: nowrap;" onclick="insertQuickSnippet('Untuk penawaran harga resmi dan diskon proyek distributor, mohon lampirkan file BoQ (Bill of Quantity) atau diagram Single Line melalui email sales@atstekno.com atau WhatsApp kami di +62 822 2333 2830.')">
           📋 Minta BoQ / Single Line
         </button>
-        <button type="button" class="btn btn-secondary btn-sm" style="font-size: 11px; padding: 3px 8px; white-space: nowrap;" onclick="insertQuickSnippet('Semua produk Schneider, GAE, dan Legrand yang kami sediakan 100% original bergaransi resmi dengan sertifikat origin pabrik. Barang ready stock di gudang Surabaya.')">
+        <button type="button" class="btn btn-secondary btn-sm" style="font-size: 11px; padding: 3px 8px; white-space: nowrap;" onclick="insertQuickSnippet('Semua produk Schneider, Vinsa, GAE, dan Legrand yang kami sediakan 100% original bergaransi resmi dengan sertifikat origin pabrik. Barang ready stock di gudang Surabaya.')">
           🛡️ Keaslian &amp; Garansi
         </button>
       </div>

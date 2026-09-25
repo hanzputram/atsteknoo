@@ -173,7 +173,7 @@
 
             <div class="form-group" style="margin-bottom: 0;">
                 <label class="form-label">Ringkasan / Uraian Singkat Company Profile</label>
-                <textarea name="company_profile_description" rows="2" class="form-control">{{ old('company_profile_description', $settings['company_profile_description'] ?? 'Dokumen profil resmi mencakup legalitas lengkap, otorisasi distributor resmi global (Schneider Electric, Legrand, GAE, Socomec), rekam jejak suplai proyek industri, dan kesiapan persediaan gudang Surabaya.') }}</textarea>
+                <textarea name="company_profile_description" rows="2" class="form-control">{{ old('company_profile_description', $settings['company_profile_description'] ?? 'Dokumen profil resmi mencakup legalitas lengkap, otorisasi distributor resmi global (Schneider Electric, Vinsa, GAE, Legrand), rekam jejak suplai proyek industri, dan kesiapan persediaan gudang Surabaya.') }}</textarea>
             </div>
         </div>
     </div>
@@ -329,7 +329,7 @@
 
                 <div class="form-group" style="margin-bottom: 0;">
                     <span style="font-size: 12px; font-weight: 600; color: #64748B; margin-bottom: 4px; display: block;">Paragraf 3 (Kemitraan Prinsipal &amp; Lisensi Resmi):</span>
-                    <textarea name="company_story_p3" rows="3" class="form-control">{{ old('company_story_p3', $settings['company_story_p3'] ?? 'Over the years, we have established ourselves as a vital supply chain partner for prominent manufacturing plants, EPC contractors, certified panel builders, and infrastructure developers across Indonesia. As an authorized distributor for leading global brands—including Schneider Electric, Legrand, GAE Group, and Socomec—we deliver genuine low-voltage power distribution switchgear, motor controls, VFD inverters, and digital metering systems backed by full manufacturer warranties and verified Certificates of Origin (COO).') }}</textarea>
+                    <textarea name="company_story_p3" rows="3" class="form-control">{{ old('company_story_p3', $settings['company_story_p3'] ?? 'Over the years, we have established ourselves as a trusted supply chain partner for leading manufacturing plants, EPC contractors, certified panel builders, and infrastructure developers across Indonesia. As an authorized distributor for leading global brands including Schneider Electric, Vinsa, Legrand, and GAE, we deliver genuine low-voltage electrical distribution components such as MCBs, MCCBs, Contactors, Overloads, VSD / Inverters, Push Buttons, Digital Metering, and more, backed by official factory warranties and Certificates of Origin (COO).') }}</textarea>
                 </div>
 
                 <div class="form-group" style="margin-bottom: 0;">

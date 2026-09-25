@@ -375,8 +375,8 @@
                             </span>
                         </a>
 
-                        <!-- Email Address -->
-                        <a href="mailto:{{ $settings['email'] ?? 'sales@atstekno.com' }}" class="flex items-center justify-between p-3 rounded-2xl border border-slate-200/70 hover:border-rose-300 hover:bg-rose-50/30 transition group">
+                        <!-- Email Address (Redirect ke Gmail) -->
+                        <a href="https://mail.google.com/mail/?view=cm&fs=1&to={{ urlencode($settings['email'] ?? 'sales@atstekno.com') }}&su={{ urlencode('Permintaan Penawaran Resmi - PT Anugerah Tama Sejati') }}&body={{ urlencode("Halo Tim Sales PT Anugerah Tama Sejati,\n\nSaya ingin berkonsultasi mengenai permintaan penawaran resmi untuk:\n\nNama Proyek / Perusahaan:\nKebutuhan Spesifikasi / Produk:\n\nTerima kasih.") }}" target="_blank" rel="noopener noreferrer" title="Kirim Email via Gmail" class="flex items-center justify-between p-3 rounded-2xl border border-slate-200/70 hover:border-rose-300 hover:bg-rose-50/30 transition group">
                             <div class="flex items-center gap-3 min-w-0">
                                 <div class="w-8 h-8 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center shrink-0 group-hover:scale-105 transition">
                                     <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
