@@ -93,6 +93,7 @@ class InitialCatalogSeeder extends Seeder
             ['code' => 'BOSS', 'name' => 'Boss Electrical', 'slug' => 'boss-electrical', 'website_url' => 'https://bosselectrical.com'],
             ['code' => 'JEMBO', 'name' => 'Jembo Cable', 'slug' => 'jembo-cable', 'website_url' => 'https://www.jembo.com'],
             ['code' => 'SUPREME', 'name' => 'Supreme Cable (SUCACO)', 'slug' => 'supreme-cable', 'website_url' => 'https://www.sucaco.com'],
+            ['code' => 'BELDEN', 'name' => 'Belden', 'slug' => 'belden', 'website_url' => 'https://www.belden.com'],
         ];
 
         $brandModels = [];

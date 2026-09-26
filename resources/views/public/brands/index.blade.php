@@ -268,6 +268,8 @@
                                 $scaleStyle = 'transform: scale(1.25);';
                             } elseif (str_contains($bSlugLower, 'omron') || str_contains($bNameLower, 'omron')) {
                                 $scaleStyle = 'transform: scale(1.25);';
+                            } elseif (str_contains($bSlugLower, 'belden') || str_contains($bNameLower, 'belden')) {
+                                $scaleStyle = 'transform: scale(1.25);';
                             }
                         @endphp
                         <img src="{{ $b->logo_url }}" alt="{{ $b->name }} Logo" style="{{ $scaleStyle }}" class="max-h-full max-w-[85%] object-contain group-hover:scale-110 transition-transform duration-300">

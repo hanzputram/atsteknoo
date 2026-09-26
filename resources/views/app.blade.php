@@ -2045,6 +2045,7 @@
           <a href="{{ route('brands.show', 'puma') }}" class="marquee-logo-card" title="Supplier Puma Surabaya"><img src="{{ asset('logos/puma.png') }}" alt="Puma" width="105" height="26" loading="lazy" onerror="this.src='{{ url('/public/logos/puma.png') }}';"></a>
           <a href="{{ route('brands.show', 'theben') }}" class="marquee-logo-card" title="Supplier Theben Surabaya"><img src="{{ asset('logos/theben.png') }}" alt="Theben" width="105" height="26" loading="lazy" onerror="this.src='{{ url('/public/logos/theben.png') }}';"></a>
           <a href="{{ route('brands.show', 'uticon') }}" class="marquee-logo-card" title="Supplier Uticon Surabaya"><img src="{{ asset('logos/uticon.png') }}" alt="Uticon" width="105" height="26" loading="lazy" onerror="this.src='{{ url('/public/logos/uticon.png') }}';"></a>
+          <a href="{{ route('brands.show', 'belden') }}" class="marquee-logo-card" title="Supplier Belden Surabaya"><img src="{{ asset('logos/belden.png') }}" alt="Belden" width="105" height="26" loading="lazy" onerror="this.src='{{ url('/public/logos/belden.png') }}';"></a>
 
         </div>
       </div>

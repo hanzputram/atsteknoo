@@ -152,6 +152,13 @@ class MediaService
         ?string $altText = null,
         ?string $caption = null
     ): MediaUsage {
+        if (is_a($modelType, \App\Models\Project::class, true)) {
+            $media = MediaAsset::find($mediaId);
+            if ($media && $media->media_type === 'image') {
+                WatermarkService::applyToMediaAsset($media);
+            }
+        }
+
         return MediaUsage::create([
             'media_id' => $mediaId,
             'model_type' => $modelType,

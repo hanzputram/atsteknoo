@@ -118,6 +118,18 @@ class MediaDeliveryController extends Controller
     }
 
     /**
+     * Check if a media asset belongs to a project (cover or gallery).
+     */
+    protected function isProjectMedia(MediaAsset $media): bool
+    {
+        if (Project::where('cover_image_id', $media->id)->exists()) {
+            return true;
+        }
+
+        return $media->usages()->where('model_type', Project::class)->exists();
+    }
+
+    /**
      * Serve file binary response.
      */
     protected function serveFile(MediaAsset $media): BinaryFileResponse
@@ -125,6 +137,11 @@ class MediaDeliveryController extends Controller
         $disk = Storage::disk($media->disk);
         if (!$disk->exists($media->file_path)) {
             abort(404, 'File media tidak ditemukan di storage.');
+        }
+
+        // Auto-watermark project images if not already watermarked
+        if ($media->media_type === 'image' && $this->isProjectMedia($media)) {
+            \App\Services\WatermarkService::applyToMediaAsset($media);
         }
 
         $fullPath = $disk->path($media->file_path);

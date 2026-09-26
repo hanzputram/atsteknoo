@@ -88,6 +88,7 @@ class Brand extends Model
             'puma'               => 'logos/puma.webp',
             'theben'             => 'logos/theben.webp',
             'uticon'             => 'logos/uticon.webp',
+            'belden'             => 'logos/belden.webp',
         ];
 
         foreach ([$slug, $name, $code] as $k) {
@@ -106,6 +107,7 @@ class Brand extends Model
             'puma'      => 'logos/puma.webp',
             'theben'    => 'logos/theben.webp',
             'uticon'    => 'logos/uticon.webp',
+            'belden'    => 'logos/belden.webp',
             'schneider' => 'logos/1.webp',
             'gae'       => 'logos/2.webp',
             'legrand'   => 'logos/Legrand.webp',

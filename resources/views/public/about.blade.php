@@ -804,6 +804,19 @@
                 .brand-grid-card:hover .brand-img-uticon {
                     transform: scale(1.30) !important;
                 }
+                .brand-img-belden {
+                    width: 88% !important;
+                    max-width: 90% !important;
+                    height: auto !important;
+                    max-height: 3rem !important;
+                    object-fit: contain;
+                    transform: scale(1.20) !important;
+                    transform-origin: center center;
+                    transition: transform 0.3s ease;
+                }
+                .brand-grid-card:hover .brand-img-belden {
+                    transform: scale(1.30) !important;
+                }
             </style>
             <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
                 @foreach($brands as $b)
@@ -822,6 +835,7 @@
                             'puma'      => 'logos/puma.png',
                             'theben'    => 'logos/theben.png',
                             'uticon'    => 'logos/uticon.png',
+                            'belden'    => 'logos/belden.png',
                         ];
                         foreach ($quickLogos as $qk => $qPath) {
                             if (str_contains($bSlug, $qk) || str_contains($bName, $qk)) {
@@ -847,6 +861,8 @@
                         $customLogoClass = 'brand-img-theben';
                     } elseif (str_contains($bSlug, 'uticon') || str_contains($bName, 'uticon')) {
                         $customLogoClass = 'brand-img-uticon';
+                    } elseif (str_contains($bSlug, 'belden') || str_contains($bName, 'belden')) {
+                        $customLogoClass = 'brand-img-belden';
                     }
                 @endphp
                 <a href="{{ route('price-list.show', $b->slug) }}" class="brand-grid-card bg-white px-3 sm:px-4 py-2 sm:py-2.5 rounded-2xl border border-slate-200/80 hover:border-rose-300 shadow-xs flex items-center justify-center h-24 group overflow-hidden">

@@ -10,6 +10,7 @@ use App\Models\ProjectCategory;
 use App\Services\HtmlSanitizerService;
 use App\Services\MediaService;
 use App\Services\ProjectExcelService;
+use App\Services\WatermarkService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
@@ -67,6 +68,7 @@ class ProjectController extends Controller
         $coverImageId = null;
         if ($request->hasFile('cover_image')) {
             $media = MediaService::storeUpload($request->file('cover_image'), 'image');
+            WatermarkService::applyToMediaAsset($media);
             $coverImageId = $media->id;
         }
 
@@ -108,6 +110,7 @@ class ProjectController extends Controller
             $idx = 0;
             foreach ($request->file('gallery_images') as $gFile) {
                 $gMedia = MediaService::storeUpload($gFile, 'image');
+                WatermarkService::applyToMediaAsset($gMedia);
                 MediaService::attach($gMedia->id, Project::class, $project->id, 'gallery', $idx, $project->title);
                 $idx++;
             }
@@ -140,6 +143,7 @@ class ProjectController extends Controller
         $coverImageId = $project->cover_image_id;
         if ($request->hasFile('cover_image')) {
             $media = MediaService::storeUpload($request->file('cover_image'), 'image');
+            WatermarkService::applyToMediaAsset($media);
             $coverImageId = $media->id;
         }
 
@@ -183,6 +187,7 @@ class ProjectController extends Controller
             foreach ($request->file('gallery_images') as $gFile) {
                 $currentMax++;
                 $gMedia = MediaService::storeUpload($gFile, 'image');
+                WatermarkService::applyToMediaAsset($gMedia);
                 MediaService::attach($gMedia->id, Project::class, $project->id, 'gallery', $currentMax, $project->title);
             }
         }

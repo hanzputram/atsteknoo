@@ -538,75 +538,228 @@
         </div>
 
         <!-- ================= FULL WIDTH SHOWROOM & GOOGLE MAPS SECTION ================= -->
-        <div class="bg-white rounded-3xl border border-slate-200/90 shadow-sm overflow-hidden">
-            <!-- Header bar -->
-            <div class="p-6 sm:p-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 bg-gradient-to-r from-slate-50 via-white to-slate-50">
-                <div class="flex items-center gap-3.5">
-                    <div class="w-12 h-12 rounded-2xl bg-rose-50 text-rose-600 border border-rose-100 flex items-center justify-center shrink-0">
-                        <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/>
-                            <line x1="8" y1="2" x2="8" y2="18"/>
-                            <line x1="16" y1="6" x2="16" y2="22"/>
-                        </svg>
-                    </div>
-                    <div>
-                        <div class="text-xs font-bold text-rose-600 uppercase tracking-wider">
-                            <span class="ats-lang-en">Official Showroom &amp; Warehouse Location</span>
-                            <span class="ats-lang-id">Lokasi Showroom &amp; Gudang Utama</span>
+        <div class="space-y-8 mb-16">
+
+            <!-- Location 1: Surabaya Headquarters (Merr) -->
+            <div class="bg-white rounded-3xl border border-slate-200/90 shadow-sm overflow-hidden">
+                <!-- Header bar -->
+                <div class="p-6 sm:p-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 bg-gradient-to-r from-slate-50 via-white to-slate-50">
+                    <div class="flex items-center gap-3.5">
+                        <div class="w-12 h-12 rounded-2xl bg-rose-50 text-rose-600 border border-rose-100 flex items-center justify-center shrink-0">
+                            <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/>
+                                <line x1="8" y1="2" x2="8" y2="18"/>
+                                <line x1="16" y1="6" x2="16" y2="22"/>
+                            </svg>
                         </div>
-                        <h3 class="text-lg sm:text-xl font-black text-slate-900 tracking-tight">
-                            PT. Anugerah Tama Sejati — Surabaya Headquarters
-                        </h3>
-                        <p class="text-xs text-slate-500 mt-0.5">
-                            Ruko Galaxi Bumi Permai J-1 No. 23, Surabaya &bull;
-                            <span class="ats-lang-en">Easy Access &amp; Spacious Parking</span>
-                            <span class="ats-lang-id">Akses Mudah &amp; Parkir Luas</span>
-                        </p>
+                        <div>
+                            <div class="text-xs font-bold text-rose-600 uppercase tracking-wider">
+                                <span class="ats-lang-en">Head Office &amp; Central Warehouse</span>
+                                <span class="ats-lang-id">Lokasi Showroom &amp; Gudang Utama</span>
+                            </div>
+                            <h3 class="text-lg sm:text-xl font-black text-slate-900 tracking-tight">
+                                PT. Anugerah Tama Sejati — Surabaya Headquarters (Merr)
+                            </h3>
+                            <p class="text-xs text-slate-500 mt-0.5">
+                                Ruko Galaxi Bumi Permai J-1 No. 23, Surabaya &bull;
+                                <span class="ats-lang-en">Easy Access &amp; Spacious Parking</span>
+                                <span class="ats-lang-id">Akses Mudah &amp; Parkir Luas</span>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-3 shrink-0">
+                        <a href="https://maps.google.com/?cid=13502184121040894586" target="_blank" class="px-5 py-3 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs sm:text-sm shadow-sm transition flex items-center gap-2">
+                            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M15 3h6v6"/>
+                                <path d="M10 14 21 3"/>
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                            </svg>
+                            <span>
+                                <span class="ats-lang-en">Google Maps Directions</span>
+                                <span class="ats-lang-id">Petunjuk Arah Google Maps</span>
+                            </span>
+                        </a>
                     </div>
                 </div>
 
-                <div class="flex items-center gap-3 shrink-0">
-                    <a href="https://maps.google.com/?cid=13502184121040894586" target="_blank" class="px-5 py-3 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs sm:text-sm shadow-sm transition flex items-center gap-2">
-                        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M15 3h6v6"/>
-                            <path d="M10 14 21 3"/>
-                            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
-                        </svg>
+                <!-- Full-width Google Maps Embed Iframe -->
+                <div class="w-full h-80 sm:h-96 bg-slate-100 relative">
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3957.4611678914266!2d112.78433609999999!3d-7.301971999999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd7fb1cc2393627%3A0xbb6164eba28ffa7a!2sPT.%20Anugerah%20Tama%20Sejati!5e0!3m2!1sid!2sid!4v1789524195132!5m2!1sid!2sid"
+                        width="100%"
+                        height="100%"
+                        style="border:0;"
+                        allowfullscreen=""
+                        loading="lazy"
+                        referrerpolicy="strict-origin-when-cross-origin"
+                        title="Peta Lokasi PT. Anugerah Tama Sejati Surabaya Headquarters">
+                    </iframe>
+                </div>
+
+                <!-- Facility Highlights Footnote -->
+                <div class="px-6 py-4 bg-slate-50 border-t border-slate-100 flex flex-wrap items-center justify-between gap-4 text-xs text-slate-500">
+                    <div class="flex items-center gap-2 font-medium">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
                         <span>
-                            <span class="ats-lang-en">Google Maps Directions</span>
-                            <span class="ats-lang-id">Petunjuk Arah Google Maps</span>
+                            <span class="ats-lang-en">Ready for direct warehouse self-pickup &amp; switchboard inspection</span>
+                            <span class="ats-lang-id">Siap melayani pengambilan barang langsung (Self-Pickup) &amp; inspeksi panel listrik</span>
                         </span>
-                    </a>
+                    </div>
+                    <div class="text-[11px] text-slate-400 font-mono">
+                        <span class="ats-lang-en">GEO Coordinates:</span><span class="ats-lang-id">Koordinat GEO:</span> -7.301972, 112.784336
+                    </div>
                 </div>
             </div>
 
-            <!-- Full-width Google Maps Embed Iframe -->
-            <div class="w-full h-80 sm:h-96 bg-slate-100 relative">
-                <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3957.4611678914266!2d112.78433609999999!3d-7.301971999999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd7fb1cc2393627%3A0xbb6164eba28ffa7a!2sPT.%20Anugerah%20Tama%20Sejati!5e0!3m2!1sid!2sid!4v1789524195132!5m2!1sid!2sid"
-                    width="100%"
-                    height="100%"
-                    style="border:0;"
-                    allowfullscreen=""
-                    loading="lazy"
-                    referrerpolicy="strict-origin-when-cross-origin"
-                    title="Peta Lokasi PT. Anugerah Tama Sejati Surabaya">
-                </iframe>
+            <!-- Location 2: Surabaya Jagalan Showroom -->
+            <div class="bg-white rounded-3xl border border-slate-200/90 shadow-sm overflow-hidden">
+                <!-- Header bar -->
+                <div class="p-6 sm:p-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 bg-gradient-to-r from-slate-50 via-white to-slate-50">
+                    <div class="flex items-center gap-3.5">
+                        <div class="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 border border-blue-100 flex items-center justify-center shrink-0">
+                            <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                                <polyline points="9 22 9 12 15 12 15 22"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="text-xs font-bold text-blue-600 uppercase tracking-wider">
+                                <span class="ats-lang-en">Component Showroom &amp; Trade Hub</span>
+                                <span class="ats-lang-id">Showroom Komponen &amp; Pusat Perdagangan</span>
+                            </div>
+                            <h3 class="text-lg sm:text-xl font-black text-slate-900 tracking-tight">
+                                PT. Anugerah Tama Sejati — Surabaya Jagalan Showroom
+                            </h3>
+                            <p class="text-xs text-slate-500 mt-0.5">
+                                Jl. Jagalan No. 38, Bongkaran, Pabean Cantian, Surabaya &bull;
+                                <span class="ats-lang-en">Direct Retail &amp; Contractor Pickup</span>
+                                <span class="ats-lang-id">Pengambilan Langsung Kontraktor &amp; Retail</span>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-3 shrink-0">
+                        <a href="https://maps.google.com/?q=ATStekno+Jl.+Jagalan+No.+38+Bongkaran+Surabaya" target="_blank" class="px-5 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs sm:text-sm shadow-sm transition flex items-center gap-2">
+                            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M15 3h6v6"/>
+                                <path d="M10 14 21 3"/>
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                            </svg>
+                            <span>
+                                <span class="ats-lang-en">Google Maps Directions</span>
+                                <span class="ats-lang-id">Petunjuk Arah Google Maps</span>
+                            </span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Full-width Google Maps Embed Iframe -->
+                <div class="w-full h-80 sm:h-96 bg-slate-100 relative">
+                    <iframe
+                        src="https://maps.google.com/maps?q=ATStekno+Jl.+Jagalan+No.+38+Bongkaran+Surabaya&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                        width="100%"
+                        height="100%"
+                        style="border:0;"
+                        allowfullscreen=""
+                        loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"
+                        title="Peta Lokasi PT. Anugerah Tama Sejati Surabaya Jagalan Showroom">
+                    </iframe>
+                </div>
+
+                <!-- Facility Highlights Footnote -->
+                <div class="px-6 py-4 bg-slate-50 border-t border-slate-100 flex flex-wrap items-center justify-between gap-4 text-xs text-slate-500">
+                    <div class="flex items-center gap-2 font-medium">
+                        <span class="w-2 h-2 rounded-full bg-blue-500"></span>
+                        <span>
+                            <span class="ats-lang-en">Complete showroom display for breakers, contactors, digital meters &amp; electrical accessories</span>
+                            <span class="ats-lang-id">Display lengkap breaker, kontaktor, digital meter &amp; aksesoris elektrikal industri</span>
+                        </span>
+                    </div>
+                    <div class="text-[11px] text-slate-400 font-mono">
+                        <span class="ats-lang-en">Phone:</span><span class="ats-lang-id">Telepon:</span> (031) 99909120 &bull; WA: 0822-2888-2830
+                    </div>
+                </div>
             </div>
 
-            <!-- Facility Highlights Footnote -->
-            <div class="px-6 py-4 bg-slate-50 border-t border-slate-100 flex flex-wrap items-center justify-between gap-4 text-xs text-slate-500">
-                <div class="flex items-center gap-2 font-medium">
-                    <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
-                    <span>
-                        <span class="ats-lang-en">Ready for direct warehouse self-pickup &amp; switchboard inspection</span>
-                        <span class="ats-lang-id">Siap melayani pengambilan barang langsung (Self-Pickup) &amp; inspeksi panel listrik</span>
-                    </span>
+            <!-- Location 3: Pandaan Taman Dayu Showroom -->
+            <div class="bg-white rounded-3xl border border-slate-200/90 shadow-sm overflow-hidden">
+                <!-- Header bar -->
+                <div class="p-6 sm:p-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 bg-gradient-to-r from-slate-50 via-white to-slate-50">
+                    <div class="flex items-center gap-3.5">
+                        <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 border border-emerald-100 flex items-center justify-center shrink-0">
+                            <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect width="16" height="20" x="4" y="2" rx="2" ry="2"/>
+                                <path d="M9 22v-4h6v4"/>
+                                <path d="M8 6h.01"/>
+                                <path d="M16 6h.01"/>
+                                <path d="M8 10h.01"/>
+                                <path d="M16 10h.01"/>
+                                <path d="M8 14h.01"/>
+                                <path d="M16 14h.01"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <div class="text-xs font-bold text-emerald-600 uppercase tracking-wider">
+                                <span class="ats-lang-en">East Java Regional Hub &amp; Showroom</span>
+                                <span class="ats-lang-id">Hub Wilayah Jawa Timur &amp; Showroom</span>
+                            </div>
+                            <h3 class="text-lg sm:text-xl font-black text-slate-900 tracking-tight">
+                                PT. Anugerah Tama Sejati — Pandaan Taman Dayu Showroom
+                            </h3>
+                            <p class="text-xs text-slate-500 mt-0.5">
+                                The Taman Dayu, Cluster Palazio Boulevard J-1 No. 06, Pandaan, Pasuruan &bull;
+                                <span class="ats-lang-en">Serving Pasuruan, PIER, &amp; Malang Industrial Corridor</span>
+                                <span class="ats-lang-id">Melayani Kawasan Industri Pasuruan, PIER, &amp; Malang</span>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-3 shrink-0">
+                        <a href="https://www.google.com/maps/place/ATStekno+Pandaan/@-7.6699401,112.6948182,17z/" target="_blank" class="px-5 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs sm:text-sm shadow-sm transition flex items-center gap-2">
+                            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M15 3h6v6"/>
+                                <path d="M10 14 21 3"/>
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                            </svg>
+                            <span>
+                                <span class="ats-lang-en">Google Maps Directions</span>
+                                <span class="ats-lang-id">Petunjuk Arah Google Maps</span>
+                            </span>
+                        </a>
+                    </div>
                 </div>
-                <div class="text-[11px] text-slate-400 font-mono">
-                    <span class="ats-lang-en">GEO Coordinates:</span><span class="ats-lang-id">Koordinat GEO:</span> -7.301972, 112.784336
+
+                <!-- Full-width Google Maps Embed Iframe (Official ATStekno Pandaan) -->
+                <div class="w-full h-80 sm:h-96 bg-slate-100 relative">
+                    <iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3954.122845875241!2d112.69481817505094!3d-7.669940092346755!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd7d96dc646c1d5%3A0x7e975d52bc2a3c77!2sATStekno%20Pandaan!5e0!3m2!1sid!2sid!4v1790395190578!5m2!1sid!2sid"
+                        width="100%"
+                        height="100%"
+                        style="border:0;"
+                        allowfullscreen=""
+                        loading="lazy"
+                        referrerpolicy="strict-origin-when-cross-origin"
+                        title="Peta Lokasi PT. Anugerah Tama Sejati Pandaan Taman Dayu Showroom">
+                    </iframe>
+                </div>
+
+                <!-- Facility Highlights Footnote -->
+                <div class="px-6 py-4 bg-slate-50 border-t border-slate-100 flex flex-wrap items-center justify-between gap-4 text-xs text-slate-500">
+                    <div class="flex items-center gap-2 font-medium">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                        <span>
+                            <span class="ats-lang-en">Immediate stock dispatch for manufacturing plants, factory maintenance &amp; panel builders</span>
+                            <span class="ats-lang-id">Pengiriman stok cepat untuk pabrik manufaktur, maintenance industri &amp; panel maker</span>
+                        </span>
+                    </div>
+                    <div class="text-[11px] text-slate-400 font-mono">
+                        <span class="ats-lang-en">Phone:</span><span class="ats-lang-id">Telepon:</span> (0343) 4857758 &bull; WA: 0889-7378-3384
+                    </div>
                 </div>
             </div>
+
         </div>
 
     </div>

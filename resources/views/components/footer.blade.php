@@ -363,9 +363,9 @@
     border: none;
     color: var(--ats-ft-text-muted);
     font-family: inherit;
-    font-size: 0.76rem;
+    font-size: 0.72rem;
     font-weight: 700;
-    padding: 7px 6px;
+    padding: 7px 4px;
     border-radius: 7px;
     cursor: pointer;
     transition: all 0.2s ease;
@@ -738,7 +738,7 @@
 
         <!-- ================= COLUMN 2: KATALOG & KATEGORI PRODUK RELEVAN ================= -->
         <div class="ats-ft-col">
-          <div class="ats-ft-col-header" data-i18n="footer.col2_header">Product Catalog</div>
+          <div class="ats-ft-col-header" data-i18n="footer.col2_header">Product Catalogue</div>
           <ul class="ats-ft-nav-list">
             <li class="ats-ft-nav-item">
               <a href="{{ route('brands.show', 'schneider-electric') }}">
@@ -803,9 +803,9 @@
           <ul class="ats-ft-nav-list">
             <li class="ats-ft-nav-item"><a href="{{ route('about.index') }}"><span class="ats-lang-en">About ATS TEKNO</span><span class="ats-lang-id">Tentang ATS TEKNO</span></a></li>
             <li class="ats-ft-nav-item"><a href="{{ route('price-list.index') }}"><span class="ats-lang-en">Price List &amp; Brand Catalogs</span><span class="ats-lang-id">Daftar Harga &amp; Katalog Brand</span></a></li>
-            <li class="ats-ft-nav-item"><a href="{{ route('projects.index') }}"><span class="ats-lang-en">Flagship Engineering Projects</span><span class="ats-lang-id">Portofolio Proyek Rekayasa</span></a></li>
+            <li class="ats-ft-nav-item"><a href="{{ route('projects.index') }}"><span class="ats-lang-en">Our Project Portfolio</span><span class="ats-lang-id">Portofolio Proyek Kami</span></a></li>
             <li class="ats-ft-nav-item"><a href="{{ route('articles.index') }}"><span class="ats-lang-en">Technical Articles &amp; Insights</span><span class="ats-lang-id">Artikel &amp; Panduan Teknis</span></a></li>
-            <li class="ats-ft-nav-item"><a href="{{ route('contact.index') }}"><span class="ats-lang-en">Contact Engineering Team</span><span class="ats-lang-id">Hubungi Tim Rekayasa</span></a></li>
+            <li class="ats-ft-nav-item"><a href="{{ route('contact.index') }}"><span class="ats-lang-en">Contact Our Team</span><span class="ats-lang-id">Hubungi Tim Kami</span></a></li>
           </ul>
         </div>
 
@@ -825,7 +825,7 @@
                 aria-selected="true"
                 data-i18n="footer.tab_hq"
               >
-                Head Office
+                Surabaya - Merr
               </button>
               <button 
                 type="button" 
@@ -836,7 +836,7 @@
                 aria-selected="false"
                 data-i18n="footer.tab_sby"
               >
-                Surabaya Hub
+                Surabaya - Jagalan
               </button>
               <button 
                 type="button" 
@@ -854,7 +854,7 @@
             <!-- Panel 1: Head Office Surabaya -->
             <div class="ats-ft-panel-item active" id="loc-panel-hq" role="tabpanel">
               <div class="ats-ft-loc-header">
-                <span class="ats-ft-loc-title">Head Quarter (Galaxi)</span>
+                <span class="ats-ft-loc-title">Surabaya - Merr</span>
                 <span class="ats-ft-loc-tag">Head Office</span>
               </div>
               <div class="ats-ft-loc-addr">
@@ -884,7 +884,7 @@
             <!-- Panel 2: Showroom Jagalan Surabaya -->
             <div class="ats-ft-panel-item" id="loc-panel-sby" role="tabpanel">
               <div class="ats-ft-loc-header">
-                <span class="ats-ft-loc-title">Jagalan Showroom</span>
+                <span class="ats-ft-loc-title">Surabaya - Jagalan</span>
                 <span class="ats-ft-loc-tag">Component Showroom</span>
               </div>
               <div class="ats-ft-loc-addr">
@@ -928,15 +928,15 @@
                 <a href="tel:03434857758" class="ats-ft-loc-tel-link">Tel: (0343) 4857758</a>
               </div>
               <div class="ats-ft-map-container">
-                <a href="https://maps.google.com/?q=The+Taman+Dayu+Cluster+Palazio+Boulevard+Pandaan+Pasuruan" target="_blank" class="ats-ft-map-overlay-btn" title="Open in Google Maps">
+                <a href="https://www.google.com/maps/place/ATStekno+Pandaan/@-7.6699401,112.6948182,17z/" target="_blank" class="ats-ft-map-overlay-btn" title="Open in Google Maps">
                   Maps ↗
                 </a>
                 <iframe 
                   class="ats-ft-map-iframe"
-                  data-src="https://maps.google.com/maps?q=The+Taman+Dayu+Cluster+Palazio+Boulevard+Pandaan+Pasuruan&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                  data-src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3954.122845875241!2d112.69481817505094!3d-7.669940092346755!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd7d96dc646c1d5%3A0x7e975d52bc2a3c77!2sATStekno%20Pandaan!5e0!3m2!1sid!2sid!4v1790395190578!5m2!1sid!2sid"
                   loading="lazy" 
-                  referrerpolicy="no-referrer-when-downgrade"
-                  title="Pandaan Showroom Map"
+                  referrerpolicy="strict-origin-when-cross-origin"
+                  title="ATStekno Pandaan Showroom Map"
                 ></iframe>
               </div>
             </div>

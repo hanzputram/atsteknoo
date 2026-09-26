@@ -1592,6 +1592,7 @@
           <div class="marquee-logo-card"><img src="{{ asset('logos/puma.png') }}" alt="Puma" loading="lazy" onerror="this.src='{{ url('/public/logos/puma.png') }}';"></div>
           <div class="marquee-logo-card"><img src="{{ asset('logos/theben.png') }}" alt="Theben" loading="lazy" onerror="this.src='{{ url('/public/logos/theben.png') }}';"></div>
           <div class="marquee-logo-card"><img src="{{ asset('logos/uticon.png') }}" alt="Uticon" loading="lazy" onerror="this.src='{{ url('/public/logos/uticon.png') }}';"></div>
+          <div class="marquee-logo-card"><img src="{{ asset('logos/belden.png') }}" alt="Belden" loading="lazy" onerror="this.src='{{ url('/public/logos/belden.png') }}';"></div>
 
         </div>
       </div>

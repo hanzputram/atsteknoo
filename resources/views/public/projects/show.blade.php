@@ -53,11 +53,13 @@
     </div>
 
     <!-- Main Project Cover Image -->
-    @if($project->coverImage)
     <div class="rounded-3xl overflow-hidden shadow-md border border-slate-200 h-96 sm:h-[450px]">
-        <img src="{{ route('media.view', $project->cover_image_id) }}" alt="{{ $project->title }}" class="w-full h-full object-cover">
+        @if($project->coverImage)
+            <img src="{{ route('media.view', $project->cover_image_id) }}" alt="{{ $project->title }}" class="w-full h-full object-cover">
+        @else
+            <img src="{{ $project->image_url }}" alt="{{ $project->title }}" class="w-full h-full object-cover">
+        @endif
     </div>
-    @endif
 
     <!-- Scope of Work Box (if exists) -->
     @if($project->scope_of_work)

@@ -56,7 +56,8 @@
                 @if($p->coverImage)
                     <img src="{{ route('media.view', $p->cover_image_id) }}" alt="{{ $p->title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
                 @else
-                    <div class="w-full h-full flex items-center justify-center text-slate-400 text-xs font-mono">No Image</div>
+                    <img src="{{ $p->image_url }}" alt="{{ $p->title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="w-full h-full items-center justify-center text-slate-400 text-xs font-mono" style="display:none;">No Image</div>
                 @endif
 
                 @if($p->category)
