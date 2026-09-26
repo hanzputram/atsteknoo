@@ -1035,7 +1035,7 @@
     </div>
 
     <nav class="sidebar-nav">
-      @if(auth()->user()->isAdmin())
+      @if(auth()->user()->hasPermission('dashboard') || auth()->user()->isAdmin())
         <a href="{{ route('backoffice.dashboard') }}" class="nav-link {{ request()->routeIs('backoffice.dashboard') ? 'active' : '' }}">
           <span class="nav-icon">
             <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
@@ -1044,120 +1044,150 @@
         </a>
       @endif
 
-      @if(auth()->user()->canManageCatalog())
+      @if(auth()->user()->hasAnyPermission(['products', 'product_categories', 'brands', 'import_products']))
         <div class="nav-group-label">Katalog Produk</div>
-        <a href="{{ route('backoffice.products.index') }}" class="nav-link {{ request()->routeIs('backoffice.products.*') ? 'active' : '' }}">
-          <span class="nav-icon">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-          </span>
-          <span>Master Produk</span>
-        </a>
-        <a href="{{ route('backoffice.product-categories.index') }}" class="nav-link {{ request()->routeIs('backoffice.product-categories.*') ? 'active' : '' }}">
-          <span class="nav-icon">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/></svg>
-          </span>
-          <span>Kategori Produk</span>
-        </a>
-        <a href="{{ route('backoffice.brands.index') }}" class="nav-link {{ request()->routeIs('backoffice.brands.*') ? 'active' : '' }}">
-          <span class="nav-icon">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/></svg>
-          </span>
-          <span>Brand Resmi</span>
-        </a>
-        <a href="{{ route('backoffice.import.index') }}" class="nav-link {{ request()->routeIs('backoffice.import.*') ? 'active' : '' }}">
-          <span class="nav-icon">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
-          </span>
-          <span>Import Center (Excel)</span>
-        </a>
+        @if(auth()->user()->hasPermission('products'))
+          <a href="{{ route('backoffice.products.index') }}" class="nav-link {{ request()->routeIs('backoffice.products.*') ? 'active' : '' }}">
+            <span class="nav-icon">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+            </span>
+            <span>Master Produk</span>
+          </a>
+        @endif
+        @if(auth()->user()->hasPermission('product_categories'))
+          <a href="{{ route('backoffice.product-categories.index') }}" class="nav-link {{ request()->routeIs('backoffice.product-categories.*') ? 'active' : '' }}">
+            <span class="nav-icon">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/></svg>
+            </span>
+            <span>Kategori Produk</span>
+          </a>
+        @endif
+        @if(auth()->user()->hasPermission('brands'))
+          <a href="{{ route('backoffice.brands.index') }}" class="nav-link {{ request()->routeIs('backoffice.brands.*') ? 'active' : '' }}">
+            <span class="nav-icon">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/></svg>
+            </span>
+            <span>Brand Resmi</span>
+          </a>
+        @endif
+        @if(auth()->user()->hasPermission('import_products'))
+          <a href="{{ route('backoffice.import.index') }}" class="nav-link {{ request()->routeIs('backoffice.import.*') ? 'active' : '' }}">
+            <span class="nav-icon">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
+            </span>
+            <span>Import Center (Excel)</span>
+          </a>
+        @endif
+      @endif
 
+      @if(auth()->user()->hasAnyPermission(['projects', 'articles', 'pages', 'certificates']))
         <div class="nav-group-label">Portofolio & Konten</div>
-        <a href="{{ route('backoffice.projects.index') }}" class="nav-link {{ request()->routeIs('backoffice.projects.*') ? 'active' : '' }}">
-          <span class="nav-icon">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
-          </span>
-          <span>Project Portofolio</span>
-        </a>
-        <a href="{{ route('backoffice.project-categories.index') }}" class="nav-link {{ request()->routeIs('backoffice.project-categories.*') ? 'active' : '' }}">
-          <span class="nav-icon">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/></svg>
-          </span>
-          <span>Kategori Project</span>
-        </a>
-        <a href="{{ route('backoffice.articles.index') }}" class="nav-link {{ request()->routeIs('backoffice.articles.*') ? 'active' : '' }}">
-          <span class="nav-icon">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/></svg>
-          </span>
-          <span>Artikel & Panduan</span>
-        </a>
-        <a href="{{ route('backoffice.article-categories.index') }}" class="nav-link {{ request()->routeIs('backoffice.article-categories.*') ? 'active' : '' }}">
-          <span class="nav-icon">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/></svg>
-          </span>
-          <span>Kategori Artikel</span>
-        </a>
-        <a href="{{ route('backoffice.pages.index') }}" class="nav-link {{ request()->routeIs('backoffice.pages.*') ? 'active' : '' }}">
-          <span class="nav-icon">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-          </span>
-          <span>Halaman Perusahaan</span>
-        </a>
-        <a href="{{ route('backoffice.certificates.index') }}" class="nav-link {{ request()->routeIs('backoffice.certificates.*') ? 'active' : '' }}">
-          <span class="nav-icon">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/></svg>
-          </span>
-          <span>Master Sertifikat</span>
-        </a>
+        @if(auth()->user()->hasPermission('projects'))
+          <a href="{{ route('backoffice.projects.index') }}" class="nav-link {{ request()->routeIs('backoffice.projects.*') ? 'active' : '' }}">
+            <span class="nav-icon">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+            </span>
+            <span>Project Portofolio</span>
+          </a>
+          <a href="{{ route('backoffice.project-categories.index') }}" class="nav-link {{ request()->routeIs('backoffice.project-categories.*') ? 'active' : '' }}">
+            <span class="nav-icon">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/></svg>
+            </span>
+            <span>Kategori Project</span>
+          </a>
+        @endif
+        @if(auth()->user()->hasPermission('articles'))
+          <a href="{{ route('backoffice.articles.index') }}" class="nav-link {{ request()->routeIs('backoffice.articles.*') ? 'active' : '' }}">
+            <span class="nav-icon">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/></svg>
+            </span>
+            <span>Artikel & Panduan</span>
+          </a>
+          <a href="{{ route('backoffice.article-categories.index') }}" class="nav-link {{ request()->routeIs('backoffice.article-categories.*') ? 'active' : '' }}">
+            <span class="nav-icon">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/></svg>
+            </span>
+            <span>Kategori Artikel</span>
+          </a>
+        @endif
+        @if(auth()->user()->hasPermission('pages'))
+          <a href="{{ route('backoffice.pages.index') }}" class="nav-link {{ request()->routeIs('backoffice.pages.*') ? 'active' : '' }}">
+            <span class="nav-icon">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+            </span>
+            <span>Halaman Perusahaan</span>
+          </a>
+        @endif
+        @if(auth()->user()->hasPermission('certificates'))
+          <a href="{{ route('backoffice.certificates.index') }}" class="nav-link {{ request()->routeIs('backoffice.certificates.*') ? 'active' : '' }}">
+            <span class="nav-icon">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/></svg>
+            </span>
+            <span>Master Sertifikat</span>
+          </a>
+        @endif
       @endif
 
-      @if(auth()->user()->canManageInbox())
+      @if(auth()->user()->hasAnyPermission(['live_chats', 'inquiries', 'ai_knowledge']))
         <div class="nav-group-label">Inbox & Operasional</div>
-        <a href="{{ route('backoffice.live-chats.index') }}" class="nav-link {{ request()->routeIs('backoffice.live-chats.*') ? 'active' : '' }}">
-          <span class="nav-icon">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
-          </span>
-          <span style="flex:1;">Live Chat</span>
-          @php
-            $sidebarLiveChatUnread = \App\Models\LiveChatSession::where('is_archived', false)->where('status', 'unread')->count();
-          @endphp
-          <span id="sidebarLiveChatBadge" style="{{ $sidebarLiveChatUnread > 0 ? '' : 'display: none;' }} background-color: #FC0001; color: #FFFFFF; font-size: 10px; font-weight: 800; padding: 2px 7px; border-radius: 9999px;">{{ $sidebarLiveChatUnread }}</span>
-        </a>
-        <a href="{{ route('backoffice.inquiries.index') }}" class="nav-link {{ request()->routeIs('backoffice.inquiries.*') ? 'active' : '' }}">
-          <span class="nav-icon">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-          </span>
-          <span style="flex:1;">Pesan Masuk</span>
-          @php
-            $sidebarInquiryUnread = \App\Models\ContactInquiry::where('status', 'unread')->count();
-          @endphp
-          <span id="sidebarInquiryBadge" style="{{ $sidebarInquiryUnread > 0 ? '' : 'display: none;' }} background-color: #2563EB; color: #FFFFFF; font-size: 10px; font-weight: 800; padding: 2px 7px; border-radius: 9999px;">{{ $sidebarInquiryUnread }}</span>
-        </a>
-        <a href="{{ route('backoffice.ai-knowledge.index') }}" class="nav-link {{ request()->routeIs('backoffice.ai-knowledge.*') ? 'active' : '' }}">
-          <span class="nav-icon">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
-          </span>
-          <span style="flex:1;">Pengetahuan & Memori AI</span>
-          @php
-            $sidebarAiKnowledgeCount = \App\Models\AiKnowledge::where('is_active', true)->count();
-          @endphp
-          <span style="background-color: rgba(255, 255, 255, 0.15); color: #E2E8F0; font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 9999px;">{{ $sidebarAiKnowledgeCount }}</span>
-        </a>
+        @if(auth()->user()->hasPermission('live_chats'))
+          <a href="{{ route('backoffice.live-chats.index') }}" class="nav-link {{ request()->routeIs('backoffice.live-chats.*') ? 'active' : '' }}">
+            <span class="nav-icon">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+            </span>
+            <span style="flex:1;">Live Chat</span>
+            @php
+              $sidebarLiveChatUnread = \App\Models\LiveChatSession::where('is_archived', false)->where('status', 'unread')->count();
+            @endphp
+            <span id="sidebarLiveChatBadge" style="{{ $sidebarLiveChatUnread > 0 ? '' : 'display: none;' }} background-color: #FC0001; color: #FFFFFF; font-size: 10px; font-weight: 800; padding: 2px 7px; border-radius: 9999px;">{{ $sidebarLiveChatUnread }}</span>
+          </a>
+        @endif
+
+        @if(auth()->user()->hasPermission('inquiries'))
+          <a href="{{ route('backoffice.inquiries.index') }}" class="nav-link {{ request()->routeIs('backoffice.inquiries.*') ? 'active' : '' }}">
+            <span class="nav-icon">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+            </span>
+            <span style="flex:1;">Pesan Masuk</span>
+            @php
+              $sidebarInquiryUnread = \App\Models\ContactInquiry::where('status', 'unread')->count();
+            @endphp
+            <span id="sidebarInquiryBadge" style="{{ $sidebarInquiryUnread > 0 ? '' : 'display: none;' }} background-color: #2563EB; color: #FFFFFF; font-size: 10px; font-weight: 800; padding: 2px 7px; border-radius: 9999px;">{{ $sidebarInquiryUnread }}</span>
+          </a>
+        @endif
+
+        @if(auth()->user()->hasPermission('ai_knowledge'))
+          <a href="{{ route('backoffice.ai-knowledge.index') }}" class="nav-link {{ request()->routeIs('backoffice.ai-knowledge.*') ? 'active' : '' }}">
+            <span class="nav-icon">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+            </span>
+            <span style="flex:1;">Pengetahuan & Memori AI</span>
+            @php
+              $sidebarAiKnowledgeCount = \App\Models\AiKnowledge::where('is_active', true)->count();
+            @endphp
+            <span style="background-color: rgba(255, 255, 255, 0.15); color: #E2E8F0; font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 9999px;">{{ $sidebarAiKnowledgeCount }}</span>
+          </a>
+        @endif
       @endif
 
-      @if(auth()->user()->isAdmin())
+      @if(auth()->user()->hasAnyPermission(['settings', 'users']))
         <div class="nav-group-label">Pengaturan Sistem</div>
-        <a href="{{ route('backoffice.settings.index') }}" class="nav-link {{ request()->routeIs('backoffice.settings.*') ? 'active' : '' }}">
-          <span class="nav-icon">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-          </span>
-          <span>Pengaturan Website</span>
-        </a>
-        <a href="{{ route('backoffice.users.index') }}" class="nav-link {{ request()->routeIs('backoffice.users.*') ? 'active' : '' }}">
-          <span class="nav-icon">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
-          </span>
-          <span>Pengguna & Role</span>
-        </a>
+        @if(auth()->user()->hasPermission('settings'))
+          <a href="{{ route('backoffice.settings.index') }}" class="nav-link {{ request()->routeIs('backoffice.settings.*') ? 'active' : '' }}">
+            <span class="nav-icon">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+            </span>
+            <span>Pengaturan Website</span>
+          </a>
+        @endif
+        @if(auth()->user()->hasPermission('users'))
+          <a href="{{ route('backoffice.users.index') }}" class="nav-link {{ request()->routeIs('backoffice.users.*') ? 'active' : '' }}">
+            <span class="nav-icon">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+            </span>
+            <span>Pengguna & Role</span>
+          </a>
+        @endif
       @endif
     </nav>
 

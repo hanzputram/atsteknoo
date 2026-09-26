@@ -41,11 +41,13 @@ class SettingController extends Controller
             'master_price_list_drive_url',
             'master_price_list_version',
             // Company Profile (Compro) Fields
+            'company_profile_visible',
             'company_profile_title',
             'company_profile_description',
             'company_profile_drive_url',
             'company_profile_version',
             // ATS Panel Project Document Fields
+            'panel_project_doc_visible',
             'panel_project_doc_title',
             'panel_project_doc_description',
             'panel_project_doc_drive_url',

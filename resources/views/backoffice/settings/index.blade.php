@@ -80,13 +80,28 @@
 
     <!-- Card 2: Company Profile (Compro) Resmi ATS -->
     <div class="panel-card" style="border-left: 4px solid #059669;">
-        <div style="padding: 16px 24px; border-bottom: 1px solid var(--color-border); background: #FAFBFD; display: flex; align-items: center; justify-content: space-between;">
-            <h2 style="font-size: 15px; font-weight: 700; color: #0F172A; display: flex; align-items: center; gap: 8px;">
-                <span>📕</span> ATS Official Company Profile (Compro)
-            </h2>
-            <span class="badge badge-success">Showcase About Us</span>
+        <div style="padding: 16px 24px; border-bottom: 1px solid var(--color-border); background: #FAFBFD; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+                <h2 style="font-size: 15px; font-weight: 700; color: #0F172A; display: flex; align-items: center; gap: 8px; margin: 0;">
+                    <span>📕</span> ATS Official Company Profile (Compro)
+                </h2>
+                <span class="badge badge-success">Showcase About Us</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+                <label for="company_profile_visible" style="font-size: 12.5px; font-weight: 600; color: #475569; margin: 0;">Status Tampilan:</label>
+                <select name="company_profile_visible" id="company_profile_visible" class="form-control" style="width: auto; padding: 5px 12px; font-size: 12.5px; font-weight: 700; border-radius: 6px; cursor: pointer; border: 1.5px solid {{ ($settings['company_profile_visible'] ?? '1') == '0' ? '#FCA5A5' : '#86EFAC' }}; background: {{ ($settings['company_profile_visible'] ?? '1') == '0' ? '#FEF2F2' : '#F0FDF4' }}; color: {{ ($settings['company_profile_visible'] ?? '1') == '0' ? '#B91C1C' : '#15803D' }};">
+                    <option value="1" {{ ($settings['company_profile_visible'] ?? '1') != '0' ? 'selected' : '' }}>👁️ Ditampilkan (Visible)</option>
+                    <option value="0" {{ ($settings['company_profile_visible'] ?? '1') == '0' ? 'selected' : '' }}>🚫 Disembunyikan (Hide)</option>
+                </select>
+            </div>
         </div>
         <div class="panel-body" style="display: flex; flex-direction: column; gap: 18px;">
+            @if(($settings['company_profile_visible'] ?? '1') == '0')
+                <div style="background: #FEF2F2; border: 1px solid #FECACA; border-radius: 8px; padding: 10px 14px; font-size: 12.5px; color: #991B1B; display: flex; align-items: center; gap: 8px;">
+                    <span style="font-size: 16px;">🚫</span>
+                    <span><strong>Bagian Company Profile saat ini disembunyikan (Hide).</strong> Dokumen ini tidak akan ditampilkan pada pengunjung di halaman About Us.</span>
+                </div>
+            @endif
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;">
                 <div class="form-group" style="margin-bottom: 0;">
                     <label class="form-label">Judul Company Profile</label>
@@ -180,13 +195,28 @@
 
     <!-- Card 3: Dokumen Portofolio ATS Panel Project -->
     <div class="panel-card" style="border-left: 4px solid #EA580C;">
-        <div style="padding: 16px 24px; border-bottom: 1px solid var(--color-border); background: #FAFBFD; display: flex; align-items: center; justify-content: space-between;">
-            <h2 style="font-size: 15px; font-weight: 700; color: #0F172A; display: flex; align-items: center; gap: 8px;">
-                <span>⚡</span> Dokumen ATS Panel Project (Katalog Fabrikasi &amp; Engineering)
-            </h2>
-            <span class="badge badge-warning">Showcase About Us</span>
+        <div style="padding: 16px 24px; border-bottom: 1px solid var(--color-border); background: #FAFBFD; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+                <h2 style="font-size: 15px; font-weight: 700; color: #0F172A; display: flex; align-items: center; gap: 8px; margin: 0;">
+                    <span>⚡</span> Dokumen ATS Panel Project (Katalog Fabrikasi &amp; Engineering)
+                </h2>
+                <span class="badge badge-warning">Showcase About Us</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+                <label for="panel_project_doc_visible" style="font-size: 12.5px; font-weight: 600; color: #475569; margin: 0;">Status Tampilan:</label>
+                <select name="panel_project_doc_visible" id="panel_project_doc_visible" class="form-control" style="width: auto; padding: 5px 12px; font-size: 12.5px; font-weight: 700; border-radius: 6px; cursor: pointer; border: 1.5px solid {{ ($settings['panel_project_doc_visible'] ?? '1') == '0' ? '#FCA5A5' : '#FED7AA' }}; background: {{ ($settings['panel_project_doc_visible'] ?? '1') == '0' ? '#FEF2F2' : '#FFF7ED' }}; color: {{ ($settings['panel_project_doc_visible'] ?? '1') == '0' ? '#B91C1C' : '#C2410C' }};">
+                    <option value="1" {{ ($settings['panel_project_doc_visible'] ?? '1') != '0' ? 'selected' : '' }}>👁️ Ditampilkan (Visible)</option>
+                    <option value="0" {{ ($settings['panel_project_doc_visible'] ?? '1') == '0' ? 'selected' : '' }}>🚫 Disembunyikan (Hide)</option>
+                </select>
+            </div>
         </div>
         <div class="panel-body" style="display: flex; flex-direction: column; gap: 18px;">
+            @if(($settings['panel_project_doc_visible'] ?? '1') == '0')
+                <div style="background: #FEF2F2; border: 1px solid #FECACA; border-radius: 8px; padding: 10px 14px; font-size: 12.5px; color: #991B1B; display: flex; align-items: center; gap: 8px;">
+                    <span style="font-size: 16px;">🚫</span>
+                    <span><strong>Bagian Dokumen ATS Panel Project saat ini disembunyikan (Hide).</strong> Bagian "ATS PANEL MAKER &amp; PROJECT REFERENCE" tidak akan ditampilkan pada pengunjung di halaman About Us.</span>
+                </div>
+            @endif
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;">
                 <div class="form-group" style="margin-bottom: 0;">
                     <label class="form-label">Judul Dokumen Proyek Panel</label>
@@ -525,6 +555,37 @@
                 if (panelAutoThumb) panelAutoThumb.value = dataUrl;
                 if (panelThumbImg) panelThumbImg.src = dataUrl;
                 if (panelThumbBox) panelThumbBox.style.display = 'block';
+            }
+        });
+    }
+
+    // Dynamic style update for visibility selects
+    const panelVisSelect = document.getElementById('panel_project_doc_visible');
+    if (panelVisSelect) {
+        panelVisSelect.addEventListener('change', function() {
+            if (this.value === '0') {
+                this.style.borderColor = '#FCA5A5';
+                this.style.background = '#FEF2F2';
+                this.style.color = '#B91C1C';
+            } else {
+                this.style.borderColor = '#FED7AA';
+                this.style.background = '#FFF7ED';
+                this.style.color = '#C2410C';
+            }
+        });
+    }
+
+    const comproVisSelect = document.getElementById('company_profile_visible');
+    if (comproVisSelect) {
+        comproVisSelect.addEventListener('change', function() {
+            if (this.value === '0') {
+                this.style.borderColor = '#FCA5A5';
+                this.style.background = '#FEF2F2';
+                this.style.color = '#B91C1C';
+            } else {
+                this.style.borderColor = '#86EFAC';
+                this.style.background = '#F0FDF4';
+                this.style.color = '#15803D';
             }
         });
     }

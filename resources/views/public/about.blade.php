@@ -106,16 +106,20 @@
 
                     <!-- Quick Action Links -->
                     <div class="pt-2 flex flex-wrap items-center gap-2.5">
+                        @if(($settings['company_profile_visible'] ?? '1') != '0')
                         <a href="#company-profile" class="inline-flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs transition shadow-sm">
                             <svg class="w-4 h-4 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
                             <span class="ats-lang-en">Company Profile (PDF)</span>
                             <span class="ats-lang-id">Profil Perusahaan (PDF)</span>
                         </a>
+                        @endif
+                        @if(($settings['panel_project_doc_visible'] ?? '1') != '0')
                         <a href="#panel-project-doc" class="inline-flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs transition shadow-sm">
                             <svg class="w-4 h-4 text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
                             <span class="ats-lang-en">ATS Panel Project (PDF)</span>
                             <span class="ats-lang-id">Portofolio Panel ATS (PDF)</span>
                         </a>
+                        @endif
                         <a href="#certificates" class="inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition">
                             <span class="ats-lang-en">Certificates &darr;</span>
                             <span class="ats-lang-id">Sertifikat Resmi &darr;</span>
@@ -363,9 +367,16 @@
          OFFICIAL CORPORATE & ENGINEERING PUBLICATIONS (CLEAN & MINIMALIST LIKE PHOTO 4)
          Simple, white background, no excessive colors or heavy decorations
          ======================================================== -->
+    @php
+        $showCompro = ($settings['company_profile_visible'] ?? '1') != '0';
+        $showPanelDoc = ($settings['panel_project_doc_visible'] ?? '1') != '0';
+    @endphp
+
+    @if($showCompro || $showPanelDoc)
     <section class="py-16 sm:py-20 bg-white border-b border-slate-200/80" id="company-profile">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
 
+            @if($showCompro)
             <!-- ================= DOCUMENT 1: OUR COMPANY PROFILE ================= -->
             @php
                 $comproThumb = !empty($settings['company_profile_thumbnail']) ? $settings['company_profile_thumbnail'] : asset('images/documents/compro-cover.jpg');
@@ -375,7 +386,7 @@
                 $comproDesc  = $settings['company_profile_description'] ?? 'PT. Anugerah Tama Sejati berpusat di Surabaya, Jawa Timur, Indonesia. Perusahaan kami bergerak di bidang pengadaan peralatan listrik khususnya untuk industri. Kami juga memberikan solusi dan pelayanan yang terbaik bagi semua pelanggan kami dalam bidang Industri, Building, OEM, Kontraktor ME, dan Panel Maker. Perusahaan kami didirikan sejak 1 Agustus 2019 dengan satu konsep yaitu memenuhi semua kebutuhan listrik bagi masyarakat Indonesia.';
             @endphp
 
-            <div class="mb-14">
+            <div class="{{ $showPanelDoc ? 'mb-14' : '' }}">
                 <div class="text-center sm:text-left mb-6">
                     <div class="text-xs sm:text-sm font-medium tracking-wide text-slate-500 mb-1">
                         <span class="ats-lang-en">Indonesia</span>
@@ -430,10 +441,14 @@
                     </div>
                 </div>
             </div>
+            @endif
 
+            @if($showCompro && $showPanelDoc)
             <!-- Subtle Horizontal Divider -->
             <div class="border-t border-slate-200/80 my-12 sm:my-16"></div>
+            @endif
 
+            @if($showPanelDoc)
             <!-- ================= DOCUMENT 2: ATS PANEL MAKER & PROJECT REFERENCE ================= -->
             @php
                 $panelThumb = !empty($settings['panel_project_doc_thumbnail']) ? $settings['panel_project_doc_thumbnail'] : asset('images/documents/panel-project-cover.jpg');
@@ -497,9 +512,11 @@
                     </div>
                 </div>
             </div>
+            @endif
 
         </div>
     </section>
+    @endif
 
     <!-- ========================================================
          CLIENT CONFIDENCE & REASONS TO CHOOSE ATS

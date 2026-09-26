@@ -64,7 +64,7 @@ class BackofficeAuthController extends Controller
         if ($authenticated) {
             $user = Auth::user();
 
-            if (!$user->is_active || !in_array($user->role, ['admin', 'editor', 'cs', 'support'])) {
+            if (!$user->is_active || !$user->canAccessBackoffice()) {
                 Auth::logout();
                 $request->session()->invalidate();
                 $request->session()->regenerateToken();
