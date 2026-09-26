@@ -22,10 +22,10 @@
       "nav.contact": "CONTACT US",
 
       // Hero
-      "hero.brand_tag": "ELECTRICAL SUPPLIER",
-      "hero.eyebrow": "AUTHORIZED SCHNEIDER ELECTRIC DISTRIBUTOR SURABAYA",
-      "hero.headline": "Authorized Schneider Electric Distributor & Switchboard Panel Builder in Surabaya",
-      "hero.subheadline": "Official Schneider Electric, Vinsa, GAE, and Legrand distributor in Surabaya. Supplying genuine electrical components with ready stock warehouse & certified panel manufacturing.",
+      "hero.brand_tag": "ELECTRICAL SUPPLIER SURABAYA",
+      "hero.eyebrow": "AUTHORIZED ELECTRICAL SUPPLIER & SCHNEIDER DISTRIBUTOR SURABAYA",
+      "hero.headline": "Authorized Industrial Electrical Supplier & Panel Builder in Surabaya",
+      "hero.subheadline": "Authorized distributor of Schneider Electric, Vinsa, GAE, and Legrand in Surabaya. Supplying 5,000+ genuine electrical components, ready stock warehouse & certified panel manufacturing.",
       "hero.btn_products": "Product Catalog",
       "hero.btn_panel": "Contact Us",
       "hero.btn_product_list": "Product Catalog",
@@ -188,10 +188,10 @@
       "nav.contact": "HUBUNGI KAMI",
 
       // Hero
-      "hero.brand_tag": "DISTRIBUTOR RESMI",
-      "hero.eyebrow": "DISTRIBUTOR RESMI SCHNEIDER ELECTRIC SURABAYA",
-      "hero.headline": "Distributor Resmi Schneider Electric & Panel Maker di Surabaya",
-      "hero.subheadline": "Distributor resmi Schneider Electric, Vinsa, GAE, dan Legrand di Surabaya. Menyediakan komponen elektrikal original ready stock gudang & perakitan panel listrik bergaransi.",
+      "hero.brand_tag": "DISTRIBUTOR ALAT LISTRIK",
+      "hero.eyebrow": "DISTRIBUTOR ALAT LISTRIK SURABAYA & SCHNEIDER RESMI",
+      "hero.headline": "Distributor Alat Listrik Surabaya Terlengkap & Panel Maker Resmi",
+      "hero.subheadline": "Pusat distributor alat listrik Surabaya terlengkap & distributor resmi Schneider Electric, Legrand, GAE, dan Vinsa. Menyediakan 5.000+ komponen elektrikal original ready stock gudang Surabaya & perakitan panel listrik bergaransi.",
       "hero.btn_products": "Lihat Katalog Produk",
       "hero.btn_panel": "Konsultasi Panel Listrik",
       "hero.btn_product_list": "Lihat Katalog Produk",
@@ -354,7 +354,7 @@
     const match = document.cookie.match(/(?:^|;\s*)ats_lang=([^;]+)/);
     if (match && (match[1] === 'id' || match[1] === 'en')) return match[1];
 
-    return 'en'; // Primary language is English by default
+    return 'id'; // Primary language is Indonesian by default
   };
 
   // Safe translation execution flag to prevent any infinite loops

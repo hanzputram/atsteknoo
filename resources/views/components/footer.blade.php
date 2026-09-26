@@ -741,6 +741,12 @@
           <div class="ats-ft-col-header" data-i18n="footer.col2_header">Product Catalogue</div>
           <ul class="ats-ft-nav-list">
             <li class="ats-ft-nav-item">
+              <a href="{{ route('distributor-alat-listrik-surabaya') }}" style="color: #FDA4AF; font-weight: 700;">
+                <span class="ats-lang-en">Electrical Supplier Surabaya</span>
+                <span class="ats-lang-id">Distributor Alat Listrik Surabaya</span>
+              </a>
+            </li>
+            <li class="ats-ft-nav-item">
               <a href="{{ route('brands.show', 'schneider-electric') }}">
                 <span class="ats-lang-en">Schneider Electric Distributor</span>
                 <span class="ats-lang-id">Distributor Schneider Electric Surabaya</span>

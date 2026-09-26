@@ -5,33 +5,33 @@
      ======================================================== -->
 
 @php
-  $activeLang = request()->cookie('ats_lang', 'en');
+  $activeLang = request()->cookie('ats_lang', 'id');
   if ($activeLang !== 'id' && $activeLang !== 'en') {
-    $activeLang = 'en';
+    $activeLang = 'id';
   }
 @endphp
 <!-- Inline Navigation Switcher (Segmented Glass Pill) -->
 <div class="ats-lang-switcher" role="group" aria-label="Language Selector">
   <button 
     type="button" 
-    class="ats-lang-btn {{ $activeLang === 'en' ? 'active' : '' }}" 
-    data-lang="en" 
-    onclick="atsSetLanguage('en')" 
-    aria-label="Switch to English"
-    title="English (Default)"
-  >
-    <span class="ats-flag-icon">EN</span>
-  </button>
-  <span class="ats-lang-sep" aria-hidden="true">/</span>
-  <button 
-    type="button" 
     class="ats-lang-btn {{ $activeLang === 'id' ? 'active' : '' }}" 
     data-lang="id" 
     onclick="atsSetLanguage('id')" 
     aria-label="Ganti ke Bahasa Indonesia"
-    title="Bahasa Indonesia"
+    title="Bahasa Indonesia (Utama)"
   >
     <span class="ats-flag-icon">ID</span>
+  </button>
+  <span class="ats-lang-sep" aria-hidden="true">/</span>
+  <button 
+    type="button" 
+    class="ats-lang-btn {{ $activeLang === 'en' ? 'active' : '' }}" 
+    data-lang="en" 
+    onclick="atsSetLanguage('en')" 
+    aria-label="Switch to English"
+    title="English"
+  >
+    <span class="ats-flag-icon">EN</span>
   </button>
 </div>
 

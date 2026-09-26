@@ -1,7 +1,7 @@
 @php
-  $currentLocale = request()->cookie('ats_lang', 'en');
+  $currentLocale = request()->cookie('ats_lang', 'id');
   if ($currentLocale !== 'id' && $currentLocale !== 'en') {
-    $currentLocale = 'en';
+    $currentLocale = 'id';
   }
 @endphp
 <!DOCTYPE html>
@@ -12,7 +12,7 @@
   <script>
     (function() {
       try {
-        var l = localStorage.getItem('ats_lang') || (document.cookie.match(/(?:^|;\s*)ats_lang=([^;]+)/) || [])[1] || 'en';
+        var l = localStorage.getItem('ats_lang') || (document.cookie.match(/(?:^|;\s*)ats_lang=([^;]+)/) || [])[1] || 'id';
         if (l === 'id' || l === 'en') {
           document.documentElement.setAttribute('lang', l);
           document.documentElement.setAttribute('data-lang', l);
@@ -33,8 +33,9 @@
 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>@yield('title', 'Distributor Schneider Electric Surabaya & Supplier Elektrikal - PT. Anugerah Tama Sejati')</title>
-  <meta name="description" content="@yield('meta_description', 'Distributor resmi Schneider Electric di Surabaya & Jawa Timur. Supplier terlengkap MCB, MCCB, ACB, Kontaktor TeSys, Inverter Altivar, dan panel maker bersertifikat PT. Anugerah Tama Sejati.')">
+  <title>@yield('title', 'Distributor Alat Listrik Surabaya Terlengkap & Resmi | Schneider Electric | ATS Tekno')</title>
+  <meta name="description" content="@yield('meta_description', 'Distributor Alat Listrik Surabaya terlengkap & resmi PT. Anugerah Tama Sejati. Ready stock 5.000+ item MCB, MCCB, ACB, Kontaktor, Inverter, Kabel, Box Panel dari Schneider Electric, Legrand, GAE, Vinsa, Omron, ABB di Surabaya.')">
+  <meta name="keywords" content="@yield('meta_keywords', 'distributor alat listrik surabaya, distributor alat listrik surabaya terlengkap, supplier alat listrik surabaya, toko alat listrik surabaya, agen alat listrik surabaya, distributor schneider surabaya, distributor resmi schneider surabaya, distributor legrand surabaya, distributor gae surabaya, distributor vinsa surabaya, panel maker surabaya, pt anugerah tama sejati')">
 @php
     $rawCanonical = trim($__env->yieldContent('canonical'));
     $canonicalUrl = $rawCanonical ?: url()->current();

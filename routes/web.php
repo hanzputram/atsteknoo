@@ -167,6 +167,13 @@ Route::get('/articles/{slug}', [BlogArticleController::class, 'show'])->name('ar
 // Static Pages & Contact
 Route::get('/about-us', [StaticPageController::class, 'about'])->name('about.index');
 Route::get('/jasa-pembuatan-panel-listrik', [StaticPageController::class, 'panelMaker'])->name('services.panel');
+Route::get('/distributor-alat-listrik-surabaya', [StaticPageController::class, 'distributorAlatListrikSurabaya'])->name('distributor-alat-listrik-surabaya');
+Route::get('/supplier-alat-listrik-surabaya', function () {
+    return redirect()->route('distributor-alat-listrik-surabaya', [], 301);
+});
+Route::get('/toko-alat-listrik-surabaya', function () {
+    return redirect()->route('distributor-alat-listrik-surabaya', [], 301);
+});
 Route::get('/contact', [PublicContactController::class, 'index'])->name('contact.index');
 Route::get('/contact-us', function () {
     return redirect()->route('contact.index', [], 301);

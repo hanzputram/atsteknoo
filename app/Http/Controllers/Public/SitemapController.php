@@ -29,6 +29,7 @@ class SitemapController extends Controller
 
         $staticPages = [
             ['loc' => url('/'), 'priority' => '1.0', 'changefreq' => 'daily', 'lastmod' => $viewLastMod('app.blade.php')],
+            ['loc' => route('distributor-alat-listrik-surabaya'), 'priority' => '1.0', 'changefreq' => 'daily', 'lastmod' => $viewLastMod('public/distributor-alat-listrik-surabaya.blade.php')],
             ['loc' => route('services.panel'), 'priority' => '1.0', 'changefreq' => 'weekly', 'lastmod' => $viewLastMod('public/panel-maker.blade.php')],
             ['loc' => route('products.index'), 'priority' => '0.9', 'changefreq' => 'daily', 'lastmod' => $viewLastMod('public/products/index.blade.php')],
             ['loc' => route('price-list.index'), 'priority' => '0.9', 'changefreq' => 'weekly', 'lastmod' => $viewLastMod('public/price-list/index.blade.php')],

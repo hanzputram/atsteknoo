@@ -88,4 +88,53 @@ class StaticPageController extends Controller
 
         return view('public.panel-maker', compact('projects', 'certificates', 'brands', 'settings'));
     }
+
+    /**
+     * Display the dedicated high-authority landing page for Distributor Alat Listrik Surabaya.
+     */
+    public function distributorAlatListrikSurabaya()
+    {
+        $brands = \App\Models\Brand::active()
+            ->whereNotIn('slug', ['fort'])
+            ->where('name', 'not like', 'fort')
+            ->with('logo')
+            ->orderBy('sort_order')
+            ->get();
+
+        $categories = \App\Models\ProductCategory::active()
+            ->orderBy('sort_order')
+            ->get();
+
+        $featuredProducts = \App\Models\Product::published()
+            ->with(['brand', 'primaryCategory', 'mainImage'])
+            ->where('is_featured', true)
+            ->take(8)
+            ->get();
+
+        if ($featuredProducts->isEmpty()) {
+            $featuredProducts = \App\Models\Product::published()
+                ->with(['brand', 'primaryCategory', 'mainImage'])
+                ->take(8)
+                ->get();
+        }
+
+        $projects = Project::published()
+            ->with(['category', 'coverImage'])
+            ->latest()
+            ->take(6)
+            ->get();
+
+        $certificates = Certificate::active()->orderBy('sort_order')->get();
+        $settings = SiteSetting::all()->pluck('value', 'key');
+
+        return view('public.distributor-alat-listrik-surabaya', compact(
+            'brands',
+            'categories',
+            'featuredProducts',
+            'projects',
+            'certificates',
+            'settings'
+        ));
+    }
 }
+
