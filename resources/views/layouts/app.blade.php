@@ -59,15 +59,21 @@
   <link rel="alternate" hreflang="id" href="{{ $canonicalUrl }}">
   <link rel="alternate" hreflang="x-default" href="{{ $canonicalUrl }}">
 
-  <!-- Official ATS Brand Favicons (Strictly Compliant with Google Search Central 48px+ Guidelines & Modern Browsers) -->
+  <!-- Official ATS Brand Favicons (Strictly Compliant with Google Search Central 48px+ Guidelines & All Browsers) -->
   <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
+  <link rel="icon" type="image/png" sizes="48x48" href="/public/favicon-48x48.png">
   <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/public/favicon-96x96.png">
   <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192x192.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="/public/favicon-192x192.png">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/svg+xml" href="/public/favicon.svg">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
   <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="shortcut icon" href="/public/favicon.ico">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/public/apple-touch-icon.png">
   <link rel="manifest" href="/site.webmanifest">
 
   <!-- GEO Meta Tags (Surabaya, East Java & AI Crawlability) -->

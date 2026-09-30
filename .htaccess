@@ -1,0 +1,10 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Direct static rewrite for root favicon & PWA manifest files
+    RewriteRule ^favicon\.ico$ public/favicon.ico [L]
+    RewriteRule ^favicon-(.*)\.png$ public/favicon-$1.png [L]
+    RewriteRule ^favicon\.svg$ public/favicon.svg [L]
+    RewriteRule ^apple-touch-icon(.*)\.png$ public/apple-touch-icon$1.png [L]
+    RewriteRule ^site\.webmanifest$ public/site.webmanifest [L]
+</IfModule>

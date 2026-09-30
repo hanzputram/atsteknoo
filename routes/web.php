@@ -80,28 +80,32 @@ $serveStaticAsset = function (string $dir, string $file) {
         abort(404);
     }
 
+    $relPath = $dir !== '' ? trim($dir, '/') . '/' . ltrim($file, '/') : ltrim($file, '/');
+
     $candidates = [
-        public_path($dir . '/' . $file),
-        base_path($dir . '/' . $file),
-        base_path('public/' . $dir . '/' . $file),
-        storage_path('app/public/' . $file),
-        storage_path('app/' . $file),
+        public_path($relPath),
+        base_path($relPath),
+        base_path('public/' . $relPath),
+        storage_path('app/public/' . $relPath),
+        storage_path('app/' . $relPath),
     ];
 
     $mimes = [
-        'css'   => 'text/css; charset=utf-8',
-        'js'    => 'application/javascript; charset=utf-8',
-        'webp'  => 'image/webp',
-        'png'   => 'image/png',
-        'jpg'   => 'image/jpeg',
-        'jpeg'  => 'image/jpeg',
-        'svg'   => 'image/svg+xml',
-        'gif'   => 'image/gif',
-        'ico'   => 'image/x-icon',
-        'pdf'   => 'application/pdf',
-        'woff2' => 'font/woff2',
-        'woff'  => 'font/woff',
-        'ttf'   => 'font/ttf',
+        'css'         => 'text/css; charset=utf-8',
+        'js'          => 'application/javascript; charset=utf-8',
+        'webp'        => 'image/webp',
+        'png'         => 'image/png',
+        'jpg'         => 'image/jpeg',
+        'jpeg'        => 'image/jpeg',
+        'svg'         => 'image/svg+xml',
+        'gif'         => 'image/gif',
+        'ico'         => 'image/x-icon',
+        'pdf'         => 'application/pdf',
+        'woff2'       => 'font/woff2',
+        'woff'        => 'font/woff',
+        'ttf'         => 'font/ttf',
+        'webmanifest' => 'application/manifest+json; charset=utf-8',
+        'json'        => 'application/json; charset=utf-8',
     ];
 
     foreach ($candidates as $path) {
@@ -119,7 +123,8 @@ $serveStaticAsset = function (string $dir, string $file) {
     if (str_ends_with(strtolower($file), '.webp')) {
         $baseName = substr($file, 0, -5);
         foreach (['.png', '.jpg', '.jpeg', '.svg'] as $fallbackExt) {
-            foreach ([public_path($dir . '/' . $baseName . $fallbackExt), base_path($dir . '/' . $baseName . $fallbackExt)] as $candidate) {
+            $fallbackRelPath = ($dir !== '' ? trim($dir, '/') . '/' : '') . $baseName . $fallbackExt;
+            foreach ([public_path($fallbackRelPath), base_path($fallbackRelPath)] as $candidate) {
                 if (file_exists($candidate) && !is_dir($candidate)) {
                     $ext = strtolower(pathinfo($candidate, PATHINFO_EXTENSION));
                     return response()->file($candidate, [
@@ -133,6 +138,25 @@ $serveStaticAsset = function (string $dir, string $file) {
 
     abort(404);
 };
+
+// Root Favicon & PWA Manifest Delivery (Guarantees Google Search & Browser Tab Favicons work across all hosting setups)
+$serveFavicon = function (string $file) use ($serveStaticAsset) {
+    return $serveStaticAsset('', $file);
+};
+
+Route::get('/favicon.ico', fn() => $serveFavicon('favicon.ico'));
+Route::get('/favicon.svg', fn() => $serveFavicon('favicon.svg'));
+Route::get('/apple-touch-icon.png', fn() => $serveFavicon('apple-touch-icon.png'));
+Route::get('/site.webmanifest', fn() => $serveFavicon('site.webmanifest'));
+Route::get('/favicon-{size}.png', fn($size) => $serveFavicon("favicon-{$size}.png"))->where('size', '[0-9]+x[0-9]+');
+Route::get('/apple-touch-icon-{size}.png', fn($size) => $serveFavicon("apple-touch-icon-{$size}.png"))->where('size', '[0-9]+x[0-9]+');
+
+Route::get('/public/favicon.ico', fn() => $serveFavicon('favicon.ico'));
+Route::get('/public/favicon.svg', fn() => $serveFavicon('favicon.svg'));
+Route::get('/public/apple-touch-icon.png', fn() => $serveFavicon('apple-touch-icon.png'));
+Route::get('/public/site.webmanifest', fn() => $serveFavicon('site.webmanifest'));
+Route::get('/public/favicon-{size}.png', fn($size) => $serveFavicon("favicon-{$size}.png"))->where('size', '[0-9]+x[0-9]+');
+Route::get('/public/apple-touch-icon-{size}.png', fn($size) => $serveFavicon("apple-touch-icon-{$size}.png"))->where('size', '[0-9]+x[0-9]+');
 
 foreach (['images', 'logos', 'certificates', 'storage', 'uploads', 'css', 'js'] as $assetDir) {
     Route::get("/{$assetDir}/{file}", fn($file) => $serveStaticAsset($assetDir, $file))->where('file', '.*');
