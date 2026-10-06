@@ -16,11 +16,11 @@
 @endphp
 
 @once
-    <link rel="stylesheet" href="{{ asset('panel-building-process/css/process.css') }}">
-    <link rel="stylesheet" href="{{ asset('panel-building-process/css/equipment.css') }}">
-    <script src="{{ asset('panel-building-process/js/three.min.js') }}" defer></script>
-    <script src="{{ asset('panel-building-process/js/equipment-scene.js') }}" defer></script>
-    <script src="{{ asset('panel-building-process/js/equipment.js') }}" defer></script>
+    <link rel="stylesheet" href="{{ asset('panel-building-process/css/process.css') }}?v={{ @filemtime(public_path('panel-building-process/css/process.css')) ?: time() }}">
+    <link rel="stylesheet" href="{{ asset('panel-building-process/css/equipment.css') }}?v={{ @filemtime(public_path('panel-building-process/css/equipment.css')) ?: time() }}">
+    <script src="{{ asset('panel-building-process/js/three.min.js') }}?v={{ @filemtime(public_path('panel-building-process/js/three.min.js')) ?: time() }}" defer></script>
+    <script src="{{ asset('panel-building-process/js/equipment-scene.js') }}?v={{ @filemtime(public_path('panel-building-process/js/equipment-scene.js')) ?: time() }}" defer></script>
+    <script src="{{ asset('panel-building-process/js/equipment.js') }}?v={{ @filemtime(public_path('panel-building-process/js/equipment.js')) ?: time() }}" defer></script>
 @endonce
 
 <div class="ats-process" id="ats-panel-process" data-asset-base="{{ asset('panel-building-process/images') }}">
