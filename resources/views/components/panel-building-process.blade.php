@@ -22,10 +22,14 @@
 
 @once
     <link rel="stylesheet" href="{{ asset('panel-building-process/css/process.css') }}">
+    <link rel="stylesheet" href="{{ asset('panel-building-process/css/equipment.css') }}">
     <script>
         window.ATS_PROCESS_DATA = @json($data);
     </script>
     <script src="{{ asset('panel-building-process/js/process.js') }}" defer></script>
+    <script src="{{ asset('panel-building-process/js/three.min.js') }}" defer></script>
+    <script src="{{ asset('panel-building-process/js/equipment-scene.js') }}" defer></script>
+    <script src="{{ asset('panel-building-process/js/equipment.js') }}" defer></script>
 @endonce
 
 <div class="ats-process" id="ats-panel-process" data-asset-base="{{ asset('panel-building-process/images') }}">
@@ -37,7 +41,7 @@
                 </a>
                 <nav aria-label="Page navigation">
                     <a href="#ats-process-phases">Process</a>
-                    <a href="#ats-facilities">Facilities</a>
+                    <a href="#equipment">Facilities</a>
                     <a href="#ats-quality">Quality</a>
                 </nav>
                 <span class="head-tag">MANUFACTURING / PANEL BUILDING</span>
@@ -162,118 +166,17 @@
                 @endforeach
             </div>
         </section>
+    </div>
 
-        <!-- Production Machinery Facilities Section (Interactive Machinery Fleet Studio) -->
-        @php
-            $machines = $facilities['machines'] ?? [];
-            $initialMachine = $machines[0] ?? [
-                'image' => 'machine-laser.jpg',
-                'count' => '02',
-                'unit' => 'UNITS OPERATIONAL',
-                'title' => 'High-Precision CNC Fiber Laser Cutting',
-                'desc' => 'High-speed sheet metal processing with dual shuttle tables. Delivers sub-millimeter edge tolerances for stainless steel, mild steel, and electro-galvanized panels without thermal distortion.',
-                'tags' => ['Sub-millimeter Tolerance', 'Dual Shuttle Tables', 'Clean Edge Finishing', 'Up to 16mm Steel'],
-                'powers_step' => 'Step 07: CNC Laser Cutting',
-                'powers_step_index' => 6,
-            ];
-        @endphp
-        <section class="facilities" id="ats-facilities" data-machines='@json($machines)'>
-            <div class="facilities-header">
-                <div>
-                    <span class="eyebrow">{{ $facilities['eyebrow'] ?? 'Production Facilities' }}</span>
-                    <h2>{{ $facilities['title'] ?? 'Machinery Engineered for Precision.' }}</h2>
-                    <p>{{ $facilities['description'] ?? 'Sheet metal fabrication and enclosure assembly supported by high-precision CNC laser cutting, punching, and multi-axis hydraulic bending.' }}</p>
-                </div>
-                <div>
-                    <button type="button" class="machine-tour-btn" id="ats-machine-tour-btn" aria-pressed="false" title="Auto-cycle through machinery fleet">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-                        <span>Auto Fleet Tour</span>
-                    </button>
-                </div>
-            </div>
+    <!-- Production Machinery Facilities Section (Cinematic Fleet Studio) -->
+    @include('components.panel-fleet', [
+        'facilities' => $facilities,
+        'steps' => $steps,
+        'phases' => $phases,
+        'resolveImg' => $resolveImg,
+    ])
 
-            <!-- Main Interactive Spotlight Stage -->
-            <div class="machine-stage" id="ats-machine-stage">
-                <div class="stage-photo-wrap">
-                    <div class="stage-badge">
-                        <span class="stage-dot"></span> LIVE FLEET SPEC
-                    </div>
-                    <img id="ats-stage-img" src="{{ asset('panel-building-process/images/' . ($initialMachine['image'] ?? 'machine-laser.jpg')) }}" alt="{{ $initialMachine['title'] ?? 'Machine' }}" loading="lazy">
-                    <button type="button" class="stage-zoom-btn" id="ats-stage-zoom-btn" title="Inspect full-resolution photo">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
-                        <span>Inspect High-Res</span>
-                    </button>
-                </div>
-                <div class="stage-content">
-                    <div>
-                        <div class="stage-topline">
-                            <div class="stage-count">
-                                <strong id="ats-stage-count">{{ $initialMachine['count'] ?? '02' }}</strong>
-                                <small id="ats-stage-unit">{{ $initialMachine['unit'] ?? 'UNITS OPERATIONAL' }}</small>
-                            </div>
-                            <span class="stage-index-badge" id="ats-stage-idx">FLEET 01 / {{ sprintf('%02d', count($machines)) }}</span>
-                        </div>
-                        <h3 id="ats-stage-title">{{ $initialMachine['title'] ?? '' }}</h3>
-                        <p id="ats-stage-desc">{!! nl2br(e($initialMachine['desc'] ?? '')) !!}</p>
-                    </div>
-
-                    <div>
-                        <div class="stage-specs-box">
-                            <div class="stage-specs-heading">KEY CAPABILITIES & SPECS</div>
-                            <div class="stage-tags" id="ats-stage-tags">
-                                @foreach($initialMachine['tags'] ?? [] as $t)
-                                    <span class="stage-tag-chip">
-                                        <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/></svg>
-                                        {{ $t }}
-                                    </span>
-                                @endforeach
-                            </div>
-                        </div>
-
-                        <div class="stage-workflow">
-                            <div>
-                                <span class="stage-workflow-label">INTEGRATED PROCESS STAGE</span>
-                                <strong id="ats-stage-step-title">{{ $initialMachine['powers_step'] ?? 'Step 07: CNC Laser Cutting' }}</strong>
-                            </div>
-                            <button type="button" class="stage-workflow-jump" id="ats-stage-jump-btn" data-step-index="{{ $initialMachine['powers_step_index'] ?? 6 }}">
-                                View in 33-Step Process →
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Fleet Selector Grid -->
-            <div class="machine-fleet-heading">SELECT MACHINERY TO INSPECT IN STUDIO</div>
-            <div class="machine-fleet-grid">
-                @foreach($machines as $mIdx => $m)
-                    <div class="fleet-card {{ $mIdx === 0 ? 'active' : '' }}" data-machine-index="{{ $mIdx }}" role="button" tabindex="0" aria-label="Select {{ $m['title'] }}">
-                        <div class="fleet-card-img">
-                            <img src="{{ asset('panel-building-process/images/' . ($m['image'] ?? 'machine-laser.jpg')) }}" alt="{{ $m['title'] }}" loading="lazy">
-                            <span class="fleet-card-badge">{{ $m['count'] }} {{ $m['unit'] }}</span>
-                        </div>
-                        <div class="fleet-card-body">
-                            <h4>{{ $m['title'] }}</h4>
-                            <span class="fleet-card-hint">
-                                View specs
-                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
-                            </span>
-                        </div>
-                    </div>
-                @endforeach
-            </div>
-
-            <!-- Machinery Lightbox Inspection Modal -->
-            <div class="machine-lightbox" id="ats-machine-lightbox" style="display: none;" aria-hidden="true" role="dialog" aria-modal="true">
-                <div class="lightbox-backdrop" id="ats-lightbox-backdrop"></div>
-                <div class="lightbox-modal">
-                    <button type="button" class="lightbox-close" id="ats-lightbox-close" aria-label="Close photo inspection">&times;</button>
-                    <img id="ats-lightbox-img" src="" alt="Machine High Resolution Photo">
-                    <div class="lightbox-caption" id="ats-lightbox-caption"></div>
-                </div>
-            </div>
-        </section>
-
+    <div class="wrap">
         <!-- Quality Assurance Note -->
         <section class="quality-note" id="ats-quality">
             <h2>{!! $quality['title'] ?? "Quality Verified<br>at Every Milestone." !!}</h2>

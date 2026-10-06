@@ -425,6 +425,13 @@
         if (document.hidden && playing) stop();
     });
 
+    window.addEventListener('ats:select-step', e => {
+        if (e && e.detail && typeof e.detail.index === 'number') {
+            stop();
+            select(e.detail.index, true);
+        }
+    });
+
     select(0);
     initMachineStudio();
 
