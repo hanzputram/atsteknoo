@@ -1,4 +1,4 @@
-@props(['faqs' => []])
+@props(['faqs' => [], 'pushSchema' => true])
 
 @if(!empty($faqs) && is_array($faqs))
 @php
@@ -26,11 +26,13 @@
     );
 @endphp
 
+@if($pushSchema)
 @push('schema')
 <script type="application/ld+json">
 {!! $faqSchemaJson !!}
 </script>
 @endpush
+@endif
 
 <section class="mt-12 pt-10 border-t border-slate-200/90" aria-labelledby="faq-heading">
     <div class="flex items-center gap-3 mb-6">

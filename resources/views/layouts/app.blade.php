@@ -172,6 +172,7 @@
   </script>
 
   @stack('schema')
+  @stack('head')
 
   <!-- Google Fonts: Outfit & Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">

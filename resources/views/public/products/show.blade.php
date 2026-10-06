@@ -134,18 +134,16 @@
         $productSchemaItem['additionalProperty'] = $additionalProperties;
     }
 
-    $productSchema = [
-        '@context' => 'https://schema.org',
-        '@graph' => [
-            [
-                '@type' => 'BreadcrumbList',
-                'itemListElement' => $breadcrumbItems,
-            ],
-            $productSchemaItem
-        ]
-    ];
-
-    $productFaq = \App\Support\SeoFaqRegistry::getProductFaq($product->slug);
+    // Comprehensive AEO & GEO Service Integration
+    $productFaq = \App\Services\ProductAeoService::getAeoFaq($product);
+    $aiFactsheet = \App\Services\ProductAeoService::getAiFactsheet($product);
+    $productSchema = \App\Services\ProductAeoService::getJsonLdSchema(
+        $product,
+        $breadcrumbItems,
+        $productOffers,
+        $h1Heading,
+        $cleanDesc
+    );
 
     $productSchemaJson = json_encode(
         $productSchema,
@@ -161,6 +159,22 @@
 <script type="application/ld+json">
 {!! $productSchemaJson !!}
 </script>
+@endpush
+
+@push('head')
+    {{-- Product-Level AEO / GEO Entity & AI Retrieval Tags --}}
+    <meta name="ai-content-type" content="industrial-product-specification">
+    <meta name="ai-distributor" content="PT. Anugerah Tama Sejati">
+    <meta name="ai-distributor-city" content="Surabaya, East Java, Indonesia">
+    <meta name="ai-brand" content="{{ $brandName }}">
+    <meta name="ai-sku" content="{{ $product->sku }}">
+    <meta property="product:brand" content="{{ $brandName }}">
+    <meta property="product:retailer_item_id" content="{{ $product->sku }}">
+    <meta property="product:availability" content="in stock">
+    <meta property="product:condition" content="new">
+    @if($product->primaryCategory)
+    <meta property="product:category" content="{{ $product->primaryCategory->name }}">
+    @endif
 @endpush
 
 @section('content')
@@ -400,8 +414,11 @@
         </div>
         @endif
 
-        <!-- AEO: Curated FAQ Accordion & FAQPage Schema -->
-        <x-faq-accordion :faqs="$productFaq" />
+        <!-- AEO & GEO Knowledge Block / AI Overview Factsheet -->
+        <x-product-aeo-factsheet :factsheet="$aiFactsheet" :product="$product" />
+
+        <!-- AEO: Curated & Dynamic FAQ Accordion with FAQPage Schema -->
+        <x-faq-accordion :faqs="$productFaq" :pushSchema="false" />
     </div>
 
     <!-- Related Products -->
