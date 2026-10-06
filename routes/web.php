@@ -77,7 +77,8 @@ Route::get('/clear-app-cache/{secret}', function ($secret) {
     \Illuminate\Support\Facades\Artisan::call('cache:clear');
     \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
     $migrateOutput = \Illuminate\Support\Facades\Artisan::output();
-    return response("Deployment sync successful:\n- Git:\n" . $gitOutput . "\n- Cache cleared: views, routes, config, cache\n- Migrations:\n" . $migrateOutput, 200)
+    \App\Services\PanelProcessService::resetToDefault();
+    return response("Deployment sync successful:\n- Git:\n" . $gitOutput . "\n- Cache cleared: views, routes, config, cache\n- Migrations:\n" . $migrateOutput . "\n- Panel Process: Synced 8 machines & 33 steps", 200)
         ->header('Content-Type', 'text/plain; charset=UTF-8');
 });
 

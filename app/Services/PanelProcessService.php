@@ -4,6 +4,8 @@ namespace App\Services;
 
 class PanelProcessService
 {
+    public const DATA_VERSION = 3;
+
     protected static string $storageFile = 'panel-process-data.json';
 
     public static function getFilePath(): string
@@ -14,15 +16,40 @@ class PanelProcessService
     public static function getData(): array
     {
         $file = self::getFilePath();
+        $default = self::getDefaultData();
+
         if (file_exists($file)) {
             $json = file_get_contents($file);
             $data = json_decode($json, true);
             if (is_array($data) && isset($data['phases']) && isset($data['steps'])) {
+                $needsSave = false;
+                $defaultMachines = $default['facilities']['machines'] ?? [];
+                $currentMachines = $data['facilities']['machines'] ?? [];
+
+                // Auto-upgrade machines if production has an older dataset (e.g. 4 instead of 8 machines)
+                if (count($currentMachines) < count($defaultMachines)) {
+                    $data['facilities']['machines'] = $defaultMachines;
+                    $needsSave = true;
+                }
+
+                // Auto-upgrade schema/version
+                if (($data['version'] ?? 0) < self::DATA_VERSION) {
+                    $data['version'] = self::DATA_VERSION;
+                    if (count($currentMachines) < count($defaultMachines)) {
+                        $data['facilities']['machines'] = $defaultMachines;
+                    }
+                    $needsSave = true;
+                }
+
+                if ($needsSave) {
+                    self::saveData($data);
+                }
+
                 return $data;
             }
         }
 
-        $default = self::getDefaultData();
+        $default['version'] = self::DATA_VERSION;
         self::saveData($default);
         return $default;
     }
@@ -49,6 +76,7 @@ class PanelProcessService
     public static function getDefaultData(): array
     {
         return [
+            'version' => self::DATA_VERSION,
             'intro' => [
                 'eyebrow' => 'Behind Every Switchboard',
                 'title' => 'Precision.',
