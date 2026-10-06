@@ -1,8 +1,7 @@
 /**
  * ATS Tekno — Machinery Fleet Studio controller (#equipment)
- * Scroll-driven machine switching (desktop) / autoplay + tap (touch), word-mask reveals,
- * count-up stats, velocity marquee, 3D-tilt photo card, magnetic buttons, custom cursor,
- * drag-to-orbit WebGL viewport and an accessible zoomable lightbox.
+ * Clean light industrial studio: tab switching, auto fleet tour, 3D orbit drag,
+ * real-time telemetry HUD, 3D tilt photo card, and accessible zoom lightbox.
  */
 (() => {
   'use strict';
@@ -16,51 +15,31 @@
   const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
   const lerp = (a, b, t) => a + (b - a) * t;
   const pad = (n, l = 2) => String(Math.round(n)).padStart(l, '0');
-  const esc = s => s.replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const easeOutExpo = t => (t >= 1 ? 1 : 1 - Math.pow(2, -10 * t));
 
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const wide = window.matchMedia('(min-width: 961px)');
-  const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
   const slides = $$('.eq-slide');
+  const tabs = $$('.eq-tab');
   const photos = $$('.eq-photo');
-  const railBtns = $$('.eq-rail-btn');
   const n = slides.length;
   if (!n) return;
 
-  const scrollEl = $('#eq-scroll');
-  const stage = $('#eq-stage');
+  const studio = $('#eq-studio');
   const viewport = $('#eq-viewport');
   const canvas = $('#eq-canvas');
-  const idxEl = $('#eq-index');
-  const ghostEl = $('#eq-ghost');
-  const head = $('#eq-head');
-  const hint = $('#eq-scrollhint');
+  const card = $('#eq-photo-card');
+  const tourBtn = $('#eq-tour-btn');
+  const tourText = $('#eq-tour-text');
 
   /* ------------------------------------------------------------------
-     Typography: word-mask splitting
+     Count-up animation
   ------------------------------------------------------------------ */
-  function splitWords(el, outlineFrom = -1) {
-    const text = el.textContent.trim().replace(/\s+/g, ' ');
-    el.setAttribute('aria-label', text);
-    el.innerHTML = text.split(' ').map((w, i) =>
-      `<span class="eq-w${outlineFrom >= 0 && i >= outlineFrom ? ' is-outline' : ''}" style="--wi:${i}" aria-hidden="true"><span>${esc(w)}</span></span>`
-    ).join(' ');
-  }
-  const titleEl = $('.eq-title');
-  if (titleEl) splitWords(titleEl, Math.ceil(titleEl.textContent.trim().split(/\s+/).length / 2));
-  slides.forEach(s => {
-    const h = $('.eq-slide-title', s);
-    if (h) splitWords(h);
-  });
-
-  /* ------------------------------------------------------------------
-     Count-up
-  ------------------------------------------------------------------ */
-  function countTo(el, to, dur = 1300, from = 0) {
+  function countTo(el, to, dur = 1000) {
+    if (!el) return;
     cancelAnimationFrame(el._raf);
     if (reduced) { el.textContent = pad(to); return; }
+    const from = 0;
     const t0 = performance.now();
     const step = now => {
       const p = clamp((now - t0) / dur, 0, 1);
@@ -70,35 +49,30 @@
     el._raf = requestAnimationFrame(step);
   }
 
-  /* ------------------------------------------------------------------
-     Header reveal + stats (IntersectionObserver)
-  ------------------------------------------------------------------ */
+  // Animate header stats once in view
   const stats = $$('[data-count]');
-  stats.forEach(el => { el.textContent = '00'; });
-  if (head && 'IntersectionObserver' in window) {
+  if ('IntersectionObserver' in window) {
     const io = new IntersectionObserver(entries => {
       entries.forEach(e => {
         if (!e.isIntersecting) return;
-        head.classList.add('is-in');
-        stats.forEach((el, i) => setTimeout(() => countTo(el, Number(el.dataset.count || 0), 1500), 650 + i * 120));
+        stats.forEach((el, i) => setTimeout(() => countTo(el, Number(el.dataset.count || 0), 1200), 100 + i * 80));
         io.disconnect();
       });
-    }, { threshold: 0.25 });
-    io.observe(head);
-  } else if (head) {
-    head.classList.add('is-in');
+    }, { threshold: 0.2 });
+    io.observe(sec);
+  } else {
     stats.forEach(el => { el.textContent = pad(Number(el.dataset.count || 0)); });
   }
 
   /* ------------------------------------------------------------------
-     WebGL scene
+     Three.js WebGL Scene
   ------------------------------------------------------------------ */
   const hudMode = $('#eq-hud-mode');
   const hudL = [0, 1, 2].map(i => $('#eq-hud-l' + i));
   const hudV = [0, 1, 2].map(i => $('#eq-hud-v' + i));
   let scene = null;
-  const hasWebGL = !!(window.THREE && window.ATSFleetScene);
-  if (hasWebGL) {
+
+  if (window.THREE && window.ATSFleetScene) {
     try {
       scene = window.ATSFleetScene.create({
         canvas,
@@ -118,120 +92,133 @@
       scene = null;
     }
   }
-  if (!scene) sec.classList.add('eq-no-webgl');
 
   /* ------------------------------------------------------------------
-     Active machine state
+     Machine Switching State
   ------------------------------------------------------------------ */
   let active = -1;
-  let mode = wide.matches ? 'scroll' : 'tap';
 
   function setActive(i, instant = false) {
     i = clamp(i, 0, n - 1);
     if (i === active) return;
     active = i;
+
     slides.forEach((s, k) => {
-      s.classList.toggle('is-active', k === i);
-      s.setAttribute('aria-hidden', k === i ? 'false' : 'true');
+      const isCur = k === i;
+      s.classList.toggle('is-active', isCur);
+      s.setAttribute('aria-hidden', isCur ? 'false' : 'true');
     });
+
+    tabs.forEach((t, k) => {
+      const isCur = k === i;
+      t.classList.toggle('is-active', isCur);
+      t.setAttribute('aria-selected', isCur ? 'true' : 'false');
+      t.tabIndex = isCur ? 0 : -1;
+    });
+
     photos.forEach((p, k) => {
       p.classList.toggle('is-active', k === i);
-      p.classList.toggle('is-gone', k < i);
     });
-    railBtns.forEach((b, k) => {
-      b.classList.toggle('is-active', k === i);
-      b.setAttribute('aria-selected', k === i ? 'true' : 'false');
-      b.tabIndex = k === i ? 0 : -1;
-    });
-    if (idxEl) idxEl.textContent = `FLEET ${pad(i + 1)} / ${pad(n)}`;
-    if (ghostEl) ghostEl.textContent = pad(i + 1);
-    const num = $('[data-count-to]', slides[i]);
-    if (num) countTo(num, Number(num.dataset.countTo || 0), 1100);
+
+    const numEl = $('[data-count-to]', slides[i]);
+    if (numEl) countTo(numEl, Number(numEl.dataset.countTo || 0), 900);
+
     if (scene) scene.setMachine(slides[i].dataset.kind, instant);
   }
+
   setActive(0, true);
 
-  /* ------------------------------------------------------------------
-     Scroll + autoplay driver
-  ------------------------------------------------------------------ */
-  let localP = 0;
-  let auto = 0;
-  let pauseUntil = 0;
-  let scrollFrac = 0;
+  // Tab click & keyboard navigation
+  tabs.forEach((tab, i) => {
+    tab.addEventListener('click', () => {
+      pauseTour(12000);
+      setActive(i);
+    });
+    tab.addEventListener('keydown', e => {
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+        e.preventDefault();
+        const next = (i + 1) % n;
+        pauseTour(12000);
+        setActive(next);
+        tabs[next].focus();
+      } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        const prev = (i - 1 + n) % n;
+        pauseTour(12000);
+        setActive(prev);
+        tabs[prev].focus();
+      }
+    });
+  });
 
-  function readScroll() {
-    const r = scrollEl.getBoundingClientRect();
-    const total = Math.max(1, r.height - window.innerHeight);
-    const p = clamp(-r.top / total, 0, 1);
-    const f = p * n;
-    const idx = Math.min(n - 1, Math.floor(f));
-    return { idx, local: p >= 1 ? 1 : f - idx, p };
+  /* ------------------------------------------------------------------
+     Auto Fleet Tour
+  ------------------------------------------------------------------ */
+  let tourPlaying = true;
+  let tourTimer = null;
+  let resumeTourTimeout = null;
+
+  function nextMachine() {
+    setActive((active + 1) % n);
   }
 
-  function goTo(i) {
-    i = clamp(i, 0, n - 1);
-    if (mode === 'scroll') {
-      const top = scrollEl.getBoundingClientRect().top + window.scrollY;
-      const total = scrollEl.offsetHeight - window.innerHeight;
-      const y = top + ((i + 0.08) / n) * total;
-      if (window.atsLenis && typeof window.atsLenis.scrollTo === 'function') {
-        window.atsLenis.scrollTo(y, { duration: 1.5 });
-      } else {
-        window.scrollTo({ top: y, behavior: reduced ? 'auto' : 'smooth' });
+  function startTour() {
+    stopTour();
+    tourPlaying = true;
+    if (tourBtn) {
+      tourBtn.setAttribute('aria-pressed', 'true');
+      if (tourText) tourText.textContent = 'Auto Tour Active';
+    }
+    tourTimer = setInterval(() => {
+      if (!document.hidden && inView) {
+        nextMachine();
       }
-    } else {
-      pauseUntil = Date.now() + 9000;
-      auto = 0;
-      setActive(i);
+    }, 7000);
+  }
+
+  function stopTour() {
+    if (tourTimer) {
+      clearInterval(tourTimer);
+      tourTimer = null;
+    }
+    tourPlaying = false;
+    if (tourBtn) {
+      tourBtn.setAttribute('aria-pressed', 'false');
+      if (tourText) tourText.textContent = 'Tour Paused';
     }
   }
 
-  railBtns.forEach((b, i) => {
-    b.addEventListener('click', () => goTo(i));
-    b.addEventListener('keydown', e => {
-      const keys = ['ArrowRight', 'ArrowDown', 'ArrowLeft', 'ArrowUp', 'Home', 'End'];
-      if (!keys.includes(e.key)) return;
-      e.preventDefault();
-      let t = i;
-      if (e.key === 'Home') t = 0;
-      else if (e.key === 'End') t = n - 1;
-      else t = (i + (e.key === 'ArrowRight' || e.key === 'ArrowDown' ? 1 : -1) + n) % n;
-      goTo(t);
-      railBtns[t].focus({ preventScroll: true });
+  function pauseTour(duration = 10000) {
+    if (!tourPlaying) return;
+    if (tourTimer) clearInterval(tourTimer);
+    clearTimeout(resumeTourTimeout);
+    resumeTourTimeout = setTimeout(() => {
+      if (tourPlaying) startTour();
+    }, duration);
+  }
+
+  if (tourBtn) {
+    tourBtn.addEventListener('click', () => {
+      if (tourPlaying) {
+        stopTour();
+      } else {
+        startTour();
+      }
     });
-  });
+  }
 
-  wide.addEventListener && wide.addEventListener('change', () => {
-    mode = wide.matches ? 'scroll' : 'tap';
-    auto = 0;
-  });
-
-  /* ------------------------------------------------------------------
-     Magnetic buttons
-  ------------------------------------------------------------------ */
-  if (finePointer && !reduced) {
-    $$('.eq-btn').forEach(b => {
-      b.addEventListener('pointermove', e => {
-        const r = b.getBoundingClientRect();
-        const x = (e.clientX - (r.left + r.width / 2)) * 0.28;
-        const y = (e.clientY - (r.top + r.height / 2)) * 0.4;
-        b.style.transform = `translate3d(${x}px, ${y}px, 0)`;
-      });
-      b.addEventListener('pointerleave', () => { b.style.transform = ''; });
+  // Pause tour on mouse hover / user interaction with studio
+  if (studio) {
+    studio.addEventListener('pointerenter', () => {
+      if (tourPlaying && tourTimer) clearInterval(tourTimer);
+    });
+    studio.addEventListener('pointerleave', () => {
+      if (tourPlaying) startTour();
     });
   }
 
   /* ------------------------------------------------------------------
-     Step-explorer jump (handled by process.js)
-  ------------------------------------------------------------------ */
-  $$('[data-eq-jump]').forEach(b => {
-    b.addEventListener('click', () => {
-      window.dispatchEvent(new CustomEvent('ats:select-step', { detail: { index: Number(b.dataset.eqJump || 0) } }));
-    });
-  });
-
-  /* ------------------------------------------------------------------
-     Viewport: pointer parallax + drag-to-orbit
+     Viewport: Drag to orbit 3D model
   ------------------------------------------------------------------ */
   let dragging = false, lastX = 0;
   if (viewport) {
@@ -240,271 +227,194 @@
       dragging = true;
       lastX = e.clientX;
       viewport.classList.add('is-drag');
+      pauseTour(15000);
       try { viewport.setPointerCapture(e.pointerId); } catch (err) { /* noop */ }
       if (scene) scene.dragStart();
     });
+
     viewport.addEventListener('pointermove', e => {
-      if (!dragging) return;
-      const dx = e.clientX - lastX;
-      lastX = e.clientX;
-      if (scene) scene.dragMove(dx);
+      if (dragging) {
+        const dx = e.clientX - lastX;
+        lastX = e.clientX;
+        if (scene) scene.dragMove(dx);
+      } else if (scene) {
+        const r = viewport.getBoundingClientRect();
+        const px = ((e.clientX - r.left) / r.width - 0.5) * 2;
+        const py = ((e.clientY - r.top) / r.height - 0.5) * 2;
+        scene.setPointer(px, py);
+      }
     });
-    const end = () => {
+
+    const endDrag = () => {
       if (!dragging) return;
       dragging = false;
       viewport.classList.remove('is-drag');
       if (scene) scene.dragEnd();
     };
-    viewport.addEventListener('pointerup', end);
-    viewport.addEventListener('pointercancel', end);
-  }
-  stage.addEventListener('pointermove', e => {
-    if (!scene) return;
-    scene.setPointer((e.clientX / window.innerWidth - 0.5) * 2, (e.clientY / window.innerHeight - 0.5) * 2);
-  });
-
-  /* ------------------------------------------------------------------
-     Custom cursor
-  ------------------------------------------------------------------ */
-  const cursor = $('#eq-cursor');
-  const cursorLabel = $('#eq-cursor-label');
-  let cx = 0, cy = 0, cTx = 0, cTy = 0, cursorOn = false, cursorState = '';
-  if (cursor && finePointer) {
-    stage.addEventListener('pointermove', e => {
-      if (!wide.matches) return;
-      cTx = e.clientX;
-      cTy = e.clientY;
-      if (!cursorOn) {
-        cursorOn = true;
-        cx = cTx; cy = cTy;
-        cursor.classList.add('is-on');
-      }
-      const t = e.target.closest('[data-eq-cursor]');
-      const st = t ? t.dataset.eqCursor : '';
-      if (st !== cursorState) {
-        cursor.classList.remove('is-drag', 'is-inspect');
-        if (st) {
-          cursor.classList.add('is-' + st);
-          cursorLabel.textContent = t.dataset.eqCursorLabel || '';
-        }
-        cursorState = st;
-      }
-    });
-    stage.addEventListener('pointerleave', () => {
-      cursorOn = false;
-      cursor.classList.remove('is-on', 'is-drag', 'is-inspect');
-      cursorState = '';
-    });
+    viewport.addEventListener('pointerup', endDrag);
+    viewport.addEventListener('pointercancel', endDrag);
   }
 
   /* ------------------------------------------------------------------
-     3D-tilt photo card
+     3D-tilt Photo Card
   ------------------------------------------------------------------ */
-  const card = $('#eq-photo-card');
-  let tRX = 0, tRY = 0, cRX = 0, cRY = 0;
-  if (card && finePointer && !reduced) {
+  if (card && !reduced) {
+    let tRX = 0, tRY = 0, cRX = 0, cRY = 0;
     card.addEventListener('pointermove', e => {
       const r = card.getBoundingClientRect();
       const px = (e.clientX - r.left) / r.width;
       const py = (e.clientY - r.top) / r.height;
-      tRY = (px - 0.5) * 18;
-      tRX = -(py - 0.5) * 15;
-      card.style.setProperty('--mx', (px * 100).toFixed(1) + '%');
-      card.style.setProperty('--my', (py * 100).toFixed(1) + '%');
+      tRY = (px - 0.5) * 14;
+      tRX = -(py - 0.5) * 12;
     });
     card.addEventListener('pointerleave', () => { tRX = 0; tRY = 0; });
+
+    function tiltLoop() {
+      if (Math.abs(cRX - tRX) > 0.01 || Math.abs(cRY - tRY) > 0.01) {
+        cRX = lerp(cRX, tRX, 0.12);
+        cRY = lerp(cRY, tRY, 0.12);
+        card.style.transform = `perspective(600px) rotateX(${cRX.toFixed(2)}deg) rotateY(${cRY.toFixed(2)}deg)`;
+      }
+      requestAnimationFrame(tiltLoop);
+    }
+    tiltLoop();
   }
 
   /* ------------------------------------------------------------------
-     Marquee (scroll-velocity driven)
+     Step Explorer Bridge (Jump to 33-step Explorer)
   ------------------------------------------------------------------ */
-  const mTrack = $('#eq-marquee-track');
-  let mX = 0, mHalf = 0, lastY = window.scrollY, vel = 0;
-  const measureMarquee = () => {
-    if (!mTrack) return;
-    const g = mTrack.firstElementChild;
-    mHalf = g ? g.getBoundingClientRect().width : 0;
-  };
-  measureMarquee();
-  window.addEventListener('resize', measureMarquee);
-  window.addEventListener('load', measureMarquee);
+  $$('[data-eq-jump]').forEach(b => {
+    b.addEventListener('click', () => {
+      const stepIdx = Number(b.dataset.eqJump || 0);
+      window.dispatchEvent(new CustomEvent('ats:select-step', { detail: { index: stepIdx } }));
+    });
+  });
 
   /* ------------------------------------------------------------------
-     Lightbox
+     High-Resolution Photo Lightbox
   ------------------------------------------------------------------ */
   const lb = $('#eq-lb');
   const lbImg = $('#eq-lb-img', lb);
-  const lbFrame = $('#eq-lb-frame', lb);
   const lbTitle = $('#eq-lb-title', lb);
   const lbMeta = $('#eq-lb-meta', lb);
   let lbIndex = 0, lbReturn = null;
-  if (lb) document.body.appendChild(lb); // escape the section stacking context (sticky header z-index)
+  if (lb) document.body.appendChild(lb);
 
   function lbShow(i) {
     lbIndex = (i + n) % n;
     const s = slides[lbIndex];
-    lbFrame.classList.remove('is-zoom');
+    if (!s) return;
     lbImg.style.opacity = '0';
-    const src = s.dataset.image;
     const done = () => { lbImg.style.opacity = '1'; };
     lbImg.onload = done;
-    lbImg.src = src;
+    lbImg.src = s.dataset.image;
     lbImg.alt = s.dataset.title || '';
     if (lbImg.complete) done();
-    lbTitle.textContent = s.dataset.title || '';
-    lbMeta.textContent = `${(s.dataset.meta || '').trim()} · ATS MANUFACTURING FLEET · ${pad(lbIndex + 1)}/${pad(n)}`;
+    if (lbTitle) lbTitle.textContent = s.dataset.title || '';
+    if (lbMeta) lbMeta.textContent = `${(s.dataset.meta || '').trim()} · ATS Workshop Surabaya · ${pad(lbIndex + 1)}/${pad(n)}`;
   }
+
   function lbOpen(i) {
     if (!lb) return;
     lbReturn = document.activeElement;
     lbShow(i);
-    lb.classList.add('is-open');
+    lb.style.display = 'flex';
     lb.setAttribute('aria-hidden', 'false');
-    requestAnimationFrame(() => requestAnimationFrame(() => lb.classList.add('is-in')));
     document.documentElement.style.overflow = 'hidden';
-    if (window.atsLenis && window.atsLenis.stop) window.atsLenis.stop();
-    const close = $('.eq-lb-close', lb);
-    if (close) close.focus({ preventScroll: true });
+    const closeBtn = $('.eq-lb-close', lb);
+    if (closeBtn) closeBtn.focus();
   }
+
   function lbClose() {
-    if (!lb || !lb.classList.contains('is-open')) return;
-    lb.classList.remove('is-in');
+    if (!lb || lb.style.display === 'none') return;
+    lb.style.display = 'none';
     lb.setAttribute('aria-hidden', 'true');
-    setTimeout(() => lb.classList.remove('is-open'), 420);
     document.documentElement.style.overflow = '';
-    if (window.atsLenis && window.atsLenis.start) window.atsLenis.start();
-    if (lbReturn && lbReturn.focus) lbReturn.focus({ preventScroll: true });
+    if (lbReturn && lbReturn.focus) lbReturn.focus();
   }
+
   $$('[data-eq-inspect]').forEach(b => b.addEventListener('click', () => lbOpen(active)));
-  if (lb) {
-    lb.addEventListener('click', e => { if (e.target.closest('[data-eq-lb-close]')) lbClose(); });
-    $('#eq-lb-prev', lb).addEventListener('click', () => lbShow(lbIndex - 1));
-    $('#eq-lb-next', lb).addEventListener('click', () => lbShow(lbIndex + 1));
-    lbFrame.addEventListener('click', e => {
-      const r = lbFrame.getBoundingClientRect();
-      lbFrame.style.setProperty('--ox', ((e.clientX - r.left) / r.width * 100).toFixed(1) + '%');
-      lbFrame.style.setProperty('--oy', ((e.clientY - r.top) / r.height * 100).toFixed(1) + '%');
-      lbFrame.classList.toggle('is-zoom');
-    });
-    lbFrame.addEventListener('pointermove', e => {
-      if (!lbFrame.classList.contains('is-zoom')) return;
-      const r = lbFrame.getBoundingClientRect();
-      lbFrame.style.setProperty('--ox', ((e.clientX - r.left) / r.width * 100).toFixed(1) + '%');
-      lbFrame.style.setProperty('--oy', ((e.clientY - r.top) / r.height * 100).toFixed(1) + '%');
-    });
-    document.addEventListener('keydown', e => {
-      if (!lb.classList.contains('is-open')) return;
-      if (e.key === 'Escape') lbClose();
-      else if (e.key === 'ArrowRight') lbShow(lbIndex + 1);
-      else if (e.key === 'ArrowLeft') lbShow(lbIndex - 1);
-      else if (e.key === 'Tab') {
-        const f = $$('button', lb);
-        if (!f.length) return;
-        const first = f[0], last = f[f.length - 1];
-        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
-        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  if (card) {
+    card.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        lbOpen(active);
       }
     });
   }
 
+  if (lb) {
+    lb.addEventListener('click', e => { if (e.target.closest('[data-eq-lb-close]')) lbClose(); });
+    const prevBtn = $('#eq-lb-prev', lb);
+    const nextBtn = $('#eq-lb-next', lb);
+    if (prevBtn) prevBtn.addEventListener('click', () => lbShow(lbIndex - 1));
+    if (nextBtn) nextBtn.addEventListener('click', () => lbShow(lbIndex + 1));
+
+    document.addEventListener('keydown', e => {
+      if (lb.style.display === 'none') return;
+      if (e.key === 'Escape') lbClose();
+      else if (e.key === 'ArrowRight') lbShow(lbIndex + 1);
+      else if (e.key === 'ArrowLeft') lbShow(lbIndex - 1);
+    });
+  }
+
   /* ------------------------------------------------------------------
-     Main loop (runs only while the section is on screen)
+     Main Animation Loop (Three.js Scene Rendering)
   ------------------------------------------------------------------ */
-  let raf = 0, last = 0, inView = false, railCache = [];
+  let raf = 0, last = 0, inView = false;
+
   function loop(now) {
     raf = requestAnimationFrame(loop);
     const dt = Math.min(0.05, (now - last) / 1000 || 0.016);
     last = now;
-
-    // scroll velocity (for marquee)
-    const y = window.scrollY;
-    vel = lerp(vel, y - lastY, 0.14);
-    lastY = y;
-
-    // machine selection
-    let prog = 0;
-    if (mode === 'scroll') {
-      const r = readScroll();
-      setActive(r.idx);
-      prog = r.local;
-      scrollFrac = (r.idx + r.local) / n;
-      railBtns.forEach((_, k) => { railCache[k] = k < r.idx ? 1 : k === r.idx ? r.local : 0; });
-      if (hint) hint.style.opacity = r.p > 0.03 ? '0' : '1';
-    } else {
-      if (!reduced && Date.now() > pauseUntil) {
-        auto += dt / 6.5;
-        if (auto >= 1) { auto = 0; setActive((active + 1) % n); }
-      } else if (Date.now() <= pauseUntil) {
-        auto = 1;
-      }
-      prog = auto;
-      scrollFrac = (active + prog) / n;
-      railBtns.forEach((_, k) => { railCache[k] = k < active ? 1 : k === active ? prog : 0; });
-    }
-    railBtns.forEach((b, k) => {
-      const v = railCache[k] || 0;
-      if (b._p === undefined || Math.abs(b._p - v) > 0.004) { b._p = v; b.style.setProperty('--p', v.toFixed(3)); }
-    });
-    if (ghostEl) ghostEl.style.setProperty('--gy', `${(scrollFrac - 0.5) * -90}px`);
-    if (scene) scene.setScroll(scrollFrac);
-
-    // marquee
-    if (mTrack && mHalf && !reduced) {
-      mX -= (46 + Math.abs(vel) * 9) * dt * (vel < -0.5 ? -1 : 1);
-      if (mX <= -mHalf) mX += mHalf;
-      if (mX > 0) mX -= mHalf;
-      mTrack.style.transform = `translate3d(${mX.toFixed(1)}px,0,0) skewX(${clamp(-vel * 0.18, -9, 9).toFixed(2)}deg)`;
-    }
-
-    // cursor
-    if (cursor && cursorOn) {
-      cx = lerp(cx, cTx, 1 - Math.exp(-dt * 18));
-      cy = lerp(cy, cTy, 1 - Math.exp(-dt * 18));
-      cursor.style.transform = `translate3d(${cx.toFixed(1)}px, ${cy.toFixed(1)}px, 0)`;
-    }
-
-    // photo tilt
-    if (card && (Math.abs(cRX - tRX) > 0.02 || Math.abs(cRY - tRY) > 0.02)) {
-      cRX = lerp(cRX, tRX, 1 - Math.exp(-dt * 10));
-      cRY = lerp(cRY, tRY, 1 - Math.exp(-dt * 10));
-      card.style.transform = `perspective(760px) rotateX(${cRX.toFixed(2)}deg) rotateY(${cRY.toFixed(2)}deg)`;
-    }
-
     if (scene) scene.render(dt);
   }
+
   function start() {
     if (raf) return;
     last = performance.now();
-    lastY = window.scrollY;
     raf = requestAnimationFrame(loop);
   }
+
   function stop() {
     cancelAnimationFrame(raf);
     raf = 0;
   }
+
   if ('IntersectionObserver' in window) {
     new IntersectionObserver(entries => {
       inView = entries[0].isIntersecting;
-      if (inView && !document.hidden) start(); else stop();
-    }, { rootMargin: '240px 0px' }).observe(sec);
+      if (inView && !document.hidden) {
+        start();
+        if (tourPlaying && !tourTimer) startTour();
+      } else {
+        stop();
+        if (tourTimer) { clearInterval(tourTimer); tourTimer = null; }
+      }
+    }, { rootMargin: '120px 0px' }).observe(sec);
   } else {
+    inView = true;
     start();
+    startTour();
   }
+
   document.addEventListener('visibilitychange', () => {
-    if (document.hidden) stop(); else if (inView) start();
+    if (document.hidden) {
+      stop();
+    } else if (inView) {
+      start();
+    }
   });
 
   /* ------------------------------------------------------------------
-     Deep link: /panel-building-process#equipment
-     The explorer above renders client-side, which shifts layout after the browser's
-     native anchor jump — re-align once everything has settled.
+     Deep Link Scroll Alignment: /panel-building-process#equipment
   ------------------------------------------------------------------ */
   if (location.hash === '#equipment') {
     const align = () => {
-      const top = sec.getBoundingClientRect().top + window.scrollY;
-      window.scrollTo({ top, behavior: 'auto' });
+      const top = sec.getBoundingClientRect().top + window.scrollY - 30;
+      window.scrollTo({ top, behavior: 'smooth' });
     };
-    setTimeout(align, 60);
-    window.addEventListener('load', () => { setTimeout(align, 80); setTimeout(align, 700); }, { once: true });
+    setTimeout(align, 100);
+    window.addEventListener('load', () => setTimeout(align, 300), { once: true });
   }
 })();

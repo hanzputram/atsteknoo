@@ -52,7 +52,7 @@
     renderer.shadowMap.type = T.PCFSoftShadowMap;
 
     const scene = new T.Scene();
-    scene.fog = new T.Fog(0x050914, 12, 26);
+    scene.fog = new T.Fog(0xf1f5f9, 14, 28);
     const camera = new T.PerspectiveCamera(34, 1, 0.1, 60);
 
     /* ---------- Textures ---------- */
@@ -70,16 +70,16 @@
       return new T.CanvasTexture(c);
     })();
 
-    // Procedural studio environment (soft boxes) -> metallic reflections without any HDR file
+    // Procedural studio environment (light soft boxes) -> crisp metallic reflections
     try {
       const c = document.createElement('canvas');
       c.width = 1024;
       c.height = 512;
       const x = c.getContext('2d');
       const g = x.createLinearGradient(0, 0, 0, 512);
-      g.addColorStop(0, '#22346a');
-      g.addColorStop(0.5, '#0e1738');
-      g.addColorStop(1, '#04060d');
+      g.addColorStop(0, '#f8fafc');
+      g.addColorStop(0.5, '#e2e8f0');
+      g.addColorStop(1, '#cbd5e1');
       x.fillStyle = g;
       x.fillRect(0, 0, 1024, 512);
       try { x.filter = 'blur(16px)'; } catch (e) { /* Safari: sharp boxes are fine */ }
@@ -89,10 +89,10 @@
         x.fillRect(px, py, w, h);
       };
       box(110, 60, 320, 130, '#ffffff', 0.95);
-      box(610, 40, 260, 100, '#cfe0ff', 0.85);
-      box(430, 250, 170, 46, '#ff4d6d', 0.85);
-      box(860, 220, 110, 160, '#ffd9b0', 0.6);
-      box(0, 330, 1024, 20, '#5b7bd6', 0.35);
+      box(610, 40, 260, 100, '#ffffff', 0.85);
+      box(430, 250, 170, 46, '#ff4d6d', 0.65);
+      box(860, 220, 110, 160, '#fed7aa', 0.5);
+      box(0, 330, 1024, 20, '#94a3b8', 0.35);
       const tex = new T.CanvasTexture(c);
       tex.mapping = T.EquirectangularReflectionMapping;
       tex.encoding = T.sRGBEncoding;
@@ -103,8 +103,8 @@
     } catch (e) { /* environment is a nice-to-have */ }
 
     /* ---------- Lights ---------- */
-    scene.add(new T.HemisphereLight(0x8aa4ff, 0x0b1020, 0.5));
-    const key = new T.DirectionalLight(0xffffff, 1.5);
+    scene.add(new T.HemisphereLight(0xffffff, 0xcbd5e1, 0.9));
+    const key = new T.DirectionalLight(0xffffff, 1.4);
     key.position.set(4, 7.5, 5);
     key.castShadow = true;
     key.shadow.mapSize.set(1024, 1024);
@@ -116,7 +116,7 @@
     key.shadow.camera.far = 24;
     key.shadow.bias = -0.0006;
     scene.add(key);
-    const rim = new T.PointLight(0x3b82f6, 1.5, 20);
+    const rim = new T.PointLight(0x0284c7, 1.1, 20);
     rim.position.set(-5.5, 2.8, -4.5);
     scene.add(rim);
     const glow = new T.PointLight(0xff4d4d, 0, 9);
@@ -130,20 +130,20 @@
     const FLOOR_Y = -0.92;
     const floor = new T.Mesh(
       new T.CircleGeometry(7.5, 72),
-      new T.MeshStandardMaterial({ color: 0x0a1022, metalness: 0.55, roughness: 0.5 })
+      new T.MeshStandardMaterial({ color: 0xf1f5f9, metalness: 0.1, roughness: 0.6 })
     );
     floor.rotation.x = -Math.PI / 2;
     floor.position.y = FLOOR_Y;
     floor.receiveShadow = true;
     world.add(floor);
 
-    const grid = new T.GridHelper(15, 30, 0xe11d48, 0x1b2748);
+    const grid = new T.GridHelper(15, 30, 0xe11d48, 0xcbd5e1);
     grid.position.y = FLOOR_Y + 0.004;
     grid.material.transparent = true;
-    grid.material.opacity = 0.32;
+    grid.material.opacity = 0.55;
     world.add(grid);
 
-    const ringMat = new T.MeshBasicMaterial({ color: 0xe11d48, transparent: true, opacity: 0.7, blending: T.AdditiveBlending, depthWrite: false });
+    const ringMat = new T.MeshBasicMaterial({ color: 0xe11d48, transparent: true, opacity: 0.5, depthWrite: false });
     const ring = new T.Mesh(new T.RingGeometry(3.6, 3.625, 128), ringMat);
     ring.rotation.x = -Math.PI / 2;
     ring.position.y = FLOOR_Y + 0.01;
@@ -221,7 +221,7 @@
     }
     const duGeo = new T.BufferGeometry();
     duGeo.setAttribute('position', new T.BufferAttribute(duPos, 3));
-    const dust = new T.Points(duGeo, new T.PointsMaterial({ size: 0.035, map: dotTex, color: 0x9db4ff, transparent: true, opacity: 0.55, depthWrite: false, blending: T.AdditiveBlending }));
+    const dust = new T.Points(duGeo, new T.PointsMaterial({ size: 0.035, map: dotTex, color: 0x94a3b8, transparent: true, opacity: 0.15, depthWrite: false }));
     dust.frustumCulled = false;
     world.add(dust);
 

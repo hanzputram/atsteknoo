@@ -166,17 +166,15 @@
                 @endforeach
             </div>
         </section>
-    </div>
 
-    <!-- Production Machinery Facilities Section (Cinematic Fleet Studio) -->
-    @include('components.panel-fleet', [
-        'facilities' => $facilities,
-        'steps' => $steps,
-        'phases' => $phases,
-        'resolveImg' => $resolveImg,
-    ])
+        <!-- Production Machinery Facilities Section (Interactive Fleet Studio) -->
+        @include('components.panel-fleet', [
+            'facilities' => $facilities,
+            'steps' => $steps,
+            'phases' => $phases,
+            'resolveImg' => $resolveImg,
+        ])
 
-    <div class="wrap">
         <!-- Quality Assurance Note -->
         <section class="quality-note" id="ats-quality">
             <h2>{!! $quality['title'] ?? "Quality Verified<br>at Every Milestone." !!}</h2>
