@@ -56,31 +56,31 @@
             <span class="p33-head-dot"></span>
             <span>33-STAGE INDUSTRIAL WORKFLOW · ZERO COMPROMISE</span>
         </div>
-        <h2 class="p33-title" id="p33-title">33 Tahap Proses Pembuatan Panel Listrik</h2>
+        <h2 class="p33-title" id="p33-title">33-Stage Switchboard Manufacturing Process</h2>
         <p class="p33-lead">
-            Standar manufaktur switchboard panel industri ATS Tekno Surabaya: setiap tahapan dari perancangan engineering, fabrikasi plat, perlakuan kimiawi, pengecatan, hingga perakitan dan pengujian FAT didokumentasikan secara transparan dengan pos inspeksi mutu terverifikasi.
+            ATS Tekno Surabaya industrial switchboard manufacturing standard: every phase from engineering design, sheet metal fabrication, chemical surface treatment, powder coating, through electrical outfitting and Factory Acceptance Testing (FAT) is transparently documented with verified quality checkpoints.
         </p>
 
         {{-- Process Highlights Stats --}}
         <div class="p33-stats">
             <div class="p33-stat-item">
                 <strong>33</strong>
-                <span>Tahapan Terintegrasi</span>
+                <span>Integrated Steps</span>
             </div>
             <div class="p33-stat-sep"></div>
             <div class="p33-stat-item">
                 <strong>06</strong>
-                <span>Fase Manufaktur</span>
+                <span>Production Phases</span>
             </div>
             <div class="p33-stat-sep"></div>
             <div class="p33-stat-item">
                 <strong>100%</strong>
-                <span>Inspeksi Terverifikasi</span>
+                <span>Verified Inspection</span>
             </div>
             <div class="p33-stat-sep"></div>
             <div class="p33-stat-item">
                 <strong>IEC</strong>
-                <span>Standar 61439-1/2</span>
+                <span>61439-1/2 Standard</span>
             </div>
         </div>
     </header>
@@ -89,7 +89,7 @@
     <div class="p33-controls">
         <nav class="p33-tabs" role="tablist" aria-label="Filter processes by manufacturing phase">
             <button type="button" class="p33-tab is-active" data-phase-filter="all" role="tab" aria-selected="true">
-                <span>Semua Proses</span>
+                <span>All Processes</span>
                 <span class="p33-tab-count">{{ count($steps) }}</span>
             </button>
             @foreach ($phases as $pIdx => $p)
@@ -106,14 +106,14 @@
         {{-- Search Input --}}
         <div class="p33-search-box">
             <svg class="p33-search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-            <input type="text" id="p33-search-input" class="p33-search-input" placeholder="Cari tahap (contoh: laser, bending, hcl, powder, busbar, wiring, fat)..." aria-label="Cari dari 33 proses">
-            <button type="button" id="p33-search-clear" class="p33-search-clear" aria-label="Reset pencarian" style="display: none;">&times;</button>
+            <input type="text" id="p33-search-input" class="p33-search-input" placeholder="Search steps (e.g., laser, bending, pickling, powder coating, busbar, wiring, FAT)..." aria-label="Search 33 manufacturing processes">
+            <button type="button" id="p33-search-clear" class="p33-search-clear" aria-label="Clear search" style="display: none;">&times;</button>
         </div>
     </div>
 
     {{-- Active Filter Counter Alert --}}
     <div class="p33-filter-status" id="p33-filter-status" aria-live="polite">
-        Menampilkan <b id="p33-visible-count">{{ count($steps) }}</b> dari {{ count($steps) }} tahap proses pembuatan panel
+        Showing <b id="p33-visible-count">{{ count($steps) }}</b> of {{ count($steps) }} switchboard manufacturing steps
     </div>
 
     {{-- 33 Process Cards Grid --}}
@@ -144,7 +144,7 @@
                      data-photo-title="Step {{ sprintf('%02d', $i + 1) }}: {{ $s['title'] }}"
                      role="button"
                      tabindex="0"
-                     aria-label="Lihat foto resolusi tinggi untuk Step {{ sprintf('%02d', $i + 1) }}">
+                     aria-label="View high-resolution photo for Step {{ sprintf('%02d', $i + 1) }}">
                     <img class="p33-card-img"
                          src="{{ $photo }}"
                          alt="Step {{ sprintf('%02d', $i + 1) }}: {{ $s['title'] }} — ATS Tekno Workshop Surabaya"
@@ -162,7 +162,7 @@
                     <div class="p33-media-hover">
                         <span class="p33-zoom-hint">
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3M11 8v6M8 11h6"/></svg>
-                            Perbesar Foto
+                            Inspect Photo
                         </span>
                     </div>
                 </div>
@@ -180,7 +180,7 @@
 
                     @if (!empty($activities))
                         <div class="p33-activities">
-                            <span class="p33-block-label">AKTIVITAS PENGERJAAN</span>
+                            <span class="p33-block-label">KEY WORK ACTIVITIES</span>
                             <ul class="p33-act-list">
                                 @foreach (array_slice($activities, 0, 3) as $act)
                                     <li>
@@ -198,7 +198,7 @@
                             <div class="p33-checkpoint-box">
                                 <span class="p33-box-label">
                                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-                                    POS INSPEKSI MUTU
+                                    QUALITY CHECKPOINT
                                 </span>
                                 <p class="p33-box-text">{{ $s['checkpoint'] }}</p>
                             </div>
@@ -208,7 +208,7 @@
                             <div class="p33-output-box">
                                 <span class="p33-box-label p33-box-label--output">
                                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-                                    OUTPUT TERVERIFIKASI
+                                    VERIFIED OUTPUT
                                 </span>
                                 <p class="p33-box-text">{{ $s['output'] }}</p>
                             </div>
@@ -222,16 +222,16 @@
     {{-- Empty State (if search finds nothing) --}}
     <div class="p33-empty" id="p33-empty" style="display: none;">
         <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        <h3>Tidak ada tahapan yang cocok</h3>
-        <p>Coba kata kunci lain atau klik "Semua Proses" untuk melihat 33 tahapan lengkap.</p>
-        <button type="button" class="p33-empty-btn" id="p33-empty-reset">Reset Pencarian</button>
+        <h3>No matching manufacturing steps found</h3>
+        <p>Try searching with different technical keywords or click "All Processes" to explore the complete 33-step workflow.</p>
+        <button type="button" class="p33-empty-btn" id="p33-empty-reset">Reset Search</button>
     </div>
 
     {{-- Process Step Lightbox Modal --}}
-    <div class="p33-modal" id="p33-modal" role="dialog" aria-modal="true" aria-label="Tampilan Foto Resolusi Tinggi" aria-hidden="true">
+    <div class="p33-modal" id="p33-modal" role="dialog" aria-modal="true" aria-label="High-Resolution Process Photo Inspection" aria-hidden="true">
         <div class="p33-modal-backdrop" id="p33-modal-backdrop"></div>
         <div class="p33-modal-dialog" style="background: #FFFFFF !important; border: 1px solid #E2E8F0 !important; border-radius: 20px !important; overflow: hidden !important; box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.5) !important;">
-            <button type="button" class="p33-modal-close" id="p33-modal-close" aria-label="Tutup foto" title="Tutup (ESC)" style="position: absolute; top: 16px; right: 16px; z-index: 50; width: 42px; height: 42px; border-radius: 50%; background: #FFFFFF !important; color: #0F172A !important; border: 1.5px solid #CBD5E1 !important; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 14px rgba(0,0,0,0.25);">
+            <button type="button" class="p33-modal-close" id="p33-modal-close" aria-label="Close photo" title="Close (ESC)" style="position: absolute; top: 16px; right: 16px; z-index: 50; width: 42px; height: 42px; border-radius: 50%; background: #FFFFFF !important; color: #0F172A !important; border: 1.5px solid #CBD5E1 !important; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 14px rgba(0,0,0,0.25);">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
             </button>
             <div class="p33-modal-media" style="background: #0B1120 !important;">
@@ -241,7 +241,7 @@
                 <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 4px;">
                     <span class="p33-modal-badge" style="display: inline-flex !important; align-items: center !important; gap: 6px !important; font-family: 'Outfit', sans-serif !important; font-size: 11px !important; font-weight: 800 !important; letter-spacing: 0.08em !important; color: #E11D48 !important; background: #FFF1F2 !important; border: 1px solid #FECDD3 !important; padding: 3px 10px !important; border-radius: 6px !important; text-transform: uppercase !important;">
                         <span style="width: 6px; height: 6px; border-radius: 50%; background: #E11D48; display: inline-block;"></span>
-                        FASILITAS &amp; DOKUMENTASI AKTUAL · ATS SURABAYA
+                        ACTUAL WORKSHOP FACILITIES · ATS SURABAYA
                     </span>
                 </div>
                 <strong id="p33-modal-title" style="display: block !important; font-family: 'Outfit', sans-serif !important; font-size: 18px !important; font-weight: 800 !important; color: #0F172A !important; line-height: 1.35 !important; margin: 0 !important;"></strong>
