@@ -245,19 +245,31 @@
     {{-- ===== Accessible Fullscreen Lightbox Modal ===== --}}
     <div class="eq-lb" id="eq-lb" role="dialog" aria-modal="true" aria-label="Machine photo inspection" aria-hidden="true" style="display: none;">
         <div class="eq-lb-backdrop" data-eq-lb-close></div>
-        <figure class="eq-lb-figure">
-            <button type="button" class="eq-lb-close" data-eq-lb-close aria-label="Close modal">&times;</button>
-            <div class="eq-lb-frame" id="eq-lb-frame">
+        <figure class="eq-lb-figure" style="background: #FFFFFF !important; border: 1px solid #E2E8F0 !important; border-radius: 20px !important; overflow: hidden !important; box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.5) !important;">
+            <button type="button" class="eq-lb-close" data-eq-lb-close aria-label="Tutup inspeksi foto" title="Tutup (ESC)" style="position: absolute; top: 16px; right: 16px; z-index: 50; width: 42px; height: 42px; border-radius: 50%; background: #FFFFFF !important; color: #0F172A !important; border: 1.5px solid #CBD5E1 !important; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 14px rgba(0,0,0,0.25);">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+            <div class="eq-lb-frame" id="eq-lb-frame" style="background: #0B1120 !important;">
                 <img id="eq-lb-img" src="" alt="" draggable="false">
             </div>
-            <figcaption class="eq-lb-cap">
-                <div>
-                    <strong id="eq-lb-title"></strong>
-                    <span id="eq-lb-meta"></span>
+            <figcaption class="eq-lb-cap" style="background: #FFFFFF !important; border-top: 1px solid #E2E8F0 !important; padding: 20px 24px !important; display: flex !important; align-items: center !important; justify-content: space-between !important; gap: 16px !important;">
+                <div class="eq-lb-cap-text" style="display: flex !important; flex-direction: column !important; gap: 4px !important; min-width: 0 !important;">
+                    <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 2px;">
+                        <span class="eq-lb-badge" style="display: inline-flex !important; align-items: center !important; gap: 6px !important; font-family: 'Outfit', sans-serif !important; font-size: 11px !important; font-weight: 800 !important; letter-spacing: 0.08em !important; color: #E11D48 !important; background: #FFF1F2 !important; border: 1px solid #FECDD3 !important; padding: 3px 10px !important; border-radius: 6px !important; width: fit-content !important; text-transform: uppercase !important;">
+                            <span style="width: 6px; height: 6px; border-radius: 50%; background: #E11D48; display: inline-block;"></span>
+                            FASILITAS WORKSHOP AKTUAL · ATS SURABAYA
+                        </span>
+                    </div>
+                    <strong id="eq-lb-title" style="display: block !important; font-family: 'Outfit', sans-serif !important; font-size: 20px !important; font-weight: 800 !important; color: #0F172A !important; line-height: 1.3 !important; margin: 0 !important;"></strong>
+                    <span id="eq-lb-meta" style="display: block !important; font-size: 14px !important; color: #64748B !important; font-weight: 500 !important; line-height: 1.4 !important; margin-top: 2px !important;"></span>
                 </div>
-                <div class="eq-lb-nav">
-                    <button type="button" id="eq-lb-prev" aria-label="Previous machine">&larr;</button>
-                    <button type="button" id="eq-lb-next" aria-label="Next machine">&rarr;</button>
+                <div class="eq-lb-nav" style="display: flex !important; align-items: center !important; gap: 10px !important; flex-shrink: 0 !important;">
+                    <button type="button" id="eq-lb-prev" aria-label="Previous machine" title="Mesin Sebelumnya (Panah Kiri)" style="width: 44px !important; height: 44px !important; border-radius: 12px !important; border: 1.5px solid #CBD5E1 !important; background: #F8FAFC !important; color: #0F172A !important; cursor: pointer !important; display: flex !important; align-items: center !important; justify-content: center !important; box-shadow: 0 1px 3px rgba(15,23,42,0.06) !important;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+                    </button>
+                    <button type="button" id="eq-lb-next" aria-label="Next machine" title="Mesin Berikutnya (Panah Kanan)" style="width: 44px !important; height: 44px !important; border-radius: 12px !important; border: 1.5px solid #CBD5E1 !important; background: #F8FAFC !important; color: #0F172A !important; cursor: pointer !important; display: flex !important; align-items: center !important; justify-content: center !important; box-shadow: 0 1px 3px rgba(15,23,42,0.06) !important;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                    </button>
                 </div>
             </figcaption>
         </figure>

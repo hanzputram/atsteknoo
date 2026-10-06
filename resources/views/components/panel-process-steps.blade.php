@@ -230,14 +230,21 @@
     {{-- Process Step Lightbox Modal --}}
     <div class="p33-modal" id="p33-modal" role="dialog" aria-modal="true" aria-label="Tampilan Foto Resolusi Tinggi" aria-hidden="true">
         <div class="p33-modal-backdrop" id="p33-modal-backdrop"></div>
-        <div class="p33-modal-dialog">
-            <button type="button" class="p33-modal-close" id="p33-modal-close" aria-label="Tutup foto">&times;</button>
-            <div class="p33-modal-media">
+        <div class="p33-modal-dialog" style="background: #FFFFFF !important; border: 1px solid #E2E8F0 !important; border-radius: 20px !important; overflow: hidden !important; box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.5) !important;">
+            <button type="button" class="p33-modal-close" id="p33-modal-close" aria-label="Tutup foto" title="Tutup (ESC)" style="position: absolute; top: 16px; right: 16px; z-index: 50; width: 42px; height: 42px; border-radius: 50%; background: #FFFFFF !important; color: #0F172A !important; border: 1.5px solid #CBD5E1 !important; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 14px rgba(0,0,0,0.25);">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+            <div class="p33-modal-media" style="background: #0B1120 !important;">
                 <img id="p33-modal-img" src="" alt="ATS Tekno Workshop Inspection">
             </div>
-            <div class="p33-modal-caption">
-                <span class="p33-modal-badge">FASILITAS &amp; DOKUMENTASI AKTUAL · ATS SURABAYA</span>
-                <strong id="p33-modal-title"></strong>
+            <div class="p33-modal-caption" style="background: #FFFFFF !important; border-top: 1px solid #E2E8F0 !important; padding: 20px 24px !important;">
+                <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 4px;">
+                    <span class="p33-modal-badge" style="display: inline-flex !important; align-items: center !important; gap: 6px !important; font-family: 'Outfit', sans-serif !important; font-size: 11px !important; font-weight: 800 !important; letter-spacing: 0.08em !important; color: #E11D48 !important; background: #FFF1F2 !important; border: 1px solid #FECDD3 !important; padding: 3px 10px !important; border-radius: 6px !important; text-transform: uppercase !important;">
+                        <span style="width: 6px; height: 6px; border-radius: 50%; background: #E11D48; display: inline-block;"></span>
+                        FASILITAS &amp; DOKUMENTASI AKTUAL · ATS SURABAYA
+                    </span>
+                </div>
+                <strong id="p33-modal-title" style="display: block !important; font-family: 'Outfit', sans-serif !important; font-size: 18px !important; font-weight: 800 !important; color: #0F172A !important; line-height: 1.35 !important; margin: 0 !important;"></strong>
             </div>
         </div>
     </div>
