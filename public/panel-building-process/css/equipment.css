@@ -167,15 +167,40 @@
 
 /* ==========================================================================
    Navigation Tabs
+/* ==========================================================================
+   Navigation Tabs & Studio Layout
    ========================================================================== */
+.ats-process .eq .eq-studio {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 28px;
+  background: var(--eq-white);
+  border: 1px solid var(--eq-slate-200);
+  border-radius: 24px;
+  padding: 28px;
+  box-shadow: 0 10px 30px -10px rgba(15, 23, 42, 0.06), 0 2px 8px -2px rgba(15, 23, 42, 0.03);
+}
+
+/* --------------------------------------------------------------------------
+   Left Column: Tabs & Specs Panel
+   -------------------------------------------------------------------------- */
+.ats-process .eq .eq-left-col {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+
 .ats-process .eq .eq-nav {
-  margin-bottom: 20px;
+  margin: 0;
+  width: 100%;
 }
 
 .ats-process .eq .eq-tabs {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
 }
 
 .ats-process .eq .eq-tab {
@@ -189,19 +214,20 @@
   border-radius: 12px;
   cursor: pointer;
   text-align: left;
+  width: 100%;
   transition: all 0.25s var(--eq-ease);
-  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.03);
 }
 
 .ats-process .eq .eq-tab:hover {
   border-color: var(--eq-slate-300);
   background: var(--eq-slate-50);
-  transform: translateY(-1px);
+  transform: translateX(2px);
 }
 
 .ats-process .eq .eq-tab.is-active {
   border-color: var(--eq-red);
-  background: var(--eq-white);
+  background: var(--eq-red-light);
   box-shadow: 0 4px 12px -2px rgba(225, 29, 72, 0.12), 0 2px 4px -2px rgba(15, 23, 42, 0.04);
 }
 
@@ -251,56 +277,82 @@
 
 .ats-process .eq .eq-tab-bar {
   position: absolute;
-  bottom: -1px;
-  left: 14px;
-  right: 14px;
-  height: 2px;
+  left: 0;
+  top: 10px;
+  bottom: 10px;
+  width: 3px;
   background: var(--eq-red);
-  border-radius: 2px 2px 0 0;
+  border-radius: 0 3px 3px 0;
   opacity: 0;
-  transform: scaleX(0.4);
+  transform: scaleY(0.4);
   transition: all 0.25s var(--eq-ease);
 }
 
 .ats-process .eq .eq-tab.is-active .eq-tab-bar {
   opacity: 1;
-  transform: scaleX(1);
+  transform: scaleY(1);
 }
 
-/* ==========================================================================
-   Main Studio Card
-   ========================================================================== */
-.ats-process .eq .eq-studio {
-  display: grid;
-  grid-template-columns: 1.05fr 1.15fr;
-  gap: 32px;
-  background: var(--eq-white);
+/* Specs Panel */
+.ats-process .eq .eq-specs-panel {
+  background: var(--eq-slate-50);
   border: 1px solid var(--eq-slate-200);
-  border-radius: 24px;
-  padding: 32px;
-  box-shadow: 0 10px 30px -10px rgba(15, 23, 42, 0.06), 0 2px 8px -2px rgba(15, 23, 42, 0.03);
+  border-radius: 14px;
+  padding: 16px;
+  margin-top: auto;
+}
+
+.ats-process .eq .eq-panel-slide {
+  display: none;
+}
+
+.ats-process .eq .eq-panel-slide.is-active {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  animation: eq-fade-in 0.25s ease;
+}
+
+@keyframes eq-fade-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: none; }
 }
 
 /* --------------------------------------------------------------------------
-   Left Column: Machine Slides & Specs
+   Right Column: Machine Overview & 3D Visuals
    -------------------------------------------------------------------------- */
-.ats-process .eq .eq-info-col {
+.ats-process .eq .eq-right-col {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  gap: 16px;
   min-width: 0;
 }
 
 .ats-process .eq .eq-slides {
   position: relative;
-  min-height: 480px;
+  min-height: auto;
 }
 
 .ats-process .eq .eq-slide {
   display: none;
   opacity: 0;
-  transform: translateY(8px);
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  transform: translateY(6px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.ats-process .eq .eq-slide.is-active {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  opacity: 1;
+  transform: none;
+}
+
+.ats-process .eq .eq-slide-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
 }
 
 .ats-process .eq .eq-slide.is-active {
@@ -874,16 +926,17 @@ body > .eq-lb {
     gap: 24px;
   }
 
+  .ats-process .eq .eq-tabs {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
   .ats-process .eq .eq-slides {
     min-height: auto;
   }
 
   .ats-process .eq .eq-viewport {
     height: 360px;
-  }
-
-  .ats-process .eq .eq-tabs {
-    grid-template-columns: repeat(2, 1fr);
   }
 }
 

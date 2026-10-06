@@ -22,6 +22,7 @@
   const slides = $$('.eq-slide');
   const tabs = $$('.eq-tab');
   const photos = $$('.eq-photo');
+  const panels = $$('.eq-panel-slide');
   const n = slides.length;
   if (!n) return;
 
@@ -114,6 +115,10 @@
       t.classList.toggle('is-active', isCur);
       t.setAttribute('aria-selected', isCur ? 'true' : 'false');
       t.tabIndex = isCur ? 0 : -1;
+    });
+
+    panels.forEach((p, k) => {
+      p.classList.toggle('is-active', k === i);
     });
 
     photos.forEach((p, k) => {
