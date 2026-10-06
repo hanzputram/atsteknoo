@@ -16,11 +16,12 @@
 @endphp
 
 @once
-    <link rel="stylesheet" href="{{ asset('panel-building-process/css/process.css') }}?v={{ @filemtime(public_path('panel-building-process/css/process.css')) ?: time() }}">
-    <link rel="stylesheet" href="{{ asset('panel-building-process/css/equipment.css') }}?v={{ @filemtime(public_path('panel-building-process/css/equipment.css')) ?: time() }}">
-    <script src="{{ asset('panel-building-process/js/three.min.js') }}?v={{ @filemtime(public_path('panel-building-process/js/three.min.js')) ?: time() }}" defer></script>
-    <script src="{{ asset('panel-building-process/js/equipment-scene.js') }}?v={{ @filemtime(public_path('panel-building-process/js/equipment-scene.js')) ?: time() }}" defer></script>
-    <script src="{{ asset('panel-building-process/js/equipment.js') }}?v={{ @filemtime(public_path('panel-building-process/js/equipment.js')) ?: time() }}" defer></script>
+    <link rel="stylesheet" href="{{ asset('panel-building-process/css/process.css') }}">
+    <link rel="stylesheet" href="{{ asset('panel-building-process/css/equipment.css') }}">
+    <link rel="stylesheet" href="{{ asset('panel-building-process/css/process-steps.css') }}">
+    <script src="{{ asset('panel-building-process/js/three.min.js') }}" defer></script>
+    <script src="{{ asset('panel-building-process/js/equipment-scene.js') }}" defer></script>
+    <script src="{{ asset('panel-building-process/js/equipment.js') }}" defer></script>
 @endonce
 
 <div class="ats-process" id="ats-panel-process" data-asset-base="{{ asset('panel-building-process/images') }}">
@@ -32,6 +33,7 @@
                 </a>
                 <nav aria-label="Page navigation">
                     <a href="#equipment">Facilities</a>
+                    <a href="#process-steps">33-Step Process</a>
                     <a href="{{ route('services.panel') }}">Panel Builder Service</a>
                 </nav>
                 <span class="head-tag">MANUFACTURING / PRODUCTION FACILITIES</span>
@@ -45,7 +47,7 @@
                 <span class="sep">&rsaquo;</span>
                 <a href="{{ route('services.panel') }}">Panel Builder</a>
                 <span class="sep">&rsaquo;</span>
-                <span class="current">Production Facilities & Machinery</span>
+                <span class="current">Production Facilities & 33-Stage Process</span>
             </nav>
         @endif
 
@@ -53,6 +55,13 @@
             <!-- Production Machinery Facilities Section (Interactive Fleet Studio) -->
             @include('components.panel-fleet', [
                 'facilities' => $facilities,
+                'steps' => $steps,
+                'phases' => $phases,
+                'resolveImg' => $resolveImg,
+            ])
+
+            <!-- Complete 33-Stage Industrial Manufacturing Process Section with Photos -->
+            @include('components.panel-process-steps', [
                 'steps' => $steps,
                 'phases' => $phases,
                 'resolveImg' => $resolveImg,
