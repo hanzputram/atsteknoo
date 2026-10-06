@@ -14,7 +14,23 @@ class PanelProcessController extends Controller
     public function index()
     {
         $data = PanelProcessService::getData();
-        return view('backoffice.panel-process.index', compact('data'));
+
+        // Scan workshop images in public/panel-building-process/images
+        $imgDir = public_path('panel-building-process/images');
+        $availablePhotos = [];
+        if (is_dir($imgDir)) {
+            $files = scandir($imgDir);
+            foreach ($files as $f) {
+                if ($f !== '.' && $f !== '..' && preg_match('/\.(jpe?g|png|webp|svg)$/i', $f)) {
+                    $availablePhotos[] = [
+                        'filename' => $f,
+                        'url' => asset('panel-building-process/images/' . $f),
+                    ];
+                }
+            }
+        }
+
+        return view('backoffice.panel-process.index', compact('data', 'availablePhotos'));
     }
 
     public function update(Request $request)
@@ -123,7 +139,10 @@ class PanelProcessController extends Controller
                         }
                     }
 
-                    $existingImage = $current['facilities']['machines'][$mIdx]['image'] ?? 'fabrication.webp';
+                    $existing = $current['facilities']['machines'][$mIdx] ?? [];
+                    $existingImage = $existing['image'] ?? 'fabrication.webp';
+                    $existingModel = $existing['model'] ?? null;
+
                     $machinesList[] = [
                         'image' => !empty($m['image']) ? trim($m['image']) : $existingImage,
                         'count' => trim($m['count'] ?? '01'),
@@ -133,6 +152,7 @@ class PanelProcessController extends Controller
                         'tags' => $tags,
                         'powers_step' => trim($m['powers_step'] ?? ''),
                         'powers_step_index' => isset($m['powers_step_index']) && $m['powers_step_index'] !== '' ? (int) $m['powers_step_index'] : null,
+                        'model' => !empty($m['model']) ? trim($m['model']) : $existingModel,
                     ];
                 }
                 $current['facilities']['machines'] = $machinesList;
@@ -152,7 +172,7 @@ class PanelProcessController extends Controller
             'user' => auth()->user()?->name ?? 'Admin',
         ]);
 
-        return redirect()->route('backoffice.panel-process.index')->with('success', 'Panel Building Process content has been successfully updated!');
+        return redirect()->route('backoffice.panel-process.index')->with('success', 'Panel Building Process content and photos have been successfully updated!');
     }
 
     public function uploadPhoto(Request $request): JsonResponse
@@ -160,7 +180,7 @@ class PanelProcessController extends Controller
         $request->validate([
             'photo' => ['required', 'file', 'image', 'mimes:jpeg,png,jpg,webp,svg', 'max:10240'],
             'target_type' => ['nullable', 'string', 'in:phase,step,machine'],
-            'target_index' => ['nullable', 'integer', 'min:0', 'max:32'],
+            'target_index' => ['nullable', 'integer', 'min:0', 'max:50'],
         ]);
 
         $file = $request->file('photo');
@@ -200,6 +220,38 @@ class PanelProcessController extends Controller
             'filename' => $filename,
             'url' => asset('panel-building-process/images/' . $filename),
             'message' => "Photo successfully uploaded as {$filename}!",
+        ]);
+    }
+
+    public function selectPhoto(Request $request): JsonResponse
+    {
+        $request->validate([
+            'filename' => ['required', 'string'],
+            'target_type' => ['required', 'string', 'in:phase,step,machine'],
+            'target_index' => ['required', 'integer', 'min:0', 'max:50'],
+        ]);
+
+        $filename = trim($request->input('filename'));
+        $targetType = $request->input('target_type');
+        $targetIndex = (int) $request->input('target_index');
+
+        $data = PanelProcessService::getData();
+        if ($targetType === 'phase' && isset($data['phases'][$targetIndex])) {
+            $data['phases'][$targetIndex]['image'] = $filename;
+            PanelProcessService::saveData($data);
+        } elseif ($targetType === 'step' && isset($data['steps'][$targetIndex])) {
+            $data['steps'][$targetIndex]['image'] = $filename;
+            PanelProcessService::saveData($data);
+        } elseif ($targetType === 'machine' && isset($data['facilities']['machines'][$targetIndex])) {
+            $data['facilities']['machines'][$targetIndex]['image'] = $filename;
+            PanelProcessService::saveData($data);
+        }
+
+        return response()->json([
+            'success' => true,
+            'filename' => $filename,
+            'url' => asset('panel-building-process/images/' . $filename),
+            'message' => "Photo successfully applied!",
         ]);
     }
 

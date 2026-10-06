@@ -6,7 +6,10 @@
 --}}
 @php
     $getStepPhoto = function ($step, $idx) use ($resolveImg) {
-        $img = $step['image'] ?? '';
+        $img = trim($step['image'] ?? '');
+        if ($img !== '' && !in_array($img, ['engineering', 'fabrication', 'surface', 'coating', 'assembly', 'quality'])) {
+            return $resolveImg($img);
+        }
         return match($idx + 1) {
             1, 2, 3, 4 => $resolveImg('engineering.webp'),
             5 => $resolveImg('factory.webp'),

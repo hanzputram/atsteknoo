@@ -280,6 +280,7 @@ Route::prefix('backoffice')->name('backoffice.')->group(function () {
             Route::get('panel-process', [PanelProcessController::class, 'index'])->name('panel-process.index');
             Route::match(['post', 'put'], 'panel-process', [PanelProcessController::class, 'update'])->name('panel-process.update');
             Route::post('panel-process/upload-photo', [PanelProcessController::class, 'uploadPhoto'])->name('panel-process.upload-photo');
+            Route::post('panel-process/select-photo', [PanelProcessController::class, 'selectPhoto'])->name('panel-process.select-photo');
             Route::post('panel-process/reset', [PanelProcessController::class, 'resetDefault'])->name('panel-process.reset');
 
             // Media Library API for WYSIWYG
