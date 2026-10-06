@@ -618,7 +618,7 @@
         <nav class="hidden xl:flex items-center gap-1">
           <a href="{{ route('home') }}" class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}" data-i18n="nav.home">HOME</a>
           <a href="{{ route('about.index') }}" class="nav-link {{ request()->routeIs('about.*') ? 'active' : '' }}" data-i18n="nav.about">ABOUT US</a>
-          <a href="{{ route('services.panel') }}" class="nav-link {{ request()->routeIs('services.panel') || request()->routeIs('panel-building-process') ? 'active' : '' }}" data-i18n="nav.panel_builder">PANEL BUILDER</a>
+          <a href="{{ route('services.panel') }}" class="nav-link {{ request()->routeIs('services.panel') ? 'active' : '' }}" data-i18n="nav.panel_builder">PANEL BUILDER</a>
           <a href="{{ route('products.index') }}" class="nav-link {{ request()->routeIs('products.*') ? 'active' : '' }}" data-i18n="nav.products">PRODUCTS</a>
           <a href="{{ route('price-list.index') }}" class="nav-link {{ request()->routeIs('price-list.*') || request()->routeIs('brands.*') ? 'active' : '' }}" data-i18n="nav.price_list">PRICE LIST</a>
           <a href="{{ route('projects.index') }}" class="nav-link {{ request()->routeIs('projects.*') ? 'active' : '' }}" data-i18n="nav.projects">PROJECTS</a>
@@ -643,7 +643,7 @@
     <div id="mobileMenu" class="hidden xl:hidden border-t border-slate-200 bg-white/95 backdrop-blur-md px-4 pt-3 pb-5 space-y-1">
       <a href="{{ route('home') }}" class="block px-3 py-2 rounded-xl text-sm font-bold {{ request()->routeIs('home') ? 'bg-rose-50 text-rose-600' : 'text-slate-700 hover:bg-slate-50' }}" data-i18n="nav.home">HOME</a>
       <a href="{{ route('about.index') }}" class="block px-3 py-2 rounded-xl text-sm font-bold {{ request()->routeIs('about.*') ? 'bg-rose-50 text-rose-600' : 'text-slate-700 hover:bg-slate-50' }}" data-i18n="nav.about">ABOUT US</a>
-      <a href="{{ route('services.panel') }}" class="block px-3 py-2 rounded-xl text-sm font-bold {{ request()->routeIs('services.panel') || request()->routeIs('panel-building-process') ? 'bg-rose-50 text-rose-600' : 'text-slate-700 hover:bg-slate-50' }}" data-i18n="nav.panel_builder">PANEL BUILDER</a>
+      <a href="{{ route('services.panel') }}" class="block px-3 py-2 rounded-xl text-sm font-bold {{ request()->routeIs('services.panel') ? 'bg-rose-50 text-rose-600' : 'text-slate-700 hover:bg-slate-50' }}" data-i18n="nav.panel_builder">PANEL BUILDER</a>
       <a href="{{ route('products.index') }}" class="block px-3 py-2 rounded-xl text-sm font-bold {{ request()->routeIs('products.*') ? 'bg-rose-50 text-rose-600' : 'text-slate-700 hover:bg-slate-50' }}" data-i18n="nav.products">PRODUCTS</a>
       <a href="{{ route('price-list.index') }}" class="block px-3 py-2 rounded-xl text-sm font-bold {{ request()->routeIs('price-list.*') || request()->routeIs('brands.*') ? 'bg-rose-50 text-rose-600' : 'text-slate-700 hover:bg-slate-50' }}" data-i18n="nav.price_list">PRICE LIST</a>
       <a href="{{ route('projects.index') }}" class="block px-3 py-2 rounded-xl text-sm font-bold {{ request()->routeIs('projects.*') ? 'bg-rose-50 text-rose-600' : 'text-slate-700 hover:bg-slate-50' }}" data-i18n="nav.projects">PROJECTS</a>
