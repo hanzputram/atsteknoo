@@ -19,6 +19,10 @@
             str_contains($hay, 'brake'), str_contains($hay, 'bend') => 'bend',
             str_contains($hay, 'punch') => 'punch',
             str_contains($hay, 'shear'), str_contains($hay, 'guillotine') => 'shear',
+            str_contains($hay, 'pickle') || str_contains($hay, 'pickling') || str_contains($hay, 'hcl') => 'pickling',
+            str_contains($hay, 'phosphate') || str_contains($hay, 'kapur') || str_contains($hay, 'lime') => 'phosphate',
+            str_contains($hay, 'powder') || str_contains($hay, 'cure') || str_contains($hay, 'curing') => 'powder',
+            str_contains($hay, 'wiring') || str_contains($hay, 'wire') || str_contains($hay, 'assembly') || str_contains($hay, 'elektrik') => 'wiring',
             default => 'cabinet',
         };
     };
@@ -32,14 +36,11 @@
 
     $totalUnits = 0;
     foreach ($machines as $m) {
-        $u = strtolower($m['unit'] ?? '');
-        if (str_contains($u, 'unit')) {
-            $totalUnits += $eqNum($m['count'] ?? 0);
-        }
+        $totalUnits += $eqNum($m['count'] ?? 0);
     }
     $eqStats = [
-        ['value' => $totalUnits ?: $machineCount, 'label' => 'Total Machines'],
-        ['value' => $machineCount, 'label' => 'Machine Families'],
+        ['value' => $totalUnits ?: $machineCount, 'label' => 'Total Operational Units'],
+        ['value' => $machineCount, 'label' => 'Production Stations'],
     ];
 @endphp
 
