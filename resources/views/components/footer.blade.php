@@ -810,6 +810,7 @@
             <li class="ats-ft-nav-item"><a href="{{ route('about.index') }}"><span class="ats-lang-en">About ATS TEKNO</span><span class="ats-lang-id">Tentang ATS TEKNO</span></a></li>
             <li class="ats-ft-nav-item"><a href="{{ route('price-list.index') }}"><span class="ats-lang-en">Price List &amp; Brand Catalogs</span><span class="ats-lang-id">Daftar Harga &amp; Katalog Brand</span></a></li>
             <li class="ats-ft-nav-item"><a href="{{ route('projects.index') }}"><span class="ats-lang-en">Our Project Portfolio</span><span class="ats-lang-id">Portofolio Proyek Kami</span></a></li>
+            <li class="ats-ft-nav-item"><a href="{{ route('panel-building-process') }}"><span class="ats-lang-en">Panel Building Process (33 Stages)</span><span class="ats-lang-id">Proses Perakitan Panel (33 Tahap)</span></a></li>
             <li class="ats-ft-nav-item"><a href="{{ route('articles.index') }}"><span class="ats-lang-en">Technical Articles &amp; Insights</span><span class="ats-lang-id">Artikel &amp; Panduan Teknis</span></a></li>
             <li class="ats-ft-nav-item"><a href="{{ route('contact.index') }}"><span class="ats-lang-en">Contact Our Team</span><span class="ats-lang-id">Hubungi Tim Kami</span></a></li>
           </ul>

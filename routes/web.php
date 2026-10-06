@@ -12,6 +12,7 @@ use App\Http\Controllers\Backoffice\ImportCenterController;
 use App\Http\Controllers\Backoffice\LiveChatController;
 use App\Http\Controllers\Backoffice\MediaLibraryController;
 use App\Http\Controllers\Backoffice\PageController;
+use App\Http\Controllers\Backoffice\PanelProcessController;
 use App\Http\Controllers\Backoffice\ProductCategoryController;
 use App\Http\Controllers\Backoffice\ProductController;
 use App\Http\Controllers\Backoffice\ProjectCategoryController;
@@ -158,7 +159,7 @@ Route::get('/public/site.webmanifest', fn() => $serveFavicon('site.webmanifest')
 Route::get('/public/favicon-{size}.png', fn($size) => $serveFavicon("favicon-{$size}.png"))->where('size', '[0-9]+x[0-9]+');
 Route::get('/public/apple-touch-icon-{size}.png', fn($size) => $serveFavicon("apple-touch-icon-{$size}.png"))->where('size', '[0-9]+x[0-9]+');
 
-foreach (['images', 'logos', 'certificates', 'storage', 'uploads', 'css', 'js'] as $assetDir) {
+foreach (['images', 'logos', 'certificates', 'storage', 'uploads', 'css', 'js', 'panel-building-process'] as $assetDir) {
     Route::get("/{$assetDir}/{file}", fn($file) => $serveStaticAsset($assetDir, $file))->where('file', '.*');
     Route::get("/public/{$assetDir}/{file}", fn($file) => $serveStaticAsset($assetDir, $file))->where('file', '.*');
 }
@@ -267,6 +268,12 @@ Route::prefix('backoffice')->name('backoffice.')->group(function () {
             // Pages
             Route::resource('pages', PageController::class)->only(['index', 'edit', 'update']);
 
+            // Panel Building Process (33 Steps & Phases Management)
+            Route::get('panel-process', [PanelProcessController::class, 'index'])->name('panel-process.index');
+            Route::match(['post', 'put'], 'panel-process', [PanelProcessController::class, 'update'])->name('panel-process.update');
+            Route::post('panel-process/upload-photo', [PanelProcessController::class, 'uploadPhoto'])->name('panel-process.upload-photo');
+            Route::post('panel-process/reset', [PanelProcessController::class, 'resetDefault'])->name('panel-process.reset');
+
             // Media Library API for WYSIWYG
             Route::get('media-library', [MediaLibraryController::class, 'index'])->name('media-library.index');
             Route::post('media-library/upload', [MediaLibraryController::class, 'upload'])->name('media-library.upload');
@@ -324,6 +331,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 });
 
 require __DIR__.'/settings.php';
+require __DIR__ . '/panel-building-process.php';
 
 // SEO Preservation: 301 Permanent Redirects for Legacy WordPress URLs (Never Lose Rank)
 Route::get('/product/{slug}', [\App\Http\Controllers\Public\LegacyRedirectController::class, 'handleProduct'])
