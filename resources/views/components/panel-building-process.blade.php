@@ -17,6 +17,10 @@
         if (str_starts_with($name, 'http://') || str_starts_with($name, 'https://') || str_starts_with($name, '/')) {
             return $name;
         }
+        $webpCandidate = preg_replace('/\.(jpe?g|png)$/i', '.webp', $name);
+        if (file_exists(public_path('panel-building-process/images/' . $webpCandidate))) {
+            return asset('panel-building-process/images/' . $webpCandidate);
+        }
         return asset('panel-building-process/images/' . (str_contains($name, '.') ? $name : $name . '.webp'));
     };
 @endphp

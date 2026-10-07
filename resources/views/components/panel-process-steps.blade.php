@@ -23,9 +23,9 @@
             1, 2, 3, 4 => $resolveImg('engineering.webp'),
             5 => $resolveImg('factory.webp'),
             6 => $resolveImg('machine-shearing.webp'),
-            7 => $resolveImg('machine-laser.jpg'),
-            8 => $resolveImg('machine-bending.jpg'),
-            9 => $resolveImg('machine-punching.jpg'),
+            7 => $resolveImg('machine-laser.webp'),
+            8 => $resolveImg('machine-bending.webp'),
+            9 => $resolveImg('machine-punching.webp'),
             10 => $resolveImg('bending.webp'),
             11 => $resolveImg('welding.webp'),
             12 => $resolveImg('fabrication.webp'),
@@ -172,7 +172,7 @@
                          alt="Step {{ sprintf('%02d', $seqIdx + 1) }}: {{ $s['title'] }} — ATS Tekno Workshop Surabaya"
                          width="480"
                          height="260"
-                         loading="lazy"
+                         {{ $seqIdx < 6 ? 'loading=eager' : 'loading=lazy' }}
                          decoding="async">
                     <div class="p33-card-badges">
                         <span class="p33-pill-step">
