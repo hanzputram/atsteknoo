@@ -35,6 +35,10 @@
     const tourText = $('#eq-tour-text');
 
     // Central state variables (declared first to prevent TDZ ReferenceError)
+    const isGlobalHide = (sec && sec.dataset.globalHideAnimation === '1');
+    const allSlidesHidden = slides.length > 0 && slides.every(s => s.dataset.hideAnimation === '1');
+    const disableAll3D = isGlobalHide || allSlidesHidden || !viewport || !canvas;
+
     let scene = null;
     let active = -1;
     let inView = false;
@@ -83,7 +87,7 @@
     const hudL = [0, 1, 2].map(i => $('#eq-hud-l' + i));
     const hudV = [0, 1, 2].map(i => $('#eq-hud-v' + i));
 
-    if (window.THREE && window.ATSFleetScene) {
+    if (!disableAll3D && window.THREE && window.ATSFleetScene) {
       try {
         scene = window.ATSFleetScene.create({
           canvas,
@@ -108,21 +112,14 @@
        Main Animation Loop (Three.js Scene Rendering)
     ------------------------------------------------------------------ */
     function shouldRender() {
-      if (!inView || document.hidden || !scene) return false;
+      if (!inView || document.hidden || !scene || disableAll3D) return false;
+      const curSlide = slides[active];
+      if (curSlide && curSlide.dataset.hideAnimation === '1') return false;
       if (viewport && (viewport.classList.contains('is-hidden') || viewport.style.display === 'none')) {
         return false;
       }
       return true;
     }
-
-    let isScrolling = false, scrollPauseTimer = null;
-    window.addEventListener('scroll', () => {
-      isScrolling = true;
-      clearTimeout(scrollPauseTimer);
-      scrollPauseTimer = setTimeout(() => {
-        isScrolling = false;
-      }, 80);
-    }, { passive: true });
 
     function loop(now) {
       if (!shouldRender()) {
@@ -130,14 +127,7 @@
         return;
       }
       raf = requestAnimationFrame(loop);
-
-      // Yield WebGL rendering during active page scroll to keep smooth scrolling 100% fluid
-      if (isScrolling) {
-        last = now;
-        return;
-      }
-
-      const dt = Math.min(0.05, (now - last) / 1000 || 0.016);
+      const dt = Math.min(0.033, (now - last) / 1000 || 0.016);
       last = now;
       if (scene && typeof scene.render === 'function') {
         scene.render(dt);
@@ -146,6 +136,9 @@
 
     function start() {
       if (raf || !shouldRender()) return;
+      if (scene && typeof scene.resume === 'function') {
+        scene.resume();
+      }
       last = performance.now();
       raf = requestAnimationFrame(loop);
     }
@@ -154,6 +147,9 @@
       if (raf) {
         cancelAnimationFrame(raf);
         raf = 0;
+      }
+      if (scene && typeof scene.pause === 'function') {
+        scene.pause();
       }
     }
 
@@ -229,7 +225,7 @@
       });
 
       // Check if 3D animation is hidden for this machine or globally
-      const isCurHide = (slides[i]?.dataset?.hideAnimation === '1') || (sec?.dataset?.globalHideAnimation === '1');
+      const isCurHide = disableAll3D || (slides[i]?.dataset?.hideAnimation === '1');
       if (viewport) {
         viewport.classList.toggle('is-hidden', isCurHide);
         viewport.style.display = isCurHide ? 'none' : '';
@@ -437,7 +433,7 @@
     new IntersectionObserver(entries => {
       inView = entries[0].isIntersecting;
       if (inView && !document.hidden) {
-        start();
+        if (shouldRender()) start();
         if (tourPlaying && !tourTimer) startTour();
       } else {
         stop();
@@ -446,14 +442,14 @@
     }, { rootMargin: '120px 0px' }).observe(sec);
   } else {
     inView = true;
-    start();
+    if (shouldRender()) start();
     startTour();
   }
 
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) {
       stop();
-    } else if (inView) {
+    } else if (inView && shouldRender()) {
       start();
     }
   });

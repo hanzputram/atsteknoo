@@ -109,8 +109,9 @@
       lenisInstance = new Lenis({
         autoRaf: true,
         smoothWheel: true,
-        lerp: 0.12,           // Snappy & responsive linear interpolation (instant 0ms response, zero floaty lag)
-        wheelMultiplier: 1.0,  // Natural 1:1 wheel ratio, preventing overshoot
+        duration: 0.8,        // Balanced fluid glide: stops promptly without lag, eliminates stepped stutter
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        wheelMultiplier: 0.95, // 1:1 wheel scale
         orientation: 'vertical',
         gestureOrientation: 'vertical',
         touchMultiplier: 0,

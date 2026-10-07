@@ -7,6 +7,11 @@
     $phases = $data['phases'] ?? [];
     $visibleStepsCount = count(array_filter($steps, fn($s) => empty($s['is_hidden'])));
 
+    $allMachinesHide = !empty($facilities['hide_animation']) || (
+        count($facilities['machines'] ?? []) > 0 && 
+        !array_filter($facilities['machines'] ?? [], fn($m) => empty($m['hide_animation']))
+    );
+
     $resolveImg = function($name) {
         if (!$name) return '';
         if (str_starts_with($name, 'http://') || str_starts_with($name, 'https://') || str_starts_with($name, '/')) {
@@ -20,8 +25,10 @@
     <link rel="stylesheet" href="{{ asset('panel-building-process/css/process.css') }}?v={{ @filemtime(public_path('panel-building-process/css/process.css')) }}">
     <link rel="stylesheet" href="{{ asset('panel-building-process/css/equipment.css') }}?v={{ @filemtime(public_path('panel-building-process/css/equipment.css')) }}">
     <link rel="stylesheet" href="{{ asset('panel-building-process/css/process-steps.css') }}?v={{ @filemtime(public_path('panel-building-process/css/process-steps.css')) }}">
+    @if (!$allMachinesHide)
     <script src="{{ asset('panel-building-process/js/three.min.js') }}?v={{ @filemtime(public_path('panel-building-process/js/three.min.js')) }}" defer></script>
     <script src="{{ asset('panel-building-process/js/equipment-scene.js') }}?v={{ @filemtime(public_path('panel-building-process/js/equipment-scene.js')) }}" defer></script>
+    @endif
     <script src="{{ asset('panel-building-process/js/equipment.js') }}?v={{ @filemtime(public_path('panel-building-process/js/equipment.js')) }}" defer></script>
 @endonce
 

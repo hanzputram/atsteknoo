@@ -43,11 +43,12 @@
         ['value' => $machineCount, 'label' => 'Production Stations'],
     ];
     $globalHideAnim = !empty($facilities['hide_animation']);
-    $firstMachineHide = $globalHideAnim || !empty($machines[0]['hide_animation']);
+    $allMachinesHide = $globalHideAnim || ($machineCount > 0 && !array_filter($machines, fn($m) => empty($m['hide_animation'])));
+    $firstMachineHide = $allMachinesHide || !empty($machines[0]['hide_animation']);
 @endphp
 
 @if ($machineCount)
-<section class="eq" id="equipment" aria-labelledby="eq-title" data-count="{{ $machineCount }}" data-global-hide-animation="{{ $globalHideAnim ? '1' : '0' }}">
+<section class="eq" id="equipment" aria-labelledby="eq-title" data-count="{{ $machineCount }}" data-global-hide-animation="{{ $allMachinesHide ? '1' : '0' }}">
 
     {{-- ===== Header ===== --}}
     <header class="eq-head" id="eq-head">
@@ -197,6 +198,7 @@
             </div>
 
             {{-- 3D Interactive Viewport --}}
+            @if (!$allMachinesHide)
             <div class="eq-viewport {{ $firstMachineHide ? 'is-hidden' : '' }}" 
                  id="eq-viewport" 
                  data-eq-cursor="drag" 
@@ -224,9 +226,10 @@
                     <span>DRAG TO ORBIT 360°</span>
                 </div>
             </div>
+            @endif
 
             {{-- Workshop Real Photo Inset Card --}}
-            <div class="eq-photo-strip {{ $firstMachineHide ? 'is-full-size' : '' }}">
+            <div class="eq-photo-strip {{ ($firstMachineHide || $allMachinesHide) ? 'is-full-size' : '' }}">
                 <div class="eq-photo-card" id="eq-photo-card" data-eq-inspect role="button" tabindex="0" aria-label="View actual machine photo in full resolution">
                     @foreach ($machines as $i => $m)
                         <img class="eq-photo {{ $i === 0 ? 'is-active' : '' }}"

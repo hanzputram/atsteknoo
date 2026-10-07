@@ -1185,10 +1185,21 @@
 
     function setMachine(kind, instant) {
       const k = models[kind] ? kind : 'cabinet';
-      if (k !== cur) models[k].lt = 0; // restart the newly selected animation from its first frame
+      if (k !== cur) {
+        if (models[cur]) {
+          models[cur].group.visible = false;
+          models[cur].appear = 0;
+        }
+        models[k].lt = 0; // restart the newly selected animation from its first frame
+        models[k].appear = instant ? 1 : 0.2;
+        models[k].group.visible = true;
+      }
       cur = k;
       if (instant) {
-        Object.keys(models).forEach(n => { models[n].appear = n === k ? 1 : 0; });
+        Object.keys(models).forEach(n => {
+          models[n].appear = n === k ? 1 : 0;
+          models[n].group.visible = n === k;
+        });
         Object.assign(cam, CAM[k]);
       }
       emitHud();
@@ -1249,22 +1260,26 @@
 
       glow.intensity *= Math.pow(0.002, dt);
 
+      // Only update the single active machine model; hide all others immediately with zero math overhead
       Object.keys(models).forEach(name => {
         const m = models[name];
-        const target = name === cur ? 1 : 0;
-        const stepA = dt * 2.4;
-        m.appear += clamp(target - m.appear, -stepA, stepA);
-        m.group.visible = m.appear > 0.002;
-        if (!m.group.visible) return;
-        const e = easeOutCubic(m.appear);
-        m.group.scale.setScalar(0.84 + 0.16 * e);
-        m.group.position.y = -0.7 * (1 - e);
-        m.group.rotation.y = name === 'cabinet' ? m.group.rotation.y : (1 - e) * (name === cur ? -0.9 : 0.9);
-        if (!reduced) m.lt += dt;
-        m.update(reduced ? (m.still ?? 3.1) : m.lt, dt);
+        if (name === cur) {
+          m.appear = Math.min(1, m.appear + dt * 4);
+          m.group.visible = true;
+          const e = easeOutCubic(m.appear);
+          m.group.scale.setScalar(0.88 + 0.12 * e);
+          m.group.position.y = -0.5 * (1 - e);
+          if (!reduced) m.lt += dt;
+          m.update(reduced ? (m.still ?? 3.1) : m.lt, dt);
+        } else {
+          m.appear = 0;
+          m.group.visible = false;
+        }
       });
 
-      updateSparks(dt);
+      if (cur === 'laser' || cur === 'shear') {
+        updateSparks(dt);
+      }
       dust.rotation.y = time * 0.02;
       arc.rotation.z = time * 0.35;
       ring.material.opacity = 0.55 + Math.sin(time * 1.4) * 0.15;
@@ -1285,7 +1300,9 @@
       dragEnd() { dragging = false; },
       render,
       resize,
-      dispose() { if (ro) ro.disconnect(); renderer.dispose(); },
+      pause() { running = false; },
+      resume() { running = true; },
+      dispose() { if (ro) ro.disconnect(); running = false; renderer.dispose(); },
     };
   }
 
