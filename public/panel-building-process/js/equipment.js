@@ -115,12 +115,28 @@
       return true;
     }
 
+    let isScrolling = false, scrollPauseTimer = null;
+    window.addEventListener('scroll', () => {
+      isScrolling = true;
+      clearTimeout(scrollPauseTimer);
+      scrollPauseTimer = setTimeout(() => {
+        isScrolling = false;
+      }, 80);
+    }, { passive: true });
+
     function loop(now) {
       if (!shouldRender()) {
         raf = 0;
         return;
       }
       raf = requestAnimationFrame(loop);
+
+      // Yield WebGL rendering during active page scroll to keep smooth scrolling 100% fluid
+      if (isScrolling) {
+        last = now;
+        return;
+      }
+
       const dt = Math.min(0.05, (now - last) / 1000 || 0.016);
       last = now;
       if (scene && typeof scene.render === 'function') {
@@ -446,16 +462,9 @@
      Deep Link Scroll Alignment: /panel-building-process#equipment
   ------------------------------------------------------------------ */
   if (location.hash === '#equipment') {
-    const align = () => {
-      if (window.atsScroll && typeof window.atsScroll.scrollTo === 'function') {
-        window.atsScroll.scrollTo(sec, { offset: -30 });
-      } else {
-        const top = sec.getBoundingClientRect().top + window.scrollY - 30;
-        window.scrollTo({ top, behavior: 'smooth' });
-      }
-    };
-    setTimeout(align, 100);
-    window.addEventListener('load', () => setTimeout(align, 300), { once: true });
+    requestAnimationFrame(() => {
+      if (sec) sec.scrollIntoView({ behavior: 'auto', block: 'start' });
+    });
   }
 } // end initEquipment
 

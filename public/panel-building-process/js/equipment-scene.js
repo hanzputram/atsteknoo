@@ -45,30 +45,21 @@
 
     let renderer;
     try {
-      renderer = new T.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: 'high-performance' });
+      renderer = new T.WebGLRenderer({ canvas, antialias: false, alpha: true, powerPreference: 'high-performance' });
     } catch (e) {
       return null;
     }
     if (!renderer.getContext()) return null;
 
-    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
-    const isLowSpec = typeof navigator !== 'undefined' && (
-      (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) ||
-      (navigator.deviceMemory && navigator.deviceMemory <= 4)
-    );
-
-    // Adaptive pixel ratio: 1.0 on mobile / budget devices, max 1.5 on desktop to keep GPU cool
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, isMobile || isLowSpec ? 1.0 : 1.5));
+    // Rock-solid 1.0 pixel ratio for snappy 60fps performance on all devices and GPUs
+    renderer.setPixelRatio(1.0);
     renderer.setClearColor(0x000000, 0);
     renderer.outputEncoding = T.sRGBEncoding;
     renderer.toneMapping = T.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.12;
 
-    // Only enable expensive PCFSoft shadow maps on capable desktop hardware
-    renderer.shadowMap.enabled = !reduced && !isMobile && !isLowSpec;
-    if (renderer.shadowMap.enabled) {
-      renderer.shadowMap.type = T.PCFSoftShadowMap;
-    }
+    // Disable heavy shadow map pass to eliminate redundant render depth passes
+    renderer.shadowMap.enabled = false;
 
     const scene = new T.Scene();
     scene.fog = new T.Fog(0xf1f5f9, 14, 28);
@@ -122,20 +113,12 @@
     } catch (e) { /* environment is a nice-to-have */ }
 
     /* ---------- Lights ---------- */
-    scene.add(new T.HemisphereLight(0xffffff, 0xcbd5e1, 0.9));
-    const key = new T.DirectionalLight(0xffffff, 1.4);
+    scene.add(new T.HemisphereLight(0xffffff, 0xcbd5e1, 1.05));
+    const key = new T.DirectionalLight(0xffffff, 1.5);
     key.position.set(4, 7.5, 5);
-    key.castShadow = true;
-    key.shadow.mapSize.set(1024, 1024);
-    key.shadow.camera.left = -5;
-    key.shadow.camera.right = 5;
-    key.shadow.camera.top = 5;
-    key.shadow.camera.bottom = -5;
-    key.shadow.camera.near = 0.5;
-    key.shadow.camera.far = 24;
-    key.shadow.bias = -0.0006;
+    key.castShadow = false;
     scene.add(key);
-    const rim = new T.PointLight(0x0284c7, 1.1, 20);
+    const rim = new T.PointLight(0x0284c7, 1.15, 20);
     rim.position.set(-5.5, 2.8, -4.5);
     scene.add(rim);
     const glow = new T.PointLight(0xff4d4d, 0, 9);
@@ -153,7 +136,6 @@
     );
     floor.rotation.x = -Math.PI / 2;
     floor.position.y = FLOOR_Y;
-    floor.receiveShadow = true;
     world.add(floor);
 
     const grid = new T.GridHelper(15, 30, 0xe11d48, 0xcbd5e1);
@@ -180,9 +162,7 @@
     const paintWhite = new T.MeshStandardMaterial({ color: 0xe8ecf3, metalness: 0.25, roughness: 0.5 });
     const kerfMat = new T.PointsMaterial({ size: 0.075, map: dotTex, color: 0x05080f, transparent: true, depthWrite: false, opacity: 0.95 });
 
-    const shadowAll = (g) => g.traverse(o => {
-      if (o.isMesh) { o.castShadow = true; o.receiveShadow = true; }
-    });
+    const shadowAll = (g) => { /* no-op: shadows disabled for maximum 60fps framerate */ };
     const box = (w, h, d, mat, x = 0, y = 0, z = 0) => {
       const m = new T.Mesh(new T.BoxGeometry(w, h, d), mat);
       m.position.set(x, y, z);
@@ -190,7 +170,7 @@
     };
 
     /* ---------- Sparks ---------- */
-    const SP = 280;
+    const SP = 70;
     const spPos = new Float32Array(SP * 3).fill(-100);
     const spVel = new Float32Array(SP * 3);
     const spLife = new Float32Array(SP);
@@ -231,7 +211,7 @@
     };
 
     // Ambient dust
-    const DU = 240;
+    const DU = 60;
     const duPos = new Float32Array(DU * 3);
     for (let i = 0; i < DU; i++) {
       duPos[i * 3] = (Math.random() - 0.5) * 13;
