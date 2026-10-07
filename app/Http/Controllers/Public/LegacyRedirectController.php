@@ -46,11 +46,24 @@ class LegacyRedirectController extends Controller
     ];
 
     /**
-     * Handle legacy WordPress URLs with 301 Permanent Redirect to preserve SEO rank.
+     * Handle legacy WordPress URLs with 301 Permanent Redirect to preserve SEO rank,
+     * or return HTTP 410 Gone with noindex for legacy spam-injected URLs.
      */
-    public function handle(Request $request, string $slug): RedirectResponse
+    public function handle(Request $request, string $slug): \Symfony\Component\HttpFoundation\Response
     {
         $cleanSlug = strtolower(trim($slug, "/ \t\n\r\0\x0B"));
+
+        // 0. Intercept legacy WordPress spam injection / malware URLs (torrent, bdrip, casino, etc.)
+        // and return explicit HTTP 410 Gone so Googlebot immediately removes them from Google Search Index.
+        $isSpamSlug = (bool) preg_match('/(torrent|bdrip|camrip|dvdrip|full-movie|hdrip|mp4movie|filmywap|1080p|720p|keetanu|slot-gacor|judi-online|situs-slot|poker|casino|togel|sbobet)/i', $cleanSlug);
+        if ($isSpamSlug) {
+            return response()
+                ->view('errors.404', [
+                    'exception' => new \Symfony\Component\HttpKernel\Exception\HttpException(410, 'This legacy resource has been permanently removed.')
+                ], 410)
+                ->header('X-Robots-Tag', 'noindex, nofollow, noarchive')
+                ->header('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0');
+        }
 
         // 1. Check known static legacy alias map
         if (isset($this->legacyMap[$cleanSlug])) {
