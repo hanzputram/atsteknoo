@@ -68,6 +68,18 @@
       <div class="p3d-fog-edge p3d-fog-left" aria-hidden="true"></div>
       <div class="p3d-fog-edge p3d-fog-right" aria-hidden="true"></div>
 
+      <!-- Navigation Arrows (Left / Right) -->
+      <button type="button" class="p3d-nav-btn p3d-nav-prev" id="p3dPrevBtn" aria-label="Previous Project" title="Previous Project">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+      </button>
+      <button type="button" class="p3d-nav-btn p3d-nav-next" id="p3dNextBtn" aria-label="Next Project" title="Next Project">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="9 18 15 12 9 6"></polyline>
+        </svg>
+      </button>
+
       <!-- 3D Viewport -->
       <div class="p3d-viewport" id="p3dViewport">
         <!-- 3D Cylinder Anchor -->
@@ -95,6 +107,15 @@
             </div>
           @endforeach
         </div>
+      </div>
+    </div>
+
+    <!-- Navigation Hint & Indicator -->
+    <div class="p3d-controls-bar">
+      <div class="p3d-drag-hint">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 16l-4-4m0 0l4-4m-4 4h18m-4 4l4-4m0 0l-4-4"/></svg>
+        <span class="ats-lang-en">Drag horizontally or click arrows to explore projects</span>
+        <span class="ats-lang-id">Geser ke kiri / kanan atau klik panah untuk melihat proyek</span>
       </div>
     </div>
   @endif
@@ -280,6 +301,90 @@
     background: linear-gradient(to left, #FFFFFF 20%, rgba(255, 255, 255, 0.75) 60%, rgba(255, 255, 255, 0) 100%);
   }
 
+  /* Navigation Arrows (Prev / Next Buttons) */
+  .p3d-nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.94);
+    border: 1.5px solid #E2E8F0;
+    box-shadow: 0 6px 20px rgba(15, 23, 42, 0.12);
+    color: #0F172A;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 60;
+    transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    outline: none;
+    user-select: none;
+  }
+
+  .p3d-nav-btn:hover {
+    background: #FFFFFF;
+    color: #E11D48;
+    border-color: rgba(225, 29, 72, 0.4);
+    transform: translateY(-50%) scale(1.08);
+    box-shadow: 0 8px 24px rgba(225, 29, 72, 0.2);
+  }
+
+  .p3d-nav-btn:active {
+    transform: translateY(-50%) scale(0.95);
+  }
+
+  .p3d-nav-prev {
+    left: 20px;
+  }
+
+  .p3d-nav-next {
+    right: 20px;
+  }
+
+  @media (max-width: 640px) {
+    .p3d-nav-btn {
+      width: 40px;
+      height: 40px;
+    }
+    .p3d-nav-prev {
+      left: 10px;
+    }
+    .p3d-nav-next {
+      right: 10px;
+    }
+  }
+
+  /* Controls Bar & Drag Hint */
+  .p3d-controls-bar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 14px;
+    margin-bottom: 4px;
+    position: relative;
+    z-index: 10;
+  }
+
+  .p3d-drag-hint {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #64748B;
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    padding: 6px 16px;
+    border-radius: 9999px;
+    letter-spacing: -0.01em;
+  }
+
+  .p3d-drag-hint svg {
+    color: #E11D48;
+  }
+
   /* 3D Perspective Viewport */
   .p3d-viewport {
     width: 100%;
@@ -326,7 +431,7 @@
     background: #0F172A;
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
-    box-shadow: 0 16px 36px -10px rgba(15, 23, 42, 0.22), 0 0 0 1px rgba(255, 255, 255, 0.15) inset;
+    box-shadow: 0 10px 24px -4px rgba(15, 23, 42, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.14) inset;
     transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s ease;
   }
 
@@ -801,17 +906,19 @@
     }
   });
 
-  // 3D Carousel Engine: High Performance, Zero DOM Thrashing, Continuous Smooth Drift
+  // 3D Carousel Engine: Zero-Idle CPU/GPU, On-Demand Drag & Arrow Navigation
   (function initP3DCarousel() {
     const stage = document.getElementById('p3dStage');
     const cards = Array.from(document.querySelectorAll('.p3d-card'));
+    const prevBtn = document.getElementById('p3dPrevBtn');
+    const nextBtn = document.getElementById('p3dNextBtn');
 
     if (!stage || cards.length === 0) return;
 
     const totalCards = cards.length; // 16 cards around the circle
     const angleStep = 360 / totalCards; // 22.5 degrees per card
 
-    // Dynamic radius tuned so cards have tight, elegant, consistent gaps (~24px - 32px)
+    // Dynamic radius tuned so cards have tight, elegant, consistent gaps
     function getRadius() {
       const w = window.innerWidth;
       if (w < 600) return 540; // Mobile
@@ -831,6 +938,8 @@
     }, { passive: true });
 
     let currentRotation = 0;
+    let targetRotation = 0;
+    let isTweening = false;
     let lastDrawnRotation = -9999;
     let velocity = 0;
     let isDragging = false;
@@ -839,11 +948,46 @@
     let lastX = 0;
     let dragStartX = 0;
     let dragStartY = 0;
-    let isHovered = false;
-    const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const autoPlaySpeed = prefersReducedMotion ? 0 : 0.038;
-    const friction = 0.94;
+    let isVisible = false;
+    let rafId = null;
     let lastTime = performance.now();
+
+    function startAnimation() {
+      if (rafId || !isVisible) return;
+      lastTime = performance.now();
+      rafId = requestAnimationFrame(animate);
+    }
+
+    function stopAnimation() {
+      if (rafId) {
+        cancelAnimationFrame(rafId);
+        rafId = null;
+      }
+    }
+
+    function rotateBy(deltaDegrees) {
+      if (!isTweening) {
+        targetRotation = currentRotation;
+      }
+      targetRotation += deltaDegrees;
+      velocity = 0;
+      isTweening = true;
+      startAnimation();
+    }
+
+    if (prevBtn) {
+      prevBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        rotateBy(angleStep);
+      });
+    }
+
+    if (nextBtn) {
+      nextBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        rotateBy(-angleStep);
+      });
+    }
 
     // Update 3D card transforms with state caching to avoid redundant DOM writes
     function updateCards(force = false) {
@@ -903,23 +1047,7 @@
       }
     }
 
-    let isVisible = false;
-    let rafId = null;
-
-    function startAnimation() {
-      if (rafId || !isVisible) return;
-      lastTime = performance.now();
-      rafId = requestAnimationFrame(animate);
-    }
-
-    function stopAnimation() {
-      if (rafId) {
-        cancelAnimationFrame(rafId);
-        rafId = null;
-      }
-    }
-
-    // Animation loop (pauses when off-screen to preserve CPU & INP)
+    // Animation loop: runs strictly when tweening or dragging or coasting with momentum
     function animate(currentTime) {
       if (!isVisible) {
         rafId = null;
@@ -930,20 +1058,36 @@
       lastTime = now;
       const timeScale = deltaMs / 16.667;
 
-      if (!isDragging) {
-        if (Math.abs(velocity) > 0.004) {
+      let needsContinue = false;
+
+      if (isTweening) {
+        const diff = targetRotation - currentRotation;
+        if (Math.abs(diff) > 0.05) {
+          currentRotation += diff * Math.min(1, 0.16 * timeScale);
+          needsContinue = true;
+        } else {
+          currentRotation = targetRotation;
+          isTweening = false;
+        }
+      } else if (!isDragging) {
+        if (Math.abs(velocity) > 0.005) {
           currentRotation += velocity * timeScale;
-          velocity *= Math.pow(friction, timeScale);
+          velocity *= Math.pow(0.92, timeScale);
+          needsContinue = true;
         } else {
           velocity = 0;
-          if (!isHovered && autoPlaySpeed > 0) {
-            currentRotation -= autoPlaySpeed * timeScale;
-          }
         }
+      } else {
+        needsContinue = true;
       }
 
       updateCards();
-      rafId = requestAnimationFrame(animate);
+
+      if (needsContinue) {
+        rafId = requestAnimationFrame(animate);
+      } else {
+        rafId = null; // Completely at rest! 0% CPU & GPU!
+      }
     }
 
     // Mouse Drag Mechanics
@@ -951,11 +1095,13 @@
       if (e.button !== 0) return;
       isDragging = true;
       hasDragged = false;
+      isTweening = false;
       lastX = e.clientX;
       dragStartX = e.clientX;
       dragStartY = e.clientY;
       velocity = 0;
       stage.classList.add('is-dragging');
+      startAnimation();
     });
 
     window.addEventListener('mousemove', (e) => {
@@ -984,12 +1130,14 @@
       if (e.touches.length !== 1) return;
       isDragging = true;
       hasDragged = false;
+      isTweening = false;
       isHorizontalGesture = null;
       lastX = e.touches[0].clientX;
       dragStartX = e.touches[0].clientX;
       dragStartY = e.touches[0].clientY;
       velocity = 0;
       stage.classList.add('is-dragging');
+      startAnimation();
     }, { passive: true });
 
     window.addEventListener('touchmove', (e) => {
@@ -1031,10 +1179,6 @@
       }, 100);
     });
 
-    // Hover Pause
-    stage.addEventListener('mouseenter', () => { isHovered = true; });
-    stage.addEventListener('mouseleave', () => { isHovered = false; });
-
     // Card Click Detection: Instant responsive modal trigger
     cards.forEach((card) => {
       card.addEventListener('click', (e) => {
@@ -1064,28 +1208,28 @@
       if (!inView) return;
 
       if (e.key === 'ArrowLeft') {
-        velocity = 1.0;
+        rotateBy(angleStep);
       } else if (e.key === 'ArrowRight') {
-        velocity = -1.0;
+        rotateBy(-angleStep);
       }
     });
 
-    // Observe visibility: only run animation when stage is visible on screen
+    // Observe visibility: render static layout initially, halt on offscreen
     if ('IntersectionObserver' in window) {
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           isVisible = entry.isIntersecting;
           if (isVisible) {
-            startAnimation();
+            updateCards(true); // Draw initial layout once
           } else {
-            stopAnimation();
+            stopAnimation(); // Stop any running momentum when offscreen
           }
         });
       }, { rootMargin: '100px 0px' });
       observer.observe(stage);
     } else {
       isVisible = true;
-      startAnimation();
+      updateCards(true);
     }
   })();
 </script>
