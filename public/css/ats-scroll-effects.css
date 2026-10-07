@@ -80,9 +80,7 @@ html.lenis body {
   transform: none;
   filter: none;
   opacity: 0.22;
-  transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-              color 0.35s ease,
-              text-shadow 0.35s ease;
+  transition: opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 [data-reveal-scrub] .ats-reveal-word.is-scrubbed,

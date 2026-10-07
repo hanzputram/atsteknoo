@@ -747,11 +747,11 @@ body,
   background: var(--eq-slate-100);
   cursor: pointer;
   box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
-  transition: transform 0.25s var(--eq-ease), box-shadow 0.25s var(--eq-ease);
+  transition: box-shadow 0.25s var(--eq-ease), border-color 0.25s var(--eq-ease);
 }
 
 .ats-process .eq .eq-photo-card:hover {
-  transform: translateY(-2px);
+  transform: none;
   box-shadow: 0 8px 20px -4px rgba(15, 23, 42, 0.1);
   border-color: var(--eq-slate-300);
 }
@@ -763,7 +763,7 @@ body,
   height: 100%;
   object-fit: cover;
   opacity: 0;
-  transition: opacity 0.35s ease, transform 0.4s var(--eq-ease);
+  transition: opacity 0.35s ease;
 }
 
 .ats-process .eq .eq-photo.is-active {
@@ -771,7 +771,7 @@ body,
 }
 
 .ats-process .eq .eq-photo-card:hover .eq-photo.is-active {
-  transform: scale(1.04);
+  transform: none;
 }
 
 .ats-process .eq .eq-photo-overlay {

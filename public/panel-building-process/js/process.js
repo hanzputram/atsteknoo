@@ -165,10 +165,14 @@
 
         root.querySelectorAll('.sequence button').forEach((b, i) => b.setAttribute('aria-current', i === current ? 'step' : 'false'));
         if (scroll && $('explorer')) {
-            $('explorer').scrollIntoView({
-                behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth',
-                block: 'start'
-            });
+            if (window.atsScroll && typeof window.atsScroll.scrollTo === 'function') {
+                window.atsScroll.scrollTo($('explorer'), { offset: -30 });
+            } else {
+                $('explorer').scrollIntoView({
+                    behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth',
+                    block: 'start'
+                });
+            }
         }
     }
 

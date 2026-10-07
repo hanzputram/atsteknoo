@@ -290,8 +290,12 @@
   /* ------------------------------------------------------------------
      Viewport: Drag to orbit 3D model
   ------------------------------------------------------------------ */
-  let dragging = false, lastX = 0;
+  let dragging = false, lastX = 0, vpRect = null;
   if (viewport) {
+    viewport.addEventListener('pointerenter', () => { vpRect = viewport.getBoundingClientRect(); });
+    viewport.addEventListener('pointerleave', () => { vpRect = null; });
+    window.addEventListener('resize', () => { vpRect = null; }, { passive: true });
+
     viewport.addEventListener('pointerdown', e => {
       if (e.pointerType === 'mouse' && e.button !== 0) return;
       dragging = true;
@@ -308,9 +312,9 @@
         lastX = e.clientX;
         if (scene) scene.dragMove(dx);
       } else if (scene) {
-        const r = viewport.getBoundingClientRect();
-        const px = ((e.clientX - r.left) / r.width - 0.5) * 2;
-        const py = ((e.clientY - r.top) / r.height - 0.5) * 2;
+        if (!vpRect) vpRect = viewport.getBoundingClientRect();
+        const px = ((e.clientX - vpRect.left) / vpRect.width - 0.5) * 2;
+        const py = ((e.clientY - vpRect.top) / vpRect.height - 0.5) * 2;
         scene.setPointer(px, py);
       }
     });
@@ -326,46 +330,10 @@
   }
 
   /* ------------------------------------------------------------------
-     3D-tilt Photo Card (Desktop only, event-driven, pause when idle)
+     Photo Card: Static, crisp preview without 3D tilt distortion
   ------------------------------------------------------------------ */
-  const hasFinePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-  if (card && !reduced && hasFinePointer) {
-    let tRX = 0, tRY = 0, cRX = 0, cRY = 0, tiltRaf = 0, isHovering = false;
-
-    function tiltLoop() {
-      const dX = Math.abs(cRX - tRX);
-      const dY = Math.abs(cRY - tRY);
-      if (dX > 0.01 || dY > 0.01 || isHovering) {
-        cRX = lerp(cRX, tRX, 0.12);
-        cRY = lerp(cRY, tRY, 0.12);
-        card.style.transform = `perspective(600px) rotateX(${cRX.toFixed(2)}deg) rotateY(${cRY.toFixed(2)}deg)`;
-        tiltRaf = requestAnimationFrame(tiltLoop);
-      } else {
-        card.style.transform = '';
-        tiltRaf = 0;
-      }
-    }
-
-    card.addEventListener('pointerenter', () => {
-      isHovering = true;
-      if (!tiltRaf) tiltRaf = requestAnimationFrame(tiltLoop);
-    });
-
-    card.addEventListener('pointermove', e => {
-      const r = card.getBoundingClientRect();
-      const px = (e.clientX - r.left) / r.width;
-      const py = (e.clientY - r.top) / r.height;
-      tRY = (px - 0.5) * 14;
-      tRX = -(py - 0.5) * 12;
-      if (!tiltRaf) tiltRaf = requestAnimationFrame(tiltLoop);
-    });
-
-    card.addEventListener('pointerleave', () => {
-      isHovering = false;
-      tRX = 0;
-      tRY = 0;
-      if (!tiltRaf) tiltRaf = requestAnimationFrame(tiltLoop);
-    });
+  if (card) {
+    card.style.transform = 'none';
   }
 
   /* ------------------------------------------------------------------
@@ -479,8 +447,12 @@
   ------------------------------------------------------------------ */
   if (location.hash === '#equipment') {
     const align = () => {
-      const top = sec.getBoundingClientRect().top + window.scrollY - 30;
-      window.scrollTo({ top, behavior: 'smooth' });
+      if (window.atsScroll && typeof window.atsScroll.scrollTo === 'function') {
+        window.atsScroll.scrollTo(sec, { offset: -30 });
+      } else {
+        const top = sec.getBoundingClientRect().top + window.scrollY - 30;
+        window.scrollTo({ top, behavior: 'smooth' });
+      }
     };
     setTimeout(align, 100);
     window.addEventListener('load', () => setTimeout(align, 300), { once: true });

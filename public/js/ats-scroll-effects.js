@@ -100,8 +100,8 @@
                           ('ontouchstart' in window) || 
                           window.innerWidth < 1024;
 
-    if (isTouchDevice) {
-      // Retain native hardware-accelerated scroll on touch devices; do not initialize Lenis
+    // Also respect prefers-reduced-motion
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       return;
     }
 
@@ -109,25 +109,27 @@
       lenisInstance = new Lenis({
         autoRaf: true,
         smoothWheel: true,
-        duration: 1.2,
-        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        lerp: 0.12,           // Snappy & responsive linear interpolation (instant 0ms response, zero floaty lag)
+        wheelMultiplier: 1.0,  // Natural 1:1 wheel ratio, preventing overshoot
         orientation: 'vertical',
         gestureOrientation: 'vertical',
-        wheelMultiplier: 1.15,
         touchMultiplier: 0,
         syncTouch: false,
         infinite: false,
       });
 
       window.atsLenis = lenisInstance;
-      lenisInstance.on('scroll', handleThrottledScroll);
+      // Connect scrub directly into Lenis's raf scroll update
+      lenisInstance.on('scroll', onScrollUpdate);
     } catch (err) {
       console.error('[ATS Scroll] Error initializing Lenis:', err);
     }
   }
 
+  // Fallback for native scrolling (only when Lenis is not active, e.g. mobile or reduced-motion)
   let scrollTicking = false;
   function handleThrottledScroll() {
+    if (lenisInstance) return; // Lenis already drives onScrollUpdate directly per raf
     if (!scrollTicking) {
       scrollTicking = true;
       requestAnimationFrame(() => {
@@ -272,38 +274,84 @@
       intersectionObserver.observe(card);
     });
 
-    // Cache scrub targets to avoid querySelectorAll on every scroll event
-    cachedScrubTargets = Array.from(document.querySelectorAll('[data-reveal-scrub], .reveal-text-scrub'));
+    // Cache scrub targets and their word tokens to avoid querySelectorAll and layout thrashing during scroll
+    refreshScrubCache();
   }
 
   // --------------------------------------------------------------------------
   // Scroll-Scrub Reveal (Framer Progressive Illumination Mode)
   // --------------------------------------------------------------------------
-  let cachedScrubTargets = [];
+  let cachedScrubItems = [];
+
+  function refreshScrubCache() {
+    const rawTargets = document.querySelectorAll('[data-reveal-scrub], .reveal-text-scrub');
+    cachedScrubItems = Array.from(rawTargets).map(el => {
+      const words = Array.from(el.querySelectorAll('.ats-reveal-word'));
+      return {
+        el,
+        words,
+        totalWords: words.length,
+        lastActiveIndex: -1
+      };
+    }).filter(item => item.totalWords > 0);
+  }
+
   function onScrollUpdate() {
-    if (cachedScrubTargets.length === 0) return;
+    if (cachedScrubItems.length === 0) return;
 
-    const vh = window.innerHeight;
+    const vh = window.innerHeight || document.documentElement.clientHeight;
 
-    cachedScrubTargets.forEach(el => {
-      const rect = el.getBoundingClientRect();
-      const words = el.querySelectorAll('.ats-reveal-word');
-      if (words.length === 0) return;
+    for (let i = 0; i < cachedScrubItems.length; i++) {
+      const item = cachedScrubItems[i];
+      const rect = item.el.getBoundingClientRect();
+
+      // Viewport culling: Skip offscreen elements and only update state if changed
+      if (rect.bottom < -80) {
+        if (item.lastActiveIndex !== item.totalWords) {
+          for (let w = 0; w < item.totalWords; w++) {
+            const wordEl = item.words[w];
+            if (!wordEl.classList.contains('is-scrubbed')) {
+              wordEl.classList.add('is-scrubbed');
+            }
+          }
+          item.lastActiveIndex = item.totalWords;
+        }
+        continue;
+      }
+
+      if (rect.top > vh + 80) {
+        if (item.lastActiveIndex !== 0) {
+          for (let w = 0; w < item.totalWords; w++) {
+            const wordEl = item.words[w];
+            if (wordEl.classList.contains('is-scrubbed')) {
+              wordEl.classList.remove('is-scrubbed');
+            }
+          }
+          item.lastActiveIndex = 0;
+        }
+        continue;
+      }
 
       const triggerStart = vh * 0.85;
       const triggerEnd = vh * 0.25;
       const progress = Math.min(Math.max((triggerStart - rect.top) / (triggerStart - triggerEnd), 0), 1);
+      const activeCount = Math.round(progress * item.totalWords);
 
-      const totalWords = words.length;
-      words.forEach((w, idx) => {
-        const threshold = idx / totalWords;
-        if (progress >= threshold) {
-          w.classList.add('is-scrubbed');
-        } else {
-          w.classList.remove('is-scrubbed');
+      // Only touch DOM if the active count changed
+      if (activeCount !== item.lastActiveIndex) {
+        for (let w = 0; w < item.totalWords; w++) {
+          const shouldBeScrubbed = w < activeCount;
+          const wordEl = item.words[w];
+          const hasClass = wordEl.classList.contains('is-scrubbed');
+          if (shouldBeScrubbed && !hasClass) {
+            wordEl.classList.add('is-scrubbed');
+          } else if (!shouldBeScrubbed && hasClass) {
+            wordEl.classList.remove('is-scrubbed');
+          }
         }
-      });
-    });
+        item.lastActiveIndex = activeCount;
+      }
+    }
   }
 
   // --------------------------------------------------------------------------

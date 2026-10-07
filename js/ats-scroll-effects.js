@@ -41,20 +41,18 @@
       .ats-word-mask { display: inline-block; overflow: hidden; vertical-align: top; line-height: normal; padding-top: 0.22em; margin-top: -0.22em; padding-bottom: 0.22em; margin-bottom: -0.22em; }
       .ats-reveal-word {
         display: inline-block;
-        transform: translate3d(0, 118%, 0) rotate(2.5deg);
+        transform: translate3d(0, 115%, 0) rotate(1.8deg);
         opacity: 0;
-        filter: blur(5px);
-        will-change: transform, opacity, filter;
-        transition: transform 0.85s cubic-bezier(0.16, 1, 0.3, 1),
-                    opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
-                    filter 0.65s ease;
-        transition-delay: calc(var(--word-index, 0) * 28ms + var(--base-delay, 0ms));
+        will-change: transform, opacity;
+        transition: transform 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+                    opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+        transition-delay: calc(var(--word-index, 0) * 26ms + var(--base-delay, 0ms));
         transform-origin: 0% 100%;
       }
       .is-in-view .ats-reveal-word, .ats-reveal-active .ats-reveal-word {
         transform: translate3d(0, 0%, 0) rotate(0deg);
         opacity: 1;
-        filter: blur(0px);
+        will-change: auto;
       }
       [data-reveal-scrub] .ats-word-mask, .reveal-text-scrub .ats-word-mask { overflow: visible; }
       [data-reveal-scrub] .ats-reveal-word, .reveal-text-scrub .ats-reveal-word {
@@ -96,27 +94,51 @@
       return;
     }
 
+    // Always prefer 100% native hardware-accelerated scrolling on mobile/touch screens.
+    // Virtualizing touch scroll on mobile causes severe INP regressions, touch lag, and battery drain.
+    const isTouchDevice = window.matchMedia('(pointer: coarse)').matches || 
+                          ('ontouchstart' in window) || 
+                          window.innerWidth < 1024;
+
+    // Also respect prefers-reduced-motion
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      return;
+    }
+
     try {
       lenisInstance = new Lenis({
         autoRaf: true,
         smoothWheel: true,
-        duration: 1.35,
-        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        lerp: 0.12,           // Snappy & responsive linear interpolation (instant 0ms response, zero floaty lag)
+        wheelMultiplier: 1.0,  // Natural 1:1 wheel ratio, preventing overshoot
         orientation: 'vertical',
         gestureOrientation: 'vertical',
-        wheelMultiplier: 1.25,
-        touchMultiplier: 2.2,
+        touchMultiplier: 0,
+        syncTouch: false,
         infinite: false,
       });
 
       window.atsLenis = lenisInstance;
+      // Connect scrub directly into Lenis's raf scroll update
       lenisInstance.on('scroll', onScrollUpdate);
     } catch (err) {
       console.error('[ATS Scroll] Error initializing Lenis:', err);
     }
   }
 
-  window.addEventListener('scroll', onScrollUpdate, { passive: true });
+  // Fallback for native scrolling (only when Lenis is not active, e.g. mobile or reduced-motion)
+  let scrollTicking = false;
+  function handleThrottledScroll() {
+    if (lenisInstance) return; // Lenis already drives onScrollUpdate directly per raf
+    if (!scrollTicking) {
+      scrollTicking = true;
+      requestAnimationFrame(() => {
+        onScrollUpdate();
+        scrollTicking = false;
+      });
+    }
+  }
+  window.addEventListener('scroll', handleThrottledScroll, { passive: true });
 
   // --------------------------------------------------------------------------
   // Framer-style Text Splitting & Word Masking
@@ -240,14 +262,6 @@
       if (!el.hasAttribute('data-reveal-scrub')) {
         intersectionObserver.observe(el);
       }
-
-      // Check if already in viewport on page load
-      const rect = el.getBoundingClientRect();
-      if (rect.top < window.innerHeight * 0.88 && rect.bottom > 0) {
-        setTimeout(() => {
-          el.classList.add('is-in-view');
-        }, el.classList.contains('hero-headline') ? 140 : 40);
-      }
     });
 
     // 2. Feature cards that get smooth staggered fade-slide
@@ -258,44 +272,86 @@
         card.style.transitionDelay = (idx % 4 * 90) + 'ms';
       }
       intersectionObserver.observe(card);
-
-      const rect = card.getBoundingClientRect();
-      if (rect.top < window.innerHeight * 0.90 && rect.bottom > 0) {
-        setTimeout(() => {
-          card.classList.add('is-in-view');
-        }, 80);
-      }
     });
+
+    // Cache scrub targets and their word tokens to avoid querySelectorAll and layout thrashing during scroll
+    refreshScrubCache();
   }
 
   // --------------------------------------------------------------------------
   // Scroll-Scrub Reveal (Framer Progressive Illumination Mode)
   // --------------------------------------------------------------------------
+  let cachedScrubItems = [];
+
+  function refreshScrubCache() {
+    const rawTargets = document.querySelectorAll('[data-reveal-scrub], .reveal-text-scrub');
+    cachedScrubItems = Array.from(rawTargets).map(el => {
+      const words = Array.from(el.querySelectorAll('.ats-reveal-word'));
+      return {
+        el,
+        words,
+        totalWords: words.length,
+        lastActiveIndex: -1
+      };
+    }).filter(item => item.totalWords > 0);
+  }
+
   function onScrollUpdate() {
-    const scrubTargets = document.querySelectorAll('[data-reveal-scrub], .reveal-text-scrub');
-    if (scrubTargets.length === 0) return;
+    if (cachedScrubItems.length === 0) return;
 
-    const vh = window.innerHeight;
+    const vh = window.innerHeight || document.documentElement.clientHeight;
 
-    scrubTargets.forEach(el => {
-      const rect = el.getBoundingClientRect();
-      const words = el.querySelectorAll('.ats-reveal-word');
-      if (words.length === 0) return;
+    for (let i = 0; i < cachedScrubItems.length; i++) {
+      const item = cachedScrubItems[i];
+      const rect = item.el.getBoundingClientRect();
+
+      // Viewport culling: Skip offscreen elements and only update state if changed
+      if (rect.bottom < -80) {
+        if (item.lastActiveIndex !== item.totalWords) {
+          for (let w = 0; w < item.totalWords; w++) {
+            const wordEl = item.words[w];
+            if (!wordEl.classList.contains('is-scrubbed')) {
+              wordEl.classList.add('is-scrubbed');
+            }
+          }
+          item.lastActiveIndex = item.totalWords;
+        }
+        continue;
+      }
+
+      if (rect.top > vh + 80) {
+        if (item.lastActiveIndex !== 0) {
+          for (let w = 0; w < item.totalWords; w++) {
+            const wordEl = item.words[w];
+            if (wordEl.classList.contains('is-scrubbed')) {
+              wordEl.classList.remove('is-scrubbed');
+            }
+          }
+          item.lastActiveIndex = 0;
+        }
+        continue;
+      }
 
       const triggerStart = vh * 0.85;
       const triggerEnd = vh * 0.25;
       const progress = Math.min(Math.max((triggerStart - rect.top) / (triggerStart - triggerEnd), 0), 1);
+      const activeCount = Math.round(progress * item.totalWords);
 
-      const totalWords = words.length;
-      words.forEach((w, idx) => {
-        const threshold = idx / totalWords;
-        if (progress >= threshold) {
-          w.classList.add('is-scrubbed');
-        } else {
-          w.classList.remove('is-scrubbed');
+      // Only touch DOM if the active count changed
+      if (activeCount !== item.lastActiveIndex) {
+        for (let w = 0; w < item.totalWords; w++) {
+          const shouldBeScrubbed = w < activeCount;
+          const wordEl = item.words[w];
+          const hasClass = wordEl.classList.contains('is-scrubbed');
+          if (shouldBeScrubbed && !hasClass) {
+            wordEl.classList.add('is-scrubbed');
+          } else if (!shouldBeScrubbed && hasClass) {
+            wordEl.classList.remove('is-scrubbed');
+          }
         }
-      });
-    });
+        item.lastActiveIndex = activeCount;
+      }
+    }
   }
 
   // --------------------------------------------------------------------------
@@ -321,15 +377,41 @@
     }
   };
 
-  // Bootstrap on DOM Ready
+  // --------------------------------------------------------------------------
+  // Dynamic Marquee Track Cloning (Eliminates raw HTML DOM duplication for LCP/DOM size)
+  // --------------------------------------------------------------------------
+  function initMarqueeClones() {
+    const tracks = document.querySelectorAll('.marquee-track');
+    tracks.forEach(track => {
+      if (track.dataset.cloned === 'true') return;
+      track.dataset.cloned = 'true';
+      const items = Array.from(track.children);
+      if (items.length === 0) return;
+      const frag = document.createDocumentFragment();
+      items.forEach(item => {
+        const clone = item.cloneNode(true);
+        clone.setAttribute('aria-hidden', 'true');
+        const img = clone.querySelector('img');
+        if (img) {
+          img.setAttribute('loading', 'lazy');
+          img.setAttribute('decoding', 'async');
+        }
+        frag.appendChild(clone);
+      });
+      track.appendChild(frag);
+    });
+  }
+
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
       initLenis();
       attachElements();
+      initMarqueeClones();
     });
   } else {
     initLenis();
     attachElements();
+    initMarqueeClones();
   }
 
   // Re-check elements if language was switched dynamically
