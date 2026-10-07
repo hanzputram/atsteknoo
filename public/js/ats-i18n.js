@@ -39,7 +39,7 @@
       // Trusted By
       "trusted.badge": "Enterprise & Infrastructure",
       "trusted.title_prefix": "Trusted by over",
-      "trusted.title_suffix": "Company",
+      "trusted.title_suffix": "Companies",
       "trusted.over": "Trusted By Over",
       "trusted.companies": "Companies",
       "trusted.subtitle": "Support electrical needs across industries.",

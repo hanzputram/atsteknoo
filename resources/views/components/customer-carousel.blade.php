@@ -51,7 +51,7 @@
         <h2 class="trusted-title">
           <span data-i18n="trusted.title_prefix">Trusted by over</span> 
           <span class="trusted-title-highlight">1,000+</span> 
-          <span data-i18n="trusted.title_suffix">Company</span>
+          <span data-i18n="trusted.title_suffix">Companies</span>
         </h2>
       </div>
 
@@ -75,13 +75,12 @@
         </div>
       @endforeach
     </div>
-
   </div>
 </section>
 
 <style>
   /* ========================================================
-     TRUSTED BY OVER 1,000+ COMPANY STYLES (FIGMA MATCH)
+     TRUSTED BY OVER 1,000+ COMPANES STYLES (FIGMA MATCH)
      ======================================================== */
   .trusted-by-section {
     width: 100%;
