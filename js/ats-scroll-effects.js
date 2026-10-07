@@ -105,6 +105,12 @@
       return;
     }
 
+    // Content-heavy pages (panel building process: fleet studio + stage cards) use 100% native scrolling.
+    // Virtualized JS scroll forces main-thread scroll updates and causes stutter on these pages.
+    if (document.getElementById('ats-panel-process')) {
+      return;
+    }
+
     try {
       lenisInstance = new Lenis({
         autoRaf: true,
