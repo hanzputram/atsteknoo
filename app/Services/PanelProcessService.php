@@ -41,6 +41,14 @@ class PanelProcessService
                     $needsSave = true;
                 }
 
+                // Ensure is_hidden flag is initialized on all steps
+                foreach ($data['steps'] as &$st) {
+                    if (!isset($st['is_hidden'])) {
+                        $st['is_hidden'] = false;
+                    }
+                }
+                unset($st);
+
                 if ($needsSave) {
                     self::saveData($data);
                 }

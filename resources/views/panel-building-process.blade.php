@@ -1,7 +1,12 @@
 @extends('layouts.app')
 
-@section('title', '33-Stage Switchboard Panel Building Process | ATS Tekno Surabaya')
-@section('meta_description', 'Explore the 33-step industrial switchboard manufacturing process by ATS Tekno: from engineering, CNC laser cutting & bending, surface treatment, powder coating, assembly, to FAT testing and delivery.')
+@php
+    $pageData = \App\Services\PanelProcessService::getData();
+    $pageVisibleStepCount = count(array_filter($pageData['steps'] ?? [], fn($s) => empty($s['is_hidden'])));
+@endphp
+
+@section('title', $pageVisibleStepCount . '-Stage Switchboard Panel Building Process | ATS Tekno Surabaya')
+@section('meta_description', 'Explore the ' . $pageVisibleStepCount . '-step industrial switchboard manufacturing process by ATS Tekno: from engineering, CNC laser cutting & bending, surface treatment, powder coating, assembly, to FAT testing and delivery.')
 @section('canonical', route('panel-building-process'))
 
 @section('content')

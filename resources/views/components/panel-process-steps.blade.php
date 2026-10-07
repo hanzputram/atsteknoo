@@ -5,12 +5,21 @@
     technical activities, inspection checkpoints, and verified outputs.
 --}}
 @php
-    $getStepPhoto = function ($step, $idx) use ($resolveImg) {
+    // Filter visible steps
+    $visibleSteps = [];
+    foreach ($steps as $originalIdx => $s) {
+        if (empty($s['is_hidden'])) {
+            $visibleSteps[] = array_merge($s, ['_orig_idx' => $originalIdx]);
+        }
+    }
+    $totalSteps = count($visibleSteps);
+
+    $getStepPhoto = function ($step, $origIdx) use ($resolveImg) {
         $img = trim($step['image'] ?? '');
         if ($img !== '' && !in_array($img, ['engineering', 'fabrication', 'surface', 'coating', 'assembly', 'quality'])) {
             return $resolveImg($img);
         }
-        return match($idx + 1) {
+        return match($origIdx + 1) {
             1, 2, 3, 4 => $resolveImg('engineering.webp'),
             5 => $resolveImg('factory.webp'),
             6 => $resolveImg('machine-shearing.webp'),
@@ -33,23 +42,37 @@
         };
     };
 
-    $getPhaseIndex = function ($idx) use ($phases) {
+    $getPhaseIndex = function ($origIdx) use ($phases) {
         foreach ($phases as $pIdx => $p) {
-            if ($idx >= ($p['from'] ?? 0) && $idx <= ($p['to'] ?? 0)) {
+            if ($origIdx >= ($p['from'] ?? 0) && $origIdx <= ($p['to'] ?? 0)) {
                 return $pIdx;
             }
         }
         return 0;
     };
 
-    $getPhaseTitle = function ($idx) use ($phases) {
+    $getPhaseTitle = function ($origIdx) use ($phases) {
         foreach ($phases as $p) {
-            if ($idx >= ($p['from'] ?? 0) && $idx <= ($p['to'] ?? 0)) {
+            if ($origIdx >= ($p['from'] ?? 0) && $origIdx <= ($p['to'] ?? 0)) {
                 return $p['title'] ?? 'Manufacturing';
             }
         }
         return 'Manufacturing';
     };
+
+    // Calculate phase counts of visible steps
+    $phaseCounts = [];
+    foreach ($phases as $pIdx => $p) {
+        $count = 0;
+        foreach ($visibleSteps as $vs) {
+            $oIdx = $vs['_orig_idx'];
+            if ($oIdx >= ($p['from'] ?? 0) && $oIdx <= ($p['to'] ?? 0)) {
+                $count++;
+            }
+        }
+        $phaseCounts[$pIdx] = $count;
+    }
+    $activePhasesCount = count(array_filter($phaseCounts, fn($c) => $c > 0));
 @endphp
 
 <section class="p33-section" id="process-steps" aria-labelledby="p33-title">
@@ -57,9 +80,9 @@
     <header class="p33-head">
         <div class="p33-head-badge">
             <span class="p33-head-dot"></span>
-            <span>33-STAGE INDUSTRIAL WORKFLOW · ZERO COMPROMISE</span>
+            <span>{{ $totalSteps }}-STAGE INDUSTRIAL WORKFLOW · ZERO COMPROMISE</span>
         </div>
-        <h2 class="p33-title" id="p33-title">33-Stage Switchboard Manufacturing Process</h2>
+        <h2 class="p33-title" id="p33-title">{{ $totalSteps }}-Stage Switchboard Manufacturing Process</h2>
         <p class="p33-lead">
             ATS Tekno Surabaya industrial switchboard manufacturing standard: every phase from engineering design, sheet metal fabrication, chemical surface treatment, powder coating, through electrical outfitting and Factory Acceptance Testing (FAT) is transparently documented with verified quality checkpoints.
         </p>
@@ -67,12 +90,12 @@
         {{-- Process Highlights Stats --}}
         <div class="p33-stats">
             <div class="p33-stat-item">
-                <strong>33</strong>
+                <strong>{{ sprintf('%02d', $totalSteps) }}</strong>
                 <span>Integrated Steps</span>
             </div>
             <div class="p33-stat-sep"></div>
             <div class="p33-stat-item">
-                <strong>06</strong>
+                <strong>{{ sprintf('%02d', $activePhasesCount) }}</strong>
                 <span>Production Phases</span>
             </div>
             <div class="p33-stat-sep"></div>
@@ -88,46 +111,47 @@
         <nav class="p33-tabs" role="tablist" aria-label="Filter processes by manufacturing phase">
             <button type="button" class="p33-tab is-active" data-phase-filter="all" role="tab" aria-selected="true">
                 <span>All Processes</span>
-                <span class="p33-tab-count">{{ count($steps) }}</span>
+                <span class="p33-tab-count">{{ $totalSteps }}</span>
             </button>
             @foreach ($phases as $pIdx => $p)
-                @php
-                    $stepCount = ($p['to'] ?? 0) - ($p['from'] ?? 0) + 1;
-                @endphp
-                <button type="button" class="p33-tab" data-phase-filter="{{ $pIdx }}" role="tab" aria-selected="false">
-                    <span>{{ sprintf('%02d', $pIdx + 1) }}. {{ $p['title'] }}</span>
-                    <span class="p33-tab-count">{{ $stepCount }}</span>
-                </button>
+                @if (($phaseCounts[$pIdx] ?? 0) > 0)
+                    <button type="button" class="p33-tab" data-phase-filter="{{ $pIdx }}" role="tab" aria-selected="false">
+                        <span>{{ sprintf('%02d', $pIdx + 1) }}. {{ $p['title'] }}</span>
+                        <span class="p33-tab-count">{{ $phaseCounts[$pIdx] }}</span>
+                    </button>
+                @endif
             @endforeach
         </nav>
 
         {{-- Search Input --}}
         <div class="p33-search-box">
             <svg class="p33-search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-            <input type="text" id="p33-search-input" class="p33-search-input" placeholder="Search steps (e.g., laser, bending, pickling, powder coating, busbar, wiring, FAT)..." aria-label="Search 33 manufacturing processes">
+            <input type="text" id="p33-search-input" class="p33-search-input" placeholder="Search steps (e.g., laser, bending, pickling, powder coating, busbar, wiring, FAT)..." aria-label="Search manufacturing processes">
             <button type="button" id="p33-search-clear" class="p33-search-clear" aria-label="Clear search" style="display: none;">&times;</button>
         </div>
     </div>
 
     {{-- Active Filter Counter Alert --}}
     <div class="p33-filter-status" id="p33-filter-status" aria-live="polite">
-        Showing <b id="p33-visible-count">{{ count($steps) }}</b> of {{ count($steps) }} switchboard manufacturing steps
+        Showing <b id="p33-visible-count">{{ $totalSteps }}</b> of {{ $totalSteps }} switchboard manufacturing steps
     </div>
 
-    {{-- 33 Process Cards Grid --}}
+    {{-- Process Cards Grid --}}
     <div class="p33-grid" id="p33-grid">
-        @foreach ($steps as $i => $s)
+        @foreach ($visibleSteps as $seqIdx => $s)
             @php
-                $photo = $getStepPhoto($s, $i);
-                $phaseIdx = $getPhaseIndex($i);
-                $phaseTitle = $getPhaseTitle($i);
+                $origIdx = $s['_orig_idx'];
+                $photo = $getStepPhoto($s, $origIdx);
+                $phaseIdx = $getPhaseIndex($origIdx);
+                $phaseTitle = $getPhaseTitle($origIdx);
                 $activities = $s['activities'] ?? [];
                 if (!is_array($activities)) {
                     $activities = array_filter(array_map('trim', explode("\n", (string) $activities)));
                 }
             @endphp
             <article class="p33-card"
-                     data-step-index="{{ $i }}"
+                     data-step-index="{{ $seqIdx }}"
+                     data-original-index="{{ $origIdx }}"
                      data-phase="{{ $phaseIdx }}"
                      data-title="{{ strtolower($s['title'] ?? '') }}"
                      data-subtitle="{{ strtolower($s['subtitle'] ?? '') }}"
@@ -139,13 +163,13 @@
                 <div class="p33-card-media"
                      data-p33-inspect
                      data-photo-src="{{ $photo }}"
-                     data-photo-title="Step {{ sprintf('%02d', $i + 1) }}: {{ $s['title'] }}"
+                     data-photo-title="Step {{ sprintf('%02d', $seqIdx + 1) }}: {{ $s['title'] }}"
                      role="button"
                      tabindex="0"
-                     aria-label="View high-resolution photo for Step {{ sprintf('%02d', $i + 1) }}">
+                     aria-label="View high-resolution photo for Step {{ sprintf('%02d', $seqIdx + 1) }}">
                     <img class="p33-card-img"
                          src="{{ $photo }}"
-                         alt="Step {{ sprintf('%02d', $i + 1) }}: {{ $s['title'] }} — ATS Tekno Workshop Surabaya"
+                         alt="Step {{ sprintf('%02d', $seqIdx + 1) }}: {{ $s['title'] }} — ATS Tekno Workshop Surabaya"
                          width="480"
                          height="260"
                          loading="lazy"
@@ -153,7 +177,7 @@
                     <div class="p33-card-badges">
                         <span class="p33-pill-step">
                             <span class="p33-step-dot"></span>
-                            STEP {{ sprintf('%02d', $i + 1) }}
+                            STEP {{ sprintf('%02d', $seqIdx + 1) }}
                         </span>
                         <span class="p33-pill-phase">{{ strtoupper($phaseTitle) }}</span>
                     </div>

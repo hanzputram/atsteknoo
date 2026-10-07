@@ -94,6 +94,7 @@ class PanelProcessController extends Controller
                     $checkpoint = trim($s['checkpoint'] ?? $current['steps'][$idx]['checkpoint']);
                     $output = trim($s['output'] ?? $current['steps'][$idx]['output']);
                     $image = !empty($s['image']) ? trim($s['image']) : $current['steps'][$idx]['image'];
+                    $isHidden = !empty($s['is_hidden']) && in_array($s['is_hidden'], ['1', 1, true, 'true', 'on'], true);
 
                     // Activities: Parse from textarea (one per line) or array
                     $activities = [];
@@ -116,6 +117,7 @@ class PanelProcessController extends Controller
                         'checkpoint' => $checkpoint,
                         'output' => $output,
                         'image' => $image,
+                        'is_hidden' => $isHidden,
                     ];
                 }
             }

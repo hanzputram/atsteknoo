@@ -52,9 +52,14 @@
     <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
     <span>Fasilitas Mesin Workshop ({{ count($data['facilities']['machines'] ?? []) }})</span>
   </button>
+  @php
+    $allSteps = $data['steps'] ?? [];
+    $activeStepsCount = count(array_filter($allSteps, fn($st) => empty($st['is_hidden'])));
+    $hiddenStepsCount = count($allSteps) - $activeStepsCount;
+  @endphp
   <button type="button" class="tab-btn" onclick="switchTab('tab-steps')" id="btn-tab-steps" style="padding: 10px 18px; font-weight: 600; font-size: 0.92rem; border: none; background: transparent; cursor: pointer; color: #64748B; white-space: nowrap; display: inline-flex; align-items: center; gap: 8px;">
     <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/></svg>
-    <span>33 Tahap Pengerjaan ({{ count($data['steps'] ?? []) }})</span>
+    <span>33 Tahap Pengerjaan (<span id="backoffice-tab-active-count">{{ $activeStepsCount }}</span>/{{ count($allSteps) }})</span>
   </button>
   <button type="button" class="tab-btn" onclick="switchTab('tab-phases')" id="btn-tab-phases" style="padding: 10px 18px; font-weight: 600; font-size: 0.92rem; border: none; background: transparent; cursor: pointer; color: #64748B; white-space: nowrap; display: inline-flex; align-items: center; gap: 8px;">
     <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
@@ -239,19 +244,40 @@
   <!-- ================= TAB 2: 33 PRODUCTION STEPS ================= -->
   <div id="tab-steps" class="tab-content" style="display: none;">
     <!-- Step Jump Bar & Filter -->
-    <div style="background: #F8FAFC; border: 1px solid #E2E8F0; padding: 16px 20px; border-radius: 14px; margin-bottom: 24px;">
-      <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 12px;">
+    <div style="background: #F8FAFC; border: 1px solid #E2E8F0; padding: 18px 20px; border-radius: 14px; margin-bottom: 24px;">
+      <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px; margin-bottom: 14px;">
         <div>
-          <strong style="color: #0F172A; font-size: 0.95rem;">Navigasi Cepat 33 Tahap:</strong>
-          <span style="color: #64748B; font-size: 0.85rem; margin-left: 6px;">Klik nomor untuk langsung melompat ke form tahap tersebut.</span>
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 3px;">
+            <strong style="color: #0F172A; font-size: 0.98rem;">Navigasi &amp; Filter Tahap Pengerjaan:</strong>
+            <span style="font-size: 11px; font-weight: 800; background: #E0E7FF; color: #3730A3; padding: 2px 8px; border-radius: 6px;">Fitur Hide Step Aktif</span>
+          </div>
+          <span style="color: #64748B; font-size: 0.85rem;">Klik nomor untuk lompat ke tahap. Centang <b>"Sembunyikan Step"</b> pada tahap yang kurang penting agar tidak tampil di halaman publik. Nomor tahap publik otomatis diatur ulang tanpa celah.</span>
         </div>
-        <div style="display: flex; align-items: center; gap: 8px;">
-          <input type="text" id="backoffice-step-search" placeholder="Cari nama tahap (cth: laser, hcl, wiring)..." oninput="filterBackofficeSteps(this.value)" class="form-control" style="font-size: 12px; width: 260px; padding: 6px 12px; border-radius: 8px;">
+        <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+          <div style="display: inline-flex; border: 1.5px solid #CBD5E1; border-radius: 8px; overflow: hidden; background: #FFF;">
+            <button type="button" class="btn-vis-filter" data-vis="all" onclick="filterStepsVisibility('all')" style="padding: 6px 12px; font-size: 11.5px; font-weight: 700; border: none; background: #0F172A; color: #FFF; cursor: pointer;">
+              Semua ({{ count($allSteps) }})
+            </button>
+            <button type="button" class="btn-vis-filter" data-vis="active" onclick="filterStepsVisibility('active')" style="padding: 6px 12px; font-size: 11.5px; font-weight: 700; border: none; background: #FFF; color: #334155; border-left: 1px solid #CBD5E1; cursor: pointer;">
+              Aktif (<span id="count-filter-active">{{ $activeStepsCount }}</span>)
+            </button>
+            <button type="button" class="btn-vis-filter" data-vis="hidden" onclick="filterStepsVisibility('hidden')" style="padding: 6px 12px; font-size: 11.5px; font-weight: 700; border: none; background: #FFF; color: #E11D48; border-left: 1px solid #CBD5E1; cursor: pointer;">
+              Disembunyikan (<span id="count-filter-hidden">{{ $hiddenStepsCount }}</span>)
+            </button>
+          </div>
+          <input type="text" id="backoffice-step-search" placeholder="Cari nama tahap (cth: laser, hcl, wiring)..." oninput="applyBackofficeFilters()" class="form-control" style="font-size: 12px; width: 230px; padding: 6px 12px; border-radius: 8px;">
         </div>
       </div>
-      <div style="display: flex; gap: 4px; flex-wrap: wrap;">
+      <div style="display: flex; gap: 5px; flex-wrap: wrap;">
         @foreach($data['steps'] as $idx => $s)
-          <a href="#step-card-{{ $idx }}" style="display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 30px; border-radius: 7px; background: #FFF; border: 1px solid #CBD5E1; color: #1E293B; font-size: 11.5px; font-weight: 800; text-decoration: none; transition: all 0.15s;" onmouseover="this.style.borderColor='#E11D48'; this.style.color='#E11D48';" onmouseout="this.style.borderColor='#CBD5E1'; this.style.color='#1E293B';">
+          @php $isStepHidden = !empty($s['is_hidden']); @endphp
+          <a href="#step-card-{{ $idx }}" 
+             id="step-jump-pill-{{ $idx }}" 
+             data-hidden="{{ $isStepHidden ? '1' : '0' }}"
+             title="Tahap {{ sprintf('%02d', $idx + 1) }}{{ $isStepHidden ? ' (Disembunyikan)' : '' }}"
+             style="display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 8px; background: {{ $isStepHidden ? '#FFF1F2' : '#FFF' }}; border: 1.5px solid {{ $isStepHidden ? '#FECDD3' : '#CBD5E1' }}; color: {{ $isStepHidden ? '#E11D48' : '#1E293B' }}; font-size: 11.5px; font-weight: 800; text-decoration: none; transition: all 0.15s;" 
+             onmouseover="this.style.borderColor='#E11D48'; this.style.color='#E11D48';" 
+             onmouseout="this.style.borderColor=this.getAttribute('data-hidden') === '1' ? '#FECDD3' : '#CBD5E1'; this.style.color=this.getAttribute('data-hidden') === '1' ? '#E11D48' : '#1E293B';">
             {{ sprintf('%02d', $idx + 1) }}
           </a>
         @endforeach
@@ -298,27 +324,57 @@
           $sImgUrl = (str_starts_with($effectiveImg, 'http') || str_starts_with($effectiveImg, '/'))
               ? $effectiveImg
               : asset('panel-building-process/images/' . (str_contains($effectiveImg, '.') ? $effectiveImg : $effectiveImg . '.webp'));
+          $isThisStepHidden = !empty($step['is_hidden']);
         @endphp
 
-        <div id="step-card-{{ $idx }}" class="panel-card backoffice-step-card" data-step-text="{{ strtolower($step['title'] . ' ' . $step['subtitle'] . ' ' . $step['description']) }}" style="background: #FFFFFF; border: 1.5px solid #E2E8F0; border-radius: 16px; padding: 24px; box-shadow: 0 1px 4px rgba(0,0,0,0.03);">
+        <div id="step-card-{{ $idx }}" 
+             class="panel-card backoffice-step-card" 
+             data-step-hidden="{{ $isThisStepHidden ? '1' : '0' }}"
+             data-step-text="{{ strtolower($step['title'] . ' ' . $step['subtitle'] . ' ' . $step['description']) }}" 
+             style="background: #FFFFFF; border: 1.5px solid {{ $isThisStepHidden ? '#FECDD3' : '#E2E8F0' }}; border-radius: 16px; padding: 24px; box-shadow: 0 1px 4px rgba(0,0,0,0.03); transition: border-color 0.2s;">
           <!-- Step Header Bar -->
-          <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #F1F5F9; padding-bottom: 14px; margin-bottom: 18px; flex-wrap: wrap; gap: 10px;">
+          <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #F1F5F9; padding-bottom: 14px; margin-bottom: 18px; flex-wrap: wrap; gap: 12px;">
             <div style="display: flex; align-items: center; gap: 12px;">
-              <span style="display: inline-flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 10px; background: #0F172A; color: #FFF; font-weight: 800; font-size: 15px;">
+              <span id="step-num-badge-{{ $idx }}" style="display: inline-flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 10px; background: {{ $isThisStepHidden ? '#E11D48' : '#0F172A' }}; color: #FFF; font-weight: 800; font-size: 15px; transition: background 0.2s;">
                 {{ sprintf('%02d', $idx + 1) }}
               </span>
               <div>
-                <span style="font-size: 11px; font-weight: 800; color: #E11D48; text-transform: uppercase; letter-spacing: 0.06em;">
-                  FASE {{ sprintf('%02d', $phaseIndex + 1) }}: {{ strtoupper($phaseName) }}
-                </span>
+                <div style="display: flex; align-items: center; gap: 6px;">
+                  <span style="font-size: 11px; font-weight: 800; color: #E11D48; text-transform: uppercase; letter-spacing: 0.06em;">
+                    FASE {{ sprintf('%02d', $phaseIndex + 1) }}: {{ strtoupper($phaseName) }}
+                  </span>
+                  <span id="status-pill-{{ $idx }}" style="font-size: 10px; font-weight: 800; padding: 2px 7px; border-radius: 5px; {{ $isThisStepHidden ? 'background: #FFF1F2; color: #E11D48; border: 1px solid #FECDD3;' : 'background: #F0FDF4; color: #166534; border: 1px solid #BBF7D0;' }}">
+                    {{ $isThisStepHidden ? 'DISEMBUNYIKAN' : 'TAMPIL DI WEB' }}
+                  </span>
+                </div>
                 <h3 style="font-size: 1.15rem; font-weight: 800; color: #0F172A; margin: 2px 0 0 0;">
                   Step {{ sprintf('%02d', $idx + 1) }}: {{ $step['title'] }}
                 </h3>
               </div>
             </div>
-            <span style="font-size: 12px; color: #64748B; background: #F1F5F9; border: 1px solid #E2E8F0; padding: 4px 10px; border-radius: 6px; font-weight: 700; font-family: monospace;">
-              INDEX #{{ $idx }}
-            </span>
+
+            <!-- Hide Step Toggle Control -->
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <label id="toggle-label-{{ $idx }}" style="display: inline-flex; align-items: center; gap: 8px; cursor: pointer; user-select: none; background: {{ $isThisStepHidden ? '#FFF1F2' : '#F8FAFC' }}; border: 1.5px solid {{ $isThisStepHidden ? '#E11D48' : '#CBD5E1' }}; padding: 6px 14px; border-radius: 8px; font-size: 12px; font-weight: 800; color: {{ $isThisStepHidden ? '#E11D48' : '#334155' }}; transition: all 0.2s;">
+                <input type="checkbox" 
+                       name="steps[{{ $idx }}][is_hidden]" 
+                       value="1" 
+                       id="step-hidden-check-{{ $idx }}"
+                       {{ $isThisStepHidden ? 'checked' : '' }} 
+                       onchange="onStepHiddenToggle({{ $idx }}, this.checked)" 
+                       style="width: 17px; height: 17px; accent-color: #E11D48; cursor: pointer;">
+                <span id="toggle-text-{{ $idx }}">{{ $isThisStepHidden ? 'Tahap Disembunyikan (Hidden)' : 'Sembunyikan Tahap Ini' }}</span>
+              </label>
+
+              <span style="font-size: 11.5px; color: #64748B; background: #F1F5F9; border: 1px solid #E2E8F0; padding: 5px 9px; border-radius: 6px; font-weight: 700; font-family: monospace;">
+                INDEX #{{ $idx }}
+              </span>
+            </div>
+          </div>
+
+          <!-- Hidden Notice Banner -->
+          <div id="hidden-alert-{{ $idx }}" style="display: {{ $isThisStepHidden ? 'block' : 'none' }}; background: #FFF1F2; border: 1px dashed #FDA4AF; color: #9F1239; padding: 10px 16px; border-radius: 10px; margin-bottom: 18px; font-size: 12.5px; font-weight: 600;">
+            ⚠️ <strong>Tahap ini sedang disembunyikan.</strong> Tidak akan dimunculkan pada tampilan publik website <code>/panel-building-process</code>. Nomor urut tahap pada website publik otomatis disesuaikan berurutan tanpa jeda.
           </div>
 
           <div style="display: grid; grid-template-columns: 1fr 310px; gap: 24px;">
@@ -610,17 +666,121 @@
     }
   }
 
-  function filterBackofficeSteps(query) {
-    const q = query.trim().toLowerCase();
+  let currentVisibilityFilter = 'all';
+
+  function filterStepsVisibility(mode) {
+    currentVisibilityFilter = mode;
+    document.querySelectorAll('.btn-vis-filter').forEach(btn => {
+      const isCur = btn.getAttribute('data-vis') === mode;
+      btn.style.background = isCur ? '#0F172A' : '#FFFFFF';
+      btn.style.color = isCur ? '#FFFFFF' : (btn.getAttribute('data-vis') === 'hidden' ? '#E11D48' : '#334155');
+      btn.style.borderColor = isCur ? '#0F172A' : '#CBD5E1';
+    });
+    applyBackofficeFilters();
+  }
+
+  function applyBackofficeFilters() {
+    const searchInput = document.getElementById('backoffice-step-search');
+    const q = (searchInput?.value || '').trim().toLowerCase();
     const cards = document.querySelectorAll('.backoffice-step-card');
+
     cards.forEach(card => {
+      const isHidden = card.getAttribute('data-step-hidden') === '1';
+      let matchVis = true;
+      if (currentVisibilityFilter === 'active') matchVis = !isHidden;
+      if (currentVisibilityFilter === 'hidden') matchVis = isHidden;
+
       const text = card.getAttribute('data-step-text') || '';
-      if (!q || text.includes(q)) {
-        card.style.display = 'block';
+      const matchSearch = !q || text.includes(q);
+
+      card.style.display = (matchVis && matchSearch) ? 'block' : 'none';
+    });
+  }
+
+  function filterBackofficeSteps(query) {
+    applyBackofficeFilters();
+  }
+
+  function onStepHiddenToggle(idx, isChecked) {
+    const card = document.getElementById('step-card-' + idx);
+    const pill = document.getElementById('step-jump-pill-' + idx);
+    const numBadge = document.getElementById('step-num-badge-' + idx);
+    const statusPill = document.getElementById('status-pill-' + idx);
+    const toggleLabel = document.getElementById('toggle-label-' + idx);
+    const toggleText = document.getElementById('toggle-text-' + idx);
+    const alertEl = document.getElementById('hidden-alert-' + idx);
+
+    if (card) {
+      card.setAttribute('data-step-hidden', isChecked ? '1' : '0');
+      card.style.borderColor = isChecked ? '#FECDD3' : '#E2E8F0';
+    }
+
+    if (isChecked) {
+      if (numBadge) numBadge.style.background = '#E11D48';
+      if (statusPill) {
+        statusPill.textContent = 'DISEMBUNYIKAN';
+        statusPill.style.background = '#FFF1F2';
+        statusPill.style.color = '#E11D48';
+        statusPill.style.borderColor = '#FECDD3';
+      }
+      if (toggleLabel) {
+        toggleLabel.style.background = '#FFF1F2';
+        toggleLabel.style.borderColor = '#E11D48';
+        toggleLabel.style.color = '#E11D48';
+      }
+      if (toggleText) toggleText.textContent = 'Tahap Disembunyikan (Hidden)';
+      if (alertEl) alertEl.style.display = 'block';
+      if (pill) {
+        pill.style.background = '#FFF1F2';
+        pill.style.borderColor = '#FECDD3';
+        pill.style.color = '#E11D48';
+        pill.setAttribute('data-hidden', '1');
+      }
+    } else {
+      if (numBadge) numBadge.style.background = '#0F172A';
+      if (statusPill) {
+        statusPill.textContent = 'TAMPIL DI WEB';
+        statusPill.style.background = '#F0FDF4';
+        statusPill.style.color = '#166534';
+        statusPill.style.borderColor = '#BBF7D0';
+      }
+      if (toggleLabel) {
+        toggleLabel.style.background = '#F8FAFC';
+        toggleLabel.style.borderColor = '#CBD5E1';
+        toggleLabel.style.color = '#334155';
+      }
+      if (toggleText) toggleText.textContent = 'Sembunyikan Tahap Ini';
+      if (alertEl) alertEl.style.display = 'none';
+      if (pill) {
+        pill.style.background = '#FFF';
+        pill.style.borderColor = '#CBD5E1';
+        pill.style.color = '#1E293B';
+        pill.setAttribute('data-hidden', '0');
+      }
+    }
+
+    updateHiddenCounters();
+  }
+
+  function updateHiddenCounters() {
+    const cards = document.querySelectorAll('.backoffice-step-card');
+    let hidden = 0, active = 0;
+    cards.forEach(c => {
+      if (c.getAttribute('data-step-hidden') === '1') {
+        hidden++;
       } else {
-        card.style.display = 'none';
+        active++;
       }
     });
+
+    const tabActiveCount = document.getElementById('backoffice-tab-active-count');
+    if (tabActiveCount) tabActiveCount.textContent = active;
+
+    const countActiveEl = document.getElementById('count-filter-active');
+    if (countActiveEl) countActiveEl.textContent = active;
+
+    const countHiddenEl = document.getElementById('count-filter-hidden');
+    if (countHiddenEl) countHiddenEl.textContent = hidden;
   }
 
   function uploadPhotoAjax(fileInputId, targetType, targetIndex, previewId, textInputId, statusId, labelId) {

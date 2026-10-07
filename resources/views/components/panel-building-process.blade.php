@@ -5,6 +5,7 @@
     $facilities = $data['facilities'] ?? [];
     $steps = $data['steps'] ?? [];
     $phases = $data['phases'] ?? [];
+    $visibleStepsCount = count(array_filter($steps, fn($s) => empty($s['is_hidden'])));
 
     $resolveImg = function($name) {
         if (!$name) return '';
@@ -33,7 +34,7 @@
                 </a>
                 <nav aria-label="Page navigation">
                     <a href="#equipment">Facilities</a>
-                    <a href="#process-steps">33-Step Process</a>
+                    <a href="#process-steps">{{ $visibleStepsCount }}-Step Process</a>
                     <a href="{{ route('services.panel') }}">Panel Builder Service</a>
                 </nav>
                 <span class="head-tag">MANUFACTURING / PRODUCTION FACILITIES</span>
@@ -47,7 +48,7 @@
                 <span class="sep">&rsaquo;</span>
                 <a href="{{ route('services.panel') }}">Panel Builder</a>
                 <span class="sep">&rsaquo;</span>
-                <span class="current">Production Facilities & 33-Stage Process</span>
+                <span class="current">Production Facilities & {{ $visibleStepsCount }}-Stage Process</span>
             </nav>
         @endif
 
