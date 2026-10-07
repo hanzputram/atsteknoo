@@ -106,6 +106,7 @@ class PanelProcessService
                 'eyebrow' => 'Production Facilities',
                 'title' => 'Machinery Engineered for Precision.',
                 'description' => 'Sheet metal fabrication and enclosure assembly supported by high-precision CNC laser cutting, punching, and multi-axis hydraulic bending.',
+                'hide_animation' => false,
                 'machines' => [
                     [
                         'image' => 'machine-laser.jpg',

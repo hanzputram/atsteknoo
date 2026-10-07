@@ -80,11 +80,6 @@
                 <strong>100%</strong>
                 <span>Verified Inspection</span>
             </div>
-            <div class="p33-stat-sep"></div>
-            <div class="p33-stat-item">
-                <strong>IEC</strong>
-                <span>61439-1/2 Standard</span>
-            </div>
         </div>
     </header>
 

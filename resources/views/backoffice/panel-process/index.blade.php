@@ -94,6 +94,23 @@
         <label style="display: block; font-size: 12px; font-weight: 700; color: #334155; margin-bottom: 4px;">Deskripsi Fasilitas</label>
         <textarea name="facilities[description]" rows="2" class="form-control" style="width: 100%; font-size: 13px;">{{ $data['facilities']['description'] ?? '' }}</textarea>
       </div>
+
+      <!-- Global Hide 3D Animation Toggle -->
+      <div style="margin-top: 16px; padding: 14px 18px; background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 12px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div style="width: 38px; height: 38px; border-radius: 10px; background: #FFF1F2; color: #E11D48; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+            <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l18 18"/></svg>
+          </div>
+          <div>
+            <div style="font-size: 13.5px; font-weight: 800; color: #0F172A;">Fitur Hide Animation (Sembunyikan Animasi 3D Semua Mesin)</div>
+            <div style="font-size: 12px; color: #64748B;">Jika diaktifkan, animasi 3D simulasi akan disembunyikan dan foto workshop di bawahnya otomatis full-size menggantikan tempat animasi.</div>
+          </div>
+        </div>
+        <label style="position: relative; display: inline-flex; align-items: center; cursor: pointer; user-select: none; background: #FFFFFF; border: 1.5px solid #CBD5E1; padding: 6px 14px; border-radius: 9999px;">
+          <input type="checkbox" name="facilities[hide_animation]" value="1" {{ !empty($data['facilities']['hide_animation']) ? 'checked' : '' }} style="width: 18px; height: 18px; accent-color: #E11D48; cursor: pointer;">
+          <span style="margin-left: 8px; font-size: 13px; font-weight: 800; color: #0F172A;">Hide All 3D</span>
+        </label>
+      </div>
     </div>
 
     <!-- 8 Machinery Cards Grid -->
@@ -132,6 +149,18 @@
                 3D: {{ strtoupper($modelKind) }}
               </span>
               <input type="hidden" name="facilities[machines][{{ $mIdx }}][model]" value="{{ $modelKind }}">
+            </div>
+
+            <!-- Per-Machine Hide Animation Toggle -->
+            <div style="margin-bottom: 12px; padding: 8px 12px; background: #F1F5F9; border: 1px solid #E2E8F0; border-radius: 8px; display: flex; align-items: center; justify-content: space-between;">
+              <span style="font-size: 11.5px; font-weight: 700; color: #334155; display: inline-flex; align-items: center; gap: 6px;">
+                <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                Hide Animasi & Foto Full-Size:
+              </span>
+              <label style="display: inline-flex; align-items: center; gap: 6px; cursor: pointer; font-size: 11.5px; font-weight: 800; color: #0F172A;">
+                <input type="checkbox" name="facilities[machines][{{ $mIdx }}][hide_animation]" value="1" {{ (!empty($machine['hide_animation'])) ? 'checked' : '' }} style="accent-color: #E11D48; cursor: pointer;">
+                <span>Hide 3D</span>
+              </label>
             </div>
 
             <!-- Machine Photo Preview & Actions -->

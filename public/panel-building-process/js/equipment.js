@@ -125,10 +125,28 @@
       p.classList.toggle('is-active', k === i);
     });
 
+    // Check if 3D animation is hidden for this machine or globally
+    const isCurHide = (slides[i]?.dataset?.hideAnimation === '1') || (sec?.dataset?.globalHideAnimation === '1');
+    if (viewport) {
+      viewport.classList.toggle('is-hidden', isCurHide);
+      viewport.style.display = isCurHide ? 'none' : '';
+    }
+    const photoStrip = $('.eq-photo-strip');
+    if (photoStrip) {
+      photoStrip.classList.toggle('is-full-size', isCurHide);
+    }
+
     const numEl = $('[data-count-to]', slides[i]);
     if (numEl) countTo(numEl, Number(numEl.dataset.countTo || 0), 900);
 
-    if (scene) scene.setMachine(slides[i].dataset.kind, instant);
+    if (scene) {
+      if (!isCurHide) {
+        scene.setMachine(slides[i].dataset.kind, instant);
+        if (typeof scene.resize === 'function') {
+          scene.resize();
+        }
+      }
+    }
   }
 
   setActive(0, true);

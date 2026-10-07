@@ -1,7 +1,7 @@
 @php
-  $currentLocale = request()->cookie('ats_lang', 'id');
+  $currentLocale = request()->cookie('ats_lang', 'en');
   if ($currentLocale !== 'id' && $currentLocale !== 'en') {
-    $currentLocale = 'id';
+    $currentLocale = 'en';
   }
 @endphp
 <!DOCTYPE html>
@@ -12,7 +12,7 @@
   <script>
     (function() {
       try {
-        var l = localStorage.getItem('ats_lang') || (document.cookie.match(/(?:^|;\s*)ats_lang=([^;]+)/) || [])[1] || 'id';
+        var l = localStorage.getItem('ats_lang') || (document.cookie.match(/(?:^|;\s*)ats_lang=([^;]+)/) || [])[1] || 'en';
         if (l === 'id' || l === 'en') {
           document.documentElement.setAttribute('lang', l);
           document.documentElement.setAttribute('data-lang', l);

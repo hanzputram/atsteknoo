@@ -126,6 +126,7 @@ class PanelProcessController extends Controller
             $current['facilities']['eyebrow'] = trim($request->input('facilities.eyebrow', $current['facilities']['eyebrow']));
             $current['facilities']['title'] = trim($request->input('facilities.title', $current['facilities']['title']));
             $current['facilities']['description'] = trim($request->input('facilities.description', $current['facilities']['description']));
+            $current['facilities']['hide_animation'] = $request->boolean('facilities.hide_animation');
 
             if ($request->has('facilities.machines') && is_array($request->input('facilities.machines'))) {
                 $machinesList = [];
@@ -153,6 +154,7 @@ class PanelProcessController extends Controller
                         'powers_step' => trim($m['powers_step'] ?? ''),
                         'powers_step_index' => isset($m['powers_step_index']) && $m['powers_step_index'] !== '' ? (int) $m['powers_step_index'] : null,
                         'model' => !empty($m['model']) ? trim($m['model']) : $existingModel,
+                        'hide_animation' => !empty($m['hide_animation']) && in_array($m['hide_animation'], ['1', 1, true, 'true', 'on'], true),
                     ];
                 }
                 $current['facilities']['machines'] = $machinesList;

@@ -42,10 +42,12 @@
         ['value' => $totalUnits ?: $machineCount, 'label' => 'Total Operational Units'],
         ['value' => $machineCount, 'label' => 'Production Stations'],
     ];
+    $globalHideAnim = !empty($facilities['hide_animation']);
+    $firstMachineHide = $globalHideAnim || !empty($machines[0]['hide_animation']);
 @endphp
 
 @if ($machineCount)
-<section class="eq" id="equipment" aria-labelledby="eq-title" data-count="{{ $machineCount }}">
+<section class="eq" id="equipment" aria-labelledby="eq-title" data-count="{{ $machineCount }}" data-global-hide-animation="{{ $globalHideAnim ? '1' : '0' }}">
 
     {{-- ===== Header ===== --}}
     <header class="eq-head" id="eq-head">
@@ -158,6 +160,7 @@
                         $kind = $eqKind($m);
                         $num = $eqNum($m['count'] ?? 0);
                         $imgSrc = $resolveImg($m['image'] ?? 'machine-laser.jpg');
+                        $isMachineHidden = $globalHideAnim || !empty($m['hide_animation']);
                     @endphp
                     <article class="eq-slide {{ $i === 0 ? 'is-active' : '' }}"
                              id="eq-slide-{{ $i }}"
@@ -168,6 +171,7 @@
                              data-title="{{ $m['title'] }}"
                              data-meta="{{ $m['count'] ?? '' }} {{ $m['unit'] ?? '' }}"
                              data-image="{{ $imgSrc }}"
+                             data-hide-animation="{{ $isMachineHidden ? '1' : '0' }}"
                              aria-hidden="{{ $i === 0 ? 'false' : 'true' }}">
 
                         <div class="eq-slide-header">
@@ -193,7 +197,12 @@
             </div>
 
             {{-- 3D Interactive Viewport --}}
-            <div class="eq-viewport" id="eq-viewport" data-eq-cursor="drag" data-eq-cursor-label="DRAG" title="Click and drag to rotate 3D machinery model">
+            <div class="eq-viewport {{ $firstMachineHide ? 'is-hidden' : '' }}" 
+                 id="eq-viewport" 
+                 data-eq-cursor="drag" 
+                 data-eq-cursor-label="DRAG" 
+                 title="Click and drag to rotate 3D machinery model"
+                 style="{{ $firstMachineHide ? 'display: none;' : '' }}">
                 <canvas id="eq-canvas" aria-label="Interactive 3D simulation of production machinery"></canvas>
 
                 {{-- Real-time HUD Telemetry Badge --}}
@@ -217,7 +226,7 @@
             </div>
 
             {{-- Workshop Real Photo Inset Card --}}
-            <div class="eq-photo-strip">
+            <div class="eq-photo-strip {{ $firstMachineHide ? 'is-full-size' : '' }}">
                 <div class="eq-photo-card" id="eq-photo-card" data-eq-inspect role="button" tabindex="0" aria-label="View actual machine photo in full resolution">
                     @foreach ($machines as $i => $m)
                         <img class="eq-photo {{ $i === 0 ? 'is-active' : '' }}"

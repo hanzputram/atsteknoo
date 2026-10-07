@@ -356,7 +356,7 @@
     const match = document.cookie.match(/(?:^|;\s*)ats_lang=([^;]+)/);
     if (match && (match[1] === 'id' || match[1] === 'en')) return match[1];
 
-    return 'id'; // Primary language is Indonesian by default
+    return 'en'; // Primary language is English by default
   };
 
   // Safe translation execution flag to prevent any infinite loops
@@ -471,6 +471,12 @@
   function init() {
     const initialLang = window.atsGetLanguage();
     window.atsSetLanguage(initialLang);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
   }
 
   // 8. Global Email Redirect: Automatically redirect any mailto: clicks directly to Gmail Web Compose
