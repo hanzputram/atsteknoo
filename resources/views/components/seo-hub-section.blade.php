@@ -3,7 +3,7 @@
      Target Keyphrase: "Distributor Alat Listrik Surabaya"
      Semantic Entities: Schneider, Legrand, GAE, Vinsa, Omron, ABB, Panel Maker
      ======================================================== -->
-<section class="seo-hub-section" style="background: #F8FAFC; padding: 64px 20px; border-top: 1px solid #E2E8F0; border-bottom: 1px solid #E2E8F0;">
+<section class="seo-hub-section" style="background: #F8FAFC; padding: 64px 20px; border-top: 1px solid #E2E8F0; border-bottom: 1px solid #E2E8F0; content-visibility: auto; contain-intrinsic-size: 600px;">
   <div style="max-width: 1200px; margin: 0 auto;">
 
     <!-- Section Header -->

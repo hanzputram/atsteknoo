@@ -7,6 +7,8 @@
     max-width: 1200px;
     margin: 24px auto;
     box-sizing: border-box;
+    content-visibility: auto;
+    contain-intrinsic-size: 600px;
   }
 
   /* Outer Slate Gray Container */
@@ -810,7 +812,11 @@
       }
 
       updateShelfGeometry();
-      window.addEventListener('resize', updateShelfGeometry);
+      let shelfResizeTimer = null;
+      window.addEventListener('resize', () => {
+        clearTimeout(shelfResizeTimer);
+        shelfResizeTimer = setTimeout(updateShelfGeometry, 60);
+      }, { passive: true });
 
       new Swiper('.ourProductSwiper', {
         slidesPerView: 1.15,

@@ -908,16 +908,23 @@
       will-change: transform;
     }
 
-    .marquee-track:hover {
+    .marquee-track:hover,
+    .hero-container.hero-offscreen .marquee-track {
       animation-play-state: paused;
     }
 
     @keyframes marqueeWalk {
       0% {
-        transform: translateX(0);
+        transform: translate3d(0, 0, 0);
       }
       100% {
-        transform: translateX(-50%);
+        transform: translate3d(-50%, 0, 0);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .marquee-track {
+        animation: none;
       }
     }
 
@@ -2431,7 +2438,7 @@
         rewind: true,  // Memungkinkan kembali ke awal/akhir saat mencapai batas
         speed: 500,
         autoplay: {
-          delay: 2000,
+          delay: 3200,
           disableOnInteraction: false,
           stopOnLastSlide: false,
           pauseOnMouseEnter: false,
@@ -2441,6 +2448,27 @@
         preventClicks: true,
         preventClicksPropagation: true,
       });
+
+      // Pause Swiper autoplay and Marquee when Hero is offscreen to save 100% CPU/GPU
+      const heroCardContainer = document.getElementById('heroCardContainer');
+      if ('IntersectionObserver' in window && heroCardContainer) {
+        const heroObserver = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              heroCardContainer.classList.remove('hero-offscreen');
+              if (swiper.autoplay && !swiper.autoplay.running) {
+                swiper.autoplay.start();
+              }
+            } else {
+              heroCardContainer.classList.add('hero-offscreen');
+              if (swiper.autoplay && swiper.autoplay.running) {
+                swiper.autoplay.stop();
+              }
+            }
+          });
+        }, { threshold: 0.05 });
+        heroObserver.observe(heroCardContainer);
+      }
 
       // Fungsi looping maju (0 -> 1 -> 2 -> 0)
       function nextSlide() {

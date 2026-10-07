@@ -168,6 +168,8 @@
     background: #FFFFFF;
     overflow: hidden;
     box-sizing: border-box;
+    content-visibility: auto;
+    contain-intrinsic-size: 520px;
   }
 
   .p3d-container {
@@ -799,7 +801,7 @@
     }
   });
 
-  // 3D Carousel Engine: Tight, Cohesive Spacing, Zero Overlap, Continuous Smooth Drift
+  // 3D Carousel Engine: High Performance, Zero DOM Thrashing, Continuous Smooth Drift
   (function initP3DCarousel() {
     const stage = document.getElementById('p3dStage');
     const cards = Array.from(document.querySelectorAll('.p3d-card'));
@@ -812,32 +814,46 @@
     // Dynamic radius tuned so cards have tight, elegant, consistent gaps (~24px - 32px)
     function getRadius() {
       const w = window.innerWidth;
-      if (w < 600) return 540; // Mobile: cards 190px, step 212px, gap ~22px
-      if (w < 900) return 620; // Tablet: cards 230px, step 243px, gap ~13px
-      if (w < 1200) return 690; // Small desktop: cards 260px, step 271px, gap ~11px
-      return 740; // Desktop: cards 260px, step 290px, gap ~30px
+      if (w < 600) return 540; // Mobile
+      if (w < 900) return 620; // Tablet
+      if (w < 1200) return 690; // Small desktop
+      return 740; // Desktop
     }
 
     let radius = getRadius();
+    let resizeTimer = null;
     window.addEventListener('resize', () => {
-      radius = getRadius();
-    });
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        radius = getRadius();
+        updateCards(true);
+      }, 60);
+    }, { passive: true });
 
     let currentRotation = 0;
+    let lastDrawnRotation = -9999;
     let velocity = 0;
     let isDragging = false;
     let hasDragged = false;
+    let isHorizontalGesture = null;
     let lastX = 0;
     let dragStartX = 0;
     let dragStartY = 0;
     let isHovered = false;
-    const autoPlaySpeed = 0.038; // Smooth, gentle drift
-    const friction = 0.94; // Smooth inertia damping
+    const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const autoPlaySpeed = prefersReducedMotion ? 0 : 0.038;
+    const friction = 0.94;
     let lastTime = performance.now();
 
-    // Update 3D card transforms
-    function updateCards() {
-      cards.forEach((card, index) => {
+    // Update 3D card transforms with state caching to avoid redundant DOM writes
+    function updateCards(force = false) {
+      if (!force && Math.abs(currentRotation - lastDrawnRotation) < 0.003) {
+        return;
+      }
+      lastDrawnRotation = currentRotation;
+
+      for (let index = 0; index < totalCards; index++) {
+        const card = cards[index];
         const baseAngle = index * angleStep;
         let angle = (baseAngle + currentRotation) % 360;
         if (angle > 180) angle -= 360;
@@ -847,40 +863,51 @@
 
         // Hide cards past peripheral view (smooth fade across ~7 cards in viewport)
         if (absAngle > 78) {
-          card.style.opacity = '0';
-          card.style.visibility = 'hidden';
-          card.style.pointerEvents = 'none';
+          if (!card._isHidden) {
+            card.style.opacity = '0';
+            card.style.visibility = 'hidden';
+            card.style.pointerEvents = 'none';
+            card._isHidden = true;
+          }
         } else {
-          card.style.visibility = 'visible';
-          card.style.pointerEvents = 'auto';
+          if (card._isHidden) {
+            card.style.visibility = 'visible';
+            card.style.pointerEvents = 'auto';
+            card._isHidden = false;
+          }
 
           // Atmospheric fog fade on outer flanks (44deg to 76deg)
           let fogOpacity = 1;
           if (absAngle > 44) {
             fogOpacity = 1 - (absAngle - 44) / 32;
           }
-          card.style.opacity = Math.max(0, Math.min(1, fogOpacity)).toFixed(3);
+          const opStr = Math.max(0, Math.min(1, fogOpacity)).toFixed(3);
+          if (card._lastOp !== opStr) {
+            card.style.opacity = opStr;
+            card._lastOp = opStr;
+          }
 
           // Concave 3D Transform: Center card is at screen plane (z=0), flanks curve gently
           const rad = (angle * Math.PI) / 180;
           const x = radius * Math.sin(rad);
-          // Normalized Z: center is at 0 (full crisp size), edges curve gently into background
           const z = -radius * (1 - Math.cos(rad)) * 0.28;
-
-          // Inward Concave Yaw: wings tilt gently inwards towards viewer/center (Framer style)
           const yaw = -angle * 0.45;
 
           card.style.transform = `translate3d(${x.toFixed(1)}px, 0, ${z.toFixed(1)}px) rotateY(${yaw.toFixed(1)}deg)`;
-          card.style.zIndex = Math.round(100 - absAngle);
+          const zIdx = Math.round(100 - absAngle);
+          if (card._lastZ !== zIdx) {
+            card.style.zIndex = zIdx;
+            card._lastZ = zIdx;
+          }
         }
-      });
+      }
     }
 
     let isVisible = false;
     let rafId = null;
 
     function startAnimation() {
-      if (rafId) return;
+      if (rafId || !isVisible) return;
       lastTime = performance.now();
       rafId = requestAnimationFrame(animate);
     }
@@ -901,7 +928,7 @@
       const now = currentTime || performance.now();
       const deltaMs = Math.min(now - lastTime, 100);
       lastTime = now;
-      const timeScale = deltaMs / 16.667; // Normalized to 60fps
+      const timeScale = deltaMs / 16.667;
 
       if (!isDragging) {
         if (Math.abs(velocity) > 0.004) {
@@ -909,7 +936,7 @@
           velocity *= Math.pow(friction, timeScale);
         } else {
           velocity = 0;
-          if (!isHovered) {
+          if (!isHovered && autoPlaySpeed > 0) {
             currentRotation -= autoPlaySpeed * timeScale;
           }
         }
@@ -937,7 +964,7 @@
       if (Math.hypot(e.clientX - dragStartX, e.clientY - dragStartY) > 5) {
         hasDragged = true;
       }
-      const sensitivity = 0.08; // Gentle, relaxing drag response
+      const sensitivity = 0.08;
       currentRotation += deltaX * sensitivity;
       velocity = deltaX * sensitivity;
       lastX = e.clientX;
@@ -952,11 +979,12 @@
       }, 100);
     });
 
-    // Touch Support
+    // Touch Support with vertical scroll disambiguation
     stage.addEventListener('touchstart', (e) => {
       if (e.touches.length !== 1) return;
       isDragging = true;
       hasDragged = false;
+      isHorizontalGesture = null;
       lastX = e.touches[0].clientX;
       dragStartX = e.touches[0].clientX;
       dragStartY = e.touches[0].clientY;
@@ -966,8 +994,25 @@
 
     window.addEventListener('touchmove', (e) => {
       if (!isDragging || e.touches.length !== 1) return;
+      const totalDx = Math.abs(e.touches[0].clientX - dragStartX);
+      const totalDy = Math.abs(e.touches[0].clientY - dragStartY);
+
+      if (isHorizontalGesture === null && (totalDx > 6 || totalDy > 6)) {
+        if (totalDy > totalDx) {
+          // Vertical user scroll: yield to native scroll, do not jerk carousel
+          isDragging = false;
+          isHorizontalGesture = false;
+          stage.classList.remove('is-dragging');
+          return;
+        } else {
+          isHorizontalGesture = true;
+        }
+      }
+
+      if (isHorizontalGesture === false) return;
+
       const deltaX = e.touches[0].clientX - lastX;
-      if (Math.hypot(e.touches[0].clientX - dragStartX, e.touches[0].clientY - dragStartY) > 5) {
+      if (totalDx > 6) {
         hasDragged = true;
       }
       const sensitivity = 0.10;
@@ -982,6 +1027,7 @@
       stage.classList.remove('is-dragging');
       setTimeout(() => {
         hasDragged = false;
+        isHorizontalGesture = null;
       }, 100);
     });
 
@@ -1035,7 +1081,7 @@
             stopAnimation();
           }
         });
-      }, { rootMargin: '150px 0px' });
+      }, { rootMargin: '100px 0px' });
       observer.observe(stage);
     } else {
       isVisible = true;

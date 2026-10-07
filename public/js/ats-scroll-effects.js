@@ -41,20 +41,18 @@
       .ats-word-mask { display: inline-block; overflow: hidden; vertical-align: top; line-height: normal; padding-top: 0.22em; margin-top: -0.22em; padding-bottom: 0.22em; margin-bottom: -0.22em; }
       .ats-reveal-word {
         display: inline-block;
-        transform: translate3d(0, 118%, 0) rotate(2.5deg);
+        transform: translate3d(0, 115%, 0) rotate(1.8deg);
         opacity: 0;
-        filter: blur(5px);
-        will-change: transform, opacity, filter;
-        transition: transform 0.85s cubic-bezier(0.16, 1, 0.3, 1),
-                    opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
-                    filter 0.65s ease;
-        transition-delay: calc(var(--word-index, 0) * 28ms + var(--base-delay, 0ms));
+        will-change: transform, opacity;
+        transition: transform 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+                    opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+        transition-delay: calc(var(--word-index, 0) * 26ms + var(--base-delay, 0ms));
         transform-origin: 0% 100%;
       }
       .is-in-view .ats-reveal-word, .ats-reveal-active .ats-reveal-word {
         transform: translate3d(0, 0%, 0) rotate(0deg);
         opacity: 1;
-        filter: blur(0px);
+        will-change: auto;
       }
       [data-reveal-scrub] .ats-word-mask, .reveal-text-scrub .ats-word-mask { overflow: visible; }
       [data-reveal-scrub] .ats-reveal-word, .reveal-text-scrub .ats-reveal-word {
@@ -262,14 +260,6 @@
       if (!el.hasAttribute('data-reveal-scrub')) {
         intersectionObserver.observe(el);
       }
-
-      // Check if already in viewport on page load
-      const rect = el.getBoundingClientRect();
-      if (rect.top < window.innerHeight * 0.88 && rect.bottom > 0) {
-        setTimeout(() => {
-          el.classList.add('is-in-view');
-        }, el.classList.contains('hero-headline') ? 140 : 40);
-      }
     });
 
     // 2. Feature cards that get smooth staggered fade-slide
@@ -280,26 +270,22 @@
         card.style.transitionDelay = (idx % 4 * 90) + 'ms';
       }
       intersectionObserver.observe(card);
-
-      const rect = card.getBoundingClientRect();
-      if (rect.top < window.innerHeight * 0.90 && rect.bottom > 0) {
-        setTimeout(() => {
-          card.classList.add('is-in-view');
-        }, 80);
-      }
     });
+
+    // Cache scrub targets to avoid querySelectorAll on every scroll event
+    cachedScrubTargets = Array.from(document.querySelectorAll('[data-reveal-scrub], .reveal-text-scrub'));
   }
 
   // --------------------------------------------------------------------------
   // Scroll-Scrub Reveal (Framer Progressive Illumination Mode)
   // --------------------------------------------------------------------------
+  let cachedScrubTargets = [];
   function onScrollUpdate() {
-    const scrubTargets = document.querySelectorAll('[data-reveal-scrub], .reveal-text-scrub');
-    if (scrubTargets.length === 0) return;
+    if (cachedScrubTargets.length === 0) return;
 
     const vh = window.innerHeight;
 
-    scrubTargets.forEach(el => {
+    cachedScrubTargets.forEach(el => {
       const rect = el.getBoundingClientRect();
       const words = el.querySelectorAll('.ats-reveal-word');
       if (words.length === 0) return;

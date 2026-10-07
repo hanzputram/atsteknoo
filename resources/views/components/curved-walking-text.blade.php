@@ -69,6 +69,8 @@
     user-select: none;
     box-sizing: border-box;
     display: block;
+    content-visibility: auto;
+    contain-intrinsic-size: 170px;
   }
 
   .curved-walking-container {
@@ -130,8 +132,9 @@
 
 <script>
   /**
-   * Framer-Inspired Dynamic Curved Walking Text Ticker Engine
+   * Framer-Inspired Dynamic Curved Walking Text Ticker Engine (Optimized)
    * Generates exact 1:1 unclipped and unstretched wave path matching client screen width.
+   * Pauses completely when off-screen to save 100% CPU/GPU cycles.
    */
   (function() {
     function initCurvedWalkingText() {
@@ -178,11 +181,15 @@
       }
 
       updateGeometry();
-      window.addEventListener('resize', updateGeometry);
+      let resizeTimer = null;
+      window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(updateGeometry, 60);
+      }, { passive: true });
 
-      // 2. Continuous Walking Ticker
+      // 2. Continuous Walking Ticker (Optimized: 10 repetitions sufficient for 4K)
       const singlePhrase = 'PT ANUGERAH TAMA SEJATI   ✦   ';
-      const repeats = 24;
+      const repeats = 10;
       textPathEl.textContent = singlePhrase.repeat(repeats);
 
       let phraseLength = 440;
@@ -194,10 +201,14 @@
       } catch (e) {}
 
       let offset = 0;
-      let speed = {{ $speed ?? 1.2 }};
+      const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      let speed = prefersReducedMotion ? 0 : {{ $speed ?? 1.2 }};
       let isPaused = false;
       let isDragging = false;
+      let isVisible = false;
+      let rafId = null;
       let startX = 0;
+      let startY = 0;
       let dragOffset = 0;
 
       wrapperEl.addEventListener('mouseenter', () => { isPaused = true; });
@@ -214,37 +225,78 @@
         offset = dragOffset + delta * 1.5;
         if (offset <= -phraseLength) offset += phraseLength;
         if (offset > 0) offset -= phraseLength;
-        textPathEl.setAttribute('startOffset', offset + 'px');
+        textPathEl.setAttribute('startOffset', offset.toFixed(1) + 'px');
       });
       window.addEventListener('mouseup', () => { isDragging = false; });
 
       wrapperEl.addEventListener('touchstart', (e) => {
+        if (e.touches.length !== 1) return;
         isDragging = true;
         startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
         dragOffset = offset;
       }, { passive: true });
+
       window.addEventListener('touchmove', (e) => {
-        if (!isDragging) return;
-        const delta = e.touches[0].clientX - startX;
-        offset = dragOffset + delta * 1.5;
+        if (!isDragging || e.touches.length !== 1) return;
+        const deltaX = e.touches[0].clientX - startX;
+        const deltaY = e.touches[0].clientY - startY;
+        if (Math.abs(deltaY) > Math.abs(deltaX) && Math.abs(deltaY) > 8) {
+          isDragging = false;
+          return;
+        }
+        offset = dragOffset + deltaX * 1.5;
         if (offset <= -phraseLength) offset += phraseLength;
         if (offset > 0) offset -= phraseLength;
-        textPathEl.setAttribute('startOffset', offset + 'px');
+        textPathEl.setAttribute('startOffset', offset.toFixed(1) + 'px');
       }, { passive: true });
+
       window.addEventListener('touchend', () => { isDragging = false; });
 
       function step() {
-        if (!isPaused && !isDragging) {
+        if (!isVisible) {
+          rafId = null;
+          return;
+        }
+        if (!isPaused && !isDragging && speed > 0) {
           offset -= speed;
           if (offset <= -phraseLength) {
             offset += phraseLength;
           }
-          textPathEl.setAttribute('startOffset', offset.toFixed(2) + 'px');
+          textPathEl.setAttribute('startOffset', offset.toFixed(1) + 'px');
         }
-        requestAnimationFrame(step);
+        rafId = requestAnimationFrame(step);
       }
 
-      requestAnimationFrame(step);
+      function startTicker() {
+        if (rafId || !isVisible) return;
+        rafId = requestAnimationFrame(step);
+      }
+
+      function stopTicker() {
+        if (rafId) {
+          cancelAnimationFrame(rafId);
+          rafId = null;
+        }
+      }
+
+      // 3. Pause ticker completely when offscreen to preserve 100% CPU/GPU cycles
+      if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            isVisible = entry.isIntersecting;
+            if (isVisible) {
+              startTicker();
+            } else {
+              stopTicker();
+            }
+          });
+        }, { rootMargin: '100px 0px' });
+        observer.observe(wrapperEl);
+      } else {
+        isVisible = true;
+        startTicker();
+      }
     }
 
     if (document.readyState === 'loading') {

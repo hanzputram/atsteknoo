@@ -88,6 +88,8 @@
     margin: 30px auto 10px auto;
     padding: 0 16px;
     box-sizing: border-box;
+    content-visibility: auto;
+    contain-intrinsic-size: 260px;
   }
 
   .trusted-by-container {

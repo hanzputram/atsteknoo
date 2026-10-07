@@ -157,6 +157,8 @@
     background: #FFFFFF;
     border-top: none;
     overflow: hidden;
+    content-visibility: auto;
+    contain-intrinsic-size: 550px;
   }
 
   .articles-container {
