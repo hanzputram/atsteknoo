@@ -179,9 +179,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-  <!-- ATS Smooth Scroll & Framer Text Reveal Styles (Dual-path delivery for localhost & shared hosting) -->
-  <link rel="stylesheet" href="{{ asset('css/ats-scroll-effects.css') }}?v={{ filemtime(public_path('css/ats-scroll-effects.css')) }}">
-  <link rel="stylesheet" href="{{ url('/public/css/ats-scroll-effects.css') }}?v={{ filemtime(public_path('css/ats-scroll-effects.css')) }}">
+  <!-- ATS Smooth Scroll & Framer Text Reveal Styles (Resilient Delivery) -->
+  <link rel="stylesheet" href="{{ asset('css/ats-scroll-effects.css') }}?v={{ filemtime(public_path('css/ats-scroll-effects.css')) }}"
+        onerror="if(!this.dataset.fallback){this.dataset.fallback='1';this.href='{{ url('/public/css/ats-scroll-effects.css') }}?v={{ filemtime(public_path('css/ats-scroll-effects.css')) }}';}">
 
   <!-- Tailwind CSS CDN with Typography & Forms Plugins -->
   <script src="https://cdn.tailwindcss.com?plugins=typography,forms,aspect-ratio"></script>

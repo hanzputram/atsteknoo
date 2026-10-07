@@ -2570,7 +2570,11 @@
       }
 
       updateHeroGeometry();
-      window.addEventListener('resize', updateHeroGeometry);
+      let heroResizeTimer = null;
+      window.addEventListener('resize', () => {
+        clearTimeout(heroResizeTimer);
+        heroResizeTimer = setTimeout(updateHeroGeometry, 60);
+      }, { passive: true });
     })();
   </script>
 

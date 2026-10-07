@@ -51,13 +51,24 @@
     }
     if (!renderer.getContext()) return null;
 
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+    const isLowSpec = typeof navigator !== 'undefined' && (
+      (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4) ||
+      (navigator.deviceMemory && navigator.deviceMemory <= 4)
+    );
+
+    // Adaptive pixel ratio: 1.0 on mobile / budget devices, max 1.5 on desktop to keep GPU cool
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, isMobile || isLowSpec ? 1.0 : 1.5));
     renderer.setClearColor(0x000000, 0);
     renderer.outputEncoding = T.sRGBEncoding;
     renderer.toneMapping = T.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.12;
-    renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = T.PCFSoftShadowMap;
+
+    // Only enable expensive PCFSoft shadow maps on capable desktop hardware
+    renderer.shadowMap.enabled = !reduced && !isMobile && !isLowSpec;
+    if (renderer.shadowMap.enabled) {
+      renderer.shadowMap.type = T.PCFSoftShadowMap;
+    }
 
     const scene = new T.Scene();
     scene.fog = new T.Fog(0xf1f5f9, 14, 28);
@@ -1280,7 +1291,7 @@
       rim.intensity = 1.4 + Math.sin(time * 0.8) * 0.2;
 
       hudAcc += dt;
-      if (hudAcc > 0.09) { hudAcc = 0; emitHud(); }
+      if (hudAcc > 0.25) { hudAcc = 0; emitHud(); }
 
       renderer.render(scene, camera);
     }

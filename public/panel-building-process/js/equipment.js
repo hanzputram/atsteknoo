@@ -140,10 +140,15 @@
     if (numEl) countTo(numEl, Number(numEl.dataset.countTo || 0), 900);
 
     if (scene) {
-      if (!isCurHide) {
+      if (isCurHide) {
+        stop();
+      } else {
         scene.setMachine(slides[i].dataset.kind, instant);
         if (typeof scene.resize === 'function') {
           scene.resize();
+        }
+        if (inView && !document.hidden) {
+          start();
         }
       }
     }
@@ -279,28 +284,46 @@
   }
 
   /* ------------------------------------------------------------------
-     3D-tilt Photo Card
+     3D-tilt Photo Card (Desktop only, event-driven, pause when idle)
   ------------------------------------------------------------------ */
-  if (card && !reduced) {
-    let tRX = 0, tRY = 0, cRX = 0, cRY = 0;
+  const hasFinePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  if (card && !reduced && hasFinePointer) {
+    let tRX = 0, tRY = 0, cRX = 0, cRY = 0, tiltRaf = 0, isHovering = false;
+
+    function tiltLoop() {
+      const dX = Math.abs(cRX - tRX);
+      const dY = Math.abs(cRY - tRY);
+      if (dX > 0.01 || dY > 0.01 || isHovering) {
+        cRX = lerp(cRX, tRX, 0.12);
+        cRY = lerp(cRY, tRY, 0.12);
+        card.style.transform = `perspective(600px) rotateX(${cRX.toFixed(2)}deg) rotateY(${cRY.toFixed(2)}deg)`;
+        tiltRaf = requestAnimationFrame(tiltLoop);
+      } else {
+        card.style.transform = '';
+        tiltRaf = 0;
+      }
+    }
+
+    card.addEventListener('pointerenter', () => {
+      isHovering = true;
+      if (!tiltRaf) tiltRaf = requestAnimationFrame(tiltLoop);
+    });
+
     card.addEventListener('pointermove', e => {
       const r = card.getBoundingClientRect();
       const px = (e.clientX - r.left) / r.width;
       const py = (e.clientY - r.top) / r.height;
       tRY = (px - 0.5) * 14;
       tRX = -(py - 0.5) * 12;
+      if (!tiltRaf) tiltRaf = requestAnimationFrame(tiltLoop);
     });
-    card.addEventListener('pointerleave', () => { tRX = 0; tRY = 0; });
 
-    function tiltLoop() {
-      if (Math.abs(cRX - tRX) > 0.01 || Math.abs(cRY - tRY) > 0.01) {
-        cRX = lerp(cRX, tRX, 0.12);
-        cRY = lerp(cRY, tRY, 0.12);
-        card.style.transform = `perspective(600px) rotateX(${cRX.toFixed(2)}deg) rotateY(${cRY.toFixed(2)}deg)`;
-      }
-      requestAnimationFrame(tiltLoop);
-    }
-    tiltLoop();
+    card.addEventListener('pointerleave', () => {
+      isHovering = false;
+      tRX = 0;
+      tRY = 0;
+      if (!tiltRaf) tiltRaf = requestAnimationFrame(tiltLoop);
+    });
   }
 
   /* ------------------------------------------------------------------
@@ -382,26 +405,40 @@
   }
 
   /* ------------------------------------------------------------------
-     Main Animation Loop (Three.js Scene Rendering)
+     Main Animation Loop (Three.js Scene Rendering - Fully Adaptive)
   ------------------------------------------------------------------ */
   let raf = 0, last = 0, inView = false;
 
+  function shouldRender() {
+    if (!inView || document.hidden || !scene) return false;
+    if (viewport && (viewport.classList.contains('is-hidden') || viewport.style.display === 'none')) {
+      return false;
+    }
+    return true;
+  }
+
   function loop(now) {
+    if (!shouldRender()) {
+      raf = 0;
+      return;
+    }
     raf = requestAnimationFrame(loop);
     const dt = Math.min(0.05, (now - last) / 1000 || 0.016);
     last = now;
-    if (scene) scene.render(dt);
+    scene.render(dt);
   }
 
   function start() {
-    if (raf) return;
+    if (raf || !shouldRender()) return;
     last = performance.now();
     raf = requestAnimationFrame(loop);
   }
 
   function stop() {
-    cancelAnimationFrame(raf);
-    raf = 0;
+    if (raf) {
+      cancelAnimationFrame(raf);
+      raf = 0;
+    }
   }
 
   if ('IntersectionObserver' in window) {

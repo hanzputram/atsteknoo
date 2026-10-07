@@ -122,13 +122,23 @@
       });
 
       window.atsLenis = lenisInstance;
-      lenisInstance.on('scroll', onScrollUpdate);
+      lenisInstance.on('scroll', handleThrottledScroll);
     } catch (err) {
       console.error('[ATS Scroll] Error initializing Lenis:', err);
     }
   }
 
-  window.addEventListener('scroll', onScrollUpdate, { passive: true });
+  let scrollTicking = false;
+  function handleThrottledScroll() {
+    if (!scrollTicking) {
+      scrollTicking = true;
+      requestAnimationFrame(() => {
+        onScrollUpdate();
+        scrollTicking = false;
+      });
+    }
+  }
+  window.addEventListener('scroll', handleThrottledScroll, { passive: true });
 
   // --------------------------------------------------------------------------
   // Framer-style Text Splitting & Word Masking

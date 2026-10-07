@@ -47,7 +47,7 @@
         $('phase-grid').innerHTML = phases.map((p, i) => `
             <article class="phase-card reveal" style="transition-delay:${i * 45}ms">
                 <div class="phase-photo">
-                    <img src="${asset(p.image)}" alt="${p.title} - ATS Tekno Documentation" width="402" height="267">
+                    <img src="${asset(p.image)}" alt="${p.title} - ATS Tekno Documentation" width="402" height="267" loading="lazy" decoding="async">
                     <span class="photo-caption">${p.caption}</span>
                 </div>
                 <div class="phase-heading">
