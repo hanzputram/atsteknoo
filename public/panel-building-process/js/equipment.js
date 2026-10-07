@@ -6,234 +6,276 @@
 (() => {
   'use strict';
 
-  const sec = document.getElementById('equipment');
-  if (!sec) return;
-  sec.classList.add('js');
+  function initEquipment() {
+    const sec = document.getElementById('equipment');
+    if (!sec) return;
+    sec.classList.add('js');
 
-  const $ = (s, c = sec) => c.querySelector(s);
-  const $$ = (s, c = sec) => Array.from(c.querySelectorAll(s));
-  const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
-  const lerp = (a, b, t) => a + (b - a) * t;
-  const pad = (n, l = 2) => String(Math.round(n)).padStart(l, '0');
-  const easeOutExpo = t => (t >= 1 ? 1 : 1 - Math.pow(2, -10 * t));
+    const $ = (s, c = sec) => c.querySelector(s);
+    const $$ = (s, c = sec) => Array.from(c.querySelectorAll(s));
+    const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+    const lerp = (a, b, t) => a + (b - a) * t;
+    const pad = (n, l = 2) => String(Math.round(n)).padStart(l, '0');
+    const easeOutExpo = t => (t >= 1 ? 1 : 1 - Math.pow(2, -10 * t));
 
-  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  const slides = $$('.eq-slide');
-  const tabs = $$('.eq-tab');
-  const photos = $$('.eq-photo');
-  const panels = $$('.eq-panel-slide');
-  const n = slides.length;
-  if (!n) return;
+    const slides = $$('.eq-slide');
+    const tabs = $$('.eq-tab');
+    const photos = $$('.eq-photo');
+    const panels = $$('.eq-panel-slide');
+    const n = slides.length;
+    if (!n) return;
 
-  const studio = $('#eq-studio');
-  const viewport = $('#eq-viewport');
-  const canvas = $('#eq-canvas');
-  const card = $('#eq-photo-card');
-  const tourBtn = $('#eq-tour-btn');
-  const tourText = $('#eq-tour-text');
+    const studio = $('#eq-studio');
+    const viewport = $('#eq-viewport');
+    const canvas = $('#eq-canvas');
+    const card = $('#eq-photo-card');
+    const tourBtn = $('#eq-tour-btn');
+    const tourText = $('#eq-tour-text');
 
-  /* ------------------------------------------------------------------
-     Count-up animation
-  ------------------------------------------------------------------ */
-  function countTo(el, to, dur = 1000) {
-    if (!el) return;
-    cancelAnimationFrame(el._raf);
-    if (reduced) { el.textContent = pad(to); return; }
-    const from = 0;
-    const t0 = performance.now();
-    const step = now => {
-      const p = clamp((now - t0) / dur, 0, 1);
-      el.textContent = pad(lerp(from, to, easeOutExpo(p)));
-      if (p < 1) el._raf = requestAnimationFrame(step);
-    };
-    el._raf = requestAnimationFrame(step);
-  }
+    // Central state variables (declared first to prevent TDZ ReferenceError)
+    let scene = null;
+    let active = -1;
+    let inView = false;
+    let raf = 0;
+    let last = 0;
+    let tourPlaying = true;
+    let tourTimer = null;
+    let resumeTourTimeout = null;
 
-  // Animate header stats once in view
-  const stats = $$('[data-count]');
-  if ('IntersectionObserver' in window) {
-    const io = new IntersectionObserver(entries => {
-      entries.forEach(e => {
-        if (!e.isIntersecting) return;
-        stats.forEach((el, i) => setTimeout(() => countTo(el, Number(el.dataset.count || 0), 1200), 100 + i * 80));
-        io.disconnect();
-      });
-    }, { threshold: 0.2 });
-    io.observe(sec);
-  } else {
-    stats.forEach(el => { el.textContent = pad(Number(el.dataset.count || 0)); });
-  }
-
-  /* ------------------------------------------------------------------
-     Three.js WebGL Scene
-  ------------------------------------------------------------------ */
-  const hudMode = $('#eq-hud-mode');
-  const hudL = [0, 1, 2].map(i => $('#eq-hud-l' + i));
-  const hudV = [0, 1, 2].map(i => $('#eq-hud-v' + i));
-  let scene = null;
-
-  if (window.THREE && window.ATSFleetScene) {
-    try {
-      scene = window.ATSFleetScene.create({
-        canvas,
-        host: viewport,
-        reduced,
-        onHud(title, rows) {
-          if (hudMode && hudMode.textContent !== title) hudMode.textContent = title;
-          rows.forEach((r, i) => {
-            if (hudL[i] && hudL[i].textContent !== r[0]) hudL[i].textContent = r[0];
-            if (hudV[i]) hudV[i].textContent = r[1];
-          });
-        },
-        onLost() { sec.classList.add('eq-no-webgl'); },
-      });
-    } catch (err) {
-      console.warn('[ATS Fleet] WebGL scene failed:', err);
-      scene = null;
-    }
-  }
-
-  /* ------------------------------------------------------------------
-     Machine Switching State
-  ------------------------------------------------------------------ */
-  let active = -1;
-
-  function setActive(i, instant = false) {
-    i = clamp(i, 0, n - 1);
-    if (i === active) return;
-    active = i;
-
-    slides.forEach((s, k) => {
-      const isCur = k === i;
-      s.classList.toggle('is-active', isCur);
-      s.setAttribute('aria-hidden', isCur ? 'false' : 'true');
-    });
-
-    tabs.forEach((t, k) => {
-      const isCur = k === i;
-      t.classList.toggle('is-active', isCur);
-      t.setAttribute('aria-selected', isCur ? 'true' : 'false');
-      t.tabIndex = isCur ? 0 : -1;
-    });
-
-    panels.forEach((p, k) => {
-      p.classList.toggle('is-active', k === i);
-    });
-
-    photos.forEach((p, k) => {
-      p.classList.toggle('is-active', k === i);
-    });
-
-    // Check if 3D animation is hidden for this machine or globally
-    const isCurHide = (slides[i]?.dataset?.hideAnimation === '1') || (sec?.dataset?.globalHideAnimation === '1');
-    if (viewport) {
-      viewport.classList.toggle('is-hidden', isCurHide);
-      viewport.style.display = isCurHide ? 'none' : '';
-    }
-    const photoStrip = $('.eq-photo-strip');
-    if (photoStrip) {
-      photoStrip.classList.toggle('is-full-size', isCurHide);
+    /* ------------------------------------------------------------------
+       Count-up animation
+    ------------------------------------------------------------------ */
+    function countTo(el, to, dur = 1000) {
+      if (!el) return;
+      cancelAnimationFrame(el._raf);
+      if (reduced) { el.textContent = pad(to); return; }
+      const from = 0;
+      const t0 = performance.now();
+      const step = now => {
+        const p = clamp((now - t0) / dur, 0, 1);
+        el.textContent = pad(lerp(from, to, easeOutExpo(p)));
+        if (p < 1) el._raf = requestAnimationFrame(step);
+      };
+      el._raf = requestAnimationFrame(step);
     }
 
-    const numEl = $('[data-count-to]', slides[i]);
-    if (numEl) countTo(numEl, Number(numEl.dataset.countTo || 0), 900);
+    // Animate header stats once in view
+    const stats = $$('[data-count]');
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+          if (!e.isIntersecting) return;
+          stats.forEach((el, i) => setTimeout(() => countTo(el, Number(el.dataset.count || 0), 1200), 100 + i * 80));
+          io.disconnect();
+        });
+      }, { threshold: 0.2 });
+      io.observe(sec);
+    } else {
+      stats.forEach(el => { el.textContent = pad(Number(el.dataset.count || 0)); });
+    }
 
-    if (scene) {
-      if (isCurHide) {
-        stop();
-      } else {
-        scene.setMachine(slides[i].dataset.kind, instant);
-        if (typeof scene.resize === 'function') {
-          scene.resize();
+    /* ------------------------------------------------------------------
+       Three.js WebGL Scene
+    ------------------------------------------------------------------ */
+    const hudMode = $('#eq-hud-mode');
+    const hudL = [0, 1, 2].map(i => $('#eq-hud-l' + i));
+    const hudV = [0, 1, 2].map(i => $('#eq-hud-v' + i));
+
+    if (window.THREE && window.ATSFleetScene) {
+      try {
+        scene = window.ATSFleetScene.create({
+          canvas,
+          host: viewport,
+          reduced,
+          onHud(title, rows) {
+            if (hudMode && hudMode.textContent !== title) hudMode.textContent = title;
+            rows.forEach((r, i) => {
+              if (hudL[i] && hudL[i].textContent !== r[0]) hudL[i].textContent = r[0];
+              if (hudV[i]) hudV[i].textContent = r[1];
+            });
+          },
+          onLost() { sec.classList.add('eq-no-webgl'); },
+        });
+      } catch (err) {
+        console.warn('[ATS Fleet] WebGL scene failed:', err);
+        scene = null;
+      }
+    }
+
+    /* ------------------------------------------------------------------
+       Main Animation Loop (Three.js Scene Rendering)
+    ------------------------------------------------------------------ */
+    function shouldRender() {
+      if (!inView || document.hidden || !scene) return false;
+      if (viewport && (viewport.classList.contains('is-hidden') || viewport.style.display === 'none')) {
+        return false;
+      }
+      return true;
+    }
+
+    function loop(now) {
+      if (!shouldRender()) {
+        raf = 0;
+        return;
+      }
+      raf = requestAnimationFrame(loop);
+      const dt = Math.min(0.05, (now - last) / 1000 || 0.016);
+      last = now;
+      if (scene && typeof scene.render === 'function') {
+        scene.render(dt);
+      }
+    }
+
+    function start() {
+      if (raf || !shouldRender()) return;
+      last = performance.now();
+      raf = requestAnimationFrame(loop);
+    }
+
+    function stop() {
+      if (raf) {
+        cancelAnimationFrame(raf);
+        raf = 0;
+      }
+    }
+
+    /* ------------------------------------------------------------------
+       Auto Fleet Tour
+    ------------------------------------------------------------------ */
+    function nextMachine() {
+      setActive((active + 1) % n);
+    }
+
+    function startTour() {
+      stopTour();
+      tourPlaying = true;
+      if (tourBtn) {
+        tourBtn.setAttribute('aria-pressed', 'true');
+        if (tourText) tourText.textContent = 'Auto Tour Active';
+      }
+      tourTimer = setInterval(() => {
+        if (!document.hidden && inView) {
+          nextMachine();
         }
-        if (inView && !document.hidden) {
-          start();
+      }, 7000);
+    }
+
+    function stopTour() {
+      if (tourTimer) {
+        clearInterval(tourTimer);
+        tourTimer = null;
+      }
+      tourPlaying = false;
+      if (tourBtn) {
+        tourBtn.setAttribute('aria-pressed', 'false');
+        if (tourText) tourText.textContent = 'Tour Paused';
+      }
+    }
+
+    function pauseTour(duration = 10000) {
+      if (!tourPlaying) return;
+      if (tourTimer) clearInterval(tourTimer);
+      clearTimeout(resumeTourTimeout);
+      resumeTourTimeout = setTimeout(() => {
+        if (tourPlaying) startTour();
+      }, duration);
+    }
+
+    /* ------------------------------------------------------------------
+       Machine Switching State
+    ------------------------------------------------------------------ */
+    function setActive(i, instant = false) {
+      i = clamp(i, 0, n - 1);
+      if (i === active) return;
+      active = i;
+
+      slides.forEach((s, k) => {
+        const isCur = k === i;
+        s.classList.toggle('is-active', isCur);
+        s.setAttribute('aria-hidden', isCur ? 'false' : 'true');
+      });
+
+      tabs.forEach((t, k) => {
+        const isCur = k === i;
+        t.classList.toggle('is-active', isCur);
+        t.setAttribute('aria-selected', isCur ? 'true' : 'false');
+        t.tabIndex = isCur ? 0 : -1;
+      });
+
+      panels.forEach((p, k) => {
+        p.classList.toggle('is-active', k === i);
+      });
+
+      photos.forEach((p, k) => {
+        p.classList.toggle('is-active', k === i);
+      });
+
+      // Check if 3D animation is hidden for this machine or globally
+      const isCurHide = (slides[i]?.dataset?.hideAnimation === '1') || (sec?.dataset?.globalHideAnimation === '1');
+      if (viewport) {
+        viewport.classList.toggle('is-hidden', isCurHide);
+        viewport.style.display = isCurHide ? 'none' : '';
+      }
+      const photoStrip = $('.eq-photo-strip');
+      if (photoStrip) {
+        photoStrip.classList.toggle('is-full-size', isCurHide);
+      }
+
+      const numEl = $('[data-count-to]', slides[i]);
+      if (numEl) countTo(numEl, Number(numEl.dataset.countTo || 0), 900);
+
+      if (scene) {
+        if (isCurHide) {
+          stop();
+        } else {
+          scene.setMachine(slides[i].dataset.kind, instant);
+          if (typeof scene.resize === 'function') {
+            scene.resize();
+          }
+          if (inView && !document.hidden) {
+            start();
+          }
         }
       }
     }
-  }
 
-  setActive(0, true);
-
-  // Tab click & keyboard navigation
-  tabs.forEach((tab, i) => {
-    tab.addEventListener('click', () => {
-      pauseTour(12000);
-      setActive(i);
-    });
-    tab.addEventListener('keydown', e => {
-      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+    // Tab click & keyboard navigation (Attached unconditionally!)
+    tabs.forEach((tab, i) => {
+      tab.addEventListener('click', (e) => {
         e.preventDefault();
-        const next = (i + 1) % n;
         pauseTour(12000);
-        setActive(next);
-        tabs[next].focus();
-      } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
-        e.preventDefault();
-        const prev = (i - 1 + n) % n;
-        pauseTour(12000);
-        setActive(prev);
-        tabs[prev].focus();
-      }
+        setActive(i);
+      });
+      tab.addEventListener('keydown', e => {
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+          e.preventDefault();
+          const next = (i + 1) % n;
+          pauseTour(12000);
+          setActive(next);
+          tabs[next].focus();
+        } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+          e.preventDefault();
+          const prev = (i - 1 + n) % n;
+          pauseTour(12000);
+          setActive(prev);
+          tabs[prev].focus();
+        }
+      });
     });
-  });
 
-  /* ------------------------------------------------------------------
-     Auto Fleet Tour
-  ------------------------------------------------------------------ */
-  let tourPlaying = true;
-  let tourTimer = null;
-  let resumeTourTimeout = null;
+    setActive(0, true);
 
-  function nextMachine() {
-    setActive((active + 1) % n);
-  }
-
-  function startTour() {
-    stopTour();
-    tourPlaying = true;
     if (tourBtn) {
-      tourBtn.setAttribute('aria-pressed', 'true');
-      if (tourText) tourText.textContent = 'Auto Tour Active';
+      tourBtn.addEventListener('click', () => {
+        if (tourPlaying) {
+          stopTour();
+        } else {
+          startTour();
+        }
+      });
     }
-    tourTimer = setInterval(() => {
-      if (!document.hidden && inView) {
-        nextMachine();
-      }
-    }, 7000);
-  }
-
-  function stopTour() {
-    if (tourTimer) {
-      clearInterval(tourTimer);
-      tourTimer = null;
-    }
-    tourPlaying = false;
-    if (tourBtn) {
-      tourBtn.setAttribute('aria-pressed', 'false');
-      if (tourText) tourText.textContent = 'Tour Paused';
-    }
-  }
-
-  function pauseTour(duration = 10000) {
-    if (!tourPlaying) return;
-    if (tourTimer) clearInterval(tourTimer);
-    clearTimeout(resumeTourTimeout);
-    resumeTourTimeout = setTimeout(() => {
-      if (tourPlaying) startTour();
-    }, duration);
-  }
-
-  if (tourBtn) {
-    tourBtn.addEventListener('click', () => {
-      if (tourPlaying) {
-        stopTour();
-      } else {
-        startTour();
-      }
-    });
-  }
 
   // Pause tour on mouse hover / user interaction with studio
   if (studio) {
@@ -405,42 +447,8 @@
   }
 
   /* ------------------------------------------------------------------
-     Main Animation Loop (Three.js Scene Rendering - Fully Adaptive)
+     Visibility & Intersection Observers
   ------------------------------------------------------------------ */
-  let raf = 0, last = 0, inView = false;
-
-  function shouldRender() {
-    if (!inView || document.hidden || !scene) return false;
-    if (viewport && (viewport.classList.contains('is-hidden') || viewport.style.display === 'none')) {
-      return false;
-    }
-    return true;
-  }
-
-  function loop(now) {
-    if (!shouldRender()) {
-      raf = 0;
-      return;
-    }
-    raf = requestAnimationFrame(loop);
-    const dt = Math.min(0.05, (now - last) / 1000 || 0.016);
-    last = now;
-    scene.render(dt);
-  }
-
-  function start() {
-    if (raf || !shouldRender()) return;
-    last = performance.now();
-    raf = requestAnimationFrame(loop);
-  }
-
-  function stop() {
-    if (raf) {
-      cancelAnimationFrame(raf);
-      raf = 0;
-    }
-  }
-
   if ('IntersectionObserver' in window) {
     new IntersectionObserver(entries => {
       inView = entries[0].isIntersecting;
@@ -477,4 +485,11 @@
     setTimeout(align, 100);
     window.addEventListener('load', () => setTimeout(align, 300), { once: true });
   }
+} // end initEquipment
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initEquipment);
+} else {
+  initEquipment();
+}
 })();
