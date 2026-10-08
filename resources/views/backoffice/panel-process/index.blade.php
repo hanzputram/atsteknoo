@@ -220,8 +220,8 @@
 
             <!-- Tags -->
             <div style="margin-bottom: 12px;">
-              <label style="font-size: 11px; font-weight: 700; color: #64748B; display: block; margin-bottom: 3px;">Key Capabilities &amp; Parameter (Pisahkan dengan koma)</label>
-              <input type="text" name="facilities[machines][{{ $mIdx }}][tags]" value="{{ is_array($machine['tags'] ?? null) ? implode(', ', $machine['tags']) : ($machine['tags'] ?? '') }}" class="form-control" style="width: 100%; font-size: 12px;" placeholder="e.g. 1,500 W Resonator, ±0.05 mm Tolerance">
+              <label style="font-size: 11px; font-weight: 700; color: #64748B; display: block; margin-bottom: 3px;">Key Capabilities &amp; Parameter (Satu per baris, koma di dalam angka aman)</label>
+              <textarea name="facilities[machines][{{ $mIdx }}][tags]" rows="4" class="form-control" style="width: 100%; font-size: 12px; line-height: 1.5;" placeholder="1,500 W &amp; 1,000 W Resonators&#10;±0.05 mm Cutting Tolerance">{{ is_array($machine['tags'] ?? null) ? implode("\n", $machine['tags']) : ($machine['tags'] ?? '') }}</textarea>
             </div>
 
             <!-- Connected Workflow Step -->

@@ -138,7 +138,7 @@ class PanelProcessController extends Controller
                         if (is_array($m['tags'])) {
                             $tags = array_values(array_filter(array_map('trim', $m['tags'])));
                         } else {
-                            $tags = array_values(array_filter(array_map('trim', preg_split('/[,\n]+/', (string) $m['tags']))));
+                            $tags = array_values(array_filter(array_map('trim', preg_split('/\R+/', (string) $m['tags']))));
                         }
                     }
 
