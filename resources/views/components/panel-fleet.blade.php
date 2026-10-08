@@ -180,7 +180,7 @@
                                 <div class="eq-badge-row">
                                     <span class="eq-pill-badge">
                                         <span class="eq-pulse-dot"></span>
-                                        FLEET {{ sprintf('%02d', $i + 1) }} / {{ sprintf('%02d', $machineCount) }}
+                                        UTILITY {{ sprintf('%02d', $i + 1) }} / {{ sprintf('%02d', $machineCount) }}
                                     </span>
                                     <span class="eq-kind-badge">{{ strtoupper($kind) }} SPECIFICATION</span>
                                 </div>

@@ -147,7 +147,7 @@
                   {{ sprintf('%02d', $mIdx + 1) }}
                 </span>
                 <span style="font-size: 11px; font-weight: 800; color: #E11D48; letter-spacing: 0.05em; background: #FFF1F2; padding: 3px 8px; border-radius: 6px;">
-                  FLEET {{ sprintf('%02d', $mIdx + 1) }} / {{ sprintf('%02d', count($data['facilities']['machines'])) }}
+                  UTILITY {{ sprintf('%02d', $mIdx + 1) }} / {{ sprintf('%02d', count($data['facilities']['machines'])) }}
                 </span>
               </div>
               <span style="font-size: 11px; font-weight: 700; color: #475569; background: #F1F5F9; border: 1px solid #CBD5E1; padding: 3px 8px; border-radius: 6px; text-transform: uppercase;">
