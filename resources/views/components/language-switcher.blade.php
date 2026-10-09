@@ -31,7 +31,7 @@
       type="button" 
       class="ats-lang-btn {{ $activeLang === 'en' ? 'active' : '' }}" 
       data-lang="en" 
-      onclick="atsSetLanguage('en')" 
+      onclick="atsSwitchProcessLang('en'); return false;" 
       aria-label="Switch to English"
       title="English"
     >
@@ -42,7 +42,7 @@
       type="button" 
       class="ats-lang-btn {{ $activeLang === 'fr' ? 'active' : '' }}" 
       data-lang="fr" 
-      onclick="atsSetLanguage('fr')" 
+      onclick="atsSwitchProcessLang('fr'); return false;" 
       aria-label="Passer au Français"
       title="Français"
     >
@@ -54,7 +54,7 @@
       type="button" 
       class="ats-lang-btn {{ $activeLang === 'en' ? 'active' : '' }}" 
       data-lang="en" 
-      onclick="atsSetLanguage('en')" 
+      onclick="atsSetLanguage('en'); return false;" 
       aria-label="Switch to English"
       title="English (Default)"
     >
@@ -65,7 +65,7 @@
       type="button" 
       class="ats-lang-btn {{ $activeLang === 'id' ? 'active' : '' }}" 
       data-lang="id" 
-      onclick="atsSetLanguage('id')" 
+      onclick="atsSetLanguage('id'); return false;" 
       aria-label="Ganti ke Bahasa Indonesia"
       title="Bahasa Indonesia"
     >
@@ -77,21 +77,23 @@
 <script>
   (function() {
     const isProcessPage = {{ $isProcessPage ? 'true' : 'false' }};
-    
-    window.atsSetLanguage = function(lang) {
-      if (isProcessPage) {
-        if (lang !== 'en' && lang !== 'fr') lang = 'en';
-        try { localStorage.setItem('ats_lang_process', lang); } catch (e) {}
-        document.cookie = "ats_lang_process=" + lang + ";path=/;max-age=31536000;SameSite=Lax";
-      } else {
-        if (lang !== 'en' && lang !== 'id') lang = 'en';
-        try { localStorage.setItem('ats_lang', lang); } catch (e) {}
-        document.cookie = "ats_lang=" + lang + ";path=/;max-age=31536000;SameSite=Lax";
-      }
 
+    window.atsSwitchProcessLang = function(lang) {
+      if (lang !== 'en' && lang !== 'fr') lang = 'en';
+
+      // 1. Persistence
+      try {
+        localStorage.setItem('ats_lang_process', lang);
+        localStorage.setItem('ats_lang', lang);
+      } catch (e) {}
+      document.cookie = "ats_lang_process=" + lang + ";path=/;max-age=31536000;SameSite=Lax";
+      document.cookie = "ats_lang=" + lang + ";path=/;max-age=31536000;SameSite=Lax";
+
+      // 2. Set root HTML attributes
       document.documentElement.setAttribute('lang', lang);
       document.documentElement.setAttribute('data-lang', lang);
-      
+
+      // 3. Update Switcher Buttons
       document.querySelectorAll('.ats-lang-btn').forEach(function(btn) {
         if (btn.getAttribute('data-lang') === lang) {
           btn.classList.add('active');
@@ -101,21 +103,88 @@
           btn.setAttribute('aria-pressed', 'false');
         }
       });
-      
+
+      // 4. Update data-i18n navbar items
+      const navDict = {
+        fr: {
+          "nav.home": "ACCUEIL",
+          "nav.about": "À PROPOS",
+          "nav.panel_builder": "FABRICANT DE TABLEAUX",
+          "nav.process": "PROCESSUS",
+          "nav.products": "PRODUITS",
+          "nav.price_list": "TARIFS",
+          "nav.projects": "PROJETS",
+          "nav.article": "ARTICLES",
+          "nav.contact": "CONTACT",
+          "hero.brand_tag": "FOURNISSEUR ÉLECTRIQUE"
+        },
+        en: {
+          "nav.home": "HOME",
+          "nav.about": "ABOUT US",
+          "nav.panel_builder": "PANEL BUILDER",
+          "nav.process": "PROCESS",
+          "nav.products": "PRODUCTS",
+          "nav.price_list": "PRICE LIST",
+          "nav.projects": "PROJECTS",
+          "nav.article": "ARTICLE",
+          "nav.contact": "CONTACT US",
+          "hero.brand_tag": "ELECTRICAL SUPPLIER"
+        }
+      };
+      const curNav = navDict[lang] || navDict.en;
+      document.querySelectorAll('[data-i18n]').forEach(function(el) {
+        const k = el.getAttribute('data-i18n');
+        if (curNav[k]) {
+          el.textContent = curNav[k];
+        }
+      });
+
+      // 5. Update Search Placeholder
+      const sInput = document.getElementById('p33-search-input');
+      if (sInput) {
+        sInput.placeholder = (lang === 'fr') 
+          ? (sInput.getAttribute('data-placeholder-fr') || 'Rechercher des étapes (ex. laser, pliage, thermolaquage, jeux de barres, FAT)...')
+          : (sInput.getAttribute('data-placeholder-en') || 'Search steps (e.g., laser, bending, powder coating, busbar, FAT)...');
+      }
+
+      // 6. Broadcast event
       window.dispatchEvent(new CustomEvent('atsLanguageChanged', { detail: { lang: lang } }));
     };
 
-    // Auto-initialize language on page load
+    if (isProcessPage) {
+      window.atsSetLanguage = window.atsSwitchProcessLang;
+    } else {
+      window.atsSetLanguage = function(lang) {
+        if (lang !== 'en' && lang !== 'id') lang = 'en';
+        try { localStorage.setItem('ats_lang', lang); } catch (e) {}
+        document.cookie = "ats_lang=" + lang + ";path=/;max-age=31536000;SameSite=Lax";
+        document.documentElement.setAttribute('lang', lang);
+        document.documentElement.setAttribute('data-lang', lang);
+        document.querySelectorAll('.ats-lang-btn').forEach(function(btn) {
+          if (btn.getAttribute('data-lang') === lang) {
+            btn.classList.add('active');
+            btn.setAttribute('aria-pressed', 'true');
+          } else {
+            btn.classList.remove('active');
+            btn.setAttribute('aria-pressed', 'false');
+          }
+        });
+        window.dispatchEvent(new CustomEvent('atsLanguageChanged', { detail: { lang: lang } }));
+      };
+    }
+
+    // Auto-init on page load
     document.addEventListener('DOMContentLoaded', function() {
-      let savedLang;
+      let saved;
       if (isProcessPage) {
-        savedLang = localStorage.getItem('ats_lang_process') || '{{ $activeLang }}';
-        if (savedLang !== 'en' && savedLang !== 'fr') savedLang = 'en';
+        saved = localStorage.getItem('ats_lang_process') || '{{ $activeLang }}';
+        if (saved !== 'en' && saved !== 'fr') saved = 'en';
+        window.atsSwitchProcessLang(saved);
       } else {
-        savedLang = localStorage.getItem('ats_lang') || '{{ $activeLang }}';
-        if (savedLang !== 'en' && savedLang !== 'id') savedLang = 'en';
+        saved = localStorage.getItem('ats_lang') || '{{ $activeLang }}';
+        if (saved !== 'en' && saved !== 'id') saved = 'en';
+        window.atsSetLanguage(saved);
       }
-      atsSetLanguage(savedLang);
     });
   })();
 </script>

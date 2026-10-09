@@ -681,7 +681,7 @@
   @include('components.footer')
 
   <!-- ATS Multilingual i18n Logic -->
-  <script src="{{ asset('js/ats-i18n.js') }}?v={{ filemtime(public_path('js/ats-i18n.js')) }}"
+  <script src="{{ asset('js/ats-i18n.js') }}?v={{ time() }}"
           onerror="if(!this.dataset.fallback){this.dataset.fallback='1';this.src='{{ url('/public/js/ats-i18n.js') }}?v={{ filemtime(public_path('js/ats-i18n.js')) }}';}">
   </script>
 

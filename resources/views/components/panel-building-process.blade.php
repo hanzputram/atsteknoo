@@ -34,7 +34,6 @@
     <script src="{{ asset('panel-building-process/js/equipment-scene.js') }}?v={{ @filemtime(public_path('panel-building-process/js/equipment-scene.js')) }}" defer></script>
     @endif
     <script src="{{ asset('panel-building-process/js/equipment.js') }}?v={{ @filemtime(public_path('panel-building-process/js/equipment.js')) }}" defer></script>
-    <script src="{{ asset('panel-building-process/js/panel-i18n.js') }}?v={{ @filemtime(public_path('panel-building-process/js/panel-i18n.js')) }}" defer></script>
 @endonce
 
 <div class="ats-process" id="ats-panel-process" data-asset-base="{{ asset('panel-building-process/images') }}">
