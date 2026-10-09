@@ -34,13 +34,15 @@
     };
     $eqNum = fn($v) => (int) preg_replace('/\D/', '', (string) $v);
 
+    $frProcessData = json_decode(@file_get_contents(storage_path('app/panel-process-data-fr.json')), true) ?: [];
+    $frenchMachines = $frProcessData['machines'] ?? [];
     $totalUnits = 0;
     foreach ($machines as $m) {
         $totalUnits += $eqNum($m['count'] ?? 0);
     }
     $eqStats = [
-        ['value' => $totalUnits ?: $machineCount, 'label' => 'Total Operational Units'],
-        ['value' => $machineCount, 'label' => 'Production Stations'],
+        ['value' => $totalUnits ?: $machineCount, 'label_en' => 'Total Operational Units', 'label_fr' => 'Unités Opérationnelles'],
+        ['value' => $machineCount, 'label_en' => 'Production Stations', 'label_fr' => 'Postes de Production'],
     ];
     $globalHideAnim = !empty($facilities['hide_animation']);
     $allMachinesHide = $globalHideAnim || ($machineCount > 0 && !array_filter($machines, fn($m) => empty($m['hide_animation'])));
@@ -56,28 +58,42 @@
             <div>
                 <span class="eq-eyebrow">
                     <span class="eq-eyebrow-dot"></span>
-                    {{ $facilities['eyebrow'] ?? 'Production Facilities' }}
+                    <span class="ats-lang-en">{{ $facilities['eyebrow'] ?? 'Production Facilities' }}</span>
+                    <span class="ats-lang-fr">Installations de Production</span>
                 </span>
-                <h2 class="eq-title" id="eq-title">{{ $facilities['title'] ?? 'Machinery Engineered for Precision.' }}</h2>
+                <h2 class="eq-title" id="eq-title">
+                    <span class="ats-lang-en">{{ $facilities['title'] ?? 'Machinery Engineered for Precision.' }}</span>
+                    <span class="ats-lang-fr">Des Machines Conçues pour la Précision.</span>
+                </h2>
             </div>
             <div class="eq-head-actions">
+                <a href="#export-inquiry" class="eq-export-shortcut-btn" style="display: inline-flex; align-items: center; gap: 7px; padding: 7px 16px; border-radius: 9999px; font-size: 12px; font-weight: 700; text-decoration: none; border: 1.5px solid #E11D48; color: #BE123C; background: rgba(225, 29, 72, 0.05); transition: all 0.2s ease;" title="Jump to Export Desk (export@atstekno.com)">
+                    <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
+                    <span class="ats-lang-en">Export Desk (export@atstekno.com) &darr;</span><span class="ats-lang-fr">Service Export (export@atstekno.com) &darr;</span>
+                </a>
                 <button type="button" class="eq-tour-toggle" id="eq-tour-btn" aria-pressed="true" title="Toggle Auto Fleet Tour">
                     <span class="eq-tour-indicator">
                         <svg class="eq-tour-icon eq-tour-icon--play" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
                         <svg class="eq-tour-icon eq-tour-icon--pause" width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
                     </span>
-                    <span id="eq-tour-text">Auto Tour Active</span>
+                    <span id="eq-tour-text"><span class="ats-lang-en">Auto Tour Active</span><span class="ats-lang-fr">Visite Auto Active</span></span>
                 </button>
             </div>
         </div>
 
         <div class="eq-head-sub">
-            <p class="eq-lead">{{ $facilities['description'] ?? 'Sheet metal fabrication and enclosure assembly supported by high-precision CNC laser cutting, punching, and multi-axis hydraulic bending.' }}</p>
+            <p class="eq-lead">
+                <span class="ats-lang-en">{{ $facilities['description'] ?? 'Sheet metal fabrication and enclosure assembly supported by high-precision CNC laser cutting, punching, and multi-axis hydraulic bending.' }}</span>
+                <span class="ats-lang-fr">Fabrication de tôlerie et assemblage d'armoires électriques avec découpe laser CNC haute précision, poinçonnage et pliage hydraulique multi-axes.</span>
+            </p>
             <div class="eq-stats">
                 @foreach ($eqStats as $st)
                     <div class="eq-stat-pill">
                         <strong data-count="{{ $st['value'] }}">{{ sprintf('%02d', $st['value']) }}</strong>
-                        <span>{{ $st['label'] }}</span>
+                        <span>
+                            <span class="ats-lang-en">{{ $st['label_en'] ?? $st['label'] }}</span>
+                            <span class="ats-lang-fr">{{ $st['label_fr'] ?? $st['label'] }}</span>
+                        </span>
                     </div>
                 @endforeach
             </div>
@@ -107,7 +123,10 @@
                                 data-index="{{ $i }}">
                             <span class="eq-tab-num">{{ sprintf('%02d', $i + 1) }}</span>
                             <span class="eq-tab-content">
-                                <b class="eq-tab-name">{{ $m['title'] }}</b>
+                                <b class="eq-tab-name">
+                                    <span class="ats-lang-en">{{ $m['title'] }}</span>
+                                    <span class="ats-lang-fr">{{ $frenchMachines[$i]['title'] ?? $m['title'] }}</span>
+                                </b>
                                 <small class="eq-tab-meta">{{ $num }} {{ $unitStr }}</small>
                             </span>
                             <span class="eq-tab-bar" aria-hidden="true"></span>
@@ -125,12 +144,16 @@
                     @endphp
                     <div class="eq-panel-slide {{ $i === 0 ? 'is-active' : '' }}" data-panel-index="{{ $i }}">
                         <div class="eq-specs-box">
-                            <span class="eq-specs-title">KEY CAPABILITIES & PARAMETERS</span>
+                            <span class="eq-specs-title">
+                                <span class="ats-lang-en">KEY CAPABILITIES & PARAMETERS</span>
+                                <span class="ats-lang-fr">CAPACITÉS CLÉS & PARAMÈTRES</span>
+                            </span>
                             <ul class="eq-tags">
-                                @foreach ($tags as $tag)
+                                @foreach ($tags as $tIdx => $tag)
                                     <li>
                                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
-                                        {{ $tag }}
+                                        <span class="ats-lang-en">{{ $tag }}</span>
+                                        <span class="ats-lang-fr">{{ $frenchMachines[$i]['tags'][$tIdx] ?? $tag }}</span>
                                     </li>
                                 @endforeach
                             </ul>
@@ -139,12 +162,16 @@
                         <div class="eq-actions">
                             <button type="button" class="eq-btn eq-btn--primary" data-eq-inspect>
                                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3M11 8v6M8 11h6"/></svg>
-                                <span>Inspect Workshop Photo</span>
+                                <span class="ats-lang-en">Inspect Workshop Photo</span><span class="ats-lang-fr">Photo de l'Atelier</span>
                             </button>
-                            <a href="https://wa.me/6282223332830?text=Halo%20ATS%20Tekno,%20saya%20ingin%20konsultasi%20mengenai%20fasilitas%20dan%20jasa%20pembuatan%20panel%20listrik"
+                            <a href="https://wa.me/6282223332830?text=Hello%20ATS%20Tekno,%20I%20would%20like%20to%20consult%20regarding%20switchboard%20panel%20manufacturing%20and%20facilities."
                                target="_blank" rel="noopener noreferrer" class="eq-btn eq-btn--ghost">
                                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-                                <span>Consult Engineering Team</span>
+                                <span class="ats-lang-en">Consult Engineering Team</span><span class="ats-lang-fr">Consulter l'Ingénierie</span>
+                            </a>
+                            <a href="#export-inquiry" class="eq-btn eq-btn--ghost" style="border-color: rgba(225,29,72,0.4); color: #BE123C;" title="Jump to Export Desk (export@atstekno.com)">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                                <span class="ats-lang-en">Export Desk &darr;</span><span class="ats-lang-fr">Service Export &darr;</span>
                             </a>
                         </div>
                     </div>
@@ -184,15 +211,24 @@
                                     </span>
                                     <span class="eq-kind-badge">{{ strtoupper($kind) }} SPECIFICATION</span>
                                 </div>
-                                <h3 class="eq-slide-title">{{ $m['title'] }}</h3>
+                                <h3 class="eq-slide-title">
+                                    <span class="ats-lang-en">{{ $m['title'] }}</span>
+                                    <span class="ats-lang-fr">{{ $frenchMachines[$i]['title'] ?? $m['title'] }}</span>
+                                </h3>
                             </div>
                             <div class="eq-stat-box">
                                 <strong data-count-to="{{ $num }}">{{ sprintf('%02d', $num) }}</strong>
-                                <span>{{ $m['unit'] ?? 'UNITS' }}<br>OPERATIONAL</span>
+                                <span>
+                                    <span class="ats-lang-en">{{ $m['unit'] ?? 'UNITS' }}<br>OPERATIONAL</span>
+                                    <span class="ats-lang-fr">{{ $frenchMachines[$i]['unit'] ?? 'UNITÉS' }}<br>OPÉRATIONNELLES</span>
+                                </span>
                             </div>
                         </div>
 
-                        <p class="eq-desc">{{ $m['desc'] ?? '' }}</p>
+                        <p class="eq-desc">
+                            <span class="ats-lang-en">{{ $m['desc'] ?? '' }}</span>
+                            <span class="ats-lang-fr">{{ $frenchMachines[$i]['desc'] ?? ($m['desc'] ?? '') }}</span>
+                        </p>
                     </article>
                 @endforeach
             </div>

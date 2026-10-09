@@ -342,19 +342,84 @@
       "modal.product_title": "Katalog Produk & Solusi Elektrikal",
       "modal.contact_title": "Hubungi Tim Penjualan & Teknik",
       "modal.contact_desc": "Kirimkan pertanyaan teknis atau jadwalkan diskusi langsung dengan tim spesialis panel kami."
+    },
+    fr: {
+      // Nav
+      "nav.home": "ACCUEIL",
+      "nav.about": "À PROPOS",
+      "nav.panel_builder": "FABRICANT DE TABLEAUX",
+      "nav.process": "PROCESSUS",
+      "nav.products": "PRODUITS",
+      "nav.price_list": "TARIFS",
+      "nav.projects": "PROJETS",
+      "nav.article": "ARTICLES",
+      "nav.contact": "CONTACT",
+
+      // Hero / Brand Identification
+      "hero.brand_tag": "FOURNISSEUR ÉLECTRIQUE",
+      "hero.eyebrow": "FOURNISSEUR ÉLECTRIQUE INDUSTRIEL & DISTRIBUTEUR SCHNEIDER SURABAYA",
+      "hero.headline": "Fournisseur Électrique Industriel & Tableautier Agréé à Surabaya",
+      "hero.subheadline": "Distributeur officiel de Schneider Electric, Vinsa, GAE et Legrand. Plus de 5 000 composants d'origine en stock et fabrication de tableaux certifiés.",
+      "hero.btn_products": "Catalogue Produits",
+      "hero.btn_panel": "Contactez-nous",
+      "hero.btn_product_list": "Catalogue Produits",
+      "hero.btn_contact_us": "Contactez-nous",
+      "hero.badge_certified": "Fabricant de Tableaux Certifié",
+      "hero.badge_stock": "Stock Disponible Expédition Mondiale",
+      "hero.stat_clients": "1 000+ Clients Industriels",
+      "hero.stat_ready": "Des Milliers de Références en Stock",
+
+      // Trusted By
+      "trusted.badge": "Entreprise & Infrastructure",
+      "trusted.title_prefix": "Partenaire de confiance de plus de",
+      "trusted.title_suffix": "Entreprises",
+      "trusted.over": "Partenaire de plus de",
+      "trusted.companies": "Entreprises",
+      "trusted.subtitle": "Accompagnement des besoins électriques de tous secteurs industriels.",
+
+      // Walking Ribbon
+      "ribbon.text1": "Fournisseur Électrique Industriel Certifié",
+      "ribbon.text2": "Distributeur Agréé Schneider Electric • Vinsa • Legrand • GAE",
+      "ribbon.text3": "Livraison Rapide et Expédition Internationale",
+
+      // Footer
+      "footer.tagline": "Distributeur officiel de composants électriques et fabricant certifié de tableaux de distribution moyenne et basse tension.",
+      "footer.quick_links": "Navigation Rapide",
+      "footer.products": "Produits & Solutions",
+      "footer.contact": "Contact & Siège",
+      "footer.rights": "Tous droits réservés.",
+
+      // Modals
+      "modal.product_title": "Catalogue Produits & Solutions Électriques",
+      "modal.contact_title": "Contacter l'Équipe Commerciale & Technique",
+      "modal.contact_desc": "Envoyez une demande technique ou planifiez un échange avec nos ingénieurs spécialistes."
     }
   };
 
+  // Helper to detect dedicated process page (EN / FR mode)
+  function isProcessPage() {
+    const p = window.location.pathname;
+    return p.indexOf('panel-building-process') !== -1 ||
+           p.indexOf('proses-pembuatan-panel') !== -1 ||
+           p.indexOf('jasa-pembuatan-panel') !== -1;
+  }
+
   // 2. Retrieve Current Language (Default to 'en')
   window.atsGetLanguage = function() {
+    const isProc = isProcessPage();
+    const key = isProc ? 'ats_lang_process' : 'ats_lang';
     try {
-      const stored = localStorage.getItem('ats_lang');
-      if (stored === 'id' || stored === 'en') return stored;
+      const stored = localStorage.getItem(key);
+      if (isProc && (stored === 'en' || stored === 'fr')) return stored;
+      if (!isProc && (stored === 'id' || stored === 'en')) return stored;
     } catch (e) {}
 
     // Check cookie fallback
-    const match = document.cookie.match(/(?:^|;\s*)ats_lang=([^;]+)/);
-    if (match && (match[1] === 'id' || match[1] === 'en')) return match[1];
+    const match = document.cookie.match(new RegExp('(?:^|;\\s*)' + key + '=([^;]+)'));
+    if (match) {
+      if (isProc && (match[1] === 'en' || match[1] === 'fr')) return match[1];
+      if (!isProc && (match[1] === 'id' || match[1] === 'en')) return match[1];
+    }
 
     return 'en'; // Primary language is English by default
   };
@@ -364,14 +429,16 @@
 
   // 3. Set Language and Apply to Entire Page
   window.atsSetLanguage = function(lang) {
-    if (lang !== 'en' && lang !== 'id') lang = 'en';
-
-    // Store in localStorage & Cookie
-    try {
-      localStorage.setItem('ats_lang', lang);
-    } catch (e) {}
-
-    document.cookie = "ats_lang=" + lang + ";path=/;max-age=31536000;SameSite=Lax";
+    const isProc = isProcessPage();
+    if (isProc) {
+      if (lang !== 'en' && lang !== 'fr') lang = 'en';
+      try { localStorage.setItem('ats_lang_process', lang); } catch (e) {}
+      document.cookie = "ats_lang_process=" + lang + ";path=/;max-age=31536000;SameSite=Lax";
+    } else {
+      if (lang !== 'en' && lang !== 'id') lang = 'en';
+      try { localStorage.setItem('ats_lang', lang); } catch (e) {}
+      document.cookie = "ats_lang=" + lang + ";path=/;max-age=31536000;SameSite=Lax";
+    }
 
     // Set HTML lang attribute for CSS rules
     document.documentElement.setAttribute('lang', lang);
@@ -399,9 +466,10 @@
 
       // A. Elements with data-i18n="key"
       document.querySelectorAll('[data-i18n]').forEach(el => {
-        // Respect dedicated bilingual containers
+        // Respect dedicated multilingual containers
         if (el.classList.contains('ats-lang-en') && lang !== 'en') return;
         if (el.classList.contains('ats-lang-id') && lang !== 'id') return;
+        if (el.classList.contains('ats-lang-fr') && lang !== 'fr') return;
 
         const key = el.getAttribute('data-i18n');
         const targetVal = dict[key];
@@ -414,7 +482,7 @@
         }
       });
 
-      // B. Elements with inline data-i18n-en and data-i18n-id
+      // B. Elements with inline data-i18n-en, data-i18n-id, data-i18n-fr
       document.querySelectorAll('[data-i18n-en]').forEach(el => {
         const text = el.getAttribute('data-i18n-' + lang);
         if (text) {
@@ -491,8 +559,11 @@
     var query = parts[1] || '';
     
     var params = new URLSearchParams(query);
-    var subject = params.get('subject') || 'Konsultasi & Penawaran Panel Listrik - PT Anugerah Tama Sejati';
-    var body = params.get('body') || 'Halo Tim Sales PT Anugerah Tama Sejati,\n\nSaya ingin berkonsultasi mengenai kebutuhan panel listrik dan komponen industri.\n\nTerima kasih.';
+    var isExport = recipient.indexOf('export@') !== -1;
+    var defaultSubject = isExport ? 'Industrial Switchboard Inquiry & Global Export - PT Anugerah Tama Sejati' : 'Konsultasi & Penawaran Panel Listrik - PT Anugerah Tama Sejati';
+    var defaultBody = isExport ? 'Dear ATS Tekno Export Team,\n\nWe would like to request technical specifications and commercial quotation for switchboard manufacturing and export.\n\nThank you.' : 'Halo Tim Sales PT Anugerah Tama Sejati,\n\nSaya ingin berkonsultasi mengenai kebutuhan panel listrik dan komponen industri.\n\nTerima kasih.';
+    var subject = params.get('subject') || defaultSubject;
+    var body = params.get('body') || defaultBody;
 
     var gmailUrl = 'https://mail.google.com/mail/?view=cm&fs=1' +
       '&to=' + encodeURIComponent(recipient) +

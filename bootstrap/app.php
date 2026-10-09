@@ -23,7 +23,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'live-chat/history',
         ]);
 
-        $middleware->encryptCookies(except: ['appearance', 'sidebar_state']);
+        $middleware->encryptCookies(except: ['appearance', 'sidebar_state', 'ats_lang', 'ats_lang_process']);
 
         $middleware->web(append: [
             HandleAppearance::class,

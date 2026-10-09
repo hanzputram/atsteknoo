@@ -1,7 +1,19 @@
 @php
-  $currentLocale = request()->cookie('ats_lang', 'en');
-  if ($currentLocale !== 'id' && $currentLocale !== 'en') {
-    $currentLocale = 'en';
+  $isProcessPage = request()->routeIs('panel-building-process*') 
+                || request()->is('panel-building-process*') 
+                || request()->is('proses-pembuatan-panel*') 
+                || request()->is('jasa-pembuatan-panel*');
+
+  if ($isProcessPage) {
+    $currentLocale = request()->cookie('ats_lang_process') ?: ($_COOKIE['ats_lang_process'] ?? 'en');
+    if ($currentLocale !== 'fr' && $currentLocale !== 'en') {
+      $currentLocale = 'en';
+    }
+  } else {
+    $currentLocale = request()->cookie('ats_lang') ?: ($_COOKIE['ats_lang'] ?? 'en');
+    if ($currentLocale !== 'id' && $currentLocale !== 'en') {
+      $currentLocale = 'en';
+    }
   }
 @endphp
 <!DOCTYPE html>
@@ -12,11 +24,18 @@
   <script>
     (function() {
       try {
-        var l = localStorage.getItem('ats_lang') || (document.cookie.match(/(?:^|;\s*)ats_lang=([^;]+)/) || [])[1] || 'en';
-        if (l === 'id' || l === 'en') {
-          document.documentElement.setAttribute('lang', l);
-          document.documentElement.setAttribute('data-lang', l);
+        var isProc = window.location.pathname.indexOf('panel-building-process') !== -1 ||
+                     window.location.pathname.indexOf('proses-pembuatan-panel') !== -1 ||
+                     window.location.pathname.indexOf('jasa-pembuatan-panel') !== -1;
+        var key = isProc ? 'ats_lang_process' : 'ats_lang';
+        var l = localStorage.getItem(key) || (document.cookie.match(new RegExp('(?:^|;\\s*)' + key + '=([^;]+)')) || [])[1];
+        if (isProc) {
+          l = (l === 'fr') ? 'fr' : 'en';
+        } else {
+          l = (l === 'id') ? 'id' : 'en';
         }
+        document.documentElement.setAttribute('lang', l);
+        document.documentElement.setAttribute('data-lang', l);
       } catch(e) {}
     })();
   </script>

@@ -707,6 +707,7 @@
           
           <p class="ats-ft-bio">
             <span class="ats-lang-en">PT. Anugerah Tama Sejati (ATS Tekno) is an Authorized Dealer for Schneider Electric, Vinsa, GAE, and Legrand, headquartered in Surabaya, East Java, Indonesia, operating since 2019. Providing certified low-voltage distribution switchboard panel fabrication and genuine industrial components.</span>
+              <span class="ats-lang-fr">PT. Anugerah Tama Sejati (ATS Tekno) est un Distributeur Agréé pour Schneider Electric, Vinsa, GAE et Legrand, basé à Surabaya, en activité depuis 2019. Fourniture de composants d'origine et fabrication de tableaux électriques basse et moyenne tension certifiés.</span>
             <span class="ats-lang-id">PT. Anugerah Tama Sejati (ATS Tekno) adalah Distributor Resmi Schneider Electric, Vinsa, GAE, dan Legrand, berpusat di Surabaya, Jawa Timur sejak 2019. Melayani pengadaan komponen elektrikal industri dan fabrikasi panel listrik bersertifikat.</span>
           </p>
 
@@ -742,61 +743,61 @@
           <ul class="ats-ft-nav-list">
             <li class="ats-ft-nav-item">
               <a href="{{ route('distributor-alat-listrik-surabaya') }}" style="color: #FDA4AF; font-weight: 700;">
-                <span class="ats-lang-en">Electrical Supplier Surabaya</span>
+                <span class="ats-lang-en">Electrical Supplier Surabaya</span><span class="ats-lang-fr">Fournisseur Électrique Surabaya</span>
                 <span class="ats-lang-id">Distributor Alat Listrik Surabaya</span>
               </a>
             </li>
             <li class="ats-ft-nav-item">
               <a href="{{ route('brands.show', 'schneider-electric') }}">
-                <span class="ats-lang-en">Schneider Electric Distributor</span>
+                <span class="ats-lang-en">Schneider Electric Distributor</span><span class="ats-lang-fr">Distributeur Schneider Electric</span>
                 <span class="ats-lang-id">Distributor Schneider Electric Surabaya</span>
               </a>
             </li>
             <li class="ats-ft-nav-item">
               <a href="{{ route('products.index') }}">
-                <span class="ats-lang-en">All Products &amp; Catalog</span>
+                <span class="ats-lang-en">All Products &amp; Catalog</span><span class="ats-lang-fr">Tous les Produits &amp; Catalogue</span>
                 <span class="ats-lang-id">Semua Produk &amp; Katalog</span>
               </a>
             </li>
             <li class="ats-ft-nav-item">
               <a href="{{ route('product-categories.show', 'power-distribution-circuit-breakers') }}">
-                <span class="ats-lang-en">Power Distribution &amp; Breakers</span>
+                <span class="ats-lang-en">Power Distribution &amp; Breakers</span><span class="ats-lang-fr">Distribution de Puissance &amp; Disjoncteurs</span>
                 <span class="ats-lang-id">Distribusi Daya &amp; Breaker</span>
               </a>
             </li>
             <li class="ats-ft-nav-item">
               <a href="{{ route('product-categories.show', 'motor-starting-control') }}">
-                <span class="ats-lang-en">Motor Starting &amp; Control</span>
+                <span class="ats-lang-en">Motor Starting &amp; Control</span><span class="ats-lang-fr">Démarrage &amp; Contrôle Moteur</span>
                 <span class="ats-lang-id">Starter &amp; Kontrol Motor</span>
               </a>
             </li>
             <li class="ats-ft-nav-item">
               <a href="{{ route('product-categories.show', 'industrial-drives-inverters') }}">
-                <span class="ats-lang-en">Industrial Drives &amp; Inverters</span>
+                <span class="ats-lang-en">Industrial Drives &amp; Inverters</span><span class="ats-lang-fr">Variateurs Industriels &amp; Onduleurs</span>
                 <span class="ats-lang-id">Inverter &amp; Drive Industri</span>
               </a>
             </li>
             <li class="ats-ft-nav-item">
               <a href="{{ route('product-categories.show', 'industrial-enclosures-wiring') }}">
-                <span class="ats-lang-en">Enclosures &amp; Box Panel</span>
+                <span class="ats-lang-en">Enclosures &amp; Box Panel</span><span class="ats-lang-fr">Armoires &amp; Coffrets Électriques</span>
                 <span class="ats-lang-id">Box Panel &amp; Pengkabelan</span>
               </a>
             </li>
             <li class="ats-ft-nav-item">
               <a href="{{ route('product-categories.show', 'metering-power-quality') }}">
-                <span class="ats-lang-en">Metering &amp; Power Quality</span>
+                <span class="ats-lang-en">Metering &amp; Power Quality</span><span class="ats-lang-fr">Mesure &amp; Qualité de l'Énergie</span>
                 <span class="ats-lang-id">Pengukuran &amp; Kualitas Daya</span>
               </a>
             </li>
             <li class="ats-ft-nav-item">
               <a href="{{ route('price-list.index') }}">
-                <span class="ats-lang-en">Authorized Brand Directory</span>
+                <span class="ats-lang-en">Authorized Brand Directory</span><span class="ats-lang-fr">Répertoire des Marques Agréées</span>
                 <span class="ats-lang-id">Direktori Brand &amp; Pricelist</span>
               </a>
             </li>
             <li class="ats-ft-nav-item">
               <a href="https://wa.me/6282223332830?text=Halo%20PT%20ATS,%20saya%20ingin%20konsultasi%20pembuatan%20panel%20listrik%20dan%20BoQ" target="_blank">
-                <span class="ats-lang-en">Custom Panel Fabrication (BoQ)</span>
+                <span class="ats-lang-en">Custom Panel Fabrication (BoQ)</span><span class="ats-lang-fr">Fabrication de Tableaux Sur Mesure (BoQ)</span>
                 <span class="ats-lang-id">Fabrikasi &amp; Perakitan Panel</span>
               </a>
             </li>
@@ -807,12 +808,12 @@
         <div class="ats-ft-col">
           <div class="ats-ft-col-header" data-i18n="footer.col3_header">Company</div>
           <ul class="ats-ft-nav-list">
-            <li class="ats-ft-nav-item"><a href="{{ route('about.index') }}"><span class="ats-lang-en">About ATS TEKNO</span><span class="ats-lang-id">Tentang ATS TEKNO</span></a></li>
-            <li class="ats-ft-nav-item"><a href="{{ route('price-list.index') }}"><span class="ats-lang-en">Price List &amp; Brand Catalogs</span><span class="ats-lang-id">Daftar Harga &amp; Katalog Brand</span></a></li>
-            <li class="ats-ft-nav-item"><a href="{{ route('projects.index') }}"><span class="ats-lang-en">Our Project Portfolio</span><span class="ats-lang-id">Portofolio Proyek Kami</span></a></li>
-            <li class="ats-ft-nav-item"><a href="{{ route('panel-building-process') }}"><span class="ats-lang-en">Panel Building Process (33 Stages)</span><span class="ats-lang-id">Proses Perakitan Panel (33 Tahap)</span></a></li>
-            <li class="ats-ft-nav-item"><a href="{{ route('articles.index') }}"><span class="ats-lang-en">Technical Articles &amp; Insights</span><span class="ats-lang-id">Artikel &amp; Panduan Teknis</span></a></li>
-            <li class="ats-ft-nav-item"><a href="{{ route('contact.index') }}"><span class="ats-lang-en">Contact Our Team</span><span class="ats-lang-id">Hubungi Tim Kami</span></a></li>
+            <li class="ats-ft-nav-item"><a href="{{ route('about.index') }}"><span class="ats-lang-en">About ATS TEKNO</span><span class="ats-lang-fr">À Propos d'ATS TEKNO</span><span class="ats-lang-id">Tentang ATS TEKNO</span></a></li>
+            <li class="ats-ft-nav-item"><a href="{{ route('price-list.index') }}"><span class="ats-lang-en">Price List &amp; Brand Catalogs</span><span class="ats-lang-fr">Tarifs &amp; Catalogues de Marques</span><span class="ats-lang-id">Daftar Harga &amp; Katalog Brand</span></a></li>
+            <li class="ats-ft-nav-item"><a href="{{ route('projects.index') }}"><span class="ats-lang-en">Our Project Portfolio</span><span class="ats-lang-fr">Notre Portefeuille de Projets</span><span class="ats-lang-id">Portofolio Proyek Kami</span></a></li>
+            <li class="ats-ft-nav-item"><a href="{{ route('panel-building-process') }}"><span class="ats-lang-en">Panel Building Process (33 Stages)</span><span class="ats-lang-fr">Processus de Fabrication (33 Étapes)</span><span class="ats-lang-id">Proses Perakitan Panel (33 Tahap)</span></a></li>
+            <li class="ats-ft-nav-item"><a href="{{ route('articles.index') }}"><span class="ats-lang-en">Technical Articles &amp; Insights</span><span class="ats-lang-fr">Articles Techniques &amp; Veille</span><span class="ats-lang-id">Artikel &amp; Panduan Teknis</span></a></li>
+            <li class="ats-ft-nav-item"><a href="{{ route('contact.index') }}"><span class="ats-lang-en">Contact Our Team</span><span class="ats-lang-fr">Contacter Notre Équipe</span><span class="ats-lang-id">Hubungi Tim Kami</span></a></li>
           </ul>
         </div>
 

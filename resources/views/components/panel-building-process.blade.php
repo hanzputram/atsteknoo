@@ -34,6 +34,7 @@
     <script src="{{ asset('panel-building-process/js/equipment-scene.js') }}?v={{ @filemtime(public_path('panel-building-process/js/equipment-scene.js')) }}" defer></script>
     @endif
     <script src="{{ asset('panel-building-process/js/equipment.js') }}?v={{ @filemtime(public_path('panel-building-process/js/equipment.js')) }}" defer></script>
+    <script src="{{ asset('panel-building-process/js/panel-i18n.js') }}?v={{ @filemtime(public_path('panel-building-process/js/panel-i18n.js')) }}" defer></script>
 @endonce
 
 <div class="ats-process" id="ats-panel-process" data-asset-base="{{ asset('panel-building-process/images') }}">
@@ -44,9 +45,10 @@
                     <b>ATS</b> tekno<small>INDUSTRIAL ELECTRICAL SOLUTIONS</small>
                 </a>
                 <nav aria-label="Page navigation">
-                    <a href="#equipment">Facilities</a>
-                    <a href="#process-steps">{{ $visibleStepsCount }}-Step Process</a>
-                    <a href="{{ route('services.panel') }}">Panel Builder Service</a>
+                    <a href="#equipment"><span class="ats-lang-en">Facilities</span><span class="ats-lang-fr">Installations</span></a>
+                    <a href="#process-steps"><span class="ats-lang-en">{{ $visibleStepsCount }}-Step Process</span><span class="ats-lang-fr">Processus en {{ $visibleStepsCount }} Étapes</span></a>
+                    <a href="#export-inquiry" style="color: #E11D48; font-weight: 700;"><span class="ats-lang-en">Export Inquiry &darr;</span><span class="ats-lang-fr">Demande Export &darr;</span></a>
+                    <a href="{{ route('services.panel') }}"><span class="ats-lang-en">Panel Builder Service</span><span class="ats-lang-fr">Service Tableaux</span></a>
                 </nav>
                 <span class="head-tag">MANUFACTURING / PRODUCTION FACILITIES</span>
             </header>
@@ -54,12 +56,15 @@
             <nav class="ats-breadcrumb" aria-label="Breadcrumb">
                 <a href="{{ route('home') }}">
                     <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
-                    <span>Home</span>
+                    <span><span class="ats-lang-en">Home</span><span class="ats-lang-fr">Accueil</span></span>
                 </a>
                 <span class="sep">&rsaquo;</span>
-                <a href="{{ route('services.panel') }}">Panel Builder</a>
+                <a href="{{ route('services.panel') }}"><span class="ats-lang-en">Panel Builder</span><span class="ats-lang-fr">Fabricant de Tableaux</span></a>
                 <span class="sep">&rsaquo;</span>
-                <span class="current">Production Facilities & {{ $visibleStepsCount }}-Stage Process</span>
+                <span class="current">
+                    <span class="ats-lang-en">Production Facilities &amp; {{ $visibleStepsCount }}-Stage Process</span>
+                    <span class="ats-lang-fr">Installations &amp; Processus en {{ $visibleStepsCount }} Étapes</span>
+                </span>
             </nav>
         @endif
 
@@ -78,12 +83,18 @@
                 'phases' => $phases,
                 'resolveImg' => $resolveImg,
             ])
+
+            <!-- Export & Custom Panel Manufacturing Inquiry Section (Direct to export@atstekno.com) -->
+            @include('components.panel-export-cta')
         </main>
 
-        @if ($standalone)
+                @if ($standalone)
             <footer class="site-foot">
-                <span>PT Anugerah Tama Sejati · ATS Tekno</span>
-                <span>Switchboard Panel Production Facilities</span>
+                <span>PT Anugerah Tama Sejati &mdash; ATS Tekno</span>
+                <span>
+                    <span class="ats-lang-en">Switchboard Panel Production Facilities</span>
+                    <span class="ats-lang-fr">Installations de Production de Tableaux &Eacute;lectriques</span>
+                </span>
                 <a href="{{ route('home') }}">atstekno.com</a>
             </footer>
         @endif
