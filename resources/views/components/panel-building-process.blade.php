@@ -45,7 +45,8 @@
                 </a>
                 <nav aria-label="Page navigation">
                     <a href="#equipment"><span class="ats-lang-en">Facilities</span><span class="ats-lang-fr">Installations</span></a>
-                    <a href="#process-steps"><span class="ats-lang-en">{{ $visibleStepsCount }}-Step Process</span><span class="ats-lang-fr">Processus en {{ $visibleStepsCount }} Étapes</span></a>
+                    <a href="#process-steps"><span class="ats-lang-en">{{ $visibleStepsCount }}-Step Process</span><span class="ats-lang-fr">Processus en {{ $visibleStepsCount }} &eacute;tapes</span></a>
+                    <a href="#panel-documents"><span class="ats-lang-en">Documents &amp; PDF</span><span class="ats-lang-fr">Documents &amp; PDF</span></a>
                     <a href="#export-inquiry" style="color: #E11D48; font-weight: 700;"><span class="ats-lang-en">Export Inquiry &darr;</span><span class="ats-lang-fr">Demande Export &darr;</span></a>
                     <a href="{{ route('services.panel') }}"><span class="ats-lang-en">Panel Builder Service</span><span class="ats-lang-fr">Service Tableaux</span></a>
                 </nav>
@@ -62,7 +63,7 @@
                 <span class="sep">&rsaquo;</span>
                 <span class="current">
                     <span class="ats-lang-en">Production Facilities &amp; {{ $visibleStepsCount }}-Stage Process</span>
-                    <span class="ats-lang-fr">Installations &amp; Processus en {{ $visibleStepsCount }} Étapes</span>
+                    <span class="ats-lang-fr">Installations &amp; Processus en {{ $visibleStepsCount }} &eacute;tapes</span>
                 </span>
             </nav>
         @endif
@@ -82,6 +83,9 @@
                 'phases' => $phases,
                 'resolveImg' => $resolveImg,
             ])
+
+            <!-- Official Engineering Publications & Downloads (Company Profile & Panel Project Reference) -->
+            @include('components.panel-documents')
 
             <!-- Export & Custom Panel Manufacturing Inquiry Section (Direct to export@atstekno.com) -->
             @include('components.panel-export-cta')

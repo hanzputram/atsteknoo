@@ -1,7 +1,7 @@
 {{--
     ATS Tekno - Export & Panel Manufacturing Inquiry Section
     Clean Light Industrial Theme
-    Languages: English (EN) & Français (FR)
+    Languages: English (EN) & Fran&ccedil;ais (FR)
     Direct Contact: export@atstekno.com
     Anchor ID: #export-inquiry (also responds to #export, #inquiry, #contact-export)
 --}}
@@ -18,17 +18,17 @@
             <div class="ats-export-badge">
                 <span class="ats-export-dot"></span>
                 <span class="ats-lang-en">EXPORT &bull; SYSTEM INTEGRATOR &bull; GLOBAL INQUIRY</span>
-                <span class="ats-lang-fr">EXPORTATION &bull; INTÉGRATEUR DE SYSTÈMES &bull; DEMANDE MONDIALE</span>
+                <span class="ats-lang-fr">EXPORTATION &bull; INT&Eacute;GRATEUR DE SYST&Egrave;MES &bull; DEMANDE MONDIALE</span>
             </div>
             
             <h2 class="ats-export-title" id="export-cta-title">
                 <span class="ats-lang-en">Ready to Fabricate Your Custom Switchboard Panels?</span>
-                <span class="ats-lang-fr">Prêt à Fabriquer Vos Tableaux Électriques sur Mesure ?</span>
+                <span class="ats-lang-fr">Pr&ecirc;t &agrave; Fabriquer Vos Tableaux &Eacute;lectriques sur Mesure ?</span>
             </h2>
             
             <p class="ats-export-lead">
-                <span class="ats-lang-en">Consult directly with the engineering and export division of PT Anugerah Tama Sejati (ATS Tekno). We manufacture custom electrical switchboard panels, CNC precision sheet metal enclosures, anti-corrosion powder coating, and busbar assembly compliant with international standards (IEC 61439) for industrial projects, EPC contractors, and global partners.</span>
-                <span class="ats-lang-fr">Consultez directement la division ingénierie et exportation de PT Anugerah Tama Sejati (ATS Tekno). Nous fabriquons des tableaux électriques sur mesure, de la tôlerie CNC de haute précision, du thermolaquage anticorrosion et des jeux de barres conformes aux normes internationales (CEI 61439) pour les projets industriels, les entrepreneurs EPC et les partenaires mondiaux.</span>
+                <span class="ats-lang-en">Consult directly with the engineering and export division of PT Anugerah Tama Sejati (ATS Tekno). We manufacture custom electrical switchboard panels, CNC pr&eacute;cision sheet metal enclosures, anti-corrosion powder coating, and busbar assembly compliant with international standards (IEC 61439) for industrial projects, EPC contractors, and global partners.</span>
+                <span class="ats-lang-fr">Consultez directement la division ing&eacute;nierie et exportation de PT Anugerah Tama Sejati (ATS Tekno). Nous fabriquons des tableaux électriques sur mesure, de la t&ocirc;lerie CNC de haute pr&eacute;cision, du thermolaquage anticorrosion et des jeux de barres conformes aux normes internationales (CEI 61439) pour les projets industriels, les entrepreneurs EPC et les partenaires mondiaux.</span>
             </p>
         </div>
 
@@ -37,12 +37,12 @@
             <div class="ats-pillar-item">
                 <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
                 <span class="ats-lang-en">IEC 61439 Quality Compliance</span>
-                <span class="ats-lang-fr">Conformité Qualité CEI 61439</span>
+                <span class="ats-lang-fr">Conformit&eacute; Qualit&eacute; CEI 61439</span>
             </div>
             <div class="ats-pillar-item">
                 <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
-                <span class="ats-lang-en">High-Precision CNC Laser &amp; Bending</span>
-                <span class="ats-lang-fr">Découpe Laser &amp; Pliage CNC de Précision</span>
+                <span class="ats-lang-en">High-Pr&eacute;cision CNC Laser &amp; Bending</span>
+                <span class="ats-lang-fr">D&eacute;coupe Laser &amp; Pliage CNC de Pr&eacute;cision</span>
             </div>
             <div class="ats-pillar-item">
                 <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
@@ -52,7 +52,7 @@
             <div class="ats-pillar-item">
                 <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
                 <span class="ats-lang-en">Fast Response &lt; 24h</span>
-                <span class="ats-lang-fr">Réponse Rapide &lt; 24h</span>
+                <span class="ats-lang-fr">R&eacute;ponse Rapide &lt; 24h</span>
             </div>
         </div>
 
@@ -78,7 +78,7 @@
                 </div>
                 <p class="ats-card-text">
                     <span class="ats-lang-en">Submit your Single Line Diagram (SLD), Bill of Quantities (BOQ), or technical enclosure specifications for formal quotation and export engineering consultation.</span>
-                    <span class="ats-lang-fr">Transmettez votre schéma unifilaire (SLD), bordereau quantitatif (BOQ) ou spécifications techniques pour devis officiel et consultation d'ingénierie export.</span>
+                    <span class="ats-lang-fr">Transmettez votre sch&eacute;ma unifilaire (SLD), bordereau quantitatif (BOQ) ou sp&eacute;cifications techniques pour devis officiel et consultation d'ing&eacute;nierie export.</span>
                 </p>
                 <div class="ats-card-actions">
                     <a href="mailto:export@atstekno.com?subject=Export%20%26%20Panel%20Manufacturing%20Inquiry%20-%20ATS%20Tekno&body=Dear%20ATS%20Tekno%20Export%20Team%2C%0A%0AI%20am%20interested%20in%20your%20switchboard%20panel%20manufacturing%20capabilities%20and%20would%20like%20to%20request%20a%20quotation%20%2F%20consultation.%0A%0A-%20Company%20Name%3A%0A-%20Country%20%2F%20Location%3A%0A-%20Project%20Type%20%2F%20Panel%20Scope%3A%0A-%20Estimated%20Quantity%20%2F%20Timeline%3A%0A%0AThank%20you.%0ABest%20regards%2C" 
@@ -113,13 +113,13 @@
                         </span>
                         <h3 class="ats-card-heading">
                             <span class="ats-lang-en">WhatsApp Engineering Desk</span>
-                            <span class="ats-lang-fr">Bureau d'Ingénierie WhatsApp</span>
+                            <span class="ats-lang-fr">Bureau d'Ing&eacute;nierie WhatsApp</span>
                         </h3>
                     </div>
                 </div>
                 <p class="ats-card-text">
                     <span class="ats-lang-en">Need quick technical discussion on production lead times, machinery capacity, or workshop inspection audits? Connect directly with our engineering team.</span>
-                    <span class="ats-lang-fr">Besoin d'un échange technique rapide sur les délais de fabrication, la capacité des machines ou un audit d'atelier ? Échangez directement avec nos ingénieurs.</span>
+                    <span class="ats-lang-fr">Besoin d'un &eacute;change technique rapide sur les d&eacute;lais de fabrication, la capacit&eacute; des machines ou un audit d'atelier ? &Eacute;changez directement avec nos ingénieurs.</span>
                 </p>
                 <div class="ats-card-actions">
                     <a href="https://wa.me/6282223332830?text=Hello%20ATS%20Tekno,%20I%20am%20interested%20in%20your%20panel%20building%20and%20manufacturing%20services%20for%20our%20project." 
@@ -144,7 +144,7 @@
                     <strong class="ats-lang-en">Workshop &amp; Production Facilities:</strong>
                     <strong class="ats-lang-fr">Atelier &amp; Installations de Production :</strong>
                     <span class="ats-lang-en">Surabaya &bull; Sidoarjo, East Java &mdash; Indonesia (Domestic &amp; Worldwide Export Ready)</span>
-                    <span class="ats-lang-fr">Surabaya &bull; Sidoarjo, Java Oriental &mdash; Indonésie (Prêt pour Expédition Domestique &amp; Mondiale)</span>
+                    <span class="ats-lang-fr">Surabaya &bull; Sidoarjo, Java Oriental &mdash; Indon&eacute;sie (Pr&ecirc;t pour Exp&eacute;dition Domestique &amp; Mondiale)</span>
                 </span>
             </div>
             <a href="#equipment" class="ats-btn-back-equipment" title="View Machinery Facilities">
