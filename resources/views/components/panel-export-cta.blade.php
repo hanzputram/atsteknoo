@@ -9,6 +9,8 @@
 <div id="export" style="position: relative; top: -80px; visibility: hidden;"></div>
 <div id="inquiry" style="position: relative; top: -80px; visibility: hidden;"></div>
 <div id="contact-export" style="position: relative; top: -80px; visibility: hidden;"></div>
+<div id="contact-us" style="position: relative; top: -80px; visibility: hidden;"></div>
+<div id="contact" style="position: relative; top: -80px; visibility: hidden;"></div>
 
 <section class="ats-export-section" id="export-inquiry" aria-labelledby="export-cta-title">
     <div class="ats-export-container">
