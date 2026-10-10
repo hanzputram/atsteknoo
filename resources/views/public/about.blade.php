@@ -317,28 +317,40 @@
 
             <!-- Trust Badges Bar -->
             <div class="mt-12 bg-white rounded-2xl p-6 sm:p-8 border border-slate-200/90 shadow-xs grid grid-cols-1 sm:grid-cols-3 gap-6 text-center">
+                <!-- Badge 1: Fast Response -->
                 <div class="flex items-center justify-center gap-3">
                     <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center shrink-0">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
                     </div>
                     <div class="text-left">
-                        <h4 class="text-sm font-bold text-slate-900">IEC 61439 Standard</h4>
+                        <h4 class="text-sm font-bold text-slate-900">
+                            <span class="ats-lang-en">Fast Response</span>
+                            <span class="ats-lang-id">Respon Cepat</span>
+                            <span class="ats-lang-fr">Réponse Rapide</span>
+                        </h4>
                         <p class="text-xs text-slate-500">
-                            <span class="ats-lang-en">Low-voltage switchgear safety compliance</span>
-                            <span class="ats-lang-id">Standar keselamatan panel listrik tegangan rendah</span>
+                            <span class="ats-lang-en">Prompt support &amp; quick turnaround</span>
+                            <span class="ats-lang-id">Layanan tanggap &amp; respon cepat</span>
+                            <span class="ats-lang-fr">Prise en charge rapide &amp; réactive</span>
                         </p>
                     </div>
                 </div>
 
+                <!-- Badge 2: Easy to Get in Touch with Us -->
                 <div class="flex items-center justify-center gap-3 border-t sm:border-t-0 sm:border-l border-slate-100 pt-4 sm:pt-0 sm:pl-6">
                     <div class="w-10 h-10 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center shrink-0">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
                     </div>
                     <div class="text-left">
-                        <h4 class="text-sm font-bold text-slate-900">SNI &amp; SPLN Certified</h4>
+                        <h4 class="text-sm font-bold text-slate-900">
+                            <span class="ats-lang-en">Easy to Get in Touch with Us</span>
+                            <span class="ats-lang-id">Mudah Dihubungi</span>
+                            <span class="ats-lang-fr">Facile à Contacter</span>
+                        </h4>
                         <p class="text-xs text-slate-500">
-                            <span class="ats-lang-en">Indonesian National Standard compliance</span>
-                            <span class="ats-lang-id">Kepatuhan Standar Nasional Indonesia</span>
+                            <span class="ats-lang-en">Direct WhatsApp &amp; engineering consultation</span>
+                            <span class="ats-lang-id">Konsultasi langsung via WhatsApp &amp; tim ahli</span>
+                            <span class="ats-lang-fr">Contact direct via WhatsApp &amp; ingénierie</span>
                         </p>
                     </div>
                 </div>
