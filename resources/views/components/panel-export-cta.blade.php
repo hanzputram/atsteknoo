@@ -29,8 +29,8 @@
             </h2>
             
             <p class="ats-export-lead">
-                <span class="ats-lang-en">Consult directly with the engineering and export division of PT Anugerah Tama Sejati (ATS Tekno). We manufacture custom electrical switchboard panels, CNC pr&eacute;cision sheet metal enclosures, anti-corrosion powder coating, and busbar assembly compliant with international standards (IEC 61439) for industrial projects, EPC contractors, and global partners.</span>
-                <span class="ats-lang-fr">Consultez directement la division ing&eacute;nierie et exportation de PT Anugerah Tama Sejati (ATS Tekno). Nous fabriquons des tableaux électriques sur mesure, de la t&ocirc;lerie CNC de haute pr&eacute;cision, du thermolaquage anticorrosion et des jeux de barres conformes aux normes internationales (CEI 61439) pour les projets industriels, les entrepreneurs EPC et les partenaires mondiaux.</span>
+                <span class="ats-lang-en">Consult directly with the engineering and export division of PT Anugerah Tama Sejati (ATS Tekno). We manufacture custom electrical switchboard panels, CNC pr&eacute;cision sheet metal enclosures, anti-corrosion powder coating, and busbar assembly for industrial projects, EPC contractors, and global partners.</span>
+                <span class="ats-lang-fr">Consultez directement la division ing&eacute;nierie et exportation de PT Anugerah Tama Sejati (ATS Tekno). Nous fabriquons des tableaux électriques sur mesure, de la t&ocirc;lerie CNC de haute pr&eacute;cision, du thermolaquage anticorrosion et des jeux de barres pour les projets industriels, les entrepreneurs EPC et les partenaires mondiaux.</span>
             </p>
         </div>
 
