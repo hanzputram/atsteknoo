@@ -38,11 +38,6 @@
         <div class="ats-export-pillars">
             <div class="ats-pillar-item">
                 <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
-                <span class="ats-lang-en">IEC 61439 Quality Compliance</span>
-                <span class="ats-lang-fr">Conformit&eacute; Qualit&eacute; CEI 61439</span>
-            </div>
-            <div class="ats-pillar-item">
-                <svg width="15" height="15" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
                 <span class="ats-lang-en">High-Pr&eacute;cision CNC Laser &amp; Bending</span>
                 <span class="ats-lang-fr">D&eacute;coupe Laser &amp; Pliage CNC de Pr&eacute;cision</span>
             </div>
