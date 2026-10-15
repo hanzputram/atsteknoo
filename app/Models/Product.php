@@ -32,6 +32,8 @@ class Product extends Model
         'meta_description',
         'is_featured',
         'sort_order',
+        'listrikonline_clicks',
+        'last_clicked_at',
         'status',
         'published_at',
         'lock_version',
@@ -41,8 +43,10 @@ class Product extends Model
 
     protected $casts = [
         'published_at' => 'datetime',
+        'last_clicked_at' => 'datetime',
         'is_featured' => 'boolean',
         'sort_order' => 'integer',
+        'listrikonline_clicks' => 'integer',
         'lock_version' => 'integer',
     ];
 
@@ -131,5 +135,45 @@ class Product extends Model
     public static function normalizeSku(string $sku): string
     {
         return strtoupper(trim($sku));
+    }
+
+    public function listrikonlineClickLogs(): HasMany
+    {
+        return $this->hasMany(ListrikonlineClickLog::class, 'product_id')->latest('created_at');
+    }
+
+    public function recordListrikonlineClick(?string $ip = null, ?string $userAgent = null, ?string $referer = null): void
+    {
+        try {
+            // 1. Single atomic query for counter and timestamp (zero lock overhead)
+            $this->increment('listrikonline_clicks', 1, [
+                'last_clicked_at' => now(),
+            ]);
+
+            // 2. Lightweight audit log insertion
+            ListrikonlineClickLog::create([
+                'product_id' => $this->id,
+                'sku' => $this->sku,
+                'ip_address' => $ip,
+                'user_agent' => $userAgent ? substr($userAgent, 0, 500) : null,
+                'referer' => $referer ? substr($referer, 0, 500) : null,
+                'created_at' => now(),
+            ]);
+
+            // 3. Clear short-lived KPI cache for immediate real-time sync
+            \Illuminate\Support\Facades\Cache::forget('backoffice_sidebar_today_clicks');
+            \Illuminate\Support\Facades\Cache::forget('listrikonline_kpis');
+            \Illuminate\Support\Facades\Cache::forget('listrikonline_dashboard_stats');
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\Log::warning('ListrikOnline click logging skipped: ' . $e->getMessage());
+        }
+    }
+
+    public function getListrikonlineUrlAttribute(): string
+    {
+        if (!empty($this->sku)) {
+            return 'https://listrikonline.com/products/' . rawurlencode($this->sku);
+        }
+        return 'https://listrikonline.com';
     }
 }

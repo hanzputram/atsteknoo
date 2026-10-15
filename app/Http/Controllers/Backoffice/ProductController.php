@@ -46,7 +46,12 @@ class ProductController extends Controller
             $query->where('is_featured', (bool) $request->input('is_featured'));
         }
 
-        $sortField = in_array($request->input('sort'), ['name', 'sku', 'updated_at'], true) ? $request->input('sort') : 'updated_at';
+        if ($request->input('clicks_only') === '1') {
+            $query->where('listrikonline_clicks', '>', 0);
+        }
+
+        $allowedSorts = ['name', 'sku', 'updated_at', 'listrikonline_clicks', 'last_clicked_at'];
+        $sortField = in_array($request->input('sort'), $allowedSorts, true) ? $request->input('sort') : 'updated_at';
         $sortOrder = $request->input('order') === 'asc' ? 'asc' : 'desc';
 
         $perPage = (int) $request->input('per_page', 20);

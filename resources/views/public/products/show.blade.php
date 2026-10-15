@@ -296,10 +296,12 @@
 
             <!-- Action Buy at ListrikOnline & Consultation -->
             <div class="flex flex-wrap items-center gap-3.5 pt-2">
-                <!-- Red Button: Buy at ListrikOnline -->
-                <a href="https://listrikonline.com/products/{{ $product->sku }}"
+                <!-- Red Button: Buy at ListrikOnline (With Outbound Click Tracking) -->
+                <a href="{{ route('products.buy-listrikonline', $product->slug) }}"
                    target="_blank"
                    rel="noopener noreferrer"
+                   id="btnBuyAtListrikonline"
+                   data-product-sku="{{ $product->sku }}"
                    class="inline-flex items-center gap-2.5 px-6 py-3.5 bg-red-600 hover:bg-red-700 active:bg-red-800 text-white font-black text-sm rounded-2xl shadow-md hover:shadow-lg transition-all duration-200 transform hover:-translate-y-0.5">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>

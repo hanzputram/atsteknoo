@@ -116,4 +116,42 @@ class CatalogProductController extends Controller
 
         return view('public.products.show', compact('product', 'relatedProducts'));
     }
+
+    /**
+     * Redirect visitor to ListrikOnline while recording the product click.
+     */
+    public function buyListrikOnline(Request $request, string $slug)
+    {
+        $product = Product::where('slug', $slug)->firstOrFail();
+
+        $product->recordListrikonlineClick(
+            $request->ip(),
+            $request->userAgent(),
+            $request->header('referer')
+        );
+
+        return redirect()->away($product->listrikonline_url, 302);
+    }
+
+    /**
+     * Async beacon / AJAX tracking endpoint for ListrikOnline clicks.
+     */
+    public function trackClick(Request $request, string $slug)
+    {
+        $product = Product::where('slug', $slug)->first();
+
+        if ($product) {
+            $product->recordListrikonlineClick(
+                $request->ip(),
+                $request->userAgent(),
+                $request->header('referer')
+            );
+        }
+
+        return response()->json([
+            'success' => true,
+            'clicks' => $product ? $product->listrikonline_clicks : 0,
+            'target_url' => $product ? $product->listrikonline_url : 'https://listrikonline.com',
+        ]);
+    }
 }

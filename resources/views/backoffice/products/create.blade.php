@@ -166,7 +166,8 @@
               <input type="checkbox" name="is_featured" value="1" {{ old('is_featured') ? 'checked' : '' }} style="margin-top: 2px; accent-color: #E11D48; width: 18px; height: 18px; cursor: pointer;">
               <div>
                 <div style="color: #9F1239; font-weight: 700; font-size: 13px; display: flex; align-items: center; gap: 6px;">
-                  <span>★</span> Tampilkan pada Best Seller (Home Carousel)
+                  <svg style="width: 14px; height: 14px; color: #E11D48;" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                  <span>Tampilkan pada Best Seller (Home Carousel)</span>
                 </div>
                 <div style="font-size: 11.5px; color: #475569; font-weight: 400; margin-top: 3px; line-height: 1.4;">
                   Centang opsi ini agar produk ini tampil pada slider rak <strong>&ldquo;OUR BEST SELLER PRODUCT&rdquo;</strong> di halaman depan (Home).

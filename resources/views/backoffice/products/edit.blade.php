@@ -182,7 +182,8 @@
               <input type="checkbox" name="is_featured" value="1" {{ old('is_featured', $product->is_featured) ? 'checked' : '' }} style="margin-top: 2px; accent-color: #E11D48; width: 18px; height: 18px; cursor: pointer;">
               <div>
                 <div style="color: #9F1239; font-weight: 700; font-size: 13px; display: flex; align-items: center; gap: 6px;">
-                  <span>★</span> Tampilkan pada Best Seller (Home Carousel)
+                  <svg style="width: 14px; height: 14px; color: #E11D48;" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                  <span>Tampilkan pada Best Seller (Home Carousel)</span>
                 </div>
                 <div style="font-size: 11.5px; color: #475569; font-weight: 400; margin-top: 3px; line-height: 1.4;">
                   Centang opsi ini agar produk ini tampil pada slider rak <strong>&ldquo;OUR BEST SELLER PRODUCT&rdquo;</strong> di halaman depan (Home).
@@ -207,6 +208,43 @@
         </div>
       </div>
 
+      <!-- Statistik ListrikOnline Card -->
+      <div class="panel-card" style="border: 1px solid #FECDD3; background: #FFFBFB;">
+        <div style="padding: 16px 20px; border-bottom: 1px solid #FFE4E6; display: flex; align-items: center; justify-content: space-between;">
+          <h2 style="font-size: 15px; font-weight: 700; color: #9F1239; display: flex; align-items: center; gap: 8px;">
+            <svg style="width: 16px; height: 16px; color: #E11D48;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+            <span>Statistik ListrikOnline</span>
+          </h2>
+          <a href="{{ $product->listrikonline_url }}" target="_blank" rel="noopener noreferrer" style="font-size: 11px; font-weight: 700; color: #E11D48; text-decoration: none; display: inline-flex; align-items: center; gap: 4px;" title="Buka produk di toko online resmi ListrikOnline">
+            <span>Buka Link</span>
+            <svg style="width: 11px; height: 11px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+          </a>
+        </div>
+        <div class="panel-body" style="padding: 18px 20px;">
+          <div style="display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 10px;">
+            <span style="font-size: 12px; font-weight: 600; color: #64748B;">Total Klik Pengunjung:</span>
+            <span style="font-size: 22px; font-weight: 800; font-family: var(--font-heading); color: #E11D48;">
+              {{ number_format($product->listrikonline_clicks ?? 0) }} <span style="font-size: 12px; font-weight: 600; color: #9F1239;">klik</span>
+            </span>
+          </div>
+
+          <div style="font-size: 12px; color: #64748B; border-top: 1px dashed #FECDD3; padding-top: 10px; margin-top: 6px;">
+            <span style="font-weight: 600;">Terakhir Diklik:</span>
+            <div style="color: #0F172A; font-weight: 600; margin-top: 2px;">
+              {{ $product->last_clicked_at ? $product->last_clicked_at->format('d M Y H:i') . ' (' . $product->last_clicked_at->diffForHumans() . ')' : 'Belum pernah diklik' }}
+            </div>
+          </div>
+
+          <div style="margin-top: 14px;">
+            <a href="{{ route('backoffice.tracking.listrikonline', ['search' => $product->sku]) }}" class="btn btn-secondary btn-sm" style="width: 100%; text-align: center; font-size: 12px; color: #9F1239; border-color: #FECDD3; display: inline-flex; align-items: center; justify-content: center; gap: 6px;">
+              <svg style="width: 13px; height: 13px; color: #E11D48;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+              <span>Lihat Riwayat Log Lengkap</span>
+              <svg style="width: 12px; height: 12px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
       <!-- Media & Dokumen -->
       <div class="panel-card">
         <div style="padding: 16px 20px; border-bottom: 1px solid var(--color-border);">
@@ -218,7 +256,7 @@
             <label class="form-label">Foto Utama Saat Ini</label>
             @if($product->main_image_url)
               <div style="margin-bottom: 10px; border-radius: 8px; overflow: hidden; max-width: 140px; border: 1px solid var(--color-border); background: #f8fafc; padding: 4px;">
-                <img src="{{ $product->main_image_url }}" alt="{{ $product->name }}" style="width: 100%; display: block;" onerror="this.onerror=null; this.parentElement.innerHTML='<div style=\'padding:8px; font-size:11px; color:#ef4444; background:#fef2f2; border-radius:4px;\'>⚠️ Gambar tidak dapat dimuat dari URL (404/blokir).</div>'">
+                <img src="{{ $product->main_image_url }}" alt="{{ $product->name }}" style="width: 100%; display: block;" onerror="this.onerror=null; this.parentElement.innerHTML='<div style=\'padding:8px; font-size:11px; color:#ef4444; background:#fef2f2; border-radius:4px;\'>Gambar tidak dapat dimuat dari URL (404/blokir).</div>'">
               </div>
             @endif
             <label class="form-label" for="main_image" style="font-size: 12px;">Unggah Berkas Foto Utama</label>
@@ -249,16 +287,18 @@
           <div class="form-group">
             <label class="form-label">PDF Datasheet / Spesifikasi Teknis</label>
             @if($product->datasheet)
-              <div style="display: flex; align-items: center; gap: 8px; font-size: 12.5px; margin-bottom: 8px; color: #2563EB;">
-                <span>📄 Berkas Media:</span>
+              <div style="display: flex; align-items: center; gap: 6px; font-size: 12.5px; margin-bottom: 8px; color: #2563EB;">
+                <svg style="width: 14px; height: 14px; flex-shrink: 0;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+                <span style="font-weight: 600;">Berkas Media:</span>
                 <a href="{{ route('media.view', $product->datasheet->id) }}" target="_blank" style="color: inherit; text-decoration: underline;">
                   {{ $product->datasheet->original_name }}
                 </a>
               </div>
             @endif
             @if($product->datasheet_url)
-              <div style="display: flex; align-items: center; gap: 8px; font-size: 12.5px; margin-bottom: 8px; color: #059669;">
-                <span>🔗 Tautan URL:</span>
+              <div style="display: flex; align-items: center; gap: 6px; font-size: 12.5px; margin-bottom: 8px; color: #059669;">
+                <svg style="width: 14px; height: 14px; flex-shrink: 0;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/></svg>
+                <span style="font-weight: 600;">Tautan URL:</span>
                 <a href="{{ $product->datasheet_url }}" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: underline; word-break: break-all;">
                   {{ $product->datasheet_url }}
                 </a>

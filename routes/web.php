@@ -10,6 +10,7 @@ use App\Http\Controllers\Backoffice\ContactInquiryController;
 use App\Http\Controllers\Backoffice\DashboardController;
 use App\Http\Controllers\Backoffice\ImportCenterController;
 use App\Http\Controllers\Backoffice\LiveChatController;
+use App\Http\Controllers\Backoffice\ListrikonlineTrackingController;
 use App\Http\Controllers\Backoffice\MediaLibraryController;
 use App\Http\Controllers\Backoffice\PageController;
 use App\Http\Controllers\Backoffice\PanelProcessController;
@@ -175,6 +176,8 @@ foreach (['images', 'logos', 'certificates', 'storage', 'uploads', 'css', 'js', 
 
 // Products & Categories
 Route::get('/products', [CatalogProductController::class, 'index'])->name('products.index');
+Route::get('/products/{slug}/buy-listrikonline', [CatalogProductController::class, 'buyListrikOnline'])->name('products.buy-listrikonline');
+Route::post('/products/{slug}/track-click', [CatalogProductController::class, 'trackClick'])->name('products.track-click');
 Route::get('/products/{slug}', [CatalogProductController::class, 'show'])->name('products.show');
 Route::get('/product-categories/{slug}', [CatalogCategoryController::class, 'show'])->name('product-categories.show');
 
@@ -245,6 +248,11 @@ Route::prefix('backoffice')->name('backoffice.')->group(function () {
         Route::middleware(['backoffice:admin,editor'])->group(function () {
             // Products
             Route::resource('products', ProductController::class);
+
+            // ListrikOnline Tracking & Analytics
+            Route::get('tracking/listrikonline', [ListrikonlineTrackingController::class, 'index'])->name('tracking.listrikonline');
+            Route::get('tracking/listrikonline/export', [ListrikonlineTrackingController::class, 'exportCsv'])->name('tracking.listrikonline.export');
+            Route::post('tracking/listrikonline/{id}/reset', [ListrikonlineTrackingController::class, 'resetProductClicks'])->name('tracking.listrikonline.reset');
 
             // Product Categories
             Route::resource('product-categories', ProductCategoryController::class);

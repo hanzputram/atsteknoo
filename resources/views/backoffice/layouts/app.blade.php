@@ -1062,6 +1062,20 @@
             </span>
             <span>Master Produk</span>
           </a>
+          <a href="{{ route('backoffice.tracking.listrikonline') }}" class="nav-link {{ request()->routeIs('backoffice.tracking.listrikonline*') ? 'active' : '' }}">
+            <span class="nav-icon">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+            </span>
+            <span style="flex: 1;">Tracking ListrikOnline</span>
+            @php
+              $sidebarTodayClicks = \Illuminate\Support\Facades\Cache::remember('backoffice_sidebar_today_clicks', 30, function () {
+                  return \App\Models\ListrikonlineClickLog::today()->count();
+              });
+            @endphp
+            @if($sidebarTodayClicks > 0)
+              <span style="background-color: #E11D48; color: #FFFFFF; font-size: 10px; font-weight: 800; padding: 2px 7px; border-radius: 9999px;" title="{{ $sidebarTodayClicks }} klik hari ini">+{{ $sidebarTodayClicks }}</span>
+            @endif
+          </a>
         @endif
         @if(auth()->user()->hasPermission('product_categories'))
           <a href="{{ route('backoffice.product-categories.index') }}" class="nav-link {{ request()->routeIs('backoffice.product-categories.*') ? 'active' : '' }}">

@@ -12,7 +12,10 @@
 
   <div style="display: flex; gap: 10px;">
     <a href="{{ route('backoffice.products.create') }}" class="btn btn-primary">+ Tambah Produk</a>
-    <a href="{{ route('backoffice.import.index') }}" class="btn btn-secondary">📥 Import Excel</a>
+    <a href="{{ route('backoffice.import.index') }}" class="btn btn-secondary" style="display: inline-flex; align-items: center; gap: 6px;">
+      <svg style="width: 14px; height: 14px;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+      <span>Import Excel</span>
+    </a>
   </div>
 </div>
 
@@ -49,17 +52,36 @@
     </div>
     <div style="font-size: 12px; color: #64748B;">Belum dibaca</div>
   </div>
+
+  <div class="panel-card" style="padding: 20px; border-left: 4px solid #E11D48; background: #FFFBFB;">
+    <div style="font-size: 12px; font-weight: 700; color: #9F1239; text-transform: uppercase; display: flex; align-items: center; justify-content: space-between;">
+      <span style="display: inline-flex; align-items: center; gap: 6px;">
+        <svg style="width: 15px; height: 15px; color: #E11D48;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+        <span>Klik ListrikOnline</span>
+      </span>
+      <a href="{{ route('backoffice.tracking.listrikonline') }}" style="font-size: 11px; text-decoration: none; color: #E11D48; font-weight: 700;">Detail &rarr;</a>
+    </div>
+    <div style="font-size: 28px; font-weight: 800; font-family: var(--font-heading); color: #E11D48; margin: 6px 0;">
+      {{ number_format($stats['total_listrikonline_clicks']) }}
+    </div>
+    <div style="font-size: 12px; color: #64748B;">
+      <span style="color: #059669; font-weight: 700;">+{{ $stats['today_listrikonline_clicks'] }}</span> klik hari ini
+    </div>
+  </div>
 </div>
 
-<!-- Two-Column Grid: Recent Products & Recent Activity -->
+<!-- Two-Column Grid: Left Column & Right Column -->
 <div style="display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 24px; align-items: start;">
 
-  <!-- Left: Recent Products -->
-  <div class="panel-card">
-    <div style="padding: 18px 24px; border-bottom: 1px solid var(--color-border); display: flex; align-items: center; justify-content: space-between;">
-      <h2 style="font-size: 16px; font-weight: 700;">Produk Baru / Terakhir Diperbarui</h2>
-      <a href="{{ route('backoffice.products.index') }}" style="font-size: 12.5px; font-weight: 600; color: var(--color-primary); text-decoration: none;">Lihat Semua &rarr;</a>
-    </div>
+  <!-- Left Column: Recent Products & Top Clicked ListrikOnline -->
+  <div style="display: flex; flex-direction: column; gap: 24px;">
+
+    <!-- Recent Products -->
+    <div class="panel-card">
+      <div style="padding: 18px 24px; border-bottom: 1px solid var(--color-border); display: flex; align-items: center; justify-content: space-between;">
+        <h2 style="font-size: 16px; font-weight: 700;">Produk Baru / Terakhir Diperbarui</h2>
+        <a href="{{ route('backoffice.products.index') }}" style="font-size: 12.5px; font-weight: 600; color: var(--color-primary); text-decoration: none;">Lihat Semua &rarr;</a>
+      </div>
 
     <div class="table-responsive">
       <table class="data-table">
@@ -93,6 +115,63 @@
     </div>
   </div>
 
+  <!-- Left Lower: Top Clicked ListrikOnline Products -->
+  <div class="panel-card" style="margin-top: -10px;">
+    <div style="padding: 18px 24px; border-bottom: 1px solid var(--color-border); display: flex; align-items: center; justify-content: space-between;">
+      <h2 style="font-size: 16px; font-weight: 700; display: flex; align-items: center; gap: 8px;">
+        <svg style="width: 18px; height: 18px; color: #E11D48;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+        <span>Top 5 Produk Paling Diminati di ListrikOnline</span>
+      </h2>
+      <a href="{{ route('backoffice.tracking.listrikonline') }}" style="font-size: 12.5px; font-weight: 600; color: var(--color-primary); text-decoration: none;">Leaderboard Lengkap &rarr;</a>
+    </div>
+
+    <div class="table-responsive">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th style="width: 45px;">#</th>
+            <th>SKU &amp; Produk</th>
+            <th>Brand</th>
+            <th style="text-align: center;">Total Klik</th>
+            <th style="text-align: right;">Aksi</th>
+          </tr>
+        </thead>
+        <tbody>
+          @forelse($topClickedProducts as $idx => $p)
+            <tr>
+              <td style="font-weight: 800; color: {{ $idx === 0 ? '#E11D48' : '#64748B' }};">#{{ $idx + 1 }}</td>
+              <td>
+                <div style="font-weight: 700; color: #0F172A; line-height: 1.3;">
+                  <a href="{{ route('backoffice.products.edit', $p->id) }}" style="color: inherit; text-decoration: none;">{{ $p->name }}</a>
+                </div>
+                <span style="font-family: monospace; font-size: 11px; color: #64748B;">{{ $p->sku }}</span>
+              </td>
+              <td><span class="badge badge-neutral">{{ $p->brand ? $p->brand->name : '-' }}</span></td>
+              <td style="text-align: center;">
+                <span style="display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px; border-radius: 999px; background: #FFF1F2; border: 1px solid #FECDD3; color: #E11D48; font-weight: 800; font-size: 12px;">
+                  <svg style="width: 14px; height: 14px; flex-shrink: 0;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+                  <span>{{ number_format($p->listrikonline_clicks) }} klik</span>
+                </span>
+              </td>
+              <td style="text-align: right;">
+                <a href="{{ $p->listrikonline_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-sm" title="Buka di ListrikOnline" style="display: inline-flex; align-items: center; gap: 5px; height: 30px; padding: 0 10px; border-radius: 7px; color: #E11D48; background: #FFF1F2; border: 1px solid #FECDD3; font-weight: 700; font-size: 12px; text-decoration: none;">
+                  <span>Buka</span>
+                  <svg style="width: 12px; height: 12px; flex-shrink: 0; opacity: 0.8;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                </a>
+              </td>
+            </tr>
+          @empty
+            <tr>
+              <td colspan="5" style="text-align: center; color: #94A3B8; padding: 24px;">Belum ada riwayat klik Buy at ListrikOnline.</td>
+            </tr>
+          @endforelse
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 24px;">
   <!-- Right: Recent Activity Logs -->
   <div class="panel-card">
     <div style="padding: 18px 24px; border-bottom: 1px solid var(--color-border);">
